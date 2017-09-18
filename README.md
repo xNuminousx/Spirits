@@ -1,5 +1,5 @@
 # Spirits
-This project will add in a new element Spirits as well as a couple SubElements to go with it! This is a WIP so more things to come very soon!
+This project will add in the new element "Spirit" as well as a couple SubElements to go with it! This is a WIP so more things to come very soon!
 
 # Contributing
 If you wish to contribute to this project, please do so in the "update" branch, thanks for you help!
