@@ -78,6 +78,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
 	}
 	
 	public void bind(int points, int points2, float size) {
+		bPlayer.addCooldown(this);
 		if (progress) {
 			location.add(direction.multiply(1));
 			for (int i = 0; i < 6; i++) {
@@ -98,8 +99,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
 			if (target instanceof LivingEntity && !target.getUniqueId().equals(player.getUniqueId())) {
 				if (System.currentTimeMillis() > time + duration) {
 					location = target.getLocation();
-					ParticleEffect.CLOUD.display(location, 0, 0, 0, 0.2F, 10);
-					bPlayer.addCooldown(this);
+					ParticleEffect.CLOUD.display(location, 0, 0, 0, 0.08F, 5);
 					remove();
 					return;
 				} else {
