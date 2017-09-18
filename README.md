@@ -1,4 +1,4 @@
-![Spirits](https://i.imgur.com/E7wOT0n.jpg)
+![Spirits](https://i.imgur.com/5UgocDY.jpg)
 # Spirits
 This project will add in the new element "Spirit" as well as a couple SubElements to go with it! This is a WIP so more things to come very soon!
 
