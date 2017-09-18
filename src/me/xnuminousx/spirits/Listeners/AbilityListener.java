@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import com.projectkorra.projectkorra.BendingPlayer;
 
 import me.xnuminousx.spirits.Abilities.Dark.Intoxicate;
+import me.xnuminousx.spirits.Abilities.Dark.Shackle;
 import me.xnuminousx.spirits.Abilities.Light.Alleviate;
 import me.xnuminousx.spirits.Abilities.Spirit.Dash;
 import me.xnuminousx.spirits.Abilities.Spirit.Possess;
@@ -29,6 +30,9 @@ public class AbilityListener implements Listener {
 			
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Dash")) {
 			new Dash(player);
+			
+		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shackle")) {
+			new Shackle(player);
 			
 		}
 	}

@@ -68,6 +68,15 @@ public class Basic extends SpiritAbility implements AddonAbility {
 		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
 		perm.setDefault(PermissionDefault.TRUE);
 		
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Shackle.Enable", true);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Shackle.Cooldown", 5000);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Shackle.Duration", 2500);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Shackle.Range", 20);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Shackle.Radius", 2);
+		perm = new Permission("bending.ability.shackle");
+		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
+		perm.setDefault(PermissionDefault.TRUE);
+		
 		ConfigManager.defaultConfig.save();
 	}
 
