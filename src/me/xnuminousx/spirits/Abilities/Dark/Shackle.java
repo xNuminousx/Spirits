@@ -149,7 +149,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.DARK_GRAY + "Hold shift";
+		return ChatColor.DARK_GRAY + "Left click";
 	}
 
 	@Override
