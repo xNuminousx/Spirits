@@ -25,6 +25,8 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 	private long potInt;
 	private long harmInt;
 	private double range;
+	private boolean enable;
+	private boolean isHidden;
 
 	public Intoxicate(Player player) {
 		super(player);
@@ -39,16 +41,24 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 	}
 
 	private void setFields() {
+		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.Spirits.Dash.Enable");
 		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Intoxicate.Cooldown");
 		this.range = ConfigManager.getConfig().getDouble("ExtraAbilities.Spirits.Intoxicate.Radius");
 		this.potInt = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Intoxicate.PotionInterval");
 		this.harmInt = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Intoxicate.HarmInterval");
 		this.hexColor = ConfigManager.getConfig().getString("ExtraAbilities.Spirits.Intoxicate.ParticleColor (Has to be 6 characters)");
 		this.location = player.getLocation();
+		this.isHidden = false;
 	}
 
 	@Override
 	public void progress() {
+		if (!enable) {
+			isHidden = true;
+			remove()	;
+			return;
+		}
+		
 		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location)) {
 			remove();
 			return;
@@ -141,6 +151,11 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 	@Override
 	public String getVersion() {
 		return ChatColor.DARK_GRAY + "1.0";
+	}
+	
+	@Override
+	public boolean isHiddenAbility() {
+		return isHidden;
 	}
 
 	@Override

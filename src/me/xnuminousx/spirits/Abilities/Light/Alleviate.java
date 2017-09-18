@@ -25,6 +25,8 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	private long healInt;
 	private long cooldown;
 	private String hexColor;
+	private boolean enable;
+	private boolean isHidden;
 
 	public Alleviate(Player player) {
 		super(player);
@@ -39,16 +41,24 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	}
 
 	private void setFields() {
+		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.Spirits.Alleviate.Enable");
 		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Alleviate.Cooldown");
 		this.range = ConfigManager.getConfig().getDouble("ExtraAbilities.Spirits.Alleviate.Radius");
 		this.potInt = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Alleviate.PotionInterval");
 		this.healInt = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Alleviate.HealInterval");
 		this.hexColor = ConfigManager.getConfig().getString("ExtraAbilities.Spirits.Alleviate.ParticleColor (Has to be 6 characters)");
 		this.location = player.getLocation();
+		this.isHidden = false;
 	}
 
 	@Override
 	public void progress() {
+		if (!enable) {
+			isHidden = true;
+			remove()	;
+			return;
+		}
+		
 		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location)) {
 			remove();
 			return;
@@ -140,6 +150,11 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	@Override
 	public String getVersion() {
 		return ChatColor.AQUA + "1.0";
+	}
+	
+	@Override
+	public boolean isHiddenAbility() {
+		return isHidden;
 	}
 
 	@Override

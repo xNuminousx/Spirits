@@ -28,12 +28,14 @@ public class Basic extends SpiritAbility implements AddonAbility {
 		ConfigManager.languageConfig.get().addDefault("Chat.Prefixes.Spirit", "[Spirit]");
 		ConfigManager.languageConfig.get().addDefault("Chat.Prefixes.SpiritSub", "[Spirit]");
 		
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Dash.Enable", true);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Dash.Cooldown", 2000);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Dash.Distance", 3);
 		perm = new Permission("bending.ability.dash");
 		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
 		perm.setDefault(PermissionDefault.TRUE);
 		
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Possess.Enable", true);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Possess.Cooldown", 5000);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Possess.Radius", 5);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Possess.Damage", 5);
@@ -42,6 +44,7 @@ public class Basic extends SpiritAbility implements AddonAbility {
 		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
 		perm.setDefault(PermissionDefault.TRUE);
 		
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Alleviate.Enable", true);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Alleviate.Cooldown", 5000);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Alleviate.Radius", 5);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Alleviate.PotionInterval", 2000);
@@ -51,6 +54,7 @@ public class Basic extends SpiritAbility implements AddonAbility {
 		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
 		perm.setDefault(PermissionDefault.TRUE);
 		
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Intoxicate.Enable", true);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Intoxicate.Cooldown", 5000);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Intoxicate.Radius", 5);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Intoxicate.PotionInterval", 2000);

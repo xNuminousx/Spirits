@@ -23,6 +23,8 @@ public class Dash extends SpiritAbility implements AddonAbility {
 	private Material blockType;
 	private byte blockByte;
 	private long cooldown;
+	private boolean enable;
+	private boolean isHidden;
 
 	public Dash(Player player) {
 		super(player);
@@ -36,14 +38,22 @@ public class Dash extends SpiritAbility implements AddonAbility {
 	}
 
 	private void setFields() {
+		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.Spirits.Dash.Enable");
 		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Dash.Cooldown");
 		this.distance = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Dash.Distance");
 		this.location = player.getLocation();
+		this.isHidden = false;
 		this.blockType = Material.LAPIS_BLOCK;
 	}
 
 	@Override
 	public void progress() {
+		if (!enable) {
+			isHidden = true;
+			remove()	;
+			return;
+		}
+		
 		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location) || !com.projectkorra.projectkorra.GeneralMethods.isSolid(player.getLocation().getBlock().getRelative(org.bukkit.block.BlockFace.DOWN))) {
 			remove();
 			return;
@@ -103,6 +113,11 @@ public class Dash extends SpiritAbility implements AddonAbility {
 	@Override
 	public boolean isExplosiveAbility() {
 		return false;
+	}
+	
+	@Override
+	public boolean isHiddenAbility() {
+		return isHidden;
 	}
 
 	@Override

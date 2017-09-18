@@ -28,6 +28,8 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	private long duration;
 	private double damage;
 	private long cooldown;
+	private boolean enable;
+	private boolean isHidden;
 	
 
 	public Possess(Player player) {
@@ -44,15 +46,23 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	}
 
 	private void setFields() {
+		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.Spirits.Possess.Enable");
 		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Possess.Cooldown");
 		this.range = ConfigManager.getConfig().getDouble("ExtraAbilities.Spirits.Possess.Radius");
 		this.damage = ConfigManager.getConfig().getDouble("ExtraAbilities.Spirits.Possess.Damage");
 		this.duration = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Possess.Duration");
 		this.location = player.getLocation();
+		this.isHidden = false;
 	}
 
 	@Override
 	public void progress() {
+		if (!enable) {
+			isHidden = true;
+			remove()	;
+			return;
+		}
+		
 		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location)) {
 			remove();
 			return;
@@ -150,6 +160,11 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	@Override
 	public String getVersion() {
 		return ChatColor.BLUE + "1.0";
+	}
+	
+	@Override
+	public boolean isHiddenAbility() {
+		return isHidden;
 	}
 
 	@Override
