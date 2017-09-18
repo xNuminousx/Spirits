@@ -23,6 +23,10 @@ public class Basic extends SpiritAbility implements AddonAbility {
 		
 		ProjectKorra.log.info("Successfully loaded Spirits");
 		
+		ConfigManager.languageConfig.get().addDefault("Chat.Colors.Avatar", "WHITE");
+		ConfigManager.languageConfig.get().addDefault("Chat.Colors.AvatarSub", "AQUA");
+		ConfigManager.languageConfig.get().addDefault("Chat.Colors.DarkAvatar", "DARK_RED");
+		
 		ConfigManager.languageConfig.get().addDefault("Chat.Colors.Spirit", "DARK_AQUA");
 		ConfigManager.languageConfig.get().addDefault("Chat.Colors.SpiritSub", "DARK_PURPLE");
 		ConfigManager.languageConfig.get().addDefault("Chat.Prefixes.Spirit", "[Spirit]");
