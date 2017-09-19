@@ -68,6 +68,15 @@ public class Basic extends SpiritAbility implements AddonAbility {
 		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
 		perm.setDefault(PermissionDefault.TRUE);
 		
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Sanctity.Duration", 10);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Sanctity.Cooldown", 3250);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Sanctity.Power", 3);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Sanctity.ChargeTime", 2500L);
+		
+		perm = new Permission("bending.ability.sanctity");
+		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
+		perm.setDefault(PermissionDefault.TRUE);
+		
 		ConfigManager.defaultConfig.save();
 	}
 
