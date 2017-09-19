@@ -12,7 +12,7 @@ import com.projectkorra.projectkorra.configuration.ConfigManager;
 public class Basic extends SpiritAbility implements AddonAbility {
 
 	private Permission perm;
-
+ 
 	public Basic(Player player) {
 		super(player);
 	}
@@ -23,17 +23,23 @@ public class Basic extends SpiritAbility implements AddonAbility {
 		
 		ProjectKorra.log.info("Successfully loaded Spirits");
 		
+		ConfigManager.languageConfig.get().addDefault("Chat.Colors.Avatar", "WHITE");
+		ConfigManager.languageConfig.get().addDefault("Chat.Colors.AvatarSub", "AQUA");
+		ConfigManager.languageConfig.get().addDefault("Chat.Colors.DarkAvatar", "DARK_RED");
+		
 		ConfigManager.languageConfig.get().addDefault("Chat.Colors.Spirit", "DARK_AQUA");
 		ConfigManager.languageConfig.get().addDefault("Chat.Colors.SpiritSub", "DARK_PURPLE");
 		ConfigManager.languageConfig.get().addDefault("Chat.Prefixes.Spirit", "[Spirit]");
 		ConfigManager.languageConfig.get().addDefault("Chat.Prefixes.SpiritSub", "[Spirit]");
 		
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Dash.Enable", true);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Dash.Cooldown", 2000);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Dash.Distance", 3);
 		perm = new Permission("bending.ability.dash");
 		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
 		perm.setDefault(PermissionDefault.TRUE);
 		
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Possess.Enable", true);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Possess.Cooldown", 5000);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Possess.Radius", 5);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Possess.Damage", 5);
@@ -42,6 +48,7 @@ public class Basic extends SpiritAbility implements AddonAbility {
 		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
 		perm.setDefault(PermissionDefault.TRUE);
 		
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Alleviate.Enable", true);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Alleviate.Cooldown", 5000);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Alleviate.Radius", 5);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Alleviate.PotionInterval", 2000);
@@ -51,12 +58,39 @@ public class Basic extends SpiritAbility implements AddonAbility {
 		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
 		perm.setDefault(PermissionDefault.TRUE);
 		
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Intoxicate.Enable", true);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Intoxicate.Cooldown", 5000);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Intoxicate.Radius", 5);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Intoxicate.PotionInterval", 2000);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Intoxicate.HarmInterval", 5000);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Intoxicate.ParticleColor (Has to be 6 characters)", "BD0000");
 		perm = new Permission("bending.ability.intoxicate");
+		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
+		perm.setDefault(PermissionDefault.TRUE);
+		
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Sanctity.Duration", 10);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Sanctity.Cooldown", 3250);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Sanctity.Power", 3);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Sanctity.ChargeTime", 2500L);
+		perm = new Permission("bending.ability.sanctity");
+		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
+		perm.setDefault(PermissionDefault.TRUE);
+		
+		
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Shackle.Enable", true);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Shackle.Cooldown", 5000);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Shackle.Duration", 2500);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Shackle.Range", 20);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Shackle.Radius", 2);
+		perm = new Permission("bending.ability.shackle");
+		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
+		perm.setDefault(PermissionDefault.TRUE);
+		
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Soar.Enable", true);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Soar.Cooldown", 4500);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Soar.Duration", 1000);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Soar.Speed", 0.8);
+		perm = new Permission("bending.ability.soar");
 		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
 		perm.setDefault(PermissionDefault.TRUE);
 		

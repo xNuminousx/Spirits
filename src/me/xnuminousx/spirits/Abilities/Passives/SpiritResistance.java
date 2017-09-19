@@ -29,6 +29,11 @@ public class SpiritResistance extends SpiritAbility implements PassiveAbility {
 	public long getCooldown() {
 		return 0;
 	}
+	
+	@Override
+	public boolean isHiddenAbility() {
+		return true;
+	}
 
 	@Override
 	public Location getLocation() {
