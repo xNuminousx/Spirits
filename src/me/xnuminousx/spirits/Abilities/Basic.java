@@ -77,6 +77,14 @@ public class Basic extends SpiritAbility implements AddonAbility {
 		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
 		perm.setDefault(PermissionDefault.TRUE);
 		
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Soar.Enable", true);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Soar.Cooldown", 4500);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Soar.Duration", 1000);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Soar.Speed", 0.8);
+		perm = new Permission("bending.ability.soar");
+		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
+		perm.setDefault(PermissionDefault.TRUE);
+		
 		ConfigManager.defaultConfig.save();
 	}
 

@@ -90,6 +90,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		if (player.isSneaking()) {
 			possess();
 		} else {
+			remove();
 			return;
 		}
 
@@ -161,7 +162,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return ChatColor.BLUE + "" + ChatColor.BOLD + "Offensive: " + ChatColor.DARK_AQUA + "A very ancient ability of spitits is the ability to jump inside the body of a human. As a spirit, you'll be able to possess a human for a short amount of time and do harm. While this ability is active, both the Spirit and the target will be motionless.";
+		return ChatColor.BLUE + "" + ChatColor.BOLD + "Offense: " + ChatColor.DARK_AQUA + "A very ancient ability of spitits is the ability to jump inside the body of a human. As a spirit, you'll be able to possess a human for a short amount of time and do harm. While this ability is active, both the Spirit and the target will be motionless.";
 	}
 	
 	@Override
