@@ -1,4 +1,4 @@
-package me.xnuminousx.spirits.Abilities.Dark;
+package me.xnuminousx.spirits.ability.DarkSpirit;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -10,10 +10,10 @@ import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 
-import me.xnuminousx.spirits.Abilities.DarkAbility;
+import me.xnuminousx.spirits.Main;
+import me.xnuminousx.spirits.ability.API.DarkAbility;
 import net.md_5.bungee.api.ChatColor;
 
 public class Intoxicate extends DarkAbility implements AddonAbility {
@@ -45,12 +45,12 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.Spirits.Dash.Enable");
-		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Intoxicate.Cooldown");
-		this.range = ConfigManager.getConfig().getDouble("ExtraAbilities.Spirits.Intoxicate.Radius");
-		this.potInt = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Intoxicate.PotionInterval");
-		this.harmInt = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Intoxicate.HarmInterval");
-		this.hexColor = ConfigManager.getConfig().getString("ExtraAbilities.Spirits.Intoxicate.ParticleColor (Has to be 6 characters)");
+		this.enable = Main.plugin.getConfig().getBoolean("Abilities.Spirits.Dash.Enable");
+		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.Intoxicate.Cooldown");
+		this.range = Main.plugin.getConfig().getDouble("Abilities.Spirits.Intoxicate.Radius");
+		this.potInt = Main.plugin.getConfig().getLong("Abilities.Spirits.Intoxicate.PotionInterval");
+		this.harmInt = Main.plugin.getConfig().getLong("Abilities.Spirits.Intoxicate.HarmInterval");
+		this.hexColor = Main.plugin.getConfig().getString("Abilities.Spirits.Intoxicate.ParticleColor (Has to be 6 characters)");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();

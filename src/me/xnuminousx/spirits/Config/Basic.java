@@ -1,4 +1,5 @@
-package me.xnuminousx.spirits.Abilities;
+// Not for use
+package me.xnuminousx.spirits.Config;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -8,6 +9,8 @@ import org.bukkit.permissions.PermissionDefault;
 import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
+
+import me.xnuminousx.spirits.ability.API.SpiritAbility;
 
 public class Basic extends SpiritAbility implements AddonAbility {
 

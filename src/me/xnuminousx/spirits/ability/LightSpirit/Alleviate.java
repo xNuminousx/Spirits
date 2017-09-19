@@ -1,4 +1,4 @@
-package me.xnuminousx.spirits.Abilities.Light;
+package me.xnuminousx.spirits.ability.LightSpirit;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -10,10 +10,11 @@ import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
+import com.projectkorra.projectkorra.util.ParticleEffect;
 
-import me.xnuminousx.spirits.Abilities.LightAbility;
+import me.xnuminousx.spirits.Main;
+import me.xnuminousx.spirits.ability.API.LightAbility;
 import net.md_5.bungee.api.ChatColor;
 
 public class Alleviate extends LightAbility implements AddonAbility {
@@ -45,12 +46,12 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.Spirits.Alleviate.Enable");
-		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Alleviate.Cooldown");
-		this.range = ConfigManager.getConfig().getDouble("ExtraAbilities.Spirits.Alleviate.Radius");
-		this.potInt = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Alleviate.PotionInterval");
-		this.healInt = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Alleviate.HealInterval");
-		this.hexColor = ConfigManager.getConfig().getString("ExtraAbilities.Spirits.Alleviate.ParticleColor (Has to be 6 characters)");
+		this.enable = Main.plugin.getConfig().getBoolean("Abilities.Spirits.Alleviate.Enable");
+		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.Alleviate.Cooldown");
+		this.range = Main.plugin.getConfig().getDouble("Abilities.Spirits.Alleviate.Radius");
+		this.potInt = Main.plugin.getConfig().getLong("Abilities.Spirits.Alleviate.PotionInterval");
+		this.healInt = Main.plugin.getConfig().getLong("Abilities.Spirits.Alleviate.HealInterval");
+		this.hexColor = Main.plugin.getConfig().getString("Abilities.Spirits.Alleviate.ParticleColor (Has to be 6 characters)");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
@@ -134,6 +135,16 @@ public class Alleviate extends LightAbility implements AddonAbility {
 				}
 			}
 		}
+		self();
+	}
+	public void self() {
+		player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 1), true);
+		Location loc = player.getLocation();
+		ParticleEffect.FIREWORKS_SPARK.display(loc, 0, 0, 0, 0.2F, 5);
+	}
+	
+	public PotionEffectType isPosEffect() {
+		return PotionEffectType.REGENERATION;
 	}
 
 	@Override

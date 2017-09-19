@@ -1,4 +1,4 @@
-package me.xnuminousx.spirits.Abilities.Avatar.LightAvatar;
+package me.xnuminousx.spirits.ability.Avatar;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

@@ -1,0 +1,34 @@
+name: Spirits
+version: 1.0
+main: me.xnuminousx.spirits.Main
+author: xNuminousx
+depend: [ProjectKorra]
+
+permissions:
+   spirits.op:
+      default: op
+      description: Access to all abilities.
+      children:
+      bending.spirit: true
+      bending.spirit.light: true
+      bending.spirit.dark: true
+   
+   bending.spirit:
+      default: true
+      description: Access to the Spirit element.
+      children:
+         bending.ability.dash: true
+         bending.ability.possess: true
+         bending.ability.soar: true
+   bending.spirit.light:
+      default: true
+      description: Access to the LightSpirit sub-element.
+      children:
+         bending.ability.alleviate: true
+         bending.ability.barrier: true
+   bending.spirit.dark:
+      default: true
+      description: Access to the DarkSpirit sub-element.
+      children:
+         bending.ability.intoxicate: true
+         bending.ability.shackle: true
