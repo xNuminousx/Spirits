@@ -72,8 +72,25 @@ public class Basic extends SpiritAbility implements AddonAbility {
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Sanctity.Cooldown", 3250);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Sanctity.Power", 3);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Sanctity.ChargeTime", 2500L);
-		
 		perm = new Permission("bending.ability.sanctity");
+		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
+		perm.setDefault(PermissionDefault.TRUE);
+		
+		
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Shackle.Enable", true);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Shackle.Cooldown", 5000);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Shackle.Duration", 2500);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Shackle.Range", 20);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Shackle.Radius", 2);
+		perm = new Permission("bending.ability.shackle");
+		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
+		perm.setDefault(PermissionDefault.TRUE);
+		
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Soar.Enable", true);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Soar.Cooldown", 4500);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Soar.Duration", 1000);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Soar.Speed", 0.8);
+		perm = new Permission("bending.ability.soar");
 		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
 		perm.setDefault(PermissionDefault.TRUE);
 		

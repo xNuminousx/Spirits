@@ -6,6 +6,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
@@ -19,6 +20,8 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 
 	private long cooldown;
 	private Location location;
+	private Location origin;
+	private Vector direction;
 	private int currPoint;
 	private String hexColor;
 	private long time;
@@ -27,6 +30,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 	private double range;
 	private boolean enable;
 	private boolean isHidden;
+	private boolean progress;
 
 	public Intoxicate(Player player) {
 		super(player);
@@ -47,8 +51,11 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 		this.potInt = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Intoxicate.PotionInterval");
 		this.harmInt = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Intoxicate.HarmInterval");
 		this.hexColor = ConfigManager.getConfig().getString("ExtraAbilities.Spirits.Intoxicate.ParticleColor (Has to be 6 characters)");
-		this.location = player.getLocation();
+		this.origin = player.getLocation().clone().add(0, 1, 0);
+		this.location = origin.clone();
+		this.direction = player.getLocation().getDirection();
 		this.isHidden = false;
+		this.progress = true;
 	}
 
 	@Override
@@ -63,6 +70,13 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 			remove();
 			return;
 		}
+
+		if (origin.distanceSquared(location) > range * range) {
+			remove();
+			return;
+			
+		}
+		
 		if (!bPlayer.getBoundAbilityName().equals(getName())) {
 			bPlayer.addCooldown(this);
 			remove();
@@ -72,18 +86,21 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 		if (player.isSneaking()) {
 			harm(200, 0.04F);
 		} else {
-			bPlayer.addCooldown(this);
 			remove();
 			return;
 		}
 	}
 	
 	public void harm(int points, float size) {
-
-		for (Entity target : GeneralMethods.getEntitiesAroundPoint(player.getLocation(), range)) {
+		if (progress) {
+			location.add(direction.multiply(1));
+		}
+		
+		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 1)) {
 			if (((target instanceof LivingEntity)) && (target.getEntityId() != player.getEntityId())) {
 				Location tarLoc = target.getLocation();
 				LivingEntity le = (LivingEntity)target;
+				progress = false;
 				
 				for (int i = 0; i < 6; i++) {
 					currPoint += 360 / points;
@@ -106,11 +123,13 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 							le.removePotionEffect(targetEffect.getType());
 						}
 					}
+					bPlayer.addCooldown(this);
 				}
 				if (System.currentTimeMillis() - time > harmInt) {
 					le.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 100, 1), true);
 					le.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 1000, 1), true);
 					DamageHandler.damageEntity(player, 4, this);
+					bPlayer.addCooldown(this);
 					remove();
 					return;
 				}
