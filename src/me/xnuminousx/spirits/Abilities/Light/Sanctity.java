@@ -45,7 +45,7 @@ public class Sanctity extends LightAbility implements AddonAbility {
 	}
 
 	public String getName() {
-		return "Sanctity";
+		return "Sanctity"; 
 	}
 
 	public String getDescription() {
