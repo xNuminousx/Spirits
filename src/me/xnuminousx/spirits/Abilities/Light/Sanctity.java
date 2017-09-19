@@ -69,7 +69,7 @@ public class Sanctity extends LightAbility implements AddonAbility {
 		if (this.player.isSneaking()) {
 			powerRing(60, 1.75F, 2);
 			if (((System.currentTimeMillis() > getStartTime() + this.chargeTime))) {
-				this.isCharged = true;
+				this.isCharged = true; 
 			}
 		} else {
 			if (this.isCharged) {

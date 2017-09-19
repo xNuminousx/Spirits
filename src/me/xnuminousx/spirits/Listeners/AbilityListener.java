@@ -25,7 +25,7 @@ public class AbilityListener implements Listener {
 		BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
 
 		if (event.isCancelled() || bPlayer == null) {
-			return;
+			return; 
 
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase(null)) {
 			return;

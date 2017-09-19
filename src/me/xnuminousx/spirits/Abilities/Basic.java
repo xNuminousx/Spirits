@@ -12,7 +12,7 @@ import com.projectkorra.projectkorra.configuration.ConfigManager;
 public class Basic extends SpiritAbility implements AddonAbility {
 
 	private Permission perm;
-
+ 
 	public Basic(Player player) {
 		super(player);
 	}
