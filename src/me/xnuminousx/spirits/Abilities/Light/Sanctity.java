@@ -41,7 +41,7 @@ public class Sanctity extends LightAbility implements AddonAbility {
 	}
 
 	public Location getLocation() {
-		return player.getLocation();
+		return null;
 	}
 
 	public String getName() {
