@@ -30,6 +30,9 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	private long cooldown;
 	private boolean enable;
 	private boolean isHidden;
+	private boolean progress;
+	private Vector direction;
+	private Location origin;
 	
 
 	public Possess(Player player) {
@@ -41,6 +44,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		
 		setFields();
 		time = System.currentTimeMillis();
+		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.5F, 5);
 		
 		start();
 	}
@@ -51,8 +55,11 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		this.range = ConfigManager.getConfig().getDouble("ExtraAbilities.Spirits.Possess.Radius");
 		this.damage = ConfigManager.getConfig().getDouble("ExtraAbilities.Spirits.Possess.Damage");
 		this.duration = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Possess.Duration");
-		this.location = player.getLocation();
+		this.origin = player.getLocation().clone().add(0, 1, 0);
+		this.location = origin.clone();
+		this.direction = player.getLocation().getDirection();
 		this.isHidden = false;
+		this.progress = true;
 	}
 
 	@Override
@@ -68,6 +75,12 @@ public class Possess extends SpiritAbility implements AddonAbility {
 			return;
 		}
 		
+		if (origin.distanceSquared(location) > range * range) {
+			remove();
+			return;
+			
+		}
+		
 		if (!bPlayer.getBoundAbilityName().equals(getName())) {
 			bPlayer.addCooldown(this);
 			remove();
@@ -75,18 +88,19 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		}
 		
 		if (player.isSneaking()) {
-			player.getWorld().playSound(location, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.5F, 5);
 			possess();
 		} else {
-			remove();
 			return;
 		}
 
 	}
 	
 	public void possess() {
+		if (progress) {
+			location.add(direction.multiply(1));
+		}
 		
-		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, range)) {
+		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 2)) {
 			if (((target instanceof LivingEntity)) && (target.getEntityId() != player.getEntityId())) {
 				Location location = player.getLocation();
 				if (System.currentTimeMillis() > time + duration) {
@@ -95,6 +109,9 @@ public class Possess extends SpiritAbility implements AddonAbility {
 					remove();
 					return;
 				} else {
+					progress = false;
+					bPlayer.addCooldown(this);
+					
 					// Teleport player
 					LivingEntity le = (LivingEntity)target;
 					Location tLoc = le.getLocation().clone();
@@ -106,6 +123,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 					Location tarLoc = target.getLocation();
 					Vector vec = tarLoc.getDirection().normalize().multiply(0);
 					target.setVelocity(vec);
+					player.getWorld().playSound(tarLoc, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.5F, 5);
 					
 					// Possession effects
 					ParticleEffect.DRAGON_BREATH.display(tLoc, 0.3F, 1F, 0.3F, 0.02F, 5);
@@ -123,7 +141,6 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
 			player.removePotionEffect(PotionEffectType.INVISIBILITY);
 		}
-		bPlayer.addCooldown(this);
 		super.remove();
 	}
 
@@ -149,7 +166,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.BLUE + "Hold shift to possess near by humans.";
+		return ChatColor.BLUE + "Hold shift to possess the closest entity you're looking at.";
 	}
 
 	@Override
