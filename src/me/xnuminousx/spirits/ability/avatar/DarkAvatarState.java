@@ -1,17 +1,18 @@
-package me.xnuminousx.spirits.Abilities.Avatar;
+package me.xnuminousx.spirits.ability.avatar;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.ability.AvatarAbility;
 
+import me.xnuminousx.spirits.ability.api.DarkAvatarAbility;
 import net.md_5.bungee.api.ChatColor;
 
-public class AvatarState extends AvatarAbility implements AddonAbility {
+public class DarkAvatarState extends DarkAvatarAbility implements AddonAbility {
 
-	public AvatarState(Player player) {
+	public DarkAvatarState(Player player) {
 		super(player);
+		
 	}
 
 	@Override
@@ -31,31 +32,41 @@ public class AvatarState extends AvatarAbility implements AddonAbility {
 
 	@Override
 	public String getName() {
-		return "AvatarState";
+		return "DarkAvatarState";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "The AvatarState is the most powerful ability of the Avatar. It is a defense mechanism designed to give you eminse power. When in the AvatarState, all of your bending abilities will be empowered for the duration of your AvatarState. You will also be giving strength and resistance as the AvatarState allows you to take damage with ease.";
+		return ChatColor.DARK_PURPLE + "Version of AvatarState but for the Dark Avatar";
 	}
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.AQUA + "Nothing yet";
+		return ChatColor.DARK_PURPLE + "Nothing yet";
 	}
 
 	@Override
 	public String getAuthor() {
-		return ChatColor.AQUA + "xNuminousx";
+		return ChatColor.DARK_PURPLE + "xNuminousx";
 	}
 
 	@Override
 	public String getVersion() {
-		return ChatColor.AQUA + "1.0";
+		return ChatColor.DARK_PURPLE + "1.0";
+	}
+
+	@Override
+	public boolean isExplosiveAbility() {
+		return false;
 	}
 
 	@Override
 	public boolean isHarmlessAbility() {
+		return false;
+	}
+
+	@Override
+	public boolean isIgniteAbility() {
 		return false;
 	}
 

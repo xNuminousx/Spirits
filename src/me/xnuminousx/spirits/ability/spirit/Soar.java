@@ -1,4 +1,4 @@
-package me.xnuminousx.spirits.Abilities.Spirit;
+package me.xnuminousx.spirits.ability.spirit;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,7 +11,7 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Main;
-import me.xnuminousx.spirits.Abilities.API.SpiritAbility;
+import me.xnuminousx.spirits.ability.api.SpiritAbility;
 import net.md_5.bungee.api.ChatColor;
 
 public class Soar extends SpiritAbility implements AddonAbility {
@@ -40,10 +40,10 @@ public class Soar extends SpiritAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = Main.plugin.getConfig().getBoolean("Abilities.Spirits.Soar.Enable");
-		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.Soar.Cooldown");
-		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirits.Soar.Duration");
-		this.speed = Main.plugin.getConfig().getDouble("Abilities.Spirits.Soar.Speed");
+		this.enable = Main.plugin.getConfig().getBoolean("Abilities.Spirit.Soar.Enable");
+		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirit.Soar.Cooldown");
+		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirit.Soar.Duration");
+		this.speed = Main.plugin.getConfig().getDouble("Abilities.Spirit.Soar.Speed");
 		isHidden = false;
 		enable = true;
 		this.blockType = Material.SNOW;

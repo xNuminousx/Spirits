@@ -1,4 +1,4 @@
-package me.xnuminousx.spirits.Abilities.DarkSpirit;
+package me.xnuminousx.spirits.ability.dark;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -11,7 +11,7 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Main;
-import me.xnuminousx.spirits.Abilities.API.DarkAbility;
+import me.xnuminousx.spirits.ability.DarkAbility;
 import net.md_5.bungee.api.ChatColor;
 
 public class Shackle extends DarkAbility implements AddonAbility {
@@ -43,11 +43,11 @@ public class Shackle extends DarkAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = Main.plugin.getConfig().getBoolean("Abilities.Spirits.Shackle.Enable");
-		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.Shackle.Cooldown");
-		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirits.Shackle.Duration");
-		this.range = Main.plugin.getConfig().getInt("Abilities.Spirits.Shackle.Range");
-		this.radius = Main.plugin.getConfig().getDouble("Abilities.Spirits.Shackle.Radius");
+		this.enable = Main.plugin.getConfig().getBoolean("Abilities.DarkSpirit.Shackle.Enable");
+		this.cooldown = Main.plugin.getConfig().getLong("Abilities.DarkSpirit.Shackle.Cooldown");
+		this.duration = Main.plugin.getConfig().getLong("Abilities.DarkSpirit.Shackle.Duration");
+		this.range = Main.plugin.getConfig().getInt("Abilities.DarkSpirit.Shackle.Range");
+		this.radius = Main.plugin.getConfig().getDouble("Abilities.DarkSpirit.Shackle.Radius");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();

@@ -1,4 +1,4 @@
-package me.xnuminousx.spirits.Abilities.API;
+package me.xnuminousx.spirits.ability.api;
 
 import org.bukkit.entity.Player;
 
@@ -7,11 +7,11 @@ import com.projectkorra.projectkorra.ability.Ability;
 import com.projectkorra.projectkorra.ability.ElementalAbility;
 import com.projectkorra.projectkorra.ability.SubAbility;
 
-import me.xnuminousx.spirits.Elements.SpiritElement;
+import me.xnuminousx.spirits.elements.SpiritElement;
 
-public abstract class DarkAbility extends ElementalAbility implements SubAbility {
+public abstract class LightAbility extends ElementalAbility implements SubAbility {
 
-	public DarkAbility(Player player) {
+	public LightAbility(Player player) {
 		super(player);
 	}
 	
@@ -22,6 +22,6 @@ public abstract class DarkAbility extends ElementalAbility implements SubAbility
 	
 	@Override
 	public Element getElement() {
-		return SpiritElement.DARK_SPIRIT;
+		return SpiritElement.LIGHT_SPIRIT;
 	}
 }

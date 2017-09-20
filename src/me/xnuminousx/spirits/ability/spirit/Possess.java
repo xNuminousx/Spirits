@@ -1,4 +1,4 @@
-package me.xnuminousx.spirits.Abilities.Spirit;
+package me.xnuminousx.spirits.ability.spirit;
 
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -16,8 +16,8 @@ import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Main;
-import me.xnuminousx.spirits.Abilities.API.SpiritAbility;
-import me.xnuminousx.spirits.Listeners.AbilityListener;
+import me.xnuminousx.spirits.ability.api.SpiritAbility;
+import me.xnuminousx.spirits.listeners.AbilityListener;
 import net.md_5.bungee.api.ChatColor;
 
 public class Possess extends SpiritAbility implements AddonAbility {
@@ -50,11 +50,11 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = Main.plugin.getConfig().getBoolean("Abilities.Spirits.Possess.Enable");
-		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.Possess.Cooldown");
-		this.range = Main.plugin.getConfig().getDouble("Abilities.Spirits.Possess.Radius");
-		this.damage = Main.plugin.getConfig().getDouble("Abilities.Spirits.Possess.Damage");
-		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirits.Possess.Duration");
+		this.enable = Main.plugin.getConfig().getBoolean("Abilities.Spirit.Possess.Enable");
+		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirit.Possess.Cooldown");
+		this.range = Main.plugin.getConfig().getDouble("Abilities.Spirit.Possess.Radius");
+		this.damage = Main.plugin.getConfig().getDouble("Abilities.Spirit.Possess.Damage");
+		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirit.Possess.Duration");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
