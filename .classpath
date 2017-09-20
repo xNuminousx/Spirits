@@ -3,6 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/Users/tylermcguirt/Desktop/External Jars/ProjectKorra-1.8.6.jar"/>
-	<classpathentry kind="lib" path="/Users/tylermcguirt/Desktop/External Jars/spigot-1.12.1.jar"/>
+	<classpathentry kind="lib" path="/Users/tylermcguirt/Desktop/External Jars/spigot-1.11.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

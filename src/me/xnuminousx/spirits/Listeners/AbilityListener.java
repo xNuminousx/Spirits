@@ -8,13 +8,13 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import com.projectkorra.projectkorra.BendingPlayer;
 
-import me.xnuminousx.spirits.ability.DarkSpirit.Intoxicate;
-import me.xnuminousx.spirits.ability.DarkSpirit.Shackle;
-import me.xnuminousx.spirits.ability.LightSpirit.Alleviate;
-import me.xnuminousx.spirits.ability.LightSpirit.Sanctity;
-import me.xnuminousx.spirits.ability.Spirit.Dash;
-import me.xnuminousx.spirits.ability.Spirit.Possess;
-import me.xnuminousx.spirits.ability.Spirit.Soar;
+import me.xnuminousx.spirits.Abilities.DarkSpirit.Intoxicate;
+import me.xnuminousx.spirits.Abilities.DarkSpirit.Shackle;
+import me.xnuminousx.spirits.Abilities.LightSpirit.Alleviate;
+import me.xnuminousx.spirits.Abilities.LightSpirit.Sanctity;
+import me.xnuminousx.spirits.Abilities.Spirit.Dash;
+import me.xnuminousx.spirits.Abilities.Spirit.Possess;
+import me.xnuminousx.spirits.Abilities.Spirit.Soar;
 
 public class AbilityListener implements Listener {
 

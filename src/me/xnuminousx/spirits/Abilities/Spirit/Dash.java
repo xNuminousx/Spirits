@@ -1,4 +1,4 @@
-package me.xnuminousx.spirits.ability.Spirit;
+package me.xnuminousx.spirits.Abilities.Spirit;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -12,8 +12,8 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Main;
+import me.xnuminousx.spirits.Abilities.API.SpiritAbility;
 import me.xnuminousx.spirits.Listeners.AbilityListener;
-import me.xnuminousx.spirits.ability.API.SpiritAbility;
 import net.md_5.bungee.api.ChatColor;
 
 public class Dash extends SpiritAbility implements AddonAbility {

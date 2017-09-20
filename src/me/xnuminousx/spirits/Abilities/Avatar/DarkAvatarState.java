@@ -1,11 +1,11 @@
-package me.xnuminousx.spirits.ability.Avatar;
+package me.xnuminousx.spirits.Abilities.Avatar;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import com.projectkorra.projectkorra.ability.AddonAbility;
 
-import me.xnuminousx.spirits.ability.API.DarkAvatarAbility;
+import me.xnuminousx.spirits.Abilities.API.DarkAvatarAbility;
 import net.md_5.bungee.api.ChatColor;
 
 public class DarkAvatarState extends DarkAvatarAbility implements AddonAbility {

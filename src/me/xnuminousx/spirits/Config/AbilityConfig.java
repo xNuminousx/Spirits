@@ -19,15 +19,6 @@ public class AbilityConfig {
 		FileConfiguration config;
 		config = Main.plugin.getConfig();
 		
-		ConfigManager.languageConfig.get().addDefault("Chat.Colors.Avatar", "WHITE");
-		ConfigManager.languageConfig.get().addDefault("Chat.Colors.AvatarSub", "AQUA");
-		ConfigManager.languageConfig.get().addDefault("Chat.Colors.DarkAvatar", "DARK_RED");
-		
-		ConfigManager.languageConfig.get().addDefault("Chat.Colors.Spirit", "DARK_AQUA");
-		ConfigManager.languageConfig.get().addDefault("Chat.Colors.SpiritSub", "DARK_PURPLE");
-		ConfigManager.languageConfig.get().addDefault("Chat.Prefixes.Spirit", "[Spirit]");
-		ConfigManager.languageConfig.get().addDefault("Chat.Prefixes.SpiritSub", "[Spirit]");
-		
 		config.addDefault("Abilities.Spirits.Dash.Enable", true);
 		config.addDefault("Abilities.Spirits.Dash.Cooldown", 2000);
 		config.addDefault("Abilities.Spirits.Dash.Distance", 3);
@@ -68,7 +59,15 @@ public class AbilityConfig {
 		config.addDefault("Abilities.Spirits.Shackle.Range", 20);
 		config.addDefault("Abilities.Spirits.Shackle.Radius", 2);
 		
-		config.options().copyDefaults();
+		ConfigManager.languageConfig.get().addDefault("Chat.Colors.Avatar", "WHITE");
+		ConfigManager.languageConfig.get().addDefault("Chat.Colors.AvatarSub", "AQUA");
+		ConfigManager.languageConfig.get().addDefault("Chat.Colors.DarkAvatar", "DARK_RED");
+		
+		ConfigManager.languageConfig.get().addDefault("Chat.Colors.Spirit", "DARK_AQUA");
+		ConfigManager.languageConfig.get().addDefault("Chat.Colors.SpiritSub", "DARK_PURPLE");
+		ConfigManager.languageConfig.get().addDefault("Chat.Prefixes.Spirit", "[Spirit]");
+		ConfigManager.languageConfig.get().addDefault("Chat.Prefixes.SpiritSub", "[Spirit]");
+		
 		plugin.saveConfig();
 	}
 }

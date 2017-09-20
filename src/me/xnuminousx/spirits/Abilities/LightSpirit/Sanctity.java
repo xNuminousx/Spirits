@@ -1,11 +1,11 @@
-package me.xnuminousx.spirits.ability.LightSpirit;
+package me.xnuminousx.spirits.Abilities.LightSpirit;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Main;
-import me.xnuminousx.spirits.ability.API.LightAbility;
+import me.xnuminousx.spirits.Abilities.API.LightAbility;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Location;

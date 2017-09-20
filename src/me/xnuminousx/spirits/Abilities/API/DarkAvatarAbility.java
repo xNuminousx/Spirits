@@ -1,4 +1,4 @@
-package me.xnuminousx.spirits.ability.API;
+package me.xnuminousx.spirits.Abilities.API;
 
 import org.bukkit.entity.Player;
 

@@ -1,4 +1,4 @@
-package me.xnuminousx.spirits.ability.Passive;
+package me.xnuminousx.spirits.Abilities.Passive;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -8,7 +8,7 @@ import org.bukkit.potion.PotionEffectType;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.PassiveAbility;
 
-import me.xnuminousx.spirits.ability.API.SpiritAbility;
+import me.xnuminousx.spirits.Abilities.API.SpiritAbility;
 
 public class SpiritResistance extends SpiritAbility implements PassiveAbility {
 	

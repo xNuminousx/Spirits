@@ -1,4 +1,4 @@
-package me.xnuminousx.spirits.ability.DarkSpirit;
+package me.xnuminousx.spirits.Abilities.DarkSpirit;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -11,7 +11,7 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Main;
-import me.xnuminousx.spirits.ability.API.DarkAbility;
+import me.xnuminousx.spirits.Abilities.API.DarkAbility;
 import net.md_5.bungee.api.ChatColor;
 
 public class Shackle extends DarkAbility implements AddonAbility {
