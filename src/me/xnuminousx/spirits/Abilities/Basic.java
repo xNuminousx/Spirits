@@ -1,5 +1,4 @@
-// Not for use
-package me.xnuminousx.spirits.Config;
+package me.xnuminousx.spirits.Abilities;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -15,7 +14,7 @@ import me.xnuminousx.spirits.ability.API.SpiritAbility;
 public class Basic extends SpiritAbility implements AddonAbility {
 
 	private Permission perm;
-
+ 
 	public Basic(Player player) {
 		super(player);
 	}
@@ -70,6 +69,15 @@ public class Basic extends SpiritAbility implements AddonAbility {
 		perm = new Permission("bending.ability.intoxicate");
 		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
 		perm.setDefault(PermissionDefault.TRUE);
+		
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Sanctity.Duration", 10);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Sanctity.Cooldown", 3250);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Sanctity.Power", 3);
+		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Sanctity.ChargeTime", 2500L);
+		perm = new Permission("bending.ability.sanctity");
+		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
+		perm.setDefault(PermissionDefault.TRUE);
+		
 		
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Shackle.Enable", true);
 		ConfigManager.getConfig().addDefault("ExtraAbilities.Spirits.Shackle.Cooldown", 5000);

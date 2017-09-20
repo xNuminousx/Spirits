@@ -50,6 +50,11 @@ public class AbilityConfig {
 		config.addDefault("Abilities.Spirits.Alleviate.HealInterval", 5000);
 		config.addDefault("Abilities.Spirits.Alleviate.ParticleColor (Has to be 6 characters)", "FFFFFF");
 		
+		config.addDefault("Abilities.Spirits.Sanctity.Cooldown", 6500);
+		config.addDefault("Abilities.Spirits.Sanctity.Power", 3);
+		config.addDefault("Abilities.Spirits.Sanctity.Duration", 6);
+		config.addDefault("Abilities.Spirits.Sanctity.ChargeTime", 2500);
+		
 		config.addDefault("Abilities.Spirits.Intoxicate.Enable", true);
 		config.addDefault("Abilities.Spirits.Intoxicate.Cooldown", 5000);
 		config.addDefault("Abilities.Spirits.Intoxicate.Radius", 5);

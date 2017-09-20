@@ -14,12 +14,9 @@ Don't know how to code? Well, you can also contribute by downloading the project
 - Error message in the console (if applicable)
 - How to recreate the problem
 
-# To-Do List
-- Add at least 3 more abilities to both Light & Dark spirits.
-	- Light : A mobility move, defense move and offense move.
-	- Dark : A mobility move, defense move and utility move.
-	(Light/Dark moves must have an opposing move in the opposing element (refer to Alleviate and Intoxicate))
-- Add waterbending ability to transform Light spirits > Dark spirits or vis versa.
-- Interaction with mobs?
-- Make the project a plugin.
-- More to come!
+# Information
+Spirits are incredibly diverse creatures who inhabit the Spirit World, a place that coexists alongside the mortal world. Spirits can come in any shape, size, color, or even material. They are greatly respected by most humans, even though many of the spirits seem to despise human life. This project will allow you to become one of these encredible creatures!
+- Light Spirits - The spirits of light are considered internally balanced and have full control of their actions. These spirits often imbody different aspects of life and nature (such as a forest or moon).
+- Dark Spirits - The spirits of darkness are entities who have become unbalanced due to the influence of the spirit of darkness and chaos, Vaatu. These spirits are often very hostile and will lurk in secluded or sacred areas that have been neglected over time (these areas are often over-grown with vegetation).
+
+Avatar - This being is one that is fused with the spirit of light, Raava. The Avatar is reincarnated to new bodies when their old body dies. For 10,000 years the Avatar has been tasked with keeping peace and balance in the world. A key feature of the Avatar is the AvatarState in which they are able to access all the power and knowledge of every single one of their past lives. If the Avatar dies while in this state, the Avatar will be severed from their connection with Raava and the Avatar cycle will end with them. Only on Harmonic Convergence, which occurs once every 10,000 years, can Raava fuse with another human to restart the Avatar cycle.
