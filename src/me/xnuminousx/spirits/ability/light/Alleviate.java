@@ -11,7 +11,6 @@ import org.bukkit.util.Vector;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.util.DamageHandler;
-import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.ability.api.LightAbility;
@@ -135,16 +134,6 @@ public class Alleviate extends LightAbility implements AddonAbility {
 				}
 			}
 		}
-		self();
-	}
-	public void self() {
-		player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 1), true);
-		Location loc = player.getLocation();
-		ParticleEffect.FIREWORKS_SPARK.display(loc, 0, 0, 0, 0.2F, 5);
-	}
-	
-	public PotionEffectType isPosEffect() {
-		return PotionEffectType.REGENERATION;
 	}
 
 	@Override

@@ -22,7 +22,7 @@ public class SpiritResistance extends SpiritAbility implements PassiveAbility {
 		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, player.getLocation())) {
 			return;
 		}
-		player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 10000, 1), true);
+		player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 10, 1), true);
 	}
 
 	@Override
@@ -43,6 +43,11 @@ public class SpiritResistance extends SpiritAbility implements PassiveAbility {
 	@Override
 	public String getName() {
 		return "SpiritResistance";
+	}
+	
+	@Override
+	public String getDescription() {
+		return "The outter most layer of a Spirits body is incredibly tangible. Allowing them to teleport into other bodies as well as through walls. Because of this, they're naturally able to resist most damaging attacks.";
 	}
 
 	@Override

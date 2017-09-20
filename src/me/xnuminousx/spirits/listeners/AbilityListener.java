@@ -3,10 +3,13 @@ package me.xnuminousx.spirits.listeners;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import com.projectkorra.projectkorra.BendingPlayer;
+import com.projectkorra.projectkorra.Element;
 
 import me.xnuminousx.spirits.ability.spirit.Dash;
 import me.xnuminousx.spirits.ability.spirit.Possess;
@@ -70,5 +73,25 @@ public class AbilityListener implements Listener {
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Soar")) {
 			new Soar(player);
 		}
+	}
+	
+	@EventHandler
+	public void onPlayerFall(EntityDamageEvent event) {
+		
+		Element element = Element.getElement("Spirit");
+		
+		Player player = (Player) event.getEntity();
+		BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
+
+		if (event.isCancelled() || bPlayer == null) {
+			return;
+
+		}
+		
+		if (bPlayer.hasElement(element) && event.getCause() == DamageCause.FALL) {
+			event.setDamage(0D);
+			event.setCancelled(true);
+		}
+		
 	}
 }

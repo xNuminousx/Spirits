@@ -14,11 +14,11 @@ public class AbilityConfig {
 		
 		ConfigManager.languageConfig.get().addDefault("Chat.Prefixes.Spirit", "[Spirit]");
 		
-		ConfigManager.languageConfig.get().addDefault("Chat.Colors.Avatar", "WHITE");
-		ConfigManager.languageConfig.get().addDefault("Chat.Colors.AvatarSub", "AQUA");
-		ConfigManager.languageConfig.get().addDefault("Chat.Colors.DarkAvatar", "DARK_RED");
-		ConfigManager.languageConfig.get().addDefault("Chat.Colors.Spirit", "DARK_AQUA");
-		ConfigManager.languageConfig.get().addDefault("Chat.Colors.SpiritSub", "DARK_PURPLE");
+		config.addDefault("Chat.Colors.Avatar", "WHITE");
+		config.addDefault("Chat.Colors.AvatarSub", "AQUA");
+		config.addDefault("Chat.Colors.DarkAvatar", "DARK_RED");
+		config.addDefault("Chat.Colors.Spirit", "DARK_AQUA");
+		config.addDefault("Chat.Colors.SpiritSub", "DARK_PURPLE");
 		
 		config.addDefault("Storage.engine", "sqlite");
 		config.addDefault("Storage.MySQL.host", "localhost");

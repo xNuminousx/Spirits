@@ -127,7 +127,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 					player.getWorld().playSound(tarLoc, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.5F, 5);
 					
 					// Possession effects
-					ParticleEffect.DRAGON_BREATH.display(tLoc, 0.3F, 1F, 0.3F, 0.02F, 5);
+					ParticleEffect.END_ROD.display(tLoc, 0.3F, 1F, 0.3F, 0.02F, 5);
 					le.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2), true);
 					le.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 2), true);
 					
