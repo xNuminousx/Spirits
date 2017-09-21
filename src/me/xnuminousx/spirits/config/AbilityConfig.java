@@ -67,6 +67,10 @@ public class AbilityConfig {
 		config.addDefault("Abilities.DarkSpirit.Shackle.Range", 20);
 		config.addDefault("Abilities.DarkSpirit.Shackle.Radius", 2);
 		
+		config.addDefault("Abilites.LightSpirit.Shelter.Cooldown", 5000);
+		config.addDefault("Abilites.LightSpirit.Shelter.Duration", 2500);
+		config.addDefault("Abilites.LightSpirit.Shelter.Range", 20);
+		
 		ConfigManager.defaultConfig.save();
 		plugin.saveConfig();
 	}

@@ -18,6 +18,7 @@ import me.xnuminousx.spirits.ability.dark.Intoxicate;
 import me.xnuminousx.spirits.ability.dark.Shackle;
 import me.xnuminousx.spirits.ability.light.Alleviate;
 import me.xnuminousx.spirits.ability.light.Sanctity;
+import me.xnuminousx.spirits.ability.light.Shield;
 
 public class AbilityListener implements Listener {
 
@@ -28,17 +29,19 @@ public class AbilityListener implements Listener {
 		BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
 
 		if (event.isCancelled() || bPlayer == null) {
-			return; 
+			return;
 
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase(null)) {
 			return;
 
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Dash")) {
 			new Dash(player);
-			
+
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shackle")) {
 			new Shackle(player);
-			
+
+		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shield")) {
+			new Shield(player);
 		}
 
 	}
@@ -66,21 +69,23 @@ public class AbilityListener implements Listener {
 
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Sanctity")) {
 			new Sanctity(player);
-			
+
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Alleviate")) {
 			new Alleviate(player);
-			
+
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Soar")) {
 			new Soar(player);
+
 		}
+
 	}
-	
+
 	@EventHandler
 	public void onPlayerFall(EntityDamageEvent event) {
-		
+
 		if (event.getEntity() instanceof Player) {
 			Element element = Element.getElement("Spirit");
-			
+
 			Player player = (Player) event.getEntity();
 			BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
 
@@ -88,12 +93,12 @@ public class AbilityListener implements Listener {
 				return;
 
 			}
-			
+
 			if (bPlayer.hasElement(element) && event.getCause() == DamageCause.FALL) {
 				event.setDamage(0D);
 				event.setCancelled(true);
 			}
 		}
-		
+
 	}
 }
