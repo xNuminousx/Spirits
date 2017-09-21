@@ -18,6 +18,7 @@ import me.xnuminousx.spirits.ability.dark.Intoxicate;
 import me.xnuminousx.spirits.ability.dark.Shackle;
 import me.xnuminousx.spirits.ability.light.Alleviate;
 import me.xnuminousx.spirits.ability.light.Sanctity;
+import me.xnuminousx.spirits.ability.light.Shelter;
 
 public class AbilityListener implements Listener {
 
@@ -39,6 +40,8 @@ public class AbilityListener implements Listener {
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shackle")) {
 			new Shackle(player);
 			
+		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shelter")) {
+			new Shelter(player);
 		}
 
 	}
