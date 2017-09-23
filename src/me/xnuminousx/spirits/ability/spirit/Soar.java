@@ -8,9 +8,9 @@ import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
+import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
-import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
 import net.md_5.bungee.api.ChatColor;
 
@@ -40,10 +40,10 @@ public class Soar extends SpiritAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = Main.plugin.getConfig().getBoolean("Abilities.Spirit.Soar.Enable");
-		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirit.Soar.Cooldown");
-		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirit.Soar.Duration");
-		this.speed = Main.plugin.getConfig().getDouble("Abilities.Spirit.Soar.Speed");
+		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.Spirit.Soar.Enable");
+		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Spirit.Soar.Cooldown");
+		this.duration = ConfigManager.getConfig().getLong("ExtraAbilities.Spirit.Soar.Duration");
+		this.speed = ConfigManager.getConfig().getDouble("ExtraAbilities.Spirit.Soar.Speed");
 		isHidden = false;
 		enable = true;
 		this.blockType = Material.SNOW;

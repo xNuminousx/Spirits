@@ -2,9 +2,9 @@ package me.xnuminousx.spirits.ability.light;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
+import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
-import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.ability.api.LightAbility;
 import net.md_5.bungee.api.ChatColor;
 
@@ -29,10 +29,10 @@ public class Sanctity extends LightAbility implements AddonAbility {
 	}
 
 	public void setFields() {
-		this.cooldown = Main.plugin.getConfig().getLong("Abilities.LightSpirit.Sanctity.Cooldown");
-		this.healeffect = Main.plugin.getConfig().getInt("Abilities.LightSpirit.Sanctity.Power");
-		this.duration = Main.plugin.getConfig().getInt("Abilities.LightSpirit.Sanctity.Duration");
-		this.chargeTime = Main.plugin.getConfig().getLong("Abilities.LightSpirit.Sanctity.ChargeTime");
+		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Sanctity.Cooldown");
+		this.healeffect = ConfigManager.getConfig().getInt("ExtraAbilities.LightSpirit.Sanctity.Power");
+		this.duration = ConfigManager.getConfig().getInt("ExtraAbilities.LightSpirit.Sanctity.Duration");
+		this.chargeTime = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Sanctity.ChargeTime");
 		this.isCharged = false;
 	}
 

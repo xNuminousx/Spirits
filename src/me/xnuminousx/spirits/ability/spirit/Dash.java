@@ -9,9 +9,9 @@ import org.bukkit.util.Vector;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
+import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
-import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
 import me.xnuminousx.spirits.listeners.AbilityListener;
 import net.md_5.bungee.api.ChatColor;
@@ -38,9 +38,9 @@ public class Dash extends SpiritAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = Main.plugin.getConfig().getBoolean("Abilities.Spirit.Dash.Enable");
-		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirit.Dash.Cooldown");
-		this.distance = Main.plugin.getConfig().getLong("Abilities.Spirit.Dash.Distance");
+		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.Spirit.Dash.Enable");
+		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Spirit.Dash.Cooldown");
+		this.distance = ConfigManager.getConfig().getLong("ExtraAbilities.Spirit.Dash.Distance");
 		this.location = player.getLocation();
 		this.isHidden = false;
 		this.blockType = Material.LAPIS_BLOCK;

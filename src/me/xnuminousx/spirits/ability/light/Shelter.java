@@ -1,28 +1,33 @@
 package me.xnuminousx.spirits.ability.light;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
+import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
-import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.ability.api.LightAbility;
+import net.md_5.bungee.api.ChatColor;
 
 public class Shelter extends LightAbility implements AddonAbility {
-
-	private long cooldown;
-	private long time;
-	private Location location;
+	
 	private boolean enable;
+	private boolean isHidden;
+	private Location location;
+	private int range;
+	private long time;
+	private long duration;
 	private Location origin;
 	private Vector direction;
-	private boolean isHidden;
-	private boolean progress;
-	private int range;
+	private double radius;
 	private int currPoint;
+	private boolean progress;
+	private long cooldown;
 
 	public Shelter(Player player) {
 		super(player);
@@ -38,13 +43,16 @@ public class Shelter extends LightAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = Main.plugin.getConfig().getBoolean("Abilities.LightSpirit.Shelter.Enable");
+		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.LightSpirit.Shelter.Enable");
+		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Shelter.Cooldown");
+		this.duration = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Shelter.Duration");
+		this.range = ConfigManager.getConfig().getInt("ExtraAbilities.LightSpirit.Shelter.Range");
+		this.radius = ConfigManager.getConfig().getDouble("ExtraAbilities.LightSpirit.Shelter.Radius");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
 		this.isHidden = false;
 		this.progress = true;
-		
 	}
 
 	@Override
@@ -86,6 +94,31 @@ public class Shelter extends LightAbility implements AddonAbility {
 				location.subtract(x, 0.1F, z);
 			}
 		}
+		
+		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, radius)) {
+			if (target instanceof LivingEntity && !target.getUniqueId().equals(player.getUniqueId())) {
+				if (System.currentTimeMillis() > time + duration) {
+					remove();
+					return;
+				} else {
+					this.progress = false;
+					location = target.getLocation();
+					
+					for (int t = 0; t < 2; t++) {
+						currPoint += 360 / points2;
+						if (currPoint > 360) {
+							currPoint = 0;
+						}
+						double angle2 = currPoint * Math.PI / 180 * Math.cos(Math.PI);
+						double x2 = size * (Math.PI * 5 - angle2) * Math.cos(angle2 + t);
+			            double z2 = size * (Math.PI * 5 - angle2) * Math.sin(angle2 + t);
+						location.add(x2, 0.1F, z2);
+						ParticleEffect.INSTANT_SPELL.display(location, 0, 0, 0, 0, 1);
+						location.subtract(x2, 0.1F, z2);
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -105,22 +138,22 @@ public class Shelter extends LightAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return "Nothing yet";
+		return ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "Defense: " + ChatColor.DARK_RED + "With this technique a DarkSpirit is able to temporarily trap an anyone dead in their tracks, even if you can't see them! Useful for a quick get away...";
 	}
 	
 	@Override
 	public String getInstructions() {
-		return "Nothing yet";
+		return ChatColor.DARK_GRAY + "Left click";
 	}
 
 	@Override
 	public String getAuthor() {
-		return "xNuminousx";
+		return ChatColor.DARK_GRAY + "xNuminousx";
 	}
 
 	@Override
 	public String getVersion() {
-		return "1.0";
+		return ChatColor.DARK_GRAY + "1.0";
 	}
 	
 	@Override

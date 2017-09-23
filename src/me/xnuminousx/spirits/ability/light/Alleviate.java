@@ -10,9 +10,9 @@ import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
+import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 
-import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.ability.api.LightAbility;
 import net.md_5.bungee.api.ChatColor;
 
@@ -45,12 +45,12 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = Main.plugin.getConfig().getBoolean("Abilities.LightSpirit.Alleviate.Enable");
-		this.cooldown = Main.plugin.getConfig().getLong("Abilities.LightSpirit.Alleviate.Cooldown");
-		this.range = Main.plugin.getConfig().getDouble("Abilities.LightSpirit.Alleviate.Radius");
-		this.potInt = Main.plugin.getConfig().getLong("Abilities.LightSpirit.Alleviate.PotionInterval");
-		this.healInt = Main.plugin.getConfig().getLong("Abilities.LightSpirit.Alleviate.HealInterval");
-		this.hexColor = Main.plugin.getConfig().getString("Abilities.LightSpirit.Alleviate.ParticleColor (Has to be 6 characters)");
+		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.LightSpirit.Alleviate.Enable");
+		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Alleviate.Cooldown");
+		this.range = ConfigManager.getConfig().getDouble("ExtraAbilities.LightSpirit.Alleviate.Radius");
+		this.potInt = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Alleviate.PotionInterval");
+		this.healInt = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Alleviate.HealInterval");
+		this.hexColor = ConfigManager.getConfig().getString("ExtraAbilities.LightSpirit.Alleviate.ParticleColor (Has to be 6 characters)");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();

@@ -7,14 +7,14 @@ import com.projectkorra.projectkorra.ability.ElementalAbility;
 
 import me.xnuminousx.spirits.elements.SpiritElement;
 
-public abstract class LightAbility extends ElementalAbility {
+public abstract class DarkAbility extends ElementalAbility {
 
-	public LightAbility(Player player) {
+	public DarkAbility(Player player) {
 		super(player);
 	}
 	
 	@Override
 	public Element getElement() {
-		return SpiritElement.LIGHT_SPIRIT;
+		return SpiritElement.DARK_SPIRIT;
 	}
 }

@@ -1,5 +1,0 @@
-name: Spirits
-version: 1.0
-main: me.xnuminousx.spirits.Main
-author: xNuminousx
-depend: [ProjectKorra]
