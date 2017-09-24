@@ -1,6 +1,6 @@
 ![Spirits](https://i.imgur.com/5UgocDY.jpg)
 # 
-This project will add in the new element "Spirit" as well as a couple SubElements to go with it! This is a WIP so more things to come very soon!
+This project will add in the new element "Spirit" as well as a DarkSpirit and LightSpirit element to go with it! This is a WIP so more things to come very soon!
 
 # Contributing
 If you wish to contribute to this project, please do so in the "update" branch, thanks for the help!
@@ -18,7 +18,6 @@ Don't know how to code? Well, you can also contribute by downloading the project
 This is a list of requirements for the Spirits plugin:
 - ProjectKorra version 1.8.3
 - Spigot version 1.11.2
-- ParticleAPI version [untested]
 
 # Information
 Spirits are incredibly diverse creatures who inhabit the Spirit World, a place that coexists alongside the mortal world. Spirits can come in any shape, size, color, or even material. They are greatly respected by most humans, even though many of the spirits seem to despise human life. This project will allow you to become one of these incredible creatures!
