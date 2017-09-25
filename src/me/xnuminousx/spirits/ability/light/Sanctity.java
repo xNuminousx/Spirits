@@ -105,13 +105,10 @@ public class Sanctity extends LightAbility implements AddonAbility {
 
 	public void heal() {
 		ParticleEffect.HAPPY_VILLAGER.display(this.player.getLocation(), 0.3F, 1.0F, 0.3F, 0.0F, 10);
-		player
-				.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, this.duration * 100, this.healeffect));
+		player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, this.duration * 100, this.healeffect));
 		player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, this.duration * 100, 1));
-		player.addPotionEffect(
-				new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, this.duration * 100, this.healeffect));
-		player.addPotionEffect(
-				new PotionEffect(PotionEffectType.FIRE_RESISTANCE, this.duration * 100, this.healeffect));
+		player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, this.duration * 100, this.healeffect));
+		player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, this.duration * 100, this.healeffect));
 		
 		bPlayer.addCooldown(this);
 
@@ -124,8 +121,7 @@ public class Sanctity extends LightAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return ChatColor.AQUA + "" + ChatColor.BOLD + "Defense: " + ChatColor.WHITE
-				+ "Use this to empower yourself with more health, better resistance and the ability to see in the dark for a limited period of time.";
+		return ChatColor.AQUA + "" + ChatColor.BOLD + "Defense: " + ChatColor.WHITE + "Use this to empower yourself with more health, better resistance and the ability to find the light in the dark for a limited period of time.";
 	}
 	
 	@Override
