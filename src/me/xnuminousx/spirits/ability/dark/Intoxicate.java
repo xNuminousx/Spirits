@@ -18,16 +18,16 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Intoxicate extends DarkAbility implements AddonAbility {
 
-	private long cooldown;
 	private Location location;
 	private Location origin;
 	private Vector direction;
 	private int currPoint;
-	private String hexColor;
+	private double range;
 	private long time;
 	private long potInt;
 	private long harmInt;
-	private double range;
+	private long cooldown;
+	private String hexColor;
 	private boolean enable;
 	private boolean isHidden;
 	private boolean progress;
@@ -45,7 +45,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.DarkSpirit.Dash.Enable");
+		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.DarkSpirit.Intoxicate.Enable");
 		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.DarkSpirit.Intoxicate.Cooldown");
 		this.range = ConfigManager.getConfig().getDouble("ExtraAbilities.DarkSpirit.Intoxicate.Radius");
 		this.potInt = ConfigManager.getConfig().getLong("ExtraAbilities.DarkSpirit.Intoxicate.PotionInterval");
@@ -70,7 +70,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 			remove();
 			return;
 		}
-
+		
 		if (origin.distanceSquared(location) > range * range) {
 			remove();
 			return;
@@ -84,14 +84,15 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 		}
 		
 		if (player.isSneaking()) {
-			harm(200, 0.04F);
+			effect(200, 0.04F);
+			
 		} else {
 			remove();
 			return;
 		}
 	}
 	
-	public void harm(int points, float size) {
+	public void effect(int points, float size) {
 		if (progress) {
 			location.add(direction.multiply(1));
 		}
@@ -128,7 +129,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 				if (System.currentTimeMillis() - time > harmInt) {
 					le.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 100, 1), true);
 					le.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 1000, 1), true);
-					DamageHandler.damageEntity(player, 4, this);
+					DamageHandler.damageEntity(player, 6, this);
 					bPlayer.addCooldown(this);
 					remove();
 					return;

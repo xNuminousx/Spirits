@@ -53,15 +53,6 @@ public class Sanctity extends LightAbility implements AddonAbility {
 		return null;
 	}
 
-	public String getName() {
-		return "Sanctity"; 
-	}
-
-	public String getDescription() {
-		return ChatColor.AQUA + "" + ChatColor.BOLD + "Defensive: " + ChatColor.WHITE
-				+ "Use this to empower yourself with more health, better resistance and the ability to see in the dark for a limited period of time.";
-	}
-
 	public boolean isHarmlessAbility() {
 		return true;
 	}
@@ -112,10 +103,6 @@ public class Sanctity extends LightAbility implements AddonAbility {
 		}
 	}
 
-	public String getInstructions() {
-		return "Hold shift till the ring passes 3 times then release";
-	}
-
 	public void heal() {
 		ParticleEffect.HAPPY_VILLAGER.display(this.player.getLocation(), 0.3F, 1.0F, 0.3F, 0.0F, 10);
 		player
@@ -129,13 +116,31 @@ public class Sanctity extends LightAbility implements AddonAbility {
 		bPlayer.addCooldown(this);
 
 	}
-
-	public String getAuthor() {
-		return "EmeraldJelly";
+	
+	@Override
+	public String getName() {
+		return "Sanctity"; 
 	}
-
+	
+	@Override
+	public String getDescription() {
+		return ChatColor.AQUA + "" + ChatColor.BOLD + "Defense: " + ChatColor.WHITE
+				+ "Use this to empower yourself with more health, better resistance and the ability to see in the dark for a limited period of time.";
+	}
+	
+	@Override
+	public String getAuthor() {
+		return ChatColor.AQUA + "EmeraldJelly";
+	}
+	
+	@Override
+	public String getInstructions() {
+		return ChatColor.AQUA + "Hold shift until you see the trigger";
+	}
+	
+	@Override
 	public String getVersion() {
-		return "v1.0.0";
+		return ChatColor.AQUA + "v1.0.0";
 	}
 
 	public void load() {
