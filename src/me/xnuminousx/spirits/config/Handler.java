@@ -57,15 +57,18 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		config.addDefault("ExtraAbilities.LightSpirit.Alleviate.HealInterval", 5000);
 		config.addDefault("ExtraAbilities.LightSpirit.Alleviate.ParticleColor (Has to be 6 characters)", "FFFFFF");
 		
-		config.addDefault("ExtraAbilities.LightSpirit.Sanctity.Cooldown", 6500);
-		config.addDefault("ExtraAbilities.LightSpirit.Sanctity.Power", 3);
-		config.addDefault("ExtraAbilities.LightSpirit.Sanctity.Duration", 6);
+		config.addDefault("ExtraAbilities.LightSpirit.Sanctity.Enable", true);
+		config.addDefault("ExtraAbilities.LightSpirit.Sanctity.Cooldown", 15000);
+		config.addDefault("ExtraAbilities.LightSpirit.Sanctity.Power", 2);
+		config.addDefault("ExtraAbilities.LightSpirit.Sanctity.PotionDuration", 1.5);
 		config.addDefault("ExtraAbilities.LightSpirit.Sanctity.ChargeTime", 2500);
 		
 		config.addDefault("ExtraAbilities.LightSpirit.Shelter.Enable", true);
-		config.addDefault("ExtraAbilities.LightSpirit.Shelter.Cooldown", 5000);
-		config.addDefault("ExtraAbilities.LightSpirit.Shelter.Duration", 2500);
+		config.addDefault("ExtraAbilities.LightSpirit.Shelter.Cooldown", 10000);
+		config.addDefault("ExtraAbilities.LightSpirit.Shelter.Duration", 7000);
 		config.addDefault("ExtraAbilities.LightSpirit.Shelter.Range", 20);
+		config.addDefault("ExtraAbilities.LightSpirit.Shelter.ShieldSize", 5);
+		config.addDefault("ExtraAbilities.LightSpirit.Shelter.KnockbackPower", 1);
 		
 		config.addDefault("ExtraAbilities.DarkSpirit.Intoxicate.Enable", true);
 		config.addDefault("ExtraAbilities.DarkSpirit.Intoxicate.Cooldown", 5000);

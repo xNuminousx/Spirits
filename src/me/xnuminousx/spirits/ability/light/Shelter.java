@@ -24,10 +24,11 @@ public class Shelter extends LightAbility implements AddonAbility {
 	private long duration;
 	private Location origin;
 	private Vector direction;
-	private double radius;
 	private int currPoint;
 	private boolean progress;
 	private long cooldown;
+	private float shieldSize;
+	private long knockDis;
 
 	public Shelter(Player player) {
 		super(player);
@@ -47,7 +48,8 @@ public class Shelter extends LightAbility implements AddonAbility {
 		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Shelter.Cooldown");
 		this.duration = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Shelter.Duration");
 		this.range = ConfigManager.getConfig().getInt("ExtraAbilities.LightSpirit.Shelter.Range");
-		this.radius = ConfigManager.getConfig().getDouble("ExtraAbilities.LightSpirit.Shelter.Radius");
+		this.shieldSize = ConfigManager.getConfig().getInt("ExtraAbilities.LightSpirit.Shelter.ShieldSize");
+		this.knockDis = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Shelter.KnockbackPower");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
@@ -74,10 +76,10 @@ public class Shelter extends LightAbility implements AddonAbility {
 			return;
 			
 		}
-		shield(200, 30, 0.04F);
+		shield(100, 100, 0.04F, shieldSize);
 	}
 	
-	public void shield(int points, int points2, float size) {
+	public void shield(int points, int points2, float size, float size2) {
 		bPlayer.addCooldown(this);
 		if (progress) {
 			location.add(direction.multiply(1));
@@ -95,7 +97,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 			}
 		}
 		
-		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, radius)) {
+		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 2)) {
 			if (target instanceof LivingEntity && !target.getUniqueId().equals(player.getUniqueId())) {
 				if (System.currentTimeMillis() > time + duration) {
 					remove();
@@ -104,17 +106,26 @@ public class Shelter extends LightAbility implements AddonAbility {
 					this.progress = false;
 					location = target.getLocation();
 					
-					for (int t = 0; t < 2; t++) {
+					for (Entity target2 : GeneralMethods.getEntitiesAroundPoint(location, shieldSize)) {
+						if (target2 instanceof LivingEntity && !target2.getUniqueId().equals(target.getUniqueId())) {
+							Vector vec = target2.getLocation().getDirection().normalize().multiply(-knockDis);
+							vec.setY(1);
+							target2.setVelocity(vec);
+						}
+					}
+					
+					for (int t = 0; t < 6; t++) {
 						currPoint += 360 / points2;
 						if (currPoint > 360) {
 							currPoint = 0;
 						}
 						double angle2 = currPoint * Math.PI / 180 * Math.cos(Math.PI);
-						double x2 = size * (Math.PI * 5 - angle2) * Math.cos(angle2 + t);
-			            double z2 = size * (Math.PI * 5 - angle2) * Math.sin(angle2 + t);
-						location.add(x2, 0.1F, z2);
-						ParticleEffect.INSTANT_SPELL.display(location, 0, 0, 0, 0, 1);
-						location.subtract(x2, 0.1F, z2);
+						double x2 = size2 * Math.cos(angle2);
+						double y = 0.9 * (Math.PI * 5 - t) - 10;
+			            double z2 = size2 * Math.sin(angle2);
+						location.add(x2, y, z2);
+						ParticleEffect.INSTANT_SPELL.display(location, 0.5F, 0.5F, 0.5F, 0, 1);
+						location.subtract(x2, y, z2);
 					}
 				}
 			}
