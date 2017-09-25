@@ -1,4 +1,4 @@
-package me.xnuminousx.spirits.Abilities.Spirit;
+package me.xnuminousx.spirits.ability.spirit;
 
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -16,8 +16,8 @@ import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
-import me.xnuminousx.spirits.Abilities.SpiritAbility;
-import me.xnuminousx.spirits.Listeners.AbilityListener;
+import me.xnuminousx.spirits.ability.api.SpiritAbility;
+import me.xnuminousx.spirits.listeners.AbilityListener;
 import net.md_5.bungee.api.ChatColor;
 
 public class Possess extends SpiritAbility implements AddonAbility {
@@ -50,11 +50,11 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.Spirits.Possess.Enable");
-		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Possess.Cooldown");
-		this.range = ConfigManager.getConfig().getDouble("ExtraAbilities.Spirits.Possess.Radius");
-		this.damage = ConfigManager.getConfig().getDouble("ExtraAbilities.Spirits.Possess.Damage");
-		this.duration = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Possess.Duration");
+		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.Spirit.Possess.Enable");
+		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Spirit.Possess.Cooldown");
+		this.range = ConfigManager.getConfig().getDouble("ExtraAbilities.Spirit.Possess.Radius");
+		this.damage = ConfigManager.getConfig().getDouble("ExtraAbilities.Spirit.Possess.Damage");
+		this.duration = ConfigManager.getConfig().getLong("ExtraAbilities.Spirit.Possess.Duration");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
@@ -127,7 +127,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 					player.getWorld().playSound(tarLoc, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.5F, 5);
 					
 					// Possession effects
-					ParticleEffect.DRAGON_BREATH.display(tLoc, 0.3F, 1F, 0.3F, 0.02F, 5);
+					ParticleEffect.END_ROD.display(tLoc, 0.3F, 1F, 0.3F, 0.02F, 1);
 					le.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2), true);
 					le.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 2), true);
 					

@@ -1,4 +1,4 @@
-package me.xnuminousx.spirits.Abilities.Spirit;
+package me.xnuminousx.spirits.ability.spirit;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -12,8 +12,8 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
-import me.xnuminousx.spirits.Abilities.SpiritAbility;
-import me.xnuminousx.spirits.Listeners.AbilityListener;
+import me.xnuminousx.spirits.ability.api.SpiritAbility;
+import me.xnuminousx.spirits.listeners.AbilityListener;
 import net.md_5.bungee.api.ChatColor;
 
 public class Dash extends SpiritAbility implements AddonAbility {
@@ -38,9 +38,9 @@ public class Dash extends SpiritAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.Spirits.Dash.Enable");
-		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Dash.Cooldown");
-		this.distance = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Dash.Distance");
+		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.Spirit.Dash.Enable");
+		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Spirit.Dash.Cooldown");
+		this.distance = ConfigManager.getConfig().getLong("ExtraAbilities.Spirit.Dash.Distance");
 		this.location = player.getLocation();
 		this.isHidden = false;
 		this.blockType = Material.LAPIS_BLOCK;
@@ -54,7 +54,7 @@ public class Dash extends SpiritAbility implements AddonAbility {
 			return;
 		}
 		
-		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location) || !com.projectkorra.projectkorra.GeneralMethods.isSolid(player.getLocation().getBlock().getRelative(org.bukkit.block.BlockFace.DOWN))) {
+		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location)) {
 			remove();
 			return;
 		}

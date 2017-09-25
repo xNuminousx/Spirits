@@ -1,4 +1,4 @@
-package me.xnuminousx.spirits.Abilities.Dark;
+package me.xnuminousx.spirits.ability.light;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -13,26 +13,26 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 
-import me.xnuminousx.spirits.Abilities.DarkAbility;
+import me.xnuminousx.spirits.ability.api.LightAbility;
 import net.md_5.bungee.api.ChatColor;
 
-public class Intoxicate extends DarkAbility implements AddonAbility {
+public class Alleviate extends LightAbility implements AddonAbility {
 
-	private long cooldown;
 	private Location location;
 	private Location origin;
 	private Vector direction;
 	private int currPoint;
-	private String hexColor;
+	private double range;
 	private long time;
 	private long potInt;
-	private long harmInt;
-	private double range;
+	private long healInt;
+	private long cooldown;
+	private String hexColor;
 	private boolean enable;
 	private boolean isHidden;
 	private boolean progress;
 
-	public Intoxicate(Player player) {
+	public Alleviate(Player player) {
 		super(player);
 
 		if (!bPlayer.canBend(this)) {
@@ -45,12 +45,12 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.Spirits.Dash.Enable");
-		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Intoxicate.Cooldown");
-		this.range = ConfigManager.getConfig().getDouble("ExtraAbilities.Spirits.Intoxicate.Radius");
-		this.potInt = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Intoxicate.PotionInterval");
-		this.harmInt = ConfigManager.getConfig().getLong("ExtraAbilities.Spirits.Intoxicate.HarmInterval");
-		this.hexColor = ConfigManager.getConfig().getString("ExtraAbilities.Spirits.Intoxicate.ParticleColor (Has to be 6 characters)");
+		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.LightSpirit.Alleviate.Enable");
+		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Alleviate.Cooldown");
+		this.range = ConfigManager.getConfig().getDouble("ExtraAbilities.LightSpirit.Alleviate.Radius");
+		this.potInt = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Alleviate.PotionInterval");
+		this.healInt = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Alleviate.HealInterval");
+		this.hexColor = ConfigManager.getConfig().getString("ExtraAbilities.LightSpirit.Alleviate.ParticleColor (Has to be 6 characters)");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
@@ -70,7 +70,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 			remove();
 			return;
 		}
-
+		
 		if (origin.distanceSquared(location) > range * range) {
 			remove();
 			return;
@@ -84,14 +84,15 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 		}
 		
 		if (player.isSneaking()) {
-			harm(200, 0.04F);
+			effect(200, 0.04F);
+			
 		} else {
 			remove();
 			return;
 		}
 	}
 	
-	public void harm(int points, float size) {
+	public void effect(int points, float size) {
 		if (progress) {
 			location.add(direction.multiply(1));
 		}
@@ -113,22 +114,20 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 		            double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
 					tarLoc.add(x, y, z);
 					GeneralMethods.displayColoredParticle(tarLoc, hexColor, 0, 0, 0);
-					GeneralMethods.displayColoredParticle(tarLoc, "000000", 0, 0, 0);
 					tarLoc.subtract(x, y, z);
 				}
 				
 				if (System.currentTimeMillis() - time > potInt) {
 					for (PotionEffect targetEffect : le.getActivePotionEffects()) {
-						if (isPositiveEffect(targetEffect.getType())) {
+						if (isNegativeEffect(targetEffect.getType())) {
 							le.removePotionEffect(targetEffect.getType());
 						}
 					}
 					bPlayer.addCooldown(this);
 				}
-				if (System.currentTimeMillis() - time > harmInt) {
-					le.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 100, 1), true);
-					le.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 1000, 1), true);
-					DamageHandler.damageEntity(player, 4, this);
+				if (System.currentTimeMillis() - time > healInt) {
+					le.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 100, 1), true);
+					DamageHandler.damageEntity(player, 6, this);
 					bPlayer.addCooldown(this);
 					remove();
 					return;
@@ -149,27 +148,27 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 
 	@Override
 	public String getName() {
-		return "Intoxicate";
+		return "Alleviate";
 	}
 	
 	@Override
 	public String getDescription() {
-		return ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "Offense: " + ChatColor.DARK_RED + "Sacrifice some of your energy to pour a bit of chaos into the souls of your nearby enemies by taking away their positive potion effects and adding negative ones. Then watch as it destroys them from the inside out! The great spirit Vaatu was known to have this influence over other unbalanced Spirits.";
+		return ChatColor.AQUA + "" + ChatColor.BOLD + "Utility: " + ChatColor.WHITE + "Use this ability to relieve your friends and allies of their negative potion effects, keep using it and you'll give them a small boost of your own health. If your target moves, the ability will cancel.";
 	}
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.DARK_GRAY + "Hold shift";
+		return ChatColor.AQUA + "Hold shift while looking at your target";
 	}
 
 	@Override
 	public String getAuthor() {
-		return ChatColor.DARK_GRAY + "xNuminousx";
+		return ChatColor.AQUA + "xNuminousx";
 	}
 
 	@Override
 	public String getVersion() {
-		return ChatColor.DARK_GRAY + "1.0";
+		return ChatColor.AQUA + "1.0";
 	}
 	
 	@Override
