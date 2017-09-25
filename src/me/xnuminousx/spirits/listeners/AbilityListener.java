@@ -16,6 +16,7 @@ import me.xnuminousx.spirits.ability.spirit.Possess;
 import me.xnuminousx.spirits.ability.spirit.Soar;
 import me.xnuminousx.spirits.ability.dark.Intoxicate;
 import me.xnuminousx.spirits.ability.dark.Shackle;
+import me.xnuminousx.spirits.ability.dark.Strike;
 import me.xnuminousx.spirits.ability.light.Alleviate;
 import me.xnuminousx.spirits.ability.light.Sanctity;
 import me.xnuminousx.spirits.ability.light.Shelter;
@@ -42,6 +43,9 @@ public class AbilityListener implements Listener {
 			
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shelter")) {
 			new Shelter(player);
+			
+		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Strike")) {
+			new Strike(player);
 			
 		}
 

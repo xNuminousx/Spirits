@@ -1,6 +1,7 @@
 package me.xnuminousx.spirits.ability.dark;
 
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -100,6 +101,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
 				if (System.currentTimeMillis() > time + duration) {
 					location = target.getLocation();
 					ParticleEffect.CLOUD.display(location, 0, 0, 0, 0.08F, 5);
+					player.getWorld().playSound(location, Sound.BLOCK_IRON_TRAPDOOR_CLOSE, 0.5F, 1.5F);
 					remove();
 					return;
 				} else {

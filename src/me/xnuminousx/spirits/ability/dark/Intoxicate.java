@@ -129,7 +129,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 				if (System.currentTimeMillis() - time > harmInt) {
 					le.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 100, 1), true);
 					le.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 1000, 1), true);
-					DamageHandler.damageEntity(player, 6, this);
+					DamageHandler.damageEntity(player, 4, this);
 					bPlayer.addCooldown(this);
 					remove();
 					return;

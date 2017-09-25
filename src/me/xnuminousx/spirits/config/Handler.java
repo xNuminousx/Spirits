@@ -83,6 +83,11 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		config.addDefault("ExtraAbilities.DarkSpirit.Shackle.Range", 20);
 		config.addDefault("ExtraAbilities.DarkSpirit.Shackle.Radius", 2);
 		
+		config.addDefault("ExtraAbilities.DarkSpirit.Strike.Enable", true);
+		config.addDefault("ExtraAbilities.DarkSpirit.Strike.Cooldown", 4000);
+		config.addDefault("ExtraAbilities.DarkSpirit.Strike.Range", 5);
+		config.addDefault("ExtraAbilities.DarkSpirit.Strike.Damage", 3);
+		
 		ConfigManager.defaultConfig.save();
 	}
 
