@@ -92,7 +92,7 @@ public class Dash extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return ChatColor.BLUE + "" + ChatColor.BOLD + "Mobility: " + ChatColor.DARK_AQUA + "Sometimes, in intense battles, a spirit may dart from one location to the next! Useful to escape, evade or just plain exploring.";
+		return ChatColor.BLUE + "" + ChatColor.BOLD + "Mobility: " + ChatColor.DARK_AQUA + "Sometimes, in intense battles, a Spirit may dart from one location to the next! Useful to escape, evade or just plain exploring.";
 	}
 	
 	@Override

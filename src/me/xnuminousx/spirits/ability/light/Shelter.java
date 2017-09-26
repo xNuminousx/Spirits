@@ -149,22 +149,22 @@ public class Shelter extends LightAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "Defense: " + ChatColor.DARK_RED + "With this technique a DarkSpirit is able to temporarily trap an anyone dead in their tracks, even if you can't see them! Useful for a quick get away...";
+		return ChatColor.AQUA + "" + ChatColor.BOLD + "Defense: " + ChatColor.WHITE + "A very useful tactic when group battling, a light spirit can temporarily shield a friend or even a foe from incoming enemies.";
 	}
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.DARK_GRAY + "Left click";
+		return ChatColor.AQUA + "Left click";
 	}
 
 	@Override
 	public String getAuthor() {
-		return ChatColor.DARK_GRAY + "xNuminousx";
+		return ChatColor.AQUA + "xNuminousx";
 	}
 
 	@Override
 	public String getVersion() {
-		return ChatColor.DARK_GRAY + "1.0";
+		return ChatColor.AQUA + "1.0";
 	}
 	
 	@Override

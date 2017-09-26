@@ -2,7 +2,6 @@ package me.xnuminousx.spirits.ability.spirit;
 
 import org.bukkit.Location;
 import org.bukkit.Sound;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -101,7 +100,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 			location.add(direction.multiply(1));
 		}
 		
-		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 2)) {
+		for (Player target : GeneralMethods.getPlayersAroundPoint(location, 2)) {
 			if (((target instanceof LivingEntity)) && (target.getEntityId() != player.getEntityId())) {
 				Location location = player.getLocation();
 				if (System.currentTimeMillis() > time + duration) {
@@ -127,7 +126,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 					player.getWorld().playSound(tarLoc, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.5F, 5);
 					
 					// Possession effects
-					ParticleEffect.END_ROD.display(tLoc, 0.3F, 1F, 0.3F, 0.02F, 1);
+					ParticleEffect.DRAGON_BREATH.display(tLoc, 0.3F, 1F, 0.3F, 0.02F, 1);
 					le.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2), true);
 					le.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 2), true);
 					
@@ -162,12 +161,12 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return ChatColor.BLUE + "" + ChatColor.BOLD + "Offense: " + ChatColor.DARK_AQUA + "A very ancient ability of spitits is the ability to jump inside the body of a human. As a spirit, you'll be able to possess a human for a short amount of time and do harm. While this ability is active, both the Spirit and the target will be motionless.";
+		return ChatColor.BLUE + "" + ChatColor.BOLD + "Offense: " + ChatColor.DARK_AQUA + "A very ancient ability of Spitits is the ability to jump inside the body of a human. As a Spirit, you'll be able to possess a human for a short amount of time and do harm. While this ability is active, both the Spirit and the target will be motionless.";
 	}
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.BLUE + "Hold shift to possess the closest entity you're looking at.";
+		return ChatColor.BLUE + "Hold shift and look at a human.";
 	}
 
 	@Override
