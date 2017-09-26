@@ -3,6 +3,8 @@ package me.xnuminousx.spirits.config;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
@@ -20,6 +22,10 @@ public class Handler extends AvatarAbility implements AddonAbility {
 	@Override
 	public void load() {
 		ProjectKorra.plugin.getServer().getPluginManager().registerEvents(new AbilityListener(), ProjectKorra.plugin);
+		
+		Permission perm = new Permission("bending.spirit");
+		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
+		perm.setDefault(PermissionDefault.TRUE);
 		
 		//Element console load message
 		ProjectKorra.log.info("Successfully loaded Spirits");
