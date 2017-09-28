@@ -65,16 +65,9 @@ public class Shelter extends LightAbility implements AddonAbility {
 			return;
 		}
 		
-		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location) || origin.distanceSquared(location) > range * range) {
 			remove();
 			return;
-		}
-		
-		if (origin.distanceSquared(location) > range * range) {
-			bPlayer.addCooldown(this);
-			remove();
-			return;
-			
 		}
 		shield(100, 100, 0.04F, shieldSize);
 	}
@@ -179,7 +172,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 
 	@Override
 	public boolean isHarmlessAbility() {
-		return false;
+		return true;
 	}
 
 	@Override

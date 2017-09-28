@@ -66,15 +66,9 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 			return;
 		}
 		
-		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location) || origin.distanceSquared(location) > range * range) {
 			remove();
 			return;
-		}
-		
-		if (origin.distanceSquared(location) > range * range) {
-			remove();
-			return;
-			
 		}
 		
 		if (!bPlayer.getBoundAbilityName().equals(getName())) {
@@ -195,7 +189,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 
 	@Override
 	public boolean isSneakAbility() {
-		return false;
+		return true;
 	}
 
 	@Override

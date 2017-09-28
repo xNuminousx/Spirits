@@ -7,13 +7,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
-import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
-import me.xnuminousx.spirits.listeners.AbilityListener;
 import net.md_5.bungee.api.ChatColor;
 
 public class Dash extends SpiritAbility implements AddonAbility {
@@ -71,7 +69,7 @@ public class Dash extends SpiritAbility implements AddonAbility {
 		player.setVelocity(vec);
 		loc.getWorld().playSound(location, Sound.ENTITY_ELDER_GUARDIAN_HURT, 1.5F, 0.5F);
 		loc.getWorld().playSound(location, Sound.ENTITY_PLAYER_ATTACK_SWEEP, 0.3F, 0.5F);
-		ParticleEffect.BLOCK_CRACK.display((ParticleEffect.ParticleData) new ParticleEffect.BlockData(blockType, blockByte), 0.5F, 0.5F, 0.5F, 1, 30, loc, 500);
+		ParticleEffect.BLOCK_CRACK.display((ParticleEffect.ParticleData) new ParticleEffect.BlockData(blockType, blockByte), 0.5F, 0.5F, 0.5F, 1, 20, loc, 300);
 		return;
 	}
 
@@ -137,13 +135,11 @@ public class Dash extends SpiritAbility implements AddonAbility {
 
 	@Override
 	public void load() {
-		ProjectKorra.plugin.getServer().getPluginManager().registerEvents(new AbilityListener(), ProjectKorra.plugin);
 
 	}
 
 	@Override
 	public void stop() {
-		super.remove();
 
 	}
 

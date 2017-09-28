@@ -66,15 +66,9 @@ public class Alleviate extends LightAbility implements AddonAbility {
 			return;
 		}
 		
-		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location) || origin.distanceSquared(location) > range * range) {
 			remove();
 			return;
-		}
-		
-		if (origin.distanceSquared(location) > range * range) {
-			remove();
-			return;
-			
 		}
 		
 		if (!bPlayer.getBoundAbilityName().equals(getName())) {
@@ -183,7 +177,7 @@ public class Alleviate extends LightAbility implements AddonAbility {
 
 	@Override
 	public boolean isHarmlessAbility() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -193,7 +187,7 @@ public class Alleviate extends LightAbility implements AddonAbility {
 
 	@Override
 	public boolean isSneakAbility() {
-		return false;
+		return true;
 	}
 
 	@Override
