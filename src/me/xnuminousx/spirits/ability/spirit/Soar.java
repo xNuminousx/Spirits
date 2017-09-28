@@ -141,7 +141,7 @@ public class Soar extends SpiritAbility implements AddonAbility {
 
 	@Override
 	public boolean isSneakAbility() {
-		return false;
+		return true;
 	}
 
 	@Override
