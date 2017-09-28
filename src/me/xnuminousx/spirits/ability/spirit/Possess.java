@@ -9,14 +9,12 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
-import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
-import me.xnuminousx.spirits.listeners.AbilityListener;
 import net.md_5.bungee.api.ChatColor;
 
 public class Possess extends SpiritAbility implements AddonAbility {
@@ -69,15 +67,9 @@ public class Possess extends SpiritAbility implements AddonAbility {
 			return;
 		}
 		
-		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location) || origin.distanceSquared(location) > range * range) {
 			remove();
 			return;
-		}
-		
-		if (origin.distanceSquared(location) > range * range) {
-			remove();
-			return;
-			
 		}
 		
 		if (!bPlayer.getBoundAbilityName().equals(getName())) {
@@ -201,17 +193,15 @@ public class Possess extends SpiritAbility implements AddonAbility {
 
 	@Override
 	public boolean isSneakAbility() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public void load() {
-		ProjectKorra.plugin.getServer().getPluginManager().registerEvents(new AbilityListener(), ProjectKorra.plugin);
 	}
 
 	@Override
 	public void stop() {
-		super.remove();
 
 	}
 
