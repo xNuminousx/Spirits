@@ -91,7 +91,7 @@ public class Sanctity extends LightAbility implements AddonAbility {
 			remove();
 			return;
 		}
-	}
+	} 
 
 	private void powerRing(int points, float size, int speed) {
 		for (int i = 0; i < speed; i++) {
