@@ -19,6 +19,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 	private boolean enable;
 	private boolean isHidden;
 	private boolean isDamaged;
+	private boolean removeOnDamage;
 	private double startHealth;
 	private Location location;
 	private int range;
@@ -54,11 +55,13 @@ public class Shelter extends LightAbility implements AddonAbility {
 		this.range = ConfigManager.getConfig().getInt("ExtraAbilities.LightSpirit.Shelter.Range");
 		this.shieldSize = ConfigManager.getConfig().getInt("ExtraAbilities.LightSpirit.Shelter.ShieldSize");
 		this.knockDis = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Shelter.KnockbackPower");
+		this.removeOnDamage = ConfigManager.getConfig().getBoolean("ExtraAbilities.LightSpirits.Shelter.RemoveOnDamage");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
 		this.isHidden = false;
 		this.progress = true;
+		this.isDamaged = false;
 	}
 
 	@Override
@@ -74,10 +77,13 @@ public class Shelter extends LightAbility implements AddonAbility {
 			return;
 		}
 		
-		if (player.getHealth() < startHealth) {
-			isDamaged = true;
-			
+		if (removeOnDamage) {
+			if (player.getHealth() < startHealth) {
+				isDamaged = true;
+				
+			}
 		}
+		
 		shield(100, 100, 0.04F, shieldSize);
 	}
 	

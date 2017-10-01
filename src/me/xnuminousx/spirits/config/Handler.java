@@ -21,16 +21,19 @@ public class Handler extends AvatarAbility implements AddonAbility {
 
 	@Override
 	public void load() {
+		FileConfiguration langConfig = ConfigManager.languageConfig.get();
+		FileConfiguration config = ConfigManager.getConfig();
+		
+		//Register Listener
 		ProjectKorra.plugin.getServer().getPluginManager().registerEvents(new AbilityListener(), ProjectKorra.plugin);
 		
+		//Permission attempt
 		Permission perm = new Permission("bending.spirit");
 		ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
 		perm.setDefault(PermissionDefault.TRUE);
 		
-		//Element console load message
+		//Project console load message
 		ProjectKorra.log.info("Successfully loaded Spirits");
-		
-		FileConfiguration langConfig = ConfigManager.languageConfig.get();
 	
 		langConfig.addDefault("Chat.Colors.Spirit", "DARK_AQUA");
 		langConfig.addDefault("Chat.Colors.LightSpirit", "AQUA");
@@ -38,8 +41,6 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		langConfig.addDefault("Chat.Prefixes.Spirit", "[Spirit]");
 		langConfig.addDefault("Chat.Prefixes.LightSpirit", "[LightSpirit]");
 		langConfig.addDefault("Chat.Prefixes.DarkSpirit", "[DarkSpirit]");
-		
-		FileConfiguration config = ConfigManager.getConfig();
 		
 		config.addDefault("ExtraAbilities.Spirit.Dash.Enable", true);
 		config.addDefault("ExtraAbilities.Spirit.Dash.Cooldown", 2000);
@@ -75,6 +76,7 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		config.addDefault("ExtraAbilities.LightSpirit.Shelter.Range", 20);
 		config.addDefault("ExtraAbilities.LightSpirit.Shelter.ShieldSize", 5);
 		config.addDefault("ExtraAbilities.LightSpirit.Shelter.KnockbackPower", 1);
+		config.addDefault("ExtraAbilities.LightSpirit.Shelter.RemoveOnDamage", true);
 		
 		config.addDefault("ExtraAbilities.DarkSpirit.Intoxicate.Enable", true);
 		config.addDefault("ExtraAbilities.DarkSpirit.Intoxicate.Cooldown", 5000);
