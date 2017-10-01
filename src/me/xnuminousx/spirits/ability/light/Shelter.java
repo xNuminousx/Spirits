@@ -18,6 +18,8 @@ public class Shelter extends LightAbility implements AddonAbility {
 	
 	private boolean enable;
 	private boolean isHidden;
+	private boolean isDamaged;
+	private double startHealth;
 	private Location location;
 	private int range;
 	private long time;
@@ -38,7 +40,9 @@ public class Shelter extends LightAbility implements AddonAbility {
 		}
 		
 		setFields();
+		
 		time = System.currentTimeMillis();
+		startHealth = player.getHealth();
 		
 		start();
 	}
@@ -68,6 +72,11 @@ public class Shelter extends LightAbility implements AddonAbility {
 		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location) || origin.distanceSquared(location) > range * range) {
 			remove();
 			return;
+		}
+		
+		if (player.getHealth() < startHealth) {
+			isDamaged = true;
+			
 		}
 		shield(100, 100, 0.04F, shieldSize);
 	}
@@ -99,6 +108,10 @@ public class Shelter extends LightAbility implements AddonAbility {
 					this.progress = false;
 					location = target.getLocation();
 					
+					if (isDamaged) {
+						remove();
+						return;
+					}
 					for (Entity target2 : GeneralMethods.getEntitiesAroundPoint(location, shieldSize)) {
 						if (target2 instanceof LivingEntity && !target2.getUniqueId().equals(target.getUniqueId())) {
 							Vector vec = target2.getLocation().getDirection().normalize().multiply(-knockDis);
