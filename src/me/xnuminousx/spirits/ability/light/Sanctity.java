@@ -9,12 +9,13 @@ import me.xnuminousx.spirits.ability.api.LightAbility;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class Sanctity extends LightAbility implements AddonAbility {
-	
+
 	private boolean enable;
 	private boolean isHidden;
 	private long cooldown;
@@ -26,7 +27,7 @@ public class Sanctity extends LightAbility implements AddonAbility {
 
 	public Sanctity(Player player) {
 		super(player);
-		
+
 		if (!bPlayer.canBend(this)) {
 			return;
 		}
@@ -64,29 +65,33 @@ public class Sanctity extends LightAbility implements AddonAbility {
 	public void progress() {
 		if (!enable) {
 			isHidden = true;
-			remove()	;
-			return;
-		}
-
-		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, player.getLocation())) {
 			remove();
 			return;
 		}
-		
+
+		if (player.isDead() || !player.isOnline()
+				|| GeneralMethods.isRegionProtectedFromBuild(this, player.getLocation())) {
+			remove();
+			return;
+		}
+
 		if (this.player.isSneaking()) {
-			powerRing(60, 1.75F, 2);
+			powerRing(60, 1F, 2);
 			if (((System.currentTimeMillis() > getStartTime() + this.chargeTime))) {
-				this.isCharged = true; 
-				ParticleEffect.FIREWORKS_SPARK.display(player.getLocation(), 0, 0.5F, 0, 0.05F, 1);
+				this.isCharged = true;
+				haloRing(60, 0.4F, 2);
+				ParticleEffect.FIREWORKS_SPARK.display(player.getLocation(), 0.5f, 0.5f, 0.5f, 0.0f, 5);
 			}
 		} else {
 			if (this.isCharged) {
 				heal();
+				this.player.getLocation().getWorld().playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 2.0F,
+						0.1F);
 			}
 			remove();
 			return;
 		}
-	}
+	} 
 
 	private void powerRing(int points, float size, int speed) {
 		for (int i = 0; i < speed; i++) {
@@ -96,44 +101,68 @@ public class Sanctity extends LightAbility implements AddonAbility {
 			}
 			double angle = this.currPoint * Math.PI / 180.0D;
 			double x = size * Math.cos(angle);
+			double x2 = size * Math.sin(angle);
 			double z = size * Math.sin(angle);
-			Location loc = this.player.getLocation().add(x, 1.0D, z);
-			GeneralMethods.displayColoredParticle(loc, "#00FFFF", 0.3F, 0.3F, 0.3F);
-			GeneralMethods.displayColoredParticle(loc, "#FFFF00", 0.3F, 0.3F, 0.3F);
+			double z2 = size * Math.cos(angle);
+			Location loc2 = this.player.getLocation().add(x2, 1D, z2);
+			GeneralMethods.displayColoredParticle(loc2, "#00FFFF", 0F, 0F, 0F);
+			Location loc = this.player.getLocation().add(x, 1D, z);
+			GeneralMethods.displayColoredParticle(loc, "#FFFF00", 0F, 0F, 0F);
+		}
+	}
+
+	private void haloRing(int points, float size, int speed) {
+		for (int i = 0; i < speed; i++) {
+			this.currPoint += 360 / points;
+			if (this.currPoint > 360) {
+				this.currPoint = 0;
+			}
+			double angle = this.currPoint * Math.PI / 180.0D;
+			double x = size * Math.cos(angle);
+			double x2 = size * Math.sin(angle);
+			double z = size * Math.sin(angle);
+			double z2 = size * Math.cos(angle);
+			Location loc2 = this.player.getLocation().add(x2, 2D, z2);
+			GeneralMethods.displayColoredParticle(loc2, "#32CD32", 0F, 0F, 0F);
+			Location loc = this.player.getLocation().add(x, 2D, z);
+			GeneralMethods.displayColoredParticle(loc, "#FFFFFF", 0F, 0F, 0F);
 		}
 	}
 
 	public void heal() {
-		ParticleEffect.HAPPY_VILLAGER.display(this.player.getLocation(), 0.3F, 1.0F, 0.3F, 0.0F, 10);
+		ParticleEffect.HAPPY_VILLAGER.display(this.player.getLocation(), 0.3F, 1.0F, 0.3F, 1F, 50);
 		player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, this.duration * 100, this.healeffect));
 		player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, this.duration * 100, 1));
-		player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, this.duration * 100, this.healeffect));
-		player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, this.duration * 100, this.healeffect));
-		
+		player.addPotionEffect(
+				new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, this.duration * 100, this.healeffect));
+		player.addPotionEffect(
+				new PotionEffect(PotionEffectType.FIRE_RESISTANCE, this.duration * 100, this.healeffect));
+
 		bPlayer.addCooldown(this);
 
 	}
-	
+
 	@Override
 	public String getName() {
-		return "Sanctity"; 
+		return "Sanctity";
 	}
-	
+
 	@Override
 	public String getDescription() {
-		return ChatColor.AQUA + "" + ChatColor.BOLD + "Defense: " + ChatColor.WHITE + "Use this to empower yourself with more health, better resistance and the ability to find the light in the dark for a limited period of time.";
+		return ChatColor.AQUA + "" + ChatColor.BOLD + "Defense: " + ChatColor.WHITE
+				+ "Use this to empower yourself with more health, better resistance and the ability to find the light in the dark for a limited period of time.";
 	}
-	
+
 	@Override
 	public String getAuthor() {
 		return ChatColor.AQUA + "EmeraldJelly";
 	}
-	
+
 	@Override
 	public String getInstructions() {
 		return ChatColor.AQUA + "Hold shift until you see the trigger";
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return ChatColor.AQUA + "v1.0.0";
@@ -146,7 +175,7 @@ public class Sanctity extends LightAbility implements AddonAbility {
 	public void stop() {
 
 	}
-	
+
 	@Override
 	public boolean isHiddenAbility() {
 		return isHidden;
