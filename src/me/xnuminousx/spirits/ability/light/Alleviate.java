@@ -72,7 +72,6 @@ public class Alleviate extends LightAbility implements AddonAbility {
 		}
 		
 		if (!bPlayer.getBoundAbilityName().equals(getName())) {
-			bPlayer.addCooldown(this);
 			remove();
 			return;
 		}

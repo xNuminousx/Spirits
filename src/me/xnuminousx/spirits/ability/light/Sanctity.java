@@ -74,6 +74,11 @@ public class Sanctity extends LightAbility implements AddonAbility {
 			remove();
 			return;
 		}
+		
+		if (!bPlayer.getBoundAbilityName().equals(getName())) {
+			remove();
+			return;
+		}
 
 		if (this.player.isSneaking()) {
 			powerRing(60, 1F, 2);
