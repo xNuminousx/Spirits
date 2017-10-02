@@ -1,11 +1,11 @@
 package me.xnuminousx.spirits.ability.spirit;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
@@ -20,8 +20,6 @@ public class Soar extends SpiritAbility implements AddonAbility {
 	private boolean isHidden;
 	private Location location;
 	private long cooldown;
-	private Material blockType;
-	private byte blockByte;
 	private long time;
 	private long duration;
 	private double speed;
@@ -40,13 +38,12 @@ public class Soar extends SpiritAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.Spirit.Soar.Enable");
-		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Spirit.Soar.Cooldown");
-		this.duration = ConfigManager.getConfig().getLong("ExtraAbilities.Spirit.Soar.Duration");
-		this.speed = ConfigManager.getConfig().getDouble("ExtraAbilities.Spirit.Soar.Speed");
+		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Soar.Enable");
+		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Soar.Cooldown");
+		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Soar.Duration");
+		this.speed = ConfigManager.getConfig().getDouble("Abilities.Spirits.Neutral.Soar.Speed");
 		isHidden = false;
 		enable = true;
-		this.blockType = Material.SNOW;
 		this.location = player.getLocation();
 	}
 
@@ -77,11 +74,28 @@ public class Soar extends SpiritAbility implements AddonAbility {
 			remove();
 			return;
 		} else {
-			Location location = player.getLocation();
 			Vector vec = player.getLocation().getDirection().normalize().multiply(speed);
 			player.setVelocity(vec);
 			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.3F, 5F);
-			ParticleEffect.BLOCK_CRACK.display((ParticleEffect.ParticleData) new ParticleEffect.BlockData(blockType, blockByte), 0.2F, 0.2F, 0.2F, 1, 5, location, 500);
+			spiritType();
+		}
+	}
+	
+	public void spiritType() {
+		Location loc = player.getLocation();
+		Element ls = Element.getElement("LightSpirit");
+		Element ds = Element.getElement("DarkSpirit");
+		if (bPlayer.hasElement(ls) && bPlayer.hasElement(ds)) {
+			ParticleEffect.CRIT_MAGIC.display(loc, 0.2F, 0.2f, 0.2F, 0, 10);
+			
+		} else if (bPlayer.hasElement(ds)) {
+			ParticleEffect.WITCH_MAGIC.display(loc, 0.2F, 0.2f, 0.2F, 0, 10);
+			
+		} else if (bPlayer.hasElement(ls)) {
+			ParticleEffect.INSTANT_SPELL.display(loc, 0.2F, 0.2F, 0.2F, 0, 10);
+			
+		} else {
+			return;
 		}
 	}
 
