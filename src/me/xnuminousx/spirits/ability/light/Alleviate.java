@@ -45,12 +45,12 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.LightSpirit.Alleviate.Enable");
-		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Alleviate.Cooldown");
-		this.range = ConfigManager.getConfig().getDouble("ExtraAbilities.LightSpirit.Alleviate.Radius");
-		this.potInt = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Alleviate.PotionInterval");
-		this.healInt = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Alleviate.HealInterval");
-		this.hexColor = ConfigManager.getConfig().getString("ExtraAbilities.LightSpirit.Alleviate.ParticleColor (Has to be 6 characters)");
+		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Alleviate.Enable");
+		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.Cooldown");
+		this.range = ConfigManager.getConfig().getDouble("Abilities.Spirits.LightSpirit.Alleviate.Radius");
+		this.potInt = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.PotionInterval");
+		this.healInt = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.HealInterval");
+		this.hexColor = ConfigManager.getConfig().getString("Abilities.Spirits.LightSpirit.Alleviate.ParticleColor (Has to be 6 characters)");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();

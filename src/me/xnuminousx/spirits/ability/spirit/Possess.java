@@ -47,11 +47,11 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.Spirit.Possess.Enable");
-		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Spirit.Possess.Cooldown");
-		this.range = ConfigManager.getConfig().getDouble("ExtraAbilities.Spirit.Possess.Radius");
-		this.damage = ConfigManager.getConfig().getDouble("ExtraAbilities.Spirit.Possess.Damage");
-		this.duration = ConfigManager.getConfig().getLong("ExtraAbilities.Spirit.Possess.Duration");
+		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Possess.Enable");
+		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Possess.Cooldown");
+		this.range = ConfigManager.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Radius");
+		this.damage = ConfigManager.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Damage");
+		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Possess.Duration");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();

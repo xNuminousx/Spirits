@@ -49,13 +49,13 @@ public class Shelter extends LightAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.LightSpirit.Shelter.Enable");
-		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Shelter.Cooldown");
-		this.duration = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Shelter.Duration");
-		this.range = ConfigManager.getConfig().getInt("ExtraAbilities.LightSpirit.Shelter.Range");
-		this.shieldSize = ConfigManager.getConfig().getInt("ExtraAbilities.LightSpirit.Shelter.ShieldSize");
-		this.knockDis = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Shelter.KnockbackPower");
-		this.removeOnDamage = ConfigManager.getConfig().getBoolean("ExtraAbilities.LightSpirits.Shelter.RemoveOnDamage");
+		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Shelter.Enable");
+		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Cooldown");
+		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Duration");
+		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Range");
+		this.shieldSize = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.ShieldSize");
+		this.knockDis = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.KnockbackPower");
+		this.removeOnDamage = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirits.Shelter.RemoveOnDamage");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();

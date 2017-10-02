@@ -40,10 +40,10 @@ public class Strike extends DarkAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.DarkSpirit.Strike.Enable");
-		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.DarkSpirit.Strike.Cooldown");
-		this.damage = ConfigManager.getConfig().getDouble("ExtraAbilities.DarkSpirit.Strike.Damage");
-		this.range = ConfigManager.getConfig().getInt("ExtraAbilities.DarkSpirit.Strike.Range");
+		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Strike.Enable");
+		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Strike.Cooldown");
+		this.damage = ConfigManager.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Strike.Damage");
+		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.DarkSpirit.Strike.Range");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();

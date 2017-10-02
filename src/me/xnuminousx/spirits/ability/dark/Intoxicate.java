@@ -45,12 +45,12 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.DarkSpirit.Intoxicate.Enable");
-		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.DarkSpirit.Intoxicate.Cooldown");
-		this.range = ConfigManager.getConfig().getDouble("ExtraAbilities.DarkSpirit.Intoxicate.Radius");
-		this.potInt = ConfigManager.getConfig().getLong("ExtraAbilities.DarkSpirit.Intoxicate.PotionInterval");
-		this.harmInt = ConfigManager.getConfig().getLong("ExtraAbilities.DarkSpirit.Intoxicate.HarmInterval");
-		this.hexColor = ConfigManager.getConfig().getString("ExtraAbilities.DarkSpirit.Intoxicate.ParticleColor (Has to be 6 characters)");
+		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Intoxicate.Enable");
+		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Intoxicate.Cooldown");
+		this.range = ConfigManager.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Intoxicate.Radius");
+		this.potInt = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Intoxicate.PotionInterval");
+		this.harmInt = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Intoxicate.HarmInterval");
+		this.hexColor = ConfigManager.getConfig().getString("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor (Has to be 6 characters)");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
