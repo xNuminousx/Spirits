@@ -59,15 +59,9 @@ public class Strike extends DarkAbility implements AddonAbility {
 			return;
 		}
 		
-		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, player.getLocation())) {
+		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, player.getLocation()) || origin.distanceSquared(location) > range * range) {
 			remove();
 			return;
-		}
-		
-		if (origin.distanceSquared(location) > range * range) {
-			remove();
-			return;
-			
 		}
 		strike();
 
@@ -81,9 +75,9 @@ public class Strike extends DarkAbility implements AddonAbility {
 		
 		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 1.5)) {
 			if (((target instanceof LivingEntity)) && (target.getEntityId() != player.getEntityId())) {
+				bPlayer.addCooldown(this);
 				Location location = player.getLocation();
 				progress = false;
-				bPlayer.addCooldown(this);
 				
 				LivingEntity le = (LivingEntity)target;
 				Location tLoc = le.getLocation().clone();
@@ -93,8 +87,7 @@ public class Strike extends DarkAbility implements AddonAbility {
 				
 				DamageHandler.damageEntity(target, damage, this);
 				player.getWorld().playSound(location, Sound.ENTITY_PLAYER_BURP, 0.2F, 0.2F);
-				
-				bPlayer.addCooldown(this);
+			
 				remove();
 				return;
 			}
