@@ -18,6 +18,9 @@ public class Shelter extends LightAbility implements AddonAbility {
 	
 	private boolean enable;
 	private boolean isHidden;
+	private boolean isDamaged;
+	private boolean removeOnDamage;
+	private double startHealth;
 	private Location location;
 	private int range;
 	private long time;
@@ -38,23 +41,27 @@ public class Shelter extends LightAbility implements AddonAbility {
 		}
 		
 		setFields();
+		
 		time = System.currentTimeMillis();
+		startHealth = player.getHealth();
 		
 		start();
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.LightSpirit.Shelter.Enable");
-		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Shelter.Cooldown");
-		this.duration = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Shelter.Duration");
-		this.range = ConfigManager.getConfig().getInt("ExtraAbilities.LightSpirit.Shelter.Range");
-		this.shieldSize = ConfigManager.getConfig().getInt("ExtraAbilities.LightSpirit.Shelter.ShieldSize");
-		this.knockDis = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Shelter.KnockbackPower");
+		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Shelter.Enable");
+		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Cooldown");
+		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Duration");
+		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Range");
+		this.shieldSize = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.ShieldSize");
+		this.knockDis = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.KnockbackPower");
+		this.removeOnDamage = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirits.Shelter.RemoveOnDamage");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
 		this.isHidden = false;
 		this.progress = true;
+		this.isDamaged = false;
 	}
 
 	@Override
@@ -69,6 +76,14 @@ public class Shelter extends LightAbility implements AddonAbility {
 			remove();
 			return;
 		}
+		
+		if (removeOnDamage) {
+			if (player.getHealth() < startHealth) {
+				isDamaged = true;
+				
+			}
+		}
+		
 		shield(100, 100, 0.04F, shieldSize);
 	}
 	
@@ -99,6 +114,10 @@ public class Shelter extends LightAbility implements AddonAbility {
 					this.progress = false;
 					location = target.getLocation();
 					
+					if (isDamaged) {
+						remove();
+						return;
+					}
 					for (Entity target2 : GeneralMethods.getEntitiesAroundPoint(location, shieldSize)) {
 						if (target2 instanceof LivingEntity && !target2.getUniqueId().equals(target.getUniqueId())) {
 							Vector vec = target2.getLocation().getDirection().normalize().multiply(-knockDis);

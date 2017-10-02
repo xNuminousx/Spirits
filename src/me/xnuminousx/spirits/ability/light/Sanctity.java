@@ -37,11 +37,11 @@ public class Sanctity extends LightAbility implements AddonAbility {
 	}
 
 	public void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.LightSpirit.Sanctity.Enable");
-		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Sanctity.Cooldown");
-		this.healeffect = ConfigManager.getConfig().getInt("ExtraAbilities.LightSpirit.Sanctity.Power");
-		this.duration = ConfigManager.getConfig().getInt("ExtraAbilities.LightSpirit.Sanctity.PotionDuration");
-		this.chargeTime = ConfigManager.getConfig().getLong("ExtraAbilities.LightSpirit.Sanctity.ChargeTime");
+		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Sanctity.Enable");
+		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Sanctity.Cooldown");
+		this.healeffect = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Sanctity.Power");
+		this.duration = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Sanctity.PotionDuration");
+		this.chargeTime = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Sanctity.ChargeTime");
 		this.isCharged = false;
 		this.isHidden = false;
 	}
@@ -71,6 +71,11 @@ public class Sanctity extends LightAbility implements AddonAbility {
 
 		if (player.isDead() || !player.isOnline()
 				|| GeneralMethods.isRegionProtectedFromBuild(this, player.getLocation())) {
+			remove();
+			return;
+		}
+		
+		if (!bPlayer.getBoundAbilityName().equals(getName())) {
 			remove();
 			return;
 		}

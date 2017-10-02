@@ -44,11 +44,11 @@ public class Shackle extends DarkAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.DarkSpirit.Shackle.Enable");
-		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.DarkSpirit.Shackle.Cooldown");
-		this.duration = ConfigManager.getConfig().getLong("ExtraAbilities.DarkSpirit.Shackle.Duration");
-		this.range = ConfigManager.getConfig().getInt("ExtraAbilities.DarkSpirit.Shackle.Range");
-		this.radius = ConfigManager.getConfig().getDouble("ExtraAbilities.DarkSpirit.Shackle.Radius");
+		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Shackle.Enable");
+		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Shackle.Cooldown");
+		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Shackle.Duration");
+		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.DarkSpirit.Shackle.Range");
+		this.radius = ConfigManager.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Shackle.Radius");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();

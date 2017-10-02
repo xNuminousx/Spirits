@@ -1,11 +1,11 @@
 package me.xnuminousx.spirits.ability.spirit;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
@@ -18,8 +18,6 @@ public class Dash extends SpiritAbility implements AddonAbility {
 	
 	private Location location;
 	private long distance;
-	private Material blockType;
-	private byte blockByte;
 	private long cooldown;
 	private boolean enable;
 	private boolean isHidden;
@@ -36,12 +34,11 @@ public class Dash extends SpiritAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("ExtraAbilities.Spirit.Dash.Enable");
-		this.cooldown = ConfigManager.getConfig().getLong("ExtraAbilities.Spirit.Dash.Cooldown");
-		this.distance = ConfigManager.getConfig().getLong("ExtraAbilities.Spirit.Dash.Distance");
+		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Dash.Enable");
+		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Dash.Cooldown");
+		this.distance = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Dash.Distance");
 		this.location = player.getLocation();
 		this.isHidden = false;
-		this.blockType = Material.LAPIS_BLOCK;
 	}
 
 	@Override
@@ -69,8 +66,26 @@ public class Dash extends SpiritAbility implements AddonAbility {
 		player.setVelocity(vec);
 		loc.getWorld().playSound(location, Sound.ENTITY_ELDER_GUARDIAN_HURT, 1.5F, 0.5F);
 		loc.getWorld().playSound(location, Sound.ENTITY_PLAYER_ATTACK_SWEEP, 0.3F, 0.5F);
-		ParticleEffect.BLOCK_CRACK.display((ParticleEffect.ParticleData) new ParticleEffect.BlockData(blockType, blockByte), 0.5F, 0.5F, 0.5F, 1, 20, loc, 300);
+		spiritType();
 		return;
+	}
+	
+	public void spiritType() {
+		Location loc = player.getLocation();
+		Element ls = Element.getElement("LightSpirit");
+		Element ds = Element.getElement("DarkSpirit");
+		if (bPlayer.hasElement(ls) && bPlayer.hasElement(ds)) {
+			ParticleEffect.CRIT_MAGIC.display(loc, 0.2F, 0.4f, 0.2F, 0, 20);
+			
+		} else if (bPlayer.hasElement(ds)) {
+			ParticleEffect.WITCH_MAGIC.display(loc, 0.5F, 1, 0.5F, 0, 10);
+			
+		} else if (bPlayer.hasElement(ls)) {
+			ParticleEffect.INSTANT_SPELL.display(loc, 0.5F, 1, 0.5F, 0, 10);
+			
+		} else {
+			return;
+		}
 	}
 
 	@Override
