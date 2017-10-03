@@ -2,6 +2,7 @@ package me.xnuminousx.spirits.ability.spirit.combo;
 
 import java.util.ArrayList;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -14,6 +15,7 @@ import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.ComboAbility;
 import com.projectkorra.projectkorra.ability.util.ComboManager.AbilityInformation;
+import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ClickType;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
@@ -40,14 +42,16 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 		setFields();
 		
 		start();
+		bPlayer.addCooldown(this);
 	}
 
 	private void setFields() {
+		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Fuse.Enable");
+		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Fuse.Cooldown");
 		this.origin = player.getLocation();
 		this.distance = 10;
 		this.strengthDuration = 2;
 		this.weaknessDuration = 2;
-		this.enable = true;
 		this.isHidden = false;
 		
 	}
@@ -60,7 +64,7 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 			return;
 		}
 		
-		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, origin)) {
+		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, origin) || !bPlayer.canBendIgnoreBindsCooldowns(this)) {
 			remove();
 			return;
 		}
@@ -126,22 +130,22 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	
 	@Override
 	public String getDescription() {
-		return "Nothing yet";
+		return Methods.getSpiritDescription("spirit", "Combo", "Rush towards a human to combine your energies and temporarily empower them with strength! This will come at a cost of your own power and strength, however. An alternative usage is a powerful boost.");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return "Soar (Left-click 2x) > Possess (Hold shift)";
+		return ChatColor.BLUE + "Soar (Left-click 2x) > Possess (Hold shift)";
 	}
 
 	@Override
 	public String getAuthor() {
-		return "xNuminousx";
+		return ChatColor.BLUE + "xNuminousx";
 	}
 
 	@Override
 	public String getVersion() {
-		return "1.0";
+		return ChatColor.BLUE + "1.0";
 	}
 	
 	@Override
@@ -166,7 +170,7 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 
 	@Override
 	public boolean isSneakAbility() {
-		return false;
+		return true;
 	}
 
 	@Override

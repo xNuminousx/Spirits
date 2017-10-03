@@ -10,21 +10,21 @@ import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 public class Methods {
-	public static void spiritParticles(BendingPlayer bPlayer, Location loc, float offsetX, float offsetY, float offsetZ, float speed, int amount) {
+	public static void spiritParticles(BendingPlayer bPlayer, Location loc, float X, float Y, float Z, float speed, int amount) {
 		Element ls = Element.getElement("LightSpirit");
 		Element ds = Element.getElement("DarkSpirit");
 		Element s = Element.getElement("Spirit");
 		if (bPlayer.hasElement(ls) && bPlayer.hasElement(ds)) {
-			ParticleEffect.MAGIC_CRIT.display(loc, offsetX, offsetY, offsetZ, speed, amount);
+			ParticleEffect.MAGIC_CRIT.display(loc, X, Y, Z, speed, amount);
 		
 		} else if (bPlayer.hasElement(ds)) {
-			ParticleEffect.WITCH_MAGIC.display(loc, offsetX, offsetY, offsetZ, speed, amount);
+			ParticleEffect.WITCH_MAGIC.display(loc, X, Y, Z, speed, amount);
 			
 		} else if (bPlayer.hasElement(ls)) {
-			ParticleEffect.INSTANT_SPELL.display(loc, offsetX, offsetY, offsetZ, speed, amount);
+			ParticleEffect.INSTANT_SPELL.display(loc, X, Y, Z, speed, amount);
 			
 		} else if (!bPlayer.hasElement(ls) && !bPlayer.hasElement(ds) && bPlayer.hasElement(s)) {
-			ParticleEffect.MAGIC_CRIT.display(loc, offsetX, offsetY, offsetZ, speed, amount);
+			ParticleEffect.MAGIC_CRIT.display(loc, X, Y, Z, speed, amount);
 		}
 		return;
 	}

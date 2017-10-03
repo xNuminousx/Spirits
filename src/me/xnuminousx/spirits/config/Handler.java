@@ -60,6 +60,9 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.Neutral.Soar.Duration", 1000);
 		config.addDefault("Abilities.Spirits.Neutral.Soar.Speed", 0.8);
 		
+		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Enable", true);
+		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Cooldown", 8000);
+		
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Enable", true);
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Cooldown", 5000);
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Radius", 5);
