@@ -11,6 +11,7 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.LightAbility;
 import net.md_5.bungee.api.ChatColor;
 
@@ -161,7 +162,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return ChatColor.AQUA + "" + ChatColor.BOLD + "Defense: " + ChatColor.WHITE + "A very useful tactic when group battling, a light spirit can temporarily shield a friend or even a foe from incoming enemies.";
+		return Methods.getSpiritDescription("light", "Defense", "A very useful tactic when group battling, a light spirit can temporarily shield a friend or even a foe from incoming enemies.");
 	}
 	
 	@Override

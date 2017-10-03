@@ -12,6 +12,7 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.DarkAbility;
 import net.md_5.bungee.api.ChatColor;
 
@@ -146,7 +147,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "Defense: " + ChatColor.DARK_RED + "With this technique a DarkSpirit is able to temporarily trap an anyone dead in their tracks, even if you can't see them! Useful for a quick get away...";
+		return Methods.getSpiritDescription("dark", "Defense", "With this technique a DarkSpirit is able to temporarily trap an anyone dead in their tracks, even if you can't see them! Useful for a quick get away...");
 	}
 	
 	@Override

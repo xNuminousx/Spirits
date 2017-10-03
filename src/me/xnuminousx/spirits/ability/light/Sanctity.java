@@ -5,6 +5,7 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.LightAbility;
 import net.md_5.bungee.api.ChatColor;
 
@@ -154,8 +155,7 @@ public class Sanctity extends LightAbility implements AddonAbility {
 
 	@Override
 	public String getDescription() {
-		return ChatColor.AQUA + "" + ChatColor.BOLD + "Defense: " + ChatColor.WHITE
-				+ "Use this to empower yourself with more health, better resistance and the ability to find the light in the dark for a limited period of time.";
+		return Methods.getSpiritDescription("light", "Defense", "Use this to empower yourself with more health, better resistance and the ability to find the light in the dark for a limited period of time.");
 	}
 
 	@Override

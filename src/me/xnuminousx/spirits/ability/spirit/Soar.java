@@ -79,7 +79,6 @@ public class Soar extends SpiritAbility implements AddonAbility {
 			Methods.spiritParticles(bPlayer, player.getLocation(), 0.2F, 0.2f, 0.2F, 0, 10);
 		}
 	}
-
 	@Override
 	public long getCooldown() {
 		return cooldown;
@@ -97,7 +96,7 @@ public class Soar extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return ChatColor.BLUE + "" + ChatColor.BOLD + "Mobility: " + ChatColor.DARK_AQUA + "A key aspect of all Spirits is their weightlessness which allows them to soar through the skies as if gravity is non-existant, which is exactly what this ability allows you to do!";
+		return Methods.getSpiritDescription("spirit", "Mobility", "A key aspect of all Spirits is their weightlessness which allows them to soar through the skies as if gravity is non-existant, which is exactly what this ability allows you to do!");
 	}
 	
 	@Override
