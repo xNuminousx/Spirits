@@ -77,7 +77,7 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	public void dash() {
 		Vector direction = player.getLocation().getDirection().normalize().multiply(2);
 		player.setVelocity(direction);
-		Methods.getSpiritType(bPlayer, player.getLocation(), 0.5F, 1, 0.5F, 0, 10);
+		Methods.spiritParticles(bPlayer, player.getLocation(), 0.5F, 0.5F, 0.5F, 0, 10);
 		
 		for (Entity target : GeneralMethods.getEntitiesAroundPoint(player.getLocation(), 1)) {
 			if (((target instanceof LivingEntity)) && (target.getEntityId() != player.getEntityId())) {
@@ -85,9 +85,12 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 				player.setVelocity(newDir);
 				
 				LivingEntity le = (LivingEntity)target;
-				ParticleEffect.FIREWORKS_SPARK.display(target.getLocation(), 0.5F, 1, 0.5F, 1, 10);
+				ParticleEffect.DRAGON_BREATH.display(target.getLocation(), 0.5F, 1, 0.5F, 0.08F, 10);
 				le.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, strengthDuration * 100, 0), true);
 				player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, weaknessDuration * 100, 0), true);
+				
+				remove();
+				return;
 			}
 		}
 	}
