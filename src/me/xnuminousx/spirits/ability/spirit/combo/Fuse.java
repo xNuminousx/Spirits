@@ -48,6 +48,9 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	private void setFields() {
 		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Fuse.Enable");
 		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Fuse.Cooldown");
+		this.distance = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Fuse.Distance");
+		this.strengthDuration = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Fuse.StrengthDuration");
+		this.weaknessDuration = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Fuse.WeaknessDuration");
 		this.origin = player.getLocation();
 		this.distance = 10;
 		this.strengthDuration = 2;
@@ -60,7 +63,6 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	public void progress() {
 		if (!enable) {
 			isHidden = true;
-			remove()	;
 			return;
 		}
 		

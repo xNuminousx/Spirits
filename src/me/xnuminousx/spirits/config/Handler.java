@@ -55,13 +55,16 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.Neutral.Possess.Damage", 5);
 		config.addDefault("Abilities.Spirits.Neutral.Possess.Duration", 2000);
 		
-		config.addDefault("Abilities.Spirits.Neutral.Soar.Enable", true);
+		config.addDefault("Abilities.Spirits.Neutral.Soar.Enabled", true);
 		config.addDefault("Abilities.Spirits.Neutral.Soar.Cooldown", 4500);
 		config.addDefault("Abilities.Spirits.Neutral.Soar.Duration", 1000);
 		config.addDefault("Abilities.Spirits.Neutral.Soar.Speed", 0.8);
 		
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Enable", true);
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Cooldown", 8000);
+		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Distance", 10);
+		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.StrengthDuration", 2);
+		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.WeaknessDuration", 2);
 		
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Enable", true);
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Cooldown", 5000);
@@ -144,7 +147,7 @@ public class Handler extends AvatarAbility implements AddonAbility {
 
 	@Override
 	public void progress() {
-
+		
 	}
 
 	@Override
@@ -156,5 +159,4 @@ public class Handler extends AvatarAbility implements AddonAbility {
 	public String getVersion() {
 		return null;
 	}
-
 }
