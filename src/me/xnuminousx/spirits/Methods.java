@@ -29,7 +29,7 @@ public class Methods {
 		return;
 	}
 	
-	public static String getSpiritDescription(String spiritType, String descriptionType, String description) {
+	public static String getSpiritDescription(String spiritType, String abilityType, String description) {
 		ChatColor titleColor = null;
 		ChatColor descColor = null;
 		
@@ -44,7 +44,7 @@ public class Methods {
 			descColor = ChatColor.DARK_RED;
 		}
 		
-		return titleColor + "" + ChatColor.BOLD + descriptionType + ": " + descColor + description;
+		return titleColor + "" + ChatColor.BOLD + abilityType + ": " + descColor + description;
 	}
 	public static void setPlayerVelocity(Player player, Location location, boolean isForward, float speed, double height) {
 		location = player.getLocation();
