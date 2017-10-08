@@ -16,9 +16,7 @@ import me.xnuminousx.spirits.ability.api.LightAbility;
 import net.md_5.bungee.api.ChatColor;
 
 public class Shelter extends LightAbility implements AddonAbility {
-	
-	private boolean enable;
-	private boolean isHidden;
+
 	private boolean isDamaged;
 	private boolean removeOnDamage;
 	private double startHealth;
@@ -50,7 +48,6 @@ public class Shelter extends LightAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Shelter.Enable");
 		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Cooldown");
 		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Duration");
 		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Range");
@@ -60,19 +57,12 @@ public class Shelter extends LightAbility implements AddonAbility {
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
-		this.isHidden = false;
 		this.progress = true;
 		this.isDamaged = false;
 	}
 
 	@Override
 	public void progress() {
-		if (!enable) {
-			isHidden = true;
-			remove()	;
-			return;
-		}
-		
 		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location) || origin.distanceSquared(location) > range * range) {
 			remove();
 			return;
@@ -181,8 +171,8 @@ public class Shelter extends LightAbility implements AddonAbility {
 	}
 	
 	@Override
-	public boolean isHiddenAbility() {
-		return isHidden;
+	public boolean isEnabled() {
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Shelter.Enable");
 	}
 
 	@Override

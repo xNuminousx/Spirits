@@ -17,8 +17,6 @@ import org.bukkit.potion.PotionEffectType;
 
 public class Sanctity extends LightAbility implements AddonAbility {
 
-	private boolean enable;
-	private boolean isHidden;
 	private long cooldown;
 	private int duration;
 	private int currPoint;
@@ -38,13 +36,11 @@ public class Sanctity extends LightAbility implements AddonAbility {
 	}
 
 	public void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Sanctity.Enable");
 		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Sanctity.Cooldown");
 		this.healeffect = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Sanctity.Power");
 		this.duration = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Sanctity.PotionDuration");
 		this.chargeTime = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Sanctity.ChargeTime");
 		this.isCharged = false;
-		this.isHidden = false;
 	}
 
 	public long getCooldown() {
@@ -64,12 +60,6 @@ public class Sanctity extends LightAbility implements AddonAbility {
 	}
 
 	public void progress() {
-		if (!enable) {
-			isHidden = true;
-			remove();
-			return;
-		}
-
 		if (player.isDead() || !player.isOnline()
 				|| GeneralMethods.isRegionProtectedFromBuild(this, player.getLocation())) {
 			remove();
@@ -183,7 +173,7 @@ public class Sanctity extends LightAbility implements AddonAbility {
 
 	@Override
 	public boolean isHiddenAbility() {
-		return isHidden;
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Sanctity.Enable");
 	}
 
 	@Override

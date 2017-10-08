@@ -15,8 +15,6 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Soar extends SpiritAbility implements AddonAbility {
 
-	private boolean enable;
-	private boolean isHidden;
 	private Location location;
 	private long cooldown;
 	private long time;
@@ -37,22 +35,14 @@ public class Soar extends SpiritAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Soar.Enable");
 		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Soar.Cooldown");
 		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Soar.Duration");
 		this.speed = ConfigManager.getConfig().getDouble("Abilities.Spirits.Neutral.Soar.Speed");
-		isHidden = false;
-		enable = true;
 		this.location = player.getLocation();
 	}
 
 	@Override
 	public void progress() {
-		if (!enable) {
-			isHidden = true;
-			remove()	;
-			return;
-		}
 		
 		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location)) {
 			remove();
@@ -114,8 +104,9 @@ public class Soar extends SpiritAbility implements AddonAbility {
 		return ChatColor.BLUE + "1.0";
 	}
 	
-	public boolean isHiddenAbility() {
-		return isHidden;
+	@Override
+	public boolean isEnabled() {
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Soar.Enabled");
 	}
 
 	@Override
