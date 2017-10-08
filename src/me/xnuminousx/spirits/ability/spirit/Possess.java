@@ -14,6 +14,7 @@ import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
 import net.md_5.bungee.api.ChatColor;
 
@@ -153,7 +154,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return ChatColor.BLUE + "" + ChatColor.BOLD + "Offense: " + ChatColor.DARK_AQUA + "A very ancient ability of Spitits is the ability to jump inside the body of a human. As a Spirit, you'll be able to possess a human for a short amount of time and do harm. While this ability is active, both the Spirit and the target will be motionless.";
+		return Methods.getSpiritDescription("spirit", "Offense", "A very ancient ability of Spitits is the ability to jump inside the body of a human. As a Spirit, you'll be able to possess a human for a short amount of time and do harm. While this ability is active, both the Spirit and the target will be motionless.");
 	}
 	
 	@Override

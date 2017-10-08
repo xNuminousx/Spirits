@@ -9,8 +9,8 @@ import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
-import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
 import net.md_5.bungee.api.ChatColor;
 
@@ -26,7 +26,7 @@ public class Soar extends SpiritAbility implements AddonAbility {
 
 	public Soar(Player player) {
 		super(player);
-
+		
 		if (!bPlayer.canBend(this)) {
 			return;
 		}
@@ -77,28 +77,9 @@ public class Soar extends SpiritAbility implements AddonAbility {
 			Vector vec = player.getLocation().getDirection().normalize().multiply(speed);
 			player.setVelocity(vec);
 			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.3F, 5F);
-			spiritType();
+			Methods.spiritParticles(bPlayer, player.getLocation(), 0.2F, 0.2f, 0.2F, 0, 10);
 		}
 	}
-	
-	public void spiritType() {
-		Location loc = player.getLocation();
-		Element ls = Element.getElement("LightSpirit");
-		Element ds = Element.getElement("DarkSpirit");
-		if (bPlayer.hasElement(ls) && bPlayer.hasElement(ds)) {
-			ParticleEffect.CRIT_MAGIC.display(loc, 0.2F, 0.2f, 0.2F, 0, 10);
-			
-		} else if (bPlayer.hasElement(ds)) {
-			ParticleEffect.WITCH_MAGIC.display(loc, 0.2F, 0.2f, 0.2F, 0, 10);
-			
-		} else if (bPlayer.hasElement(ls)) {
-			ParticleEffect.INSTANT_SPELL.display(loc, 0.2F, 0.2F, 0.2F, 0, 10);
-			
-		} else {
-			return;
-		}
-	}
-
 	@Override
 	public long getCooldown() {
 		return cooldown;
@@ -116,7 +97,7 @@ public class Soar extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return ChatColor.BLUE + "" + ChatColor.BOLD + "Mobility: " + ChatColor.DARK_AQUA + "A key aspect of all Spirits is their weightlessness which allows them to soar through the skies as if gravity is non-existant, which is exactly what this ability allows you to do!";
+		return Methods.getSpiritDescription("spirit", "Mobility", "A key aspect of all Spirits is their weightlessness which allows them to soar through the skies as if gravity is non-existant, which is exactly what this ability allows you to do!");
 	}
 	
 	@Override

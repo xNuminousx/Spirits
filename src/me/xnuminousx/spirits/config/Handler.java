@@ -36,8 +36,11 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		ProjectKorra.log.info("Successfully loaded Spirits");
 	
 		langConfig.addDefault("Chat.Colors.Spirit", "DARK_AQUA");
+		langConfig.addDefault("Chat.Colors.SpiritSub", "DARK_PURPLE");
 		langConfig.addDefault("Chat.Colors.LightSpirit", "AQUA");
+		langConfig.addDefault("Chat.Colors.LightSpiritSub", "WHITE");
 		langConfig.addDefault("Chat.Colors.DarkSpirit", "BLUE");
+		langConfig.addDefault("Chat.Colors.DarkSpiritSub", "DARK_GRAY");
 		langConfig.addDefault("Chat.Prefixes.Spirit", "[Spirit]");
 		langConfig.addDefault("Chat.Prefixes.LightSpirit", "[LightSpirit]");
 		langConfig.addDefault("Chat.Prefixes.DarkSpirit", "[DarkSpirit]");
@@ -52,11 +55,17 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.Neutral.Possess.Damage", 5);
 		config.addDefault("Abilities.Spirits.Neutral.Possess.Duration", 2000);
 		
-		config.addDefault("Abilities.Spirits.Neutral.Soar.Enable", true);
+		config.addDefault("Abilities.Spirits.Neutral.Soar.Enabled", true);
 		config.addDefault("Abilities.Spirits.Neutral.Soar.Cooldown", 4500);
 		config.addDefault("Abilities.Spirits.Neutral.Soar.Duration", 1000);
 		config.addDefault("Abilities.Spirits.Neutral.Soar.Speed", 0.8);
 		
+		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Enable", true);
+		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Cooldown", 8000);
+		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Distance", 10);
+		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.StrengthDuration", 2);
+		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.WeaknessDuration", 2);
+    
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Enable", true);
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Cooldown", 5000);
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Radius", 5);
@@ -138,7 +147,7 @@ public class Handler extends AvatarAbility implements AddonAbility {
 
 	@Override
 	public void progress() {
-
+		
 	}
 
 	@Override
@@ -150,5 +159,4 @@ public class Handler extends AvatarAbility implements AddonAbility {
 	public String getVersion() {
 		return null;
 	}
-
 }

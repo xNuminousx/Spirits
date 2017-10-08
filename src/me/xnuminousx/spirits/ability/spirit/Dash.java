@@ -3,14 +3,13 @@ package me.xnuminousx.spirits.ability.spirit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
-import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
 import net.md_5.bungee.api.ChatColor;
 
@@ -61,12 +60,10 @@ public class Dash extends SpiritAbility implements AddonAbility {
 	
 	public void dash() {
 		Location loc = player.getLocation();
-		Vector vec = loc.getDirection().normalize().multiply(distance);
-		vec.setY(0.2);
-		player.setVelocity(vec);
+		Methods.setPlayerVelocity(player, loc, true, distance, 0.2);
 		loc.getWorld().playSound(location, Sound.ENTITY_ELDER_GUARDIAN_HURT, 1.5F, 0.5F);
 		loc.getWorld().playSound(location, Sound.ENTITY_PLAYER_ATTACK_SWEEP, 0.3F, 0.5F);
-		spiritType();
+		Methods.spiritParticles(bPlayer, player.getLocation(), 0.2F, 0.2f, 0.2F, 0, 10);
 		return;
 	}
 	
@@ -105,7 +102,7 @@ public class Dash extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return ChatColor.BLUE + "" + ChatColor.BOLD + "Mobility: " + ChatColor.DARK_AQUA + "Sometimes, in intense battles, a Spirit may dart from one location to the next! Useful to escape, evade or just plain exploring.";
+		return Methods.getSpiritDescription("spirit", "Mobility", "Sometimes, in intense battles, a Spirit may dart from one location to the next! Useful to escape, evade or just plain exploring.");
 	}
 	
 	@Override

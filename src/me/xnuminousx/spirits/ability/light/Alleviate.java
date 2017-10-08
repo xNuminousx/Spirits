@@ -13,6 +13,7 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 
+import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.LightAbility;
 import net.md_5.bungee.api.ChatColor;
 
@@ -146,7 +147,7 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return ChatColor.AQUA + "" + ChatColor.BOLD + "Utility: " + ChatColor.WHITE + "Use this ability to relieve your friends and allies of their negative potion effects, keep using it and you'll give them a small boost of your own health. If your target moves, the ability will cancel.";
+		return Methods.getSpiritDescription("light", "Utility", "Use this ability to relieve your friends and allies of their negative potion effects, keep using it and you'll give them a small boost of your own health. If your target moves, the ability will cancel.");
 	}
 	
 	@Override
