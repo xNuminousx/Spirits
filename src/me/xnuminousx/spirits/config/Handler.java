@@ -65,7 +65,7 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Distance", 10);
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.StrengthDuration", 2);
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.WeaknessDuration", 2);
-		
+    
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Enable", true);
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Cooldown", 5000);
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Radius", 5);
