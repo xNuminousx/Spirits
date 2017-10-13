@@ -4,9 +4,11 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
+import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
+import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
@@ -54,6 +56,24 @@ public class Dash extends SpiritAbility implements AddonAbility {
 		loc.getWorld().playSound(location, Sound.ENTITY_PLAYER_ATTACK_SWEEP, 0.3F, 0.5F);
 		Methods.spiritParticles(bPlayer, player.getLocation(), 0.2F, 0.2f, 0.2F, 0, 10);
 		return;
+	}
+	
+	public void spiritType() {
+		Location loc = player.getLocation();
+		Element ls = Element.getElement("LightSpirit");
+		Element ds = Element.getElement("DarkSpirit");
+		if (bPlayer.hasElement(ls) && bPlayer.hasElement(ds)) {
+			ParticleEffect.CRIT_MAGIC.display(loc, 0.2F, 0.4f, 0.2F, 0, 20);
+			
+		} else if (bPlayer.hasElement(ds)) {
+			ParticleEffect.WITCH_MAGIC.display(loc, 0.5F, 1, 0.5F, 0, 10);
+			
+		} else if (bPlayer.hasElement(ls)) {
+			ParticleEffect.INSTANT_SPELL.display(loc, 0.5F, 1, 0.5F, 0, 10);
+			
+		} else {
+			return;
+		}
 	}
 
 	@Override
