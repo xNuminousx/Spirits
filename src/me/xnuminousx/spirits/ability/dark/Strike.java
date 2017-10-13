@@ -121,8 +121,8 @@ public class Strike extends DarkAbility implements AddonAbility {
 	}
 	
 	@Override
-	public boolean isHiddenAbility() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Strike.Enable");
+	public boolean isEnabled() {
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Strike.Enabled");
 	}
 
 	@Override

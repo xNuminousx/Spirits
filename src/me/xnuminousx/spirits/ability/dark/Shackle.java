@@ -156,8 +156,8 @@ public class Shackle extends DarkAbility implements AddonAbility {
 	}
 	
 	@Override
-	public boolean isHiddenAbility() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Shackle.Enable");
+	public boolean isEnabled() {
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Shackle.Enabled");
 	}
 
 	@Override

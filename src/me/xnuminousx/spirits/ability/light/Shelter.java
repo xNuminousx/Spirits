@@ -172,7 +172,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Shelter.Enable");
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Shelter.Enabled");
 	}
 
 	@Override

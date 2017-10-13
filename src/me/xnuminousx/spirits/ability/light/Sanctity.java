@@ -172,8 +172,8 @@ public class Sanctity extends LightAbility implements AddonAbility {
 	}
 
 	@Override
-	public boolean isHiddenAbility() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Sanctity.Enable");
+	public boolean isEnabled() {
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Sanctity.Enabled");
 	}
 
 	@Override

@@ -57,7 +57,7 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 
 	@Override
 	public void progress() {
-		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, origin) || !bPlayer.canBendIgnoreBindsCooldowns(this)) {
+		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, origin)) {
 			remove();
 			return;
 		}
@@ -143,7 +143,7 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Fuse.Enable");
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Fuse.Enabled");
 	}
 
 	@Override
