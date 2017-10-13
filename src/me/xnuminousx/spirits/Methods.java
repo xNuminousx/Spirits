@@ -10,7 +10,6 @@ import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 public class Methods {
-	
 	public static void spiritParticles(BendingPlayer bPlayer, Location loc, float X, float Y, float Z, float speed, int amount) {
 		Element ls = Element.getElement("LightSpirit");
 		Element ds = Element.getElement("DarkSpirit");
