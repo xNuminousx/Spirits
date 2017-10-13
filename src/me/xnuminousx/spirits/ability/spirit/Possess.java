@@ -26,8 +26,6 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	private long duration;
 	private double damage;
 	private long cooldown;
-	private boolean enable;
-	private boolean isHidden;
 	private boolean progress;
 	private Vector direction;
 	private Location origin;
@@ -48,7 +46,6 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Possess.Enable");
 		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Possess.Cooldown");
 		this.range = ConfigManager.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Radius");
 		this.damage = ConfigManager.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Damage");
@@ -56,18 +53,11 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
-		this.isHidden = false;
 		this.progress = true;
 	}
 
 	@Override
 	public void progress() {
-		if (!enable) {
-			isHidden = true;
-			remove()	;
-			return;
-		}
-		
 		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location) || origin.distanceSquared(location) > range * range) {
 			remove();
 			return;
@@ -173,8 +163,8 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	}
 	
 	@Override
-	public boolean isHiddenAbility() {
-		return isHidden;
+	public boolean isEnabled() {
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Possess.Enable");
 	}
 
 	@Override

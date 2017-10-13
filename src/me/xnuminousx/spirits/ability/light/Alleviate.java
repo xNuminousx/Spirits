@@ -29,8 +29,6 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	private long healInt;
 	private long cooldown;
 	private String hexColor;
-	private boolean enable;
-	private boolean isHidden;
 	private boolean progress;
 
 	public Alleviate(Player player) {
@@ -46,7 +44,6 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Alleviate.Enable");
 		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.Cooldown");
 		this.range = ConfigManager.getConfig().getDouble("Abilities.Spirits.LightSpirit.Alleviate.Radius");
 		this.potInt = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.PotionInterval");
@@ -55,18 +52,11 @@ public class Alleviate extends LightAbility implements AddonAbility {
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
-		this.isHidden = false;
 		this.progress = true;
 	}
 
 	@Override
 	public void progress() {
-		if (!enable) {
-			isHidden = true;
-			remove()	;
-			return;
-		}
-		
 		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location) || origin.distanceSquared(location) > range * range) {
 			remove();
 			return;
@@ -166,8 +156,8 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	}
 	
 	@Override
-	public boolean isHiddenAbility() {
-		return isHidden;
+	public boolean isEnabled() {
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Alleviate.Enabled");
 	}
 
 	@Override

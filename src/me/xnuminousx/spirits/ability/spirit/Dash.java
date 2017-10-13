@@ -18,8 +18,6 @@ public class Dash extends SpiritAbility implements AddonAbility {
 	private Location location;
 	private long distance;
 	private long cooldown;
-	private boolean enable;
-	private boolean isHidden;
 
 	public Dash(Player player) {
 		super(player);
@@ -33,21 +31,13 @@ public class Dash extends SpiritAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Dash.Enable");
 		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Dash.Cooldown");
 		this.distance = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Dash.Distance");
 		this.location = player.getLocation();
-		this.isHidden = false;
 	}
 
 	@Override
 	public void progress() {
-		if (!enable) {
-			isHidden = true;
-			remove()	;
-			return;
-		}
-		
 		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location)) {
 			remove();
 			return;
@@ -126,8 +116,8 @@ public class Dash extends SpiritAbility implements AddonAbility {
 	}
 	
 	@Override
-	public boolean isHiddenAbility() {
-		return isHidden;
+	public boolean isEnabled() {
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Dash.Enable");
 	}
 
 	@Override

@@ -23,9 +23,6 @@ import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
 
 public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
-
-	private boolean enable;
-	private boolean isHidden;
 	private long cooldown;
 	private Location origin;
 	private int distance;
@@ -46,7 +43,6 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Fuse.Enable");
 		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Fuse.Cooldown");
 		this.distance = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Fuse.Distance");
 		this.strengthDuration = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Fuse.StrengthDuration");
@@ -55,18 +51,12 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 		this.distance = 10;
 		this.strengthDuration = 2;
 		this.weaknessDuration = 2;
-		this.isHidden = false;
 		
 	}
 
 	@Override
 	public void progress() {
-		if (!enable) {
-			isHidden = true;
-			return;
-		}
-		
-		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, origin) || !bPlayer.canBendIgnoreBindsCooldowns(this)) {
+		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, origin)) {
 			remove();
 			return;
 		}
@@ -108,11 +98,11 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 
 	@Override
 	public ArrayList<AbilityInformation> getCombination() {
-		ArrayList<AbilityInformation> combination = new ArrayList<>();
-		combination.add(new AbilityInformation("Soar", ClickType.LEFT_CLICK));
-		combination.add(new AbilityInformation("Soar", ClickType.LEFT_CLICK));
-		combination.add(new AbilityInformation("Possess", ClickType.SHIFT_DOWN));
-		return combination;
+		ArrayList<AbilityInformation> combo = new ArrayList<>();
+		combo.add(new AbilityInformation("Soar", ClickType.LEFT_CLICK));
+		combo.add(new AbilityInformation("Soar", ClickType.LEFT_CLICK));
+		combo.add(new AbilityInformation("Possess", ClickType.SHIFT_DOWN));
+		return combo;
 	}
 
 	@Override
@@ -151,8 +141,8 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	}
 	
 	@Override
-	public boolean isHiddenAbility() {
-		return isHidden;
+	public boolean isEnabled() {
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Fuse.Enabled");
 	}
 
 	@Override

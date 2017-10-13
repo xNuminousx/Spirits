@@ -20,8 +20,6 @@ import net.md_5.bungee.api.ChatColor;
 public class Strike extends DarkAbility implements AddonAbility {
 
 	private long cooldown;
-	private boolean enable;
-	private boolean isHidden;
 	private Location origin;
 	private Location location;
 	private int range;
@@ -41,25 +39,17 @@ public class Strike extends DarkAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Strike.Enable");
 		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Strike.Cooldown");
 		this.damage = ConfigManager.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Strike.Damage");
 		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.DarkSpirit.Strike.Range");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
-		this.isHidden = false;
 		this.progress = true;
 	}
 
 	@Override
 	public void progress() {
-		if (!enable) {
-			isHidden = true;
-			remove()	;
-			return;
-		}
-		
 		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, player.getLocation()) || origin.distanceSquared(location) > range * range) {
 			remove();
 			return;
@@ -131,8 +121,8 @@ public class Strike extends DarkAbility implements AddonAbility {
 	}
 	
 	@Override
-	public boolean isHiddenAbility() {
-		return isHidden;
+	public boolean isEnabled() {
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Strike.Enabled");
 	}
 
 	@Override

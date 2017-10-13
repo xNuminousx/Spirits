@@ -17,9 +17,7 @@ import me.xnuminousx.spirits.ability.api.DarkAbility;
 import net.md_5.bungee.api.ChatColor;
 
 public class Shackle extends DarkAbility implements AddonAbility {
-	
-	private boolean enable;
-	private boolean isHidden;
+
 	private Location location;
 	private int range;
 	private long time;
@@ -45,7 +43,6 @@ public class Shackle extends DarkAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.enable = ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Shackle.Enable");
 		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Shackle.Cooldown");
 		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Shackle.Duration");
 		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.DarkSpirit.Shackle.Range");
@@ -53,18 +50,11 @@ public class Shackle extends DarkAbility implements AddonAbility {
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
-		this.isHidden = false;
 		this.progress = true;
 	}
 
 	@Override
 	public void progress() {
-		if (!enable) {
-			isHidden = true;
-			remove()	;
-			return;
-		}
-		
 		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location)) {
 			remove();
 			return;
@@ -166,8 +156,8 @@ public class Shackle extends DarkAbility implements AddonAbility {
 	}
 	
 	@Override
-	public boolean isHiddenAbility() {
-		return isHidden;
+	public boolean isEnabled() {
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Shackle.Enabled");
 	}
 
 	@Override
