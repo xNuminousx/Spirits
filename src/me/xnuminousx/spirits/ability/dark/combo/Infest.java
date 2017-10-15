@@ -74,7 +74,7 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 	
 	public void swarm(int points, float size) {
 		if (progress) {
-			location.add(direction.multiply(1));
+			location.add(direction.multiply((long) 1));
 			for (int i = 0; i < 6; i++) {
 				currPoint += 360 / points;
 				if (currPoint > 360) {
@@ -96,6 +96,7 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 				location = target.getLocation();
 				
 				if (System.currentTimeMillis() > time + duration) {
+					bPlayer.addCooldown(this);
 					remove();
 					return;
 				} else {
@@ -110,8 +111,6 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 						firstEff = false;
 						ParticleEffect.FLAME.display(location, 0, 0, 0, 0.2F, 2);
 					}
-					
-					//Remove swarm
 				}
 			}
 		}
