@@ -65,7 +65,7 @@ public class Strike extends DarkAbility implements AddonAbility {
 		}
 		
 		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 1.5)) {
-			if (((target instanceof LivingEntity)) && (target.getEntityId() != player.getEntityId())) {
+			if (((target instanceof LivingEntity) || (target instanceof Player)) && (target.getEntityId() != player.getEntityId())) {
 				bPlayer.addCooldown(this);
 				Location location = player.getLocation();
 				progress = false;
