@@ -164,7 +164,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Possess.Enable");
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Possess.Enabled");
 	}
 
 	@Override

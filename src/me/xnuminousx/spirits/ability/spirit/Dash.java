@@ -118,7 +118,7 @@ public class Dash extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Dash.Enable");
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Dash.Enabled");
 	}
 
 	@Override
