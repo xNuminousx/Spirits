@@ -81,7 +81,7 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 				player.setVelocity(newDir);
 				
 				LivingEntity le = (LivingEntity)target;
-				ParticleEffect.DRAGON_BREATH.display(target.getLocation(), 0.5F, 1, 0.5F, 0.08F, 10);
+				ParticleEffect.FIREWORKS_SPARK.display(target.getLocation().add(0, 1, 0), 0.5F, 1, 0.5F, 0.2F, 10);
 				le.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, strengthDuration * 100, 0), true);
 				player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, weaknessDuration * 100, 0), true);
 				
@@ -122,7 +122,7 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("spirit", "Combo", "Rush towards a human to combine your energies and temporarily empower them with strength! This will come at a cost of your own power and strength, however. An alternative usage is a powerful boost.");
+		return Methods.getSpiritDescription("spirit", "Combo", "Rush towards a human to combine your energies and temporarily empower them with strength! This will come at a cost of your own power and strength, however. You must collide with your target for this to be used successfully. An alternative usage is a powerful boost.");
 	}
 	
 	@Override
