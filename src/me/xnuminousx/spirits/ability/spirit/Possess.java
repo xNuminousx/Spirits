@@ -83,7 +83,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 			location.add(direction.multiply(1));
 		}
 		
-		for (Player target : GeneralMethods.getPlayersAroundPoint(location, 2)) {
+		for (Player target : GeneralMethods.getPlayersAroundPoint(location, 1.5)) {
 			if (((target instanceof LivingEntity)) && (target.getEntityId() != player.getEntityId())) {
 				Location location = player.getLocation();
 				if (System.currentTimeMillis() > time + duration) {
@@ -164,7 +164,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Possess.Enable");
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Possess.Enabled");
 	}
 
 	@Override
