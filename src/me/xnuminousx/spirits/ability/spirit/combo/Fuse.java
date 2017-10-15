@@ -23,7 +23,6 @@ import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
 
 public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
-
 	private long cooldown;
 	private Location origin;
 	private int distance;

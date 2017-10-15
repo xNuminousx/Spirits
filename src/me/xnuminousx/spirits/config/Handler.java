@@ -29,8 +29,11 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		ProjectKorra.log.info("Successfully loaded Spirits");
 	
 		langConfig.addDefault("Chat.Colors.Spirit", "DARK_AQUA");
+		langConfig.addDefault("Chat.Colors.SpiritSub", "DARK_PURPLE");
 		langConfig.addDefault("Chat.Colors.LightSpirit", "AQUA");
+		langConfig.addDefault("Chat.Colors.LightSpiritSub", "WHITE");
 		langConfig.addDefault("Chat.Colors.DarkSpirit", "BLUE");
+		langConfig.addDefault("Chat.Colors.DarkSpiritSub", "DARK_GRAY");
 		langConfig.addDefault("Chat.Prefixes.Spirit", "[Spirit]");
 		langConfig.addDefault("Chat.Prefixes.LightSpirit", "[LightSpirit]");
 		langConfig.addDefault("Chat.Prefixes.DarkSpirit", "[DarkSpirit]");
