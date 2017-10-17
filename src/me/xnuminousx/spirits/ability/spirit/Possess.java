@@ -2,6 +2,7 @@ package me.xnuminousx.spirits.ability.spirit;
 
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -83,7 +84,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 			location.add(direction.multiply(1));
 		}
 		
-		for (Player target : GeneralMethods.getPlayersAroundPoint(location, 1.5)) {
+		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 1.5)) {
 			if (((target instanceof LivingEntity)) && (target.getEntityId() != player.getEntityId())) {
 				Location location = player.getLocation();
 				if (System.currentTimeMillis() > time + duration) {
