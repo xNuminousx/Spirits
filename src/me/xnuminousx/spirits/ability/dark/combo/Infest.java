@@ -7,12 +7,17 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import com.projectkorra.projectkorra.BendingPlayer;
+import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.ComboAbility;
 import com.projectkorra.projectkorra.ability.util.ComboManager.AbilityInformation;
+import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ClickType;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
@@ -47,19 +52,21 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 	}
 
 	private void setFields() {
+		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Combo.Infest.Cooldown");
+		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Combo.Infest.Duration");
+		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.DarkSpirit.Combo.Infest.Range");
+		this.radius = ConfigManager.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Combo.Infest.Radius");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
 		this.progress = true;
 		this.firstEff = true;
-		this.range = 20;
-		this.radius = 2;
-		this.duration = 5000;
 	}
 
 	@Override
 	public void progress() {
 		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location) || !bPlayer.canBendIgnoreBindsCooldowns(this)) {
+			bPlayer.addCooldown(this);
 			remove();
 			return;
 		}
@@ -74,7 +81,7 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 	
 	public void swarm(int points, float size) {
 		if (progress) {
-			location.add(direction.multiply((long) 1));
+			location.add(direction.multiply(1));
 			for (int i = 0; i < 6; i++) {
 				currPoint += 360 / points;
 				if (currPoint > 360) {
@@ -94,22 +101,31 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 			if (target instanceof LivingEntity && !target.getUniqueId().equals(player.getUniqueId())) {
 				this.progress = false;
 				location = target.getLocation();
+				LivingEntity le = (LivingEntity)target;
+				
+				if (target instanceof Player) {
+					Player player = (Player)target;
+					BendingPlayer bTarget = BendingPlayer.getBendingPlayer(player);
+					if (!bTarget.hasElement(Element.getElement("Spirit"))) {
+						remove();
+						return;
+					}
+				}
 				
 				if (System.currentTimeMillis() > time + duration) {
 					bPlayer.addCooldown(this);
 					remove();
 					return;
 				} else {
-					ParticleEffect.WITCH_MAGIC.display(location, 1, 1, 1, 0, 2);
-					ParticleEffect.SMOKE.display(location, 0.5F, 1, 0.5F, 0, 5);
-					
+					ParticleEffect.SMOKE.display(location, 1, 1, 1, 0, 2);
 					if (System.currentTimeMillis() > time + (duration / 4) && (firstEff)) {
-						ParticleEffect.DRAGON_BREATH.display(location, 0, 0, 0, 0.2F, 1);
+						ParticleEffect.DRAGON_BREATH.display(location, 0.5F, 1F, 0.5F, 0.05F, 2);
+						le.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 60, 1), true);
 					}
 					
 					if (System.currentTimeMillis() > time + (duration / 2)) {
 						firstEff = false;
-						ParticleEffect.FLAME.display(location, 0, 0, 0, 0.2F, 2);
+						le.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 2), true);
 					}
 				}
 			}
@@ -149,7 +165,7 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("dark", "Combo", "A very dangerous combo; used in offense to attack players and infest them with the influence of darkness.");
+		return Methods.getSpiritDescription("dark", "Combo", "A very dangerous combo; used in offense to attack players and infest them with the influence of darkness. When your swarm attaches to an entity, it will begin to damage them then leave them temporarily blind! This ability will not work against other Spirits.");
 	}
 	
 	@Override
@@ -165,6 +181,11 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 	@Override
 	public String getVersion() {
 		return ChatColor.DARK_GRAY + "1.0";
+	}
+	
+	@Override
+	public boolean isEnabled() {
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Combo.Infest.Enabled");
 	}
 
 	@Override

@@ -98,6 +98,12 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.DarkSpirit.Strike.Range", 5);
 		config.addDefault("Abilities.Spirits.DarkSpirit.Strike.Damage", 3);
 		
+		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Enabled", true);
+		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Cooldown", 10000);
+		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Duration", 5000);
+		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Range", 20);
+		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Radius", 2);
+		
 		ConfigManager.defaultConfig.save();
 	}
 
