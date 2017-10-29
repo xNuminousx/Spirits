@@ -2,7 +2,6 @@ package me.xnuminousx.spirits.ability.spirit;
 
 import org.bukkit.Location;
 import org.bukkit.Sound;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -84,7 +83,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		}
 		
 		for (Player target : GeneralMethods.getPlayersAroundPoint(location, 1.5)) {
-			if (((target instanceof LivingEntity)) && (target.getEntityId() != player.getEntityId())) {
+			if (((target instanceof Player)) && (target.getEntityId() != player.getEntityId())) {
 				Location location = player.getLocation();
 				if (System.currentTimeMillis() > time + duration) {
 					DamageHandler.damageEntity(target, damage, this);
@@ -96,8 +95,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 					bPlayer.addCooldown(this);
 					
 					// Teleport player
-					LivingEntity le = (LivingEntity)target;
-					Location tLoc = le.getLocation().clone();
+					Location tLoc = target.getLocation().clone();
 					tLoc.setPitch(location.getPitch());
 					tLoc.setYaw(location.getYaw());
 					player.teleport(tLoc);
@@ -110,8 +108,8 @@ public class Possess extends SpiritAbility implements AddonAbility {
 					
 					// Possession effects
 					ParticleEffect.DRAGON_BREATH.display(tLoc, 0.3F, 1F, 0.3F, 0.02F, 1);
-					le.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2), true);
-					le.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 2), true);
+					target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2), true);
+					target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 2), true);
 					
 					player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 120, 2), true);
 				}
