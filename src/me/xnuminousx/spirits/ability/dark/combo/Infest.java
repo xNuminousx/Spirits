@@ -98,7 +98,7 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 			}
 		}
 		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, radius)) {
-			if (target instanceof LivingEntity && !target.getUniqueId().equals(player.getUniqueId())) {
+			if ((target instanceof LivingEntity || target instanceof Player) && !target.getUniqueId().equals(player.getUniqueId())) {
 				this.progress = false;
 				location = target.getLocation();
 				LivingEntity le = (LivingEntity)target;
@@ -170,7 +170,7 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.DARK_GRAY + "Intoxicate (Tap shift) > Strike (Tap-Shift) > Strike (Left-click x3)";
+		return ChatColor.DARK_GRAY + "Intoxicate (Hold shift) > Strike (Left-click x3) > Strike (Release shift)";
 	}
 
 	@Override
