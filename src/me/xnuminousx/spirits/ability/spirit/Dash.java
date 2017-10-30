@@ -73,12 +73,13 @@ public class Dash extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("spirit", "Mobility", "Sometimes, in intense battles, a Spirit may dart from one location to the next! Useful to escape, evade or just plain exploring.");
+		return Methods.getSpiritDescription("spirit", "Mobility") +
+				ConfigManager.languageConfig.get().getString("Abilities.Spirit.Dash.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.BLUE + "Left-Click";
+		return ChatColor.BLUE + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Dash.Instructions");
 	}
 
 	@Override

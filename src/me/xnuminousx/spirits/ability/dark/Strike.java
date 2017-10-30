@@ -102,12 +102,13 @@ public class Strike extends DarkAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("dark", "Offense", "The most basic ability of an aggressive, unbalanced Spirit is to rush towards their enemy and try to bite them in 1 swift motion. When you activate this ability, you'll see your target zone. If your target zone gets in range of another entity, you'll be rushed over to them an deal damage.");
+		return Methods.getSpiritDescription("dark", "Offense") + 
+				ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Strike.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.DARK_GRAY + "Left-Click to trigger target spectacle";
+		return ChatColor.DARK_GRAY + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Strike.Instructions");
 	}
 
 	@Override

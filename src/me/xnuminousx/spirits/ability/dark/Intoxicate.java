@@ -139,12 +139,13 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("dark", "Offense", "Sacrifice some of your energy to pour a bit of chaos into the souls of your nearby enemies by taking away their positive potion effects and adding negative ones. Then watch as it destroys them from the inside out! The great spirit Vaatu was known to have this influence over other unbalanced Spirits.");
+		return Methods.getSpiritDescription("dark", "Offense") +
+				ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Intoxicate.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.DARK_GRAY + "Hold shift";
+		return ChatColor.DARK_GRAY + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Intoxicate.Instructions");
 	}
 
 	@Override

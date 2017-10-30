@@ -137,12 +137,13 @@ public class Shackle extends DarkAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("dark", "Defense", "With this technique a DarkSpirit is able to temporarily trap an anyone dead in their tracks, even if you can't see them! Useful for a quick get away...");
+		return Methods.getSpiritDescription("dark", "Defense") + 
+				ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Shackle.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.DARK_GRAY + "Left click";
+		return ChatColor.DARK_GRAY + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Shackle.Instructions");
 	}
 
 	@Override

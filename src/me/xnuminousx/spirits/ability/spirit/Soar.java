@@ -86,12 +86,13 @@ public class Soar extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("spirit", "Mobility", "A key aspect of all Spirits is their weightlessness which allows them to soar through the skies as if gravity is non-existant, which is exactly what this ability allows you to do!");
+		return Methods.getSpiritDescription("spirit", "Mobility") +
+				ConfigManager.languageConfig.get().getString("Abilities.Spirit.Soar.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.BLUE + "Hold shift";
+		return ChatColor.BLUE + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Soar.Instructions");
 	}
 
 	@Override

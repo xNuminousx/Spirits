@@ -145,7 +145,8 @@ public class Sanctity extends LightAbility implements AddonAbility {
 
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("light", "Defense", "Use this to empower yourself with more health, better resistance and the ability to find the light in the dark for a limited period of time.");
+		return Methods.getSpiritDescription("light", "Defense") +
+				ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Sanctity.Description");
 	}
 
 	@Override
@@ -155,7 +156,7 @@ public class Sanctity extends LightAbility implements AddonAbility {
 
 	@Override
 	public String getInstructions() {
-		return ChatColor.AQUA + "Hold shift until you see the trigger";
+		return ChatColor.AQUA + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Sanctity.Instructions");
 	}
 
 	@Override

@@ -122,12 +122,13 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("spirit", "Combo", "Rush towards a human to combine your energies and temporarily empower them with strength! This will come at a cost of your own power and strength, however. You must collide with your target for this to be used successfully. An alternative usage is a powerful boost.");
+		return Methods.getSpiritDescription("spirit", "Combo") +
+				ConfigManager.languageConfig.get().getString("Abilities.Spirit.Fuse.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.BLUE + "Soar (Left-click 2x) > Possess (Hold shift)";
+		return ChatColor.BLUE + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Fuse.Instructions");
 	}
 
 	@Override

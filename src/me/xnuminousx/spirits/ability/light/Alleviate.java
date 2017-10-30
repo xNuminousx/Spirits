@@ -137,12 +137,13 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("light", "Utility", "Use this ability to relieve your friends and allies of their negative potion effects, keep using it and you'll give them a small boost of your own health. If your target moves, the ability will cancel.");
+		return Methods.getSpiritDescription("light", "Utility") +
+				ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Alleviate.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.AQUA + "Hold shift while looking at your target";
+		return ChatColor.AQUA + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Alleviate.Instructions");
 	}
 
 	@Override

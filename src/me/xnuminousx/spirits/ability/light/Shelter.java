@@ -152,12 +152,13 @@ public class Shelter extends LightAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("light", "Defense", "A very useful tactic when group battling, a light spirit can temporarily shield a friend or even a foe from incoming enemies.");
+		return Methods.getSpiritDescription("light", "Defense") +
+				ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Shelter.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.AQUA + "Left click";
+		return ChatColor.AQUA + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Shelter.Instructions");
 	}
 
 	@Override

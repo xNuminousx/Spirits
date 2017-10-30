@@ -142,12 +142,13 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("spirit", "Offense", "A very ancient ability of Spitits is the ability to jump inside the body of a human. As a Spirit, you'll be able to possess a human for a short amount of time and do harm. While this ability is active, both the Spirit and the target will be motionless.");
+		return Methods.getSpiritDescription("spirit", "Offense") +
+				ConfigManager.languageConfig.get().getString("Abilities.Spirit.Possess.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.BLUE + "Hold shift and look at a human.";
+		return ChatColor.BLUE + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Possess.Instructions");
 	}
 
 	@Override

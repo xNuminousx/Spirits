@@ -169,12 +169,13 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("dark", "Combo", "A very dangerous combo; used in offense to attack players and infest them with the influence of darkness. When your swarm attaches to an entity, it will begin to damage them then leave them temporarily blind! This ability will not work against other Spirits.");
+		return Methods.getSpiritDescription("dark", "Combo") + 
+				ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Infest.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.DARK_GRAY + "Intoxicate (Hold shift) > Strike (Left-click x3) > Strike (Release shift)";
+		return ChatColor.DARK_GRAY + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Infest.Instructions");
 	}
 
 	@Override
