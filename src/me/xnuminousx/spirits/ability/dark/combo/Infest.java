@@ -37,6 +37,7 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 	private long time;
 	private long duration;
 	private boolean firstEff;
+	private boolean canUseOnSpirits;
 
 	public Infest(Player player) {
 		super(player);
@@ -56,6 +57,7 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Combo.Infest.Duration");
 		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.DarkSpirit.Combo.Infest.Range");
 		this.radius = ConfigManager.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Combo.Infest.Radius");
+		this.canUseOnSpirits = ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Combo.Infest.CanUseOnOtherSpirits");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
@@ -103,12 +105,14 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 				location = target.getLocation();
 				LivingEntity le = (LivingEntity)target;
 				
-				if (target instanceof Player) {
-					Player player = (Player)target;
-					BendingPlayer bTarget = BendingPlayer.getBendingPlayer(player);
-					if (bTarget.hasElement(Element.getElement("Spirit")) || bTarget.hasElement(Element.getElement("DarkSpirit")) || bTarget.hasElement(Element.getElement("LightSpirit"))) {
-						remove();
-						return;
+				if (!canUseOnSpirits) {
+					if (target instanceof Player) {
+						Player player = (Player)target;
+						BendingPlayer bTarget = BendingPlayer.getBendingPlayer(player);
+						if (bTarget.hasElement(Element.getElement("Spirit")) || bTarget.hasElement(Element.getElement("DarkSpirit")) || bTarget.hasElement(Element.getElement("LightSpirit"))) {
+							remove();
+							return;
+						}
 					}
 				}
 				
