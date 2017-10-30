@@ -93,7 +93,7 @@ public class AbilityListener implements Listener {
 			Player player = (Player) event.getEntity();
 			BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
 
-			if (event.isCancelled() || bPlayer == null) {
+			if (event.isCancelled() || bPlayer == null || bPlayer.hasElement(Element.AIR) || bPlayer.hasElement(Element.EARTH)) {
 				return;
 
 			} else if (bPlayer.hasElement(element) && event.getCause() == DamageCause.FALL) {
