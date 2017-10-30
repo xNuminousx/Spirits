@@ -106,6 +106,7 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.CanUseOnOtherSpirits", false);
 		
 		ConfigManager.defaultConfig.save();
+		ConfigManager.languageConfig.save();
 	}
 
 	@Override
