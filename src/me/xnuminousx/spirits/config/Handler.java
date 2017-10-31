@@ -39,6 +39,7 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		langConfig.addDefault("Chat.Prefixes.LightSpirit", "[LightSpirit]");
 		langConfig.addDefault("Chat.Prefixes.DarkSpirit", "[DarkSpirit]");
 		
+		//Descriptions & Instructions
 		langConfig.addDefault("Abilities.Spirit.Dash.Description", "Sometimes, in intense battles, a Spirit may dart from one location to the next! Useful to escape, evade or just plain exploring.");
 		langConfig.addDefault("Abilities.Spirit.Dash.Instructions", "Left-Click");
 		
