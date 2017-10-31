@@ -147,9 +147,7 @@ public class Handler extends AvatarAbility implements AddonAbility {
 
 	@Override
 	public void stop() {
-		
 		super.remove();
-		
 	}
 	
 	@Override
