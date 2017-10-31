@@ -110,6 +110,7 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 						Player player = (Player)target;
 						BendingPlayer bTarget = BendingPlayer.getBendingPlayer(player);
 						if (bTarget.hasElement(Element.getElement("Spirit")) || bTarget.hasElement(Element.getElement("DarkSpirit")) || bTarget.hasElement(Element.getElement("LightSpirit"))) {
+							bPlayer.addCooldown(this);
 							remove();
 							return;
 						}
