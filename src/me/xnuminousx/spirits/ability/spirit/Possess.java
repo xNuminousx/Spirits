@@ -63,7 +63,6 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		}
 		
 		if (!bPlayer.getBoundAbilityName().equals(getName())) {
-			bPlayer.addCooldown(this);
 			remove();
 			return;
 		}

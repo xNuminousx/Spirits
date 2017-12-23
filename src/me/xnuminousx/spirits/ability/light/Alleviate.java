@@ -83,7 +83,7 @@ public class Alleviate extends LightAbility implements AddonAbility {
 		
 		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 1)) {
 			if (((target instanceof LivingEntity)) && (target.getEntityId() != player.getEntityId())) {
-				Location tarLoc = target.getLocation();
+				location = target.getLocation().clone();
 				LivingEntity le = (LivingEntity)target;
 				progress = false;
 				
@@ -96,9 +96,9 @@ public class Alleviate extends LightAbility implements AddonAbility {
 					double x = size * (Math.PI * 4 - angle) * Math.cos(angle + i);
 		            double y = 1.2 * Math.cos(angle) + 1.2;
 		            double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
-					tarLoc.add(x, y, z);
-					GeneralMethods.displayColoredParticle(tarLoc, hexColor, 0, 0, 0);
-					tarLoc.subtract(x, y, z);
+					location.add(x, y, z);
+					GeneralMethods.displayColoredParticle(location, hexColor, 0, 0, 0);
+					location.subtract(x, y, z);
 				}
 				
 				if (System.currentTimeMillis() - time > potInt) {

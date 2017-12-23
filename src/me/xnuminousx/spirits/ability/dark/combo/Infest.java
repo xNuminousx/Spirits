@@ -57,7 +57,7 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Combo.Infest.Duration");
 		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.DarkSpirit.Combo.Infest.Range");
 		this.radius = ConfigManager.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Combo.Infest.Radius");
-		this.canUseOnSpirits = ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Combo.Infest.CanUseOnOtherSpirits");
+		this.canUseOnSpirits = ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Combo.Infest.CanUseOtherSpirits");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();

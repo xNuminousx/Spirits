@@ -26,7 +26,7 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	private long cooldown;
 	private Location origin;
 	private int distance;
-	private int strengthDuration;
+	private int posEffectDuration;
 	private int weaknessDuration;
 
 	public Fuse(Player player) {
@@ -45,12 +45,9 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	private void setFields() {
 		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Fuse.Cooldown");
 		this.distance = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Fuse.Distance");
-		this.strengthDuration = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Fuse.StrengthDuration");
+		this.posEffectDuration = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Fuse.StrengthDuration");
 		this.weaknessDuration = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Fuse.WeaknessDuration");
 		this.origin = player.getLocation();
-		this.distance = 10;
-		this.strengthDuration = 2;
-		this.weaknessDuration = 2;
 		
 	}
 
@@ -82,7 +79,8 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 				
 				LivingEntity le = (LivingEntity)target;
 				ParticleEffect.FIREWORKS_SPARK.display(target.getLocation().add(0, 1, 0), 0.5F, 1, 0.5F, 0.2F, 10);
-				le.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, strengthDuration * 100, 0), true);
+				le.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, posEffectDuration * 100, 0), true);
+				le.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, posEffectDuration * 100, 1), true);
 				player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, weaknessDuration * 100, 0), true);
 				
 				remove();

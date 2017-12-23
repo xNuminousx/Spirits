@@ -52,7 +52,7 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		langConfig.addDefault("Abilities.Spirit.Fuse.Description", "Rush towards a human to combine your energies and temporarily empower them with strength! This will come at a cost of your own power and strength, however. You must collide with your target for this to be used successfully. An alternative usage is a powerful boost.");
 		langConfig.addDefault("Abilities.Spirit.Fuse.Instructions", "Soar (Left-click 2x) > Possess (Hold shift)");
 		
-		langConfig.addDefault("Abilities.LightSpirit.Alleviate.Description", "Use this ability to relieve your friends and allies of their negative potion effects, keep using it and you'll give them a small boost of your own health. If your target moves, the ability will cancel.");
+		langConfig.addDefault("Abilities.LightSpirit.Alleviate.Description", "Use this ability to relieve your friends and allies of their negative potion effects, keep using it and you'll give them a small boost of your own health. If your target moves too far, the ability will cancel.");
 		langConfig.addDefault("Abilities.LightSpirit.Alleviate.Instructions", "Hold shift while looking at your target");
 		
 		langConfig.addDefault("Abilities.LightSpirit.Shelter.Description", "A very useful tactic when group battling, a light spirit can temporarily shield a friend or even a foe from incoming enemies.");
@@ -139,7 +139,7 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Duration", 5000);
 		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Range", 20);
 		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Radius", 2);
-		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.CanUseOnOtherSpirits", false);
+		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.CanUseOnSpirits", false);
 		
 		ConfigManager.defaultConfig.save();
 		ConfigManager.languageConfig.save();
@@ -147,6 +147,8 @@ public class Handler extends AvatarAbility implements AddonAbility {
 
 	@Override
 	public void stop() {
+		ConfigManager.defaultConfig.save();
+		ConfigManager.languageConfig.save();
 		super.remove();
 	}
 	
