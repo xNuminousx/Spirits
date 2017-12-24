@@ -7,7 +7,7 @@ import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.Element;
-import com.projectkorra.projectkorra.util.ParticleEffect;
+import com.projectkorra.projectkorra.GeneralMethods;
 
 public class Methods {
 	public static void spiritParticles(BendingPlayer bPlayer, Location loc, float X, float Y, float Z, float speed, int amount) {
@@ -15,16 +15,20 @@ public class Methods {
 		Element ds = Element.getElement("DarkSpirit");
 		Element s = Element.getElement("Spirit");
 		if (bPlayer.hasElement(ls) && bPlayer.hasElement(ds)) {
-			ParticleEffect.MAGIC_CRIT.display(loc, X, Y, Z, speed, amount);
+			GeneralMethods.displayColoredParticle(loc, "FF0000", X, Y, Z);
+			GeneralMethods.displayColoredParticle(loc, "00A315", X, Y, Z);
 		
 		} else if (bPlayer.hasElement(ds)) {
-			ParticleEffect.WITCH_MAGIC.display(loc, X, Y, Z, speed, amount);
+			GeneralMethods.displayColoredParticle(loc, "FF0000", X, Y, Z);
+			GeneralMethods.displayColoredParticle(loc, "00A315", X, Y, Z);
 			
 		} else if (bPlayer.hasElement(ls)) {
-			ParticleEffect.INSTANT_SPELL.display(loc, X, Y, Z, speed, amount);
+			GeneralMethods.displayColoredParticle(loc, "FF0000", X, Y, Z);
+			GeneralMethods.displayColoredParticle(loc, "00A315", X, Y, Z);
 			
 		} else if (!bPlayer.hasElement(ls) && !bPlayer.hasElement(ds) && bPlayer.hasElement(s)) {
-			ParticleEffect.MAGIC_CRIT.display(loc, X, Y, Z, speed, amount);
+			GeneralMethods.displayColoredParticle(loc, "FF0000", X, Y, Z);
+			GeneralMethods.displayColoredParticle(loc, "00A315", X, Y, Z);
 		}
 		return;
 	}

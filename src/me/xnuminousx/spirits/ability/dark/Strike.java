@@ -11,7 +11,6 @@ import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
-import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.DarkAbility;
@@ -61,7 +60,7 @@ public class Strike extends DarkAbility implements AddonAbility {
 	public void strike() {
 		if (progress) {
 			location.add(direction.multiply(1));
-			ParticleEffect.CRIT.display(location, 0, 0, 0, 0, 1);
+			Methods.spiritParticles(bPlayer, location, 0, 0, 0, 0, 1);
 		}
 		
 		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 1.5)) {

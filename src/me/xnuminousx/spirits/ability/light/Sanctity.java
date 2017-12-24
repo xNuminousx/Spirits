@@ -76,7 +76,7 @@ public class Sanctity extends LightAbility implements AddonAbility {
 			if (((System.currentTimeMillis() > getStartTime() + this.chargeTime))) {
 				this.isCharged = true;
 				haloRing(60, 0.4F, 2);
-				ParticleEffect.FIREWORKS_SPARK.display(player.getLocation(), 0.5f, 0.5f, 0.5f, 0.0f, 5);
+				ParticleEffect.FIREWORKS_SPARK.display(player.getLocation(), 0.2F, 0.5F, 0.2F, 0, 1);
 			}
 		} else {
 			if (this.isCharged) {
@@ -101,9 +101,9 @@ public class Sanctity extends LightAbility implements AddonAbility {
 			double z = size * Math.sin(angle);
 			double z2 = size * Math.cos(angle);
 			Location loc2 = this.player.getLocation().add(x2, 1D, z2);
-			GeneralMethods.displayColoredParticle(loc2, "#00FFFF", 0F, 0F, 0F);
+			Methods.spiritParticles(bPlayer, loc2, 0, 0, 0, 0, 1);
 			Location loc = this.player.getLocation().add(x, 1D, z);
-			GeneralMethods.displayColoredParticle(loc, "#FFFF00", 0F, 0F, 0F);
+			Methods.spiritParticles(bPlayer, loc, 0, 0, 0, 0, 1);
 		}
 	}
 
@@ -118,9 +118,9 @@ public class Sanctity extends LightAbility implements AddonAbility {
 			double x2 = size * Math.sin(angle);
 			double z = size * Math.sin(angle);
 			double z2 = size * Math.cos(angle);
-			Location loc2 = this.player.getLocation().add(x2, 2D, z2);
-			GeneralMethods.displayColoredParticle(loc2, "#32CD32", 0F, 0F, 0F);
-			Location loc = this.player.getLocation().add(x, 2D, z);
+			Location loc2 = this.player.getLocation().add(x2, 1.8D, z2);
+			GeneralMethods.displayColoredParticle(loc2, "#FFFFFF", 0F, 0F, 0F);
+			Location loc = this.player.getLocation().add(x, 1.8D, z);
 			GeneralMethods.displayColoredParticle(loc, "#FFFFFF", 0F, 0F, 0F);
 		}
 	}

@@ -97,6 +97,7 @@ public class Alleviate extends LightAbility implements AddonAbility {
 		            double y = 1.2 * Math.cos(angle) + 1.2;
 		            double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
 					location.add(x, y, z);
+					Methods.spiritParticles(bPlayer, location, 0, 0, 0, 0, 1);
 					GeneralMethods.displayColoredParticle(location, hexColor, 0, 0, 0);
 					location.subtract(x, y, z);
 				}
