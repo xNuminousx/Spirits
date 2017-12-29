@@ -28,8 +28,8 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 	private long potInt;
 	private long harmInt;
 	private long cooldown;
-	private boolean progress;
 	private String hexColor;
+	private boolean progress;
 
 	public Intoxicate(Player player) {
 		super(player);
@@ -97,8 +97,8 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 		            double y = 1.2 * Math.cos(angle) + 1.2;
 		            double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
 					location.add(x, y, z);
-					Methods.spiritParticles(bPlayer, location, 0, 0, 0, 0, 1);
 					GeneralMethods.displayColoredParticle(location, hexColor, 0, 0, 0);
+					GeneralMethods.displayColoredParticle(location, "000000", 0, 0, 0);
 					location.subtract(x, y, z);
 				}
 				

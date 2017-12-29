@@ -9,6 +9,7 @@ import org.bukkit.util.Vector;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
+import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.LightAbility;
@@ -90,7 +91,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 				double x = size * (Math.PI * 4 - angle) * Math.cos(angle + i);
 	            double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
 				location.add(x, 0.1F, z);
-				Methods.spiritParticles(bPlayer, location, 0, 0, 0, 0, 1);
+				ParticleEffect.INSTANT_SPELL.display(location, 0, 0, 0, 0, 1);
 				location.subtract(x, 0.1F, z);
 			}
 		}
@@ -126,7 +127,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 						double y = 0.9 * (Math.PI * 5 - t) - 10;
 			            double z2 = size2 * Math.sin(angle2);
 						location.add(x2, y, z2);
-						Methods.spiritParticles(bPlayer, location, 0, 0, 0, 0, 1);
+						ParticleEffect.INSTANT_SPELL.display(location, 0.5F, 0.5F, 0.5F, 0, 1);
 						location.subtract(x2, y, z2);
 					}
 				}
