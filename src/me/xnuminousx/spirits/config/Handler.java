@@ -184,7 +184,6 @@ public class Handler extends AvatarAbility implements AddonAbility {
 
 	@Override
 	public void progress() {
-		
 	}
 
 	@Override
