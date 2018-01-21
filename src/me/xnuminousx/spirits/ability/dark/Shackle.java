@@ -14,7 +14,6 @@ import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.DarkAbility;
-import net.md_5.bungee.api.ChatColor;
 
 public class Shackle extends DarkAbility implements AddonAbility {
 
@@ -143,17 +142,17 @@ public class Shackle extends DarkAbility implements AddonAbility {
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.DARK_GRAY + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Shackle.Instructions");
+		return Methods.spiritChatColor("dark") + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Shackle.Instructions");
 	}
 
 	@Override
 	public String getAuthor() {
-		return ChatColor.DARK_GRAY + "xNuminousx";
+		return Methods.spiritChatColor("dark") + "xNuminousx";
 	}
 
 	@Override
 	public String getVersion() {
-		return ChatColor.DARK_GRAY + "1.0";
+		return Methods.spiritChatColor("dark") + "1.0";
 	}
 	
 	@Override

@@ -15,7 +15,6 @@ import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.DarkAbility;
-import net.md_5.bungee.api.ChatColor;
 
 public class Strike extends DarkAbility implements AddonAbility {
 
@@ -65,20 +64,18 @@ public class Strike extends DarkAbility implements AddonAbility {
 		}
 		
 		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 1.5)) {
-			if (((target instanceof LivingEntity) || (target instanceof Player)) && (target.getEntityId() != player.getEntityId())) {
-				bPlayer.addCooldown(this);
+			if (((target instanceof LivingEntity)) && (target.getUniqueId() != player.getUniqueId())) {
 				Location location = player.getLocation();
 				progress = false;
-				
 				LivingEntity le = (LivingEntity)target;
 				Location tLoc = le.getLocation().clone();
 				tLoc.setPitch(location.getPitch());
 				tLoc.setYaw(location.getYaw());
 				player.teleport(tLoc);
-				
 				DamageHandler.damageEntity(target, damage, this);
 				player.getWorld().playSound(location, Sound.ENTITY_PLAYER_BURP, 0.2F, 0.2F);
 			
+				bPlayer.addCooldown(this);
 				remove();
 				return;
 			}
@@ -108,17 +105,17 @@ public class Strike extends DarkAbility implements AddonAbility {
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.DARK_GRAY + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Strike.Instructions");
+		return Methods.spiritChatColor("dark") + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Strike.Instructions");
 	}
 
 	@Override
 	public String getAuthor() {
-		return ChatColor.DARK_GRAY + "xNuminousx";
+		return Methods.spiritChatColor("dark") + "xNuminousx";
 	}
 
 	@Override
 	public String getVersion() {
-		return ChatColor.DARK_GRAY + "1.0";
+		return Methods.spiritChatColor("dark") + "1.0";
 	}
 	
 	@Override

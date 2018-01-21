@@ -2,7 +2,6 @@ package me.xnuminousx.spirits.ability.spirit.combo;
 
 import java.util.ArrayList;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -126,17 +125,17 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.BLUE + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Fuse.Instructions");
+		return Methods.spiritChatColor("spirit") + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Fuse.Instructions");
 	}
 
 	@Override
 	public String getAuthor() {
-		return ChatColor.BLUE + "xNuminousx";
+		return Methods.spiritChatColor("spirit") + "xNuminousx";
 	}
 
 	@Override
 	public String getVersion() {
-		return ChatColor.BLUE + "1.0";
+		return Methods.spiritChatColor("spirit") + "1.0";
 	}
 	
 	@Override

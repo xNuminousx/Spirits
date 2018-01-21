@@ -1,6 +1,5 @@
 package me.xnuminousx.spirits.ability.spirit;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -92,17 +91,17 @@ public class Soar extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.BLUE + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Soar.Instructions");
+		return Methods.spiritChatColor("spirit") + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Soar.Instructions");
 	}
 
 	@Override
 	public String getAuthor() {
-		return ChatColor.BLUE + "xNuminousx";
+		return Methods.spiritChatColor("spirit") + "xNuminousx";
 	}
 
 	@Override
 	public String getVersion() {
-		return ChatColor.BLUE + "1.0";
+		return Methods.spiritChatColor("spirit") + "1.0";
 	}
 	
 	@Override

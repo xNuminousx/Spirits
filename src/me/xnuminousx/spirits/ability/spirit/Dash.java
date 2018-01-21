@@ -10,7 +10,6 @@ import com.projectkorra.projectkorra.configuration.ConfigManager;
 
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
-import net.md_5.bungee.api.ChatColor;
 
 public class Dash extends SpiritAbility implements AddonAbility {
 	
@@ -79,17 +78,17 @@ public class Dash extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.BLUE + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Dash.Instructions");
+		return Methods.spiritChatColor("spirit") + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Dash.Instructions");
 	}
 
 	@Override
 	public String getAuthor() {
-		return ChatColor.BLUE + "xNuminousx";
+		return Methods.spiritChatColor("spirit") + "xNuminousx";
 	}
 
 	@Override
 	public String getVersion() {
-		return ChatColor.BLUE + "1.0";
+		return Methods.spiritChatColor("spirit") + "1.0";
 	}
 
 	@Override

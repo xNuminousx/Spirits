@@ -7,7 +7,6 @@ import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.LightAbility;
-import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -151,17 +150,17 @@ public class Sanctity extends LightAbility implements AddonAbility {
 
 	@Override
 	public String getAuthor() {
-		return ChatColor.AQUA + "EmeraldJelly";
+		return Methods.spiritChatColor("light") + "EmeraldJelly";
 	}
 
 	@Override
 	public String getInstructions() {
-		return ChatColor.AQUA + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Sanctity.Instructions");
+		return Methods.spiritChatColor("light") + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Sanctity.Instructions");
 	}
 
 	@Override
 	public String getVersion() {
-		return ChatColor.AQUA + "v1.0.0";
+		return Methods.spiritChatColor("light") + "v1.0.0";
 	}
 
 	public void load() {

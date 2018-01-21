@@ -2,7 +2,6 @@ package me.xnuminousx.spirits.ability.dark.combo;
 
 import java.util.ArrayList;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -176,17 +175,17 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.DARK_GRAY + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Infest.Instructions");
+		return Methods.spiritChatColor("dark") + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Infest.Instructions");
 	}
 
 	@Override
 	public String getAuthor() {
-		return ChatColor.DARK_GRAY + "xNuminousx";
+		return Methods.spiritChatColor("dark") + "xNuminousx";
 	}
 
 	@Override
 	public String getVersion() {
-		return ChatColor.DARK_GRAY + "1.0";
+		return Methods.spiritChatColor("dark") + "1.0";
 	}
 	
 	@Override

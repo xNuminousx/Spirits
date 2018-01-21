@@ -15,7 +15,6 @@ import com.projectkorra.projectkorra.util.DamageHandler;
 
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.LightAbility;
-import net.md_5.bungee.api.ChatColor;
 
 public class Alleviate extends LightAbility implements AddonAbility {
 
@@ -143,17 +142,17 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	
 	@Override
 	public String getInstructions() {
-		return ChatColor.AQUA + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Alleviate.Instructions");
+		return Methods.spiritChatColor("light") + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Alleviate.Instructions");
 	}
 
 	@Override
 	public String getAuthor() {
-		return ChatColor.AQUA + "xNuminousx";
+		return Methods.spiritChatColor("light") + "xNuminousx";
 	}
 
 	@Override
 	public String getVersion() {
-		return ChatColor.AQUA + "1.0";
+		return Methods.spiritChatColor("light") + "1.0";
 	}
 	
 	@Override
