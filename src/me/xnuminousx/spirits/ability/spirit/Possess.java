@@ -27,7 +27,10 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	private long duration;
 	private double damage;
 	private long cooldown;
+	private boolean progress;
+	private Vector direction;
 	private Location origin;
+	private boolean possessMobs;
 	
 
 	public Possess(Player player) {
@@ -49,17 +52,22 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		this.range = ConfigManager.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Radius");
 		this.damage = ConfigManager.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Damage");
 		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Possess.Duration");
-		this.location = player.getLocation().clone();
+		this.possessMobs = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Possess.CanPossessMobs");
+		this.origin = player.getLocation().clone().add(0, 1, 0);
+		this.location = origin.clone();
+		this.direction = player.getLocation().getDirection();
+		this.progress = true;
 	}
 
 	@Override
 	public void progress() {
-		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location) || origin.distanceSquared(location) > range * range) {
 			remove();
 			return;
 		}
 		
 		if (!bPlayer.getBoundAbilityName().equals(getName())) {
+			bPlayer.addCooldown(this);
 			remove();
 			return;
 		}
@@ -74,37 +82,61 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	}
 	
 	public void possess() {
+		if (progress) {
+			location.add(direction.multiply(1));
+		}
 		
-		Entity enemy = GeneralMethods.getTargetedEntity(player, range);
-		if ((enemy instanceof Player) && enemy.getUniqueId() != player.getUniqueId()) {
-			Location location = enemy.getLocation();
-			if (System.currentTimeMillis() > time + duration) {
-				DamageHandler.damageEntity(enemy, damage, this);
-				player.getWorld().playSound(location, Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.5F, 0.5F);
-				remove();
-				return;
-			} else {
-				bPlayer.addCooldown(this);
-				
-				// Teleport player
-				location.setPitch(location.getPitch());
-				location.setYaw(location.getYaw());
-				player.teleport(location);
-				
-				// Grab target
-				Vector vec = location.getDirection().normalize().multiply(0);
-				enemy.setVelocity(vec);
-				player.getWorld().playSound(location, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.5F, 5);
-				
-				// Possession effects
-				LivingEntity lenemy = (LivingEntity)enemy;
-				ParticleEffect.DRAGON_BREATH.display(location, 0.3F, 1F, 0.3F, 0.02F, 1);
-				lenemy.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2), true);
-				lenemy.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 2), true);
-				
-				player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 120, 2), true);
+		for (Player target : GeneralMethods.getPlayersAroundPoint(location, 1.5)) {
+			if (target.getUniqueId() != player.getUniqueId()) {
+				if (System.currentTimeMillis() > time + duration) {
+					this.doEffect(target, location);
+					remove();
+					return;
+				} else {
+					this.possess((LivingEntity) target);
+				}
 			}
 		}
+		
+		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 1.5)) {
+			if ((target instanceof LivingEntity) && target.getUniqueId() != player.getUniqueId() && possessMobs) {
+				if (System.currentTimeMillis() > time + duration) {
+					this.doEffect(target, location);
+					remove();
+					return;
+				} else {
+					this.possess((LivingEntity) target);
+				}
+			}
+		}
+	}
+	
+	public void possess(LivingEntity target) {
+		progress = false;
+		bPlayer.addCooldown(this);
+		
+		// Teleport player
+		Location tLoc = target.getLocation().clone();
+		tLoc.setPitch(location.getPitch());
+		tLoc.setYaw(location.getYaw());
+		player.teleport(tLoc);
+		
+		// Grab target
+		Location tarLoc = target.getLocation();
+		Vector vec = tarLoc.getDirection().normalize().multiply(0);
+		target.setVelocity(vec);
+		player.getWorld().playSound(tarLoc, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.5F, 5);
+		
+		// Possession effects
+		ParticleEffect.DRAGON_BREATH.display(tLoc, 0.3F, 1F, 0.3F, 0.02F, 1);
+		target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2), true);
+		target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 2), true);
+		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 120, 2), true);
+	}
+	
+	public void doEffect(Entity target, Location location) {
+		DamageHandler.damageEntity(target, damage, this);
+		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.5F, 0.5F);
 	}
 	
 	@Override
