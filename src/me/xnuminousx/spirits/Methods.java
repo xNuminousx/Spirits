@@ -46,6 +46,20 @@ public class Methods {
 		
 		return titleColor + "" + ChatColor.BOLD + abilityType + ": " + descColor;
 	}
+	
+	public static String spiritChatColor(String spiritType) {
+		ChatColor chatColor = null;
+		
+		if (spiritType.equalsIgnoreCase("spirit") || spiritType.equalsIgnoreCase("neutral")) {
+			chatColor = ChatColor.BLUE;
+		} else if (spiritType.equalsIgnoreCase("lightspirit") || spiritType.equalsIgnoreCase("light")) {
+			chatColor = ChatColor.AQUA;
+		} else if (spiritType.equalsIgnoreCase("darkspirit") || spiritType.equalsIgnoreCase("dark")) {
+			chatColor = ChatColor.DARK_GRAY;
+		}
+		
+		return chatColor + "";
+	}
 	public static void setPlayerVelocity(Player player, Location location, boolean isForward, float speed, double height) {
 		location = player.getLocation();
 		Vector direction;

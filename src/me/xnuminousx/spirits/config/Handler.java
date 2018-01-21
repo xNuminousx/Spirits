@@ -83,6 +83,7 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.Neutral.Possess.Radius", 5);
 		config.addDefault("Abilities.Spirits.Neutral.Possess.Damage", 5);
 		config.addDefault("Abilities.Spirits.Neutral.Possess.Duration", 2000);
+		config.addDefault("Abilities.Spirits.Neutral.Possess.CanPossessMobs", false);
 		
 		config.addDefault("Abilities.Spirits.Neutral.Soar.Enabled", true);
 		config.addDefault("Abilities.Spirits.Neutral.Soar.Cooldown", 4500);
