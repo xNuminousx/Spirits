@@ -135,7 +135,7 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 
 	@Override
 	public String getVersion() {
-		return Methods.spiritChatColor("spirit") + "1.0";
+		return Methods.spiritChatColor("spirit") + Methods.getVersion();
 	}
 	
 	@Override

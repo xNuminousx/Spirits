@@ -160,7 +160,7 @@ public class Sanctity extends LightAbility implements AddonAbility {
 
 	@Override
 	public String getVersion() {
-		return Methods.spiritChatColor("light") + "v1.0.0";
+		return Methods.spiritChatColor("light") + Methods.getVersion();
 	}
 
 	public void load() {

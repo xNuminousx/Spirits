@@ -167,7 +167,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 
 	@Override
 	public String getVersion() {
-		return Methods.spiritChatColor("light") + "1.0";
+		return Methods.spiritChatColor("light") + Methods.getVersion();
 	}
 	
 	@Override

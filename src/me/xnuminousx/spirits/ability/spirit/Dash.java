@@ -88,7 +88,7 @@ public class Dash extends SpiritAbility implements AddonAbility {
 
 	@Override
 	public String getVersion() {
-		return Methods.spiritChatColor("spirit") + "1.0";
+		return Methods.spiritChatColor("spirit") + Methods.getVersion();
 	}
 
 	@Override

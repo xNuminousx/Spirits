@@ -185,7 +185,7 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 
 	@Override
 	public String getVersion() {
-		return Methods.spiritChatColor("dark") + "1.0";
+		return Methods.spiritChatColor("dark") + Methods.getVersion();
 	}
 	
 	@Override
