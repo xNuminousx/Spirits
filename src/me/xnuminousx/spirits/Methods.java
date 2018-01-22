@@ -14,6 +14,10 @@ public class Methods {
 		return "1.0.6";
 	}
 	
+	public static String getAuthor() {
+		return "xNuminousx";
+	}
+	
 	public static void spiritParticles(BendingPlayer bPlayer, Location loc, float X, float Y, float Z, float speed, int amount) {
 		Element ls = Element.getElement("LightSpirit");
 		Element ds = Element.getElement("DarkSpirit");

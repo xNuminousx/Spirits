@@ -180,7 +180,7 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 
 	@Override
 	public String getAuthor() {
-		return Methods.spiritChatColor("dark") + "xNuminousx";
+		return Methods.spiritChatColor("dark") + Methods.getAuthor();
 	}
 
 	@Override

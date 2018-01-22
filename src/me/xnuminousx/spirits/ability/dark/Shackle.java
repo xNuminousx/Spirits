@@ -147,7 +147,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
 
 	@Override
 	public String getAuthor() {
-		return Methods.spiritChatColor("dark") + "xNuminousx";
+		return Methods.spiritChatColor("dark") + Methods.getAuthor();
 	}
 
 	@Override
