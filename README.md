@@ -5,8 +5,6 @@ This project will add in the new element "Spirit" as well as a DarkSpirit and Li
 # Contributing
 If you wish to contribute to this project, please do so in the "update" branch, thanks for the help!
 
-Don't know how you can help? Just refer to the To-Do List down below or the Issues tab above! As development progresses, those lists will be continuously updated!
-
 Don't know how to code? Well, you can also contribute by downloading the project, installing it onto your server, and making sure it works correctly! If you find a problem please create a new issue in the Issues tab above. Please include the following information:
 - Minecraft version
 - Spigot version
