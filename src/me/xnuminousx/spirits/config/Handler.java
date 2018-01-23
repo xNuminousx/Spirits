@@ -110,12 +110,14 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.LightSpirit.Sanctity.ChargeTime", 2500);
 		
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Enabled", true);
+		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.RemoveOnDamage", true);
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Cooldown", 10000);
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Duration", 7000);
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Range", 20);
-		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.ShieldSize", 5);
-		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.KnockbackPower", 1);
-		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.RemoveOnDamage", true);
+		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Others.ShieldSize", 5);
+		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Self.ShieldSize", 4);
+		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Others.KnockbackPower", 1);
+		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Self.KnockbackPower", 1);
 		
 		config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.Enabled", true);
 		config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.Cooldown", 5000);

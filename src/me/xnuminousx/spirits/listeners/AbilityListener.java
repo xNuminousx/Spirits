@@ -20,6 +20,7 @@ import me.xnuminousx.spirits.ability.dark.Strike;
 import me.xnuminousx.spirits.ability.light.Alleviate;
 import me.xnuminousx.spirits.ability.light.Sanctity;
 import me.xnuminousx.spirits.ability.light.Shelter;
+import me.xnuminousx.spirits.ability.light.Shelter.ShelterType;
 
 public class AbilityListener implements Listener {
 
@@ -42,7 +43,7 @@ public class AbilityListener implements Listener {
 			new Shackle(player);
 			
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shelter")) {
-			new Shelter(player);
+			new Shelter(player, ShelterType.CLICK);
 			
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Strike")) {
 			new Strike(player);
@@ -81,6 +82,9 @@ public class AbilityListener implements Listener {
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Soar")) {
 			new Soar(player);
 
+		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shelter")) {
+			new Shelter(player, ShelterType.SHIFT);
+			
 		}
 
 	}

@@ -15,6 +15,11 @@ import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.LightAbility;
 
 public class Shelter extends LightAbility implements AddonAbility {
+	
+	public enum ShelterType {
+		CLICK, SHIFT
+	}
+	public ShelterType shelterType;
 
 	private boolean isDamaged;
 	private boolean removeOnDamage;
@@ -29,9 +34,11 @@ public class Shelter extends LightAbility implements AddonAbility {
 	private boolean progress;
 	private long cooldown;
 	private float shieldSize;
+	private float selfShield;
 	private long knockDis;
+	private long selfKnockDis;
 
-	public Shelter(Player player) {
+	public Shelter(Player player, ShelterType shelterType) {
 		super(player);
 
 		if (!bPlayer.canBend(this)) {
@@ -41,6 +48,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 		setFields();
 		
 		time = System.currentTimeMillis();
+		this.shelterType = shelterType;
 		startHealth = player.getHealth();
 		
 		start();
@@ -50,8 +58,10 @@ public class Shelter extends LightAbility implements AddonAbility {
 		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Cooldown");
 		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Duration");
 		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Range");
-		this.shieldSize = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.ShieldSize");
-		this.knockDis = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.KnockbackPower");
+		this.shieldSize = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Others.ShieldSize");
+		this.selfShield = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Self.ShieldSize");
+		this.knockDis = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Others.KnockbackPower");
+		this.selfKnockDis = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Self.KnockbackPower");
 		this.removeOnDamage = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirits.Shelter.RemoveOnDamage");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
@@ -74,29 +84,45 @@ public class Shelter extends LightAbility implements AddonAbility {
 			}
 		}
 		
-		shield(100, 100, 0.04F, shieldSize);
+		if (shelterType == ShelterType.CLICK) {
+			shieldOther();
+		} else if (shelterType == ShelterType.SHIFT) {
+			if (player.isSneaking()) {
+				shieldSelf();
+			} else {
+				bPlayer.addCooldown(this);
+				remove();
+				return;
+			}
+		}
 	}
 	
-	public void shield(int points, int points2, float size, float size2) {
-		bPlayer.addCooldown(this);
+	public void shieldSelf() {
+		if (System.currentTimeMillis() > time + duration) {
+			bPlayer.addCooldown(this);
+			remove();
+			return;
+		} else {
+			rotateShield(player.getLocation(), 96, selfShield);
+			for (Entity target : GeneralMethods.getEntitiesAroundPoint(player.getLocation(), selfShield)) {
+				if (target instanceof LivingEntity && !target.getUniqueId().equals(player.getUniqueId())) {
+					Vector vec = target.getLocation().getDirection().normalize().multiply(-selfKnockDis);
+					vec.setY(1);
+					target.setVelocity(vec);
+				}
+			}
+		}
+	}
+	
+	public void shieldOther() {
 		if (progress) {
 			location.add(direction.multiply(1));
-			for (int i = 0; i < 6; i++) {
-				currPoint += 360 / points;
-				if (currPoint > 360) {
-					currPoint = 0;
-				}
-				double angle = currPoint * Math.PI / 180 * Math.cos(Math.PI);
-				double x = size * (Math.PI * 4 - angle) * Math.cos(angle + i);
-	            double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
-				location.add(x, 0.1F, z);
-				ParticleEffect.INSTANT_SPELL.display(location, 0, 0, 0, 0, 1);
-				location.subtract(x, 0.1F, z);
-			}
+			progressBlast(location, 100, 0.04F);
 		}
 		
 		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 2)) {
 			if (target instanceof LivingEntity && !target.getUniqueId().equals(player.getUniqueId())) {
+				bPlayer.addCooldown(this);
 				if (System.currentTimeMillis() > time + duration) {
 					remove();
 					return;
@@ -115,22 +141,38 @@ public class Shelter extends LightAbility implements AddonAbility {
 							target2.setVelocity(vec);
 						}
 					}
-					
-					for (int t = 0; t < 6; t++) {
-						currPoint += 360 / points2;
-						if (currPoint > 360) {
-							currPoint = 0;
-						}
-						double angle2 = currPoint * Math.PI / 180 * Math.cos(Math.PI);
-						double x2 = size2 * Math.cos(angle2);
-						double y = 0.9 * (Math.PI * 5 - t) - 10;
-			            double z2 = size2 * Math.sin(angle2);
-						location.add(x2, y, z2);
-						ParticleEffect.INSTANT_SPELL.display(location, 0.5F, 0.5F, 0.5F, 0, 1);
-						location.subtract(x2, y, z2);
-					}
+					rotateShield(location, 100, shieldSize);
 				}
 			}
+		}
+	}
+	public void rotateShield(Location location, int points, float size) {
+		for (int t = 0; t < 6; t++) {
+			currPoint += 360 / points;
+			if (currPoint > 360) {
+				currPoint = 0;
+			}
+			double angle = currPoint * Math.PI / 180 * Math.cos(Math.PI);
+			double x2 = size * Math.cos(angle);
+			double y = 0.9 * (Math.PI * 5 - t) - 10;
+            double z2 = size * Math.sin(angle);
+			location.add(x2, y, z2);
+			ParticleEffect.INSTANT_SPELL.display(location, 0.5F, 0.5F, 0.5F, 0, 1);
+			location.subtract(x2, y, z2);
+		}
+	}
+	public void progressBlast(Location location, int points, float size) {
+		for (int i = 0; i < 6; i++) {
+			currPoint += 360 / points;
+			if (currPoint > 360) {
+				currPoint = 0;
+			}
+			double angle = currPoint * Math.PI / 180 * Math.cos(Math.PI);
+			double x = size * (Math.PI * 4 - angle) * Math.cos(angle + i);
+            double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
+			location.add(x, 0.1F, z);
+			ParticleEffect.INSTANT_SPELL.display(location, 0, 0, 0, 0, 1);
+			location.subtract(x, 0.1F, z);
 		}
 	}
 

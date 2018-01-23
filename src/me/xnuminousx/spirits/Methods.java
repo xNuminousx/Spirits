@@ -34,7 +34,6 @@ public class Methods {
 		} else if (!bPlayer.hasElement(ls) && !bPlayer.hasElement(ds) && bPlayer.hasElement(s)) {
 			ParticleEffect.MAGIC_CRIT.display(loc, X, Y, Z, speed, amount);
 		}
-		return;
 	}
 	
 	public static String getSpiritDescription(String spiritType, String abilityType) {
