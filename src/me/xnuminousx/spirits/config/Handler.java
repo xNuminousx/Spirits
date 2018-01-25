@@ -55,8 +55,8 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		langConfig.addDefault("Abilities.LightSpirit.Alleviate.Description", "Use this ability to relieve your friends and allies of their negative potion effects, keep using it and you'll give them a small boost of your own health. If your target moves too far, the ability will cancel.");
 		langConfig.addDefault("Abilities.LightSpirit.Alleviate.Instructions", "Hold shift while looking at your target");
 		
-		langConfig.addDefault("Abilities.LightSpirit.Shelter.Description", "A very useful tactic when group battling, a light spirit can temporarily shield a friend or even a foe from incoming enemies.");
-		langConfig.addDefault("Abilities.LightSpirit.Shelter.Instructions", "Left click");
+		langConfig.addDefault("Abilities.LightSpirit.Shelter.Description", "A very useful tactic when group battling, a light spirit can temporarily shield a friend or even a foe from incoming enemies. Additionally, they have the options to shield themselves!");
+		langConfig.addDefault("Abilities.LightSpirit.Shelter.Instructions", "Left click = Shield others | Hold shift = Shield yourself.");
 		
 		langConfig.addDefault("Abilities.LightSpirit.Sanctity.Description", "Use this to empower yourself with more health, better resistance and the ability to find the light in the dark for a limited period of time.");
 		langConfig.addDefault("Abilities.LightSpirit.Sanctity.Instructions", "Hold shift until you see the trigger");
