@@ -11,9 +11,9 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.Element;
 
-import me.xnuminousx.spirits.ability.spirit.Dash;
+import me.xnuminousx.spirits.ability.spirit.Agility;
+import me.xnuminousx.spirits.ability.spirit.Agility.AgilityType;
 import me.xnuminousx.spirits.ability.spirit.Possess;
-import me.xnuminousx.spirits.ability.spirit.Soar;
 import me.xnuminousx.spirits.ability.dark.Intoxicate;
 import me.xnuminousx.spirits.ability.dark.Shackle;
 import me.xnuminousx.spirits.ability.dark.Strike;
@@ -36,8 +36,8 @@ public class AbilityListener implements Listener {
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase(null)) {
 			return;
 
-		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Dash")) {
-			new Dash(player);
+		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Agility")) {
+			new Agility(player, AgilityType.DASH);
 
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shackle")) {
 			new Shackle(player);
@@ -79,8 +79,8 @@ public class AbilityListener implements Listener {
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Alleviate")) {
 			new Alleviate(player);
 
-		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Soar")) {
-			new Soar(player);
+		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Agility")) {
+			new Agility(player, AgilityType.SOAR);
 
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shelter")) {
 			new Shelter(player, ShelterType.SHIFT);

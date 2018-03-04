@@ -40,8 +40,8 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		langConfig.addDefault("Chat.Prefixes.DarkSpirit", "[DarkSpirit]");
 		
 		//Descriptions & Instructions
-		langConfig.addDefault("Abilities.Spirit.Dash.Description", "Sometimes, in intense battles, a Spirit may dart from one location to the next! Useful to escape, evade or just plain exploring.");
-		langConfig.addDefault("Abilities.Spirit.Dash.Instructions", "Left-Click");
+		langConfig.addDefault("Abilities.Spirit.Agility.Description", "This ability offers you 2 modes of mobility. The first being the ability to dash forward very quickly. The second being the ability to soar through the skies as if gravity is non-existant.");
+		langConfig.addDefault("Abilities.Spirit.Agility.Instructions", "Left-Click: Dash ⏐ Hold shift: Soar");
 		
 		langConfig.addDefault("Abilities.Spirit.Fuse.Description", "Rush towards a human to combine your energies and temporarily empower them with strength! This will come at a cost of your own power and strength, however. You must collide with your target for this to be used successfully. An alternative usage is a powerful boost.");
 		langConfig.addDefault("Abilities.Spirit.Fuse.Instructions", "Soar (Left-click 2x) > Possess (Hold shift)");
@@ -49,13 +49,10 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		langConfig.addDefault("Abilities.Spirit.Possess.Description", "A very ancient ability of Spitits is the ability to jump inside the body of a human. As a Spirit, you'll be able to possess a human for a short amount of time and do harm. While this ability is active, both the Spirit and the target will be motionless.");
 		langConfig.addDefault("Abilities.Spirit.Possess.Instructions", "Hold shift and look at a human.");
 		
-		langConfig.addDefault("Abilities.Spirit.Soar.Description", "A key aspect of all Spirits is their weightlessness which allows them to soar through the skies as if gravity is non-existant, which is exactly what this ability allows you to do!");
-		langConfig.addDefault("Abilities.Spirit.Soar.Instructions", "Hold shift");
-		
 		langConfig.addDefault("Abilities.LightSpirit.Alleviate.Description", "Use this ability to relieve your friends and allies of their negative potion effects, keep using it and you'll give them a small boost of your own health. If your target moves too far, the ability will cancel.");
 		langConfig.addDefault("Abilities.LightSpirit.Alleviate.Instructions", "Hold shift while looking at your target");
 		
-		langConfig.addDefault("Abilities.DarkSpirit.Intoxicate.Description", "Sacrifice some of your energy to pour a bit of chaos into the souls of your nearby enemies by taking away their positive potion effects and adding negative ones. Then watch as it destroys them from the inside out! The great spirit Vaatu was known to have this influence over other unbalanced Spirits.");
+		langConfig.addDefault("Abilities.DzarkSpirit.Intoxicate.Description", "Sacrifice some of your energy to pour a bit of chaos into the souls of your nearby enemies by taking away their positive potion effects and adding negative ones. Then watch as it destroys them from the inside out! The great spirit Vaatu was known to have this influence over other unbalanced Spirits.");
 		langConfig.addDefault("Abilities.DarkSpirit.Intoxicate.Instructions", "Hold shift");
 		
 		langConfig.addDefault("Abilities.LightSpirit.Sanctity.Description", "Use this to empower yourself with more health, better resistance and the ability to find the light in the dark for a limited period of time.");
@@ -74,9 +71,12 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		langConfig.addDefault("Abilities.DarkSpirit.Strike.Instructions", "Left-Click to trigger target spectacle");
 		
 		//Ability configuration
-		config.addDefault("Abilities.Spirits.Neutral.Dash.Enabled", true);
-		config.addDefault("Abilities.Spirits.Neutral.Dash.Cooldown", 2000);
-		config.addDefault("Abilities.Spirits.Neutral.Dash.Distance", 3);
+		config.addDefault("Abilities.Spirits.Neutral.Agility.Enabled", true);
+		config.addDefault("Abilities.Spirits.Neutral.Agility.Dash.Cooldown", 2000);
+		config.addDefault("Abilities.Spirits.Neutral.Agility.Dash.Distance", 3);
+		config.addDefault("Abilities.Spirits.Neutral.Agility.Soar.Cooldown", 4500);
+		config.addDefault("Abilities.Spirits.Neutral.Agility.Soar.Duration", 1000);
+		config.addDefault("Abilities.Spirits.Neutral.Agility.Soar.Speed", 0.8);
 		
 		config.addDefault("Abilities.Spirits.Neutral.Possess.Enabled", true);
 		config.addDefault("Abilities.Spirits.Neutral.Possess.Cooldown", 5000);
@@ -84,11 +84,6 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.Neutral.Possess.Damage", 5);
 		config.addDefault("Abilities.Spirits.Neutral.Possess.Duration", 2000);
 		config.addDefault("Abilities.Spirits.Neutral.Possess.CanPossessMobs", false);
-		
-		config.addDefault("Abilities.Spirits.Neutral.Soar.Enabled", true);
-		config.addDefault("Abilities.Spirits.Neutral.Soar.Cooldown", 4500);
-		config.addDefault("Abilities.Spirits.Neutral.Soar.Duration", 1000);
-		config.addDefault("Abilities.Spirits.Neutral.Soar.Speed", 0.8);
 		
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Enabled", true);
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Cooldown", 8000);
