@@ -11,7 +11,7 @@ import com.projectkorra.projectkorra.util.ParticleEffect;
 
 public class Methods {
 	public static String getVersion() {
-		return "1.0.6";
+		return "1.0.8";
 	}
 	
 	public static String getAuthor() {
