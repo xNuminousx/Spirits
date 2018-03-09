@@ -44,7 +44,7 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		langConfig.addDefault("Abilities.Spirit.Agility.Instructions", "Left-Click: Dash ⏐ Hold shift: Soar");
 		
 		langConfig.addDefault("Abilities.Spirit.Fuse.Description", "Rush towards a human to combine your energies and temporarily empower them with strength! This will come at a cost of your own power and strength, however. You must collide with your target for this to be used successfully. An alternative usage is a powerful boost.");
-		langConfig.addDefault("Abilities.Spirit.Fuse.Instructions", "Soar (Left-click 2x) > Possess (Hold shift)");
+		langConfig.addDefault("Abilities.Spirit.Fuse.Instructions", "Agility (Left-click 2x) > Possess (Hold shift)");
 		
 		langConfig.addDefault("Abilities.Spirit.Possess.Description", "A very ancient ability of Spitits is the ability to jump inside the body of a human. As a Spirit, you'll be able to possess a human for a short amount of time and do harm. While this ability is active, both the Spirit and the target will be motionless.");
 		langConfig.addDefault("Abilities.Spirit.Possess.Instructions", "Hold shift and look at a human.");
