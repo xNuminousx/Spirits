@@ -29,7 +29,6 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	private boolean progress;
 	private Vector direction;
 	private Location origin;
-	private boolean possessMobs;
 	
 
 	public Possess(Player player) {
@@ -42,7 +41,6 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		setFields();
 		time = System.currentTimeMillis();
 		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.5F, 5);
-		
 		start();
 	}
 
@@ -51,7 +49,6 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		this.range = ConfigManager.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Radius");
 		this.damage = ConfigManager.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Damage");
 		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Possess.Duration");
-		this.possessMobs = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Possess.CanPossessMobs");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
@@ -72,7 +69,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		}
 		
 		if (player.isSneaking()) {
-			possess();
+			grabTarget();
 		} else {
 			remove();
 			return;
@@ -80,25 +77,13 @@ public class Possess extends SpiritAbility implements AddonAbility {
 
 	}
 	
-	public void possess() {
+	public void grabTarget() {
 		if (progress) {
 			location.add(direction.multiply(1));
+			ParticleEffect.FLAME.display(location, 0, 0, 0, 0, 1);
 		}
-		
-		for (Player target : GeneralMethods.getPlayersAroundPoint(location, 1.5)) {
-			if (target.getUniqueId() != player.getUniqueId()) {
-				if (System.currentTimeMillis() > time + duration) {
-					this.doEffect(target, location);
-					remove();
-					return;
-				} else {
-					this.possess((LivingEntity) target);
-				}
-			}
-		}
-		
 		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 1.5)) {
-			if ((target instanceof LivingEntity) && target.getUniqueId() != player.getUniqueId() && possessMobs) {
+			if ((target instanceof LivingEntity) && target.getUniqueId() != player.getUniqueId()) {
 				if (System.currentTimeMillis() > time + duration) {
 					this.doEffect(target, location);
 					remove();

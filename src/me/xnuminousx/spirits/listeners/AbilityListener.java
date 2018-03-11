@@ -76,9 +76,6 @@ public class AbilityListener implements Listener {
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Sanctity")) {
 			new Sanctity(player);
 
-		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Alleviate")) {
-			new Alleviate(player);
-
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Agility")) {
 			new Agility(player, AgilityType.SOAR);
 
