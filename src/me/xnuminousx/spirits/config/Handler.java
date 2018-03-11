@@ -144,8 +144,6 @@ public class Handler extends AvatarAbility implements AddonAbility {
 
 	@Override
 	public void stop() {
-		ConfigManager.defaultConfig.save();
-		ConfigManager.languageConfig.save();
 		super.remove();
 	}
 	
