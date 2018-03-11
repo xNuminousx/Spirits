@@ -97,21 +97,20 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	public void possess(LivingEntity target) {
 		progress = false;
 		bPlayer.addCooldown(this);
+		Location targetLoc = target.getLocation().clone();
 		
 		// Teleport player
-		Location tLoc = target.getLocation().clone();
-		tLoc.setPitch(location.getPitch());
-		tLoc.setYaw(location.getYaw());
-		player.teleport(tLoc);
+		targetLoc.setPitch(location.getPitch());
+		targetLoc.setYaw(location.getYaw());
+		player.teleport(targetLoc);
 		
 		// Grab target
-		Location tarLoc = target.getLocation();
-		Vector vec = tarLoc.getDirection().normalize().multiply(0);
+		Vector vec = targetLoc.getDirection().normalize().multiply(0);
 		target.setVelocity(vec);
-		player.getWorld().playSound(tarLoc, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.5F, 5);
+		player.getWorld().playSound(targetLoc, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.5F, 5);
 		
 		// Possession effects
-		ParticleEffect.DRAGON_BREATH.display(tLoc, 0.3F, 1F, 0.3F, 0.02F, 1);
+		ParticleEffect.DRAGON_BREATH.display(targetLoc, 0.3F, 1F, 0.3F, 0.02F, 1);
 		target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2), true);
 		target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 2), true);
 		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 120, 2), true);
