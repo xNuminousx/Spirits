@@ -80,7 +80,6 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	public void grabTarget() {
 		if (progress) {
 			location.add(direction.multiply(1));
-			ParticleEffect.FLAME.display(location, 0, 0, 0, 0, 1);
 		}
 		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 1.5)) {
 			if ((target instanceof LivingEntity) && target.getUniqueId() != player.getUniqueId()) {
