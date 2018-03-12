@@ -135,7 +135,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 						return;
 					}
 					for (Entity target2 : GeneralMethods.getEntitiesAroundPoint(location, shieldSize)) {
-						if (target2 instanceof LivingEntity && !target2.getUniqueId().equals(target.getUniqueId())) {
+						if (target2 instanceof LivingEntity && !target2.getUniqueId().equals(target.getUniqueId()) && !target2.getUniqueId().equals(player.getUniqueId())) {
 							Vector vec = target2.getLocation().getDirection().normalize().multiply(-knockDis);
 							vec.setY(1);
 							target2.setVelocity(vec);

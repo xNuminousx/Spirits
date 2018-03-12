@@ -59,7 +59,7 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		langConfig.addDefault("Abilities.LightSpirit.Sanctity.Instructions", "Hold shift until you see the trigger");
 		
 		langConfig.addDefault("Abilities.LightSpirit.Shelter.Description", "A very useful tactic when group battling, a light spirit can temporarily shield a friend or even a foe from incoming enemies. Additionally, they have the options to shield themselves!");
-		langConfig.addDefault("Abilities.LightSpirit.Shelter.Instructions", "Left click = Shield others | Hold shift = Shield yourself.");
+		langConfig.addDefault("Abilities.LightSpirit.Shelter.Instructions", "Left click: Shield others ⏐ Hold shift: Shield yourself.");
 		
 		langConfig.addDefault("Abilities.DarkSpirit.Infest.Description", "A very dangerous combo; used in offense to attack players and infest them with the influence of darkness. When your swarm attaches to an entity, it will begin to damage them then leave them temporarily blind! This ability will not work against other Spirits.");
 		langConfig.addDefault("Abilities.DarkSpirit.Infest.Instructions", "Intoxicate (Hold shift) > Strike (Left-click x3) > Strike (Release shift)");
