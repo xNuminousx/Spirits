@@ -32,7 +32,8 @@ public class Shelter extends LightAbility implements AddonAbility {
 	private Vector direction;
 	private int currPoint;
 	private boolean progress;
-	private long cooldown;
+	private long othersCooldown;
+	private long selfCooldown;
 	private float shieldSize;
 	private float selfShield;
 	private long knockDis;
@@ -55,7 +56,8 @@ public class Shelter extends LightAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Cooldown");
+		this.othersCooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Others.Cooldown");
+		this.selfCooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Self.Cooldown");
 		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Duration");
 		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Range");
 		this.shieldSize = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Others.ShieldSize");
@@ -90,7 +92,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 			if (player.isSneaking()) {
 				shieldSelf();
 			} else {
-				bPlayer.addCooldown(this);
+				bPlayer.addCooldown(this, selfCooldown);
 				remove();
 				return;
 			}
@@ -99,7 +101,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 	
 	public void shieldSelf() {
 		if (System.currentTimeMillis() > time + duration) {
-			bPlayer.addCooldown(this);
+			bPlayer.addCooldown(this, selfCooldown);
 			remove();
 			return;
 		} else {
@@ -122,7 +124,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 		
 		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 2)) {
 			if (target instanceof LivingEntity && !target.getUniqueId().equals(player.getUniqueId())) {
-				bPlayer.addCooldown(this);
+				bPlayer.addCooldown(this, othersCooldown);
 				if (System.currentTimeMillis() > time + duration) {
 					remove();
 					return;
@@ -178,7 +180,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 
 	@Override
 	public long getCooldown() {
-		return cooldown;
+		return 0;
 	}
 
 	@Override
