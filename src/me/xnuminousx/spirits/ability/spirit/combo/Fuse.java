@@ -96,9 +96,9 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	@Override
 	public ArrayList<AbilityInformation> getCombination() {
 		ArrayList<AbilityInformation> combo = new ArrayList<>();
+		combo.add(new AbilityInformation("Possess", ClickType.LEFT_CLICK));
 		combo.add(new AbilityInformation("Agility", ClickType.LEFT_CLICK));
-		combo.add(new AbilityInformation("Agility", ClickType.LEFT_CLICK));
-		combo.add(new AbilityInformation("Possess", ClickType.SHIFT_DOWN));
+		combo.add(new AbilityInformation("Agility", ClickType.SHIFT_DOWN));
 		return combo;
 	}
 

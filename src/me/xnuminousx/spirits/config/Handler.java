@@ -9,6 +9,7 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.AvatarAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 
+import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.listeners.AbilityListener;
 
 public class Handler extends AvatarAbility implements AddonAbility {
@@ -24,9 +25,6 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		
 		//Register Listener
 		ProjectKorra.plugin.getServer().getPluginManager().registerEvents(new AbilityListener(), ProjectKorra.plugin);
-		
-		//Project console load message
-		ProjectKorra.log.info("Successfully loaded Spirits");
 	
 		//Language config
 		langConfig.addDefault("Chat.Colors.Spirit", "DARK_AQUA");
@@ -44,7 +42,7 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		langConfig.addDefault("Abilities.Spirit.Agility.Instructions", "Left-Click: Dash ⏐ Hold shift: Soar");
 		
 		langConfig.addDefault("Abilities.Spirit.Fuse.Description", "Rush towards a human to combine your energies and temporarily empower them with strength! This will come at a cost of your own power and strength, however. You must collide with your target for this to be used successfully. An alternative usage is a powerful boost.");
-		langConfig.addDefault("Abilities.Spirit.Fuse.Instructions", "Agility (Left-click 2x) > Possess (Hold shift)");
+		langConfig.addDefault("Abilities.Spirit.Fuse.Instructions", "Possess (Left-click) > Agility (Left-click) > Agility (Hold shift)");
 		
 		langConfig.addDefault("Abilities.Spirit.Possess.Description", "A very ancient ability of Spitits is the ability to jump inside the body of a human. As a Spirit, you'll be able to possess a human for a short amount of time and do harm. While this ability is active, both the Spirit and the target will be motionless.");
 		langConfig.addDefault("Abilities.Spirit.Possess.Instructions", "Hold shift and look at a human.");
@@ -141,11 +139,16 @@ public class Handler extends AvatarAbility implements AddonAbility {
 		
 		ConfigManager.defaultConfig.save();
 		ConfigManager.languageConfig.save();
+		
+		//Project console load message
+		ProjectKorra.log.info("Successfully enabled Spirits " + Methods.getVersion());
 	}
 
 	@Override
 	public void stop() {
 		super.remove();
+		
+		ProjectKorra.log.info("Successfully disabled Spirits " + Methods.getVersion());
 	}
 	
 	@Override
