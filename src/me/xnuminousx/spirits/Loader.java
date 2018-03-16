@@ -47,14 +47,11 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		langConfig.addDefault("Abilities.Spirit.Possess.Description", "A very ancient ability of Spitits is the ability to jump inside the body of a human. As a Spirit, you'll be able to possess a human for a short amount of time and do harm. While this ability is active, both the Spirit and the target will be motionless.");
 		langConfig.addDefault("Abilities.Spirit.Possess.Instructions", "Hold shift and look at a human.");
 		
-		langConfig.addDefault("Abilities.LightSpirit.Alleviate.Description", "Use this ability to relieve your friends and allies of their negative potion effects, keep using it and you'll give them a small boost of your own health. If your target moves too far, the ability will cancel.");
-		langConfig.addDefault("Abilities.LightSpirit.Alleviate.Instructions", "Hold shift while looking at your target");
+		langConfig.addDefault("Abilities.LightSpirit.Alleviate.Description", "The healing ability for LightSpirits, this allows you to heal yourself and others! When healing, whoever is being healed will be removed of ANY negative potion effects aswell as recieve regeneration for a period of time.");
+		langConfig.addDefault("Abilities.LightSpirit.Alleviate.Instructions", "Hold Shift while lookat at a target: Heal them ⏐ Hold Shift while looking away: Heal yourself.");
 		
 		langConfig.addDefault("Abilities.DzarkSpirit.Intoxicate.Description", "Sacrifice some of your energy to pour a bit of chaos into the souls of your nearby enemies by taking away their positive potion effects and adding negative ones. Then watch as it destroys them from the inside out! The great spirit Vaatu was known to have this influence over other unbalanced Spirits.");
 		langConfig.addDefault("Abilities.DarkSpirit.Intoxicate.Instructions", "Hold shift");
-		
-		langConfig.addDefault("Abilities.LightSpirit.Sanctity.Description", "Use this to empower yourself with more health, better resistance and the ability to find the light in the dark for a limited period of time.");
-		langConfig.addDefault("Abilities.LightSpirit.Sanctity.Instructions", "Hold shift until you see the trigger");
 		
 		langConfig.addDefault("Abilities.LightSpirit.Shelter.Description", "A very useful tactic when group battling, a light spirit can temporarily shield a friend or even a foe from incoming enemies. Additionally, they have the options to shield themselves!");
 		langConfig.addDefault("Abilities.LightSpirit.Shelter.Instructions", "Left click: Shield others ⏐ Hold shift: Shield yourself.");
@@ -89,17 +86,17 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.WeaknessDuration", 2);
 		
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Enabled", true);
-		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Cooldown", 5000);
-		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Radius", 5);
-		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.PotionInterval", 2000);
-		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.HealInterval", 5000);
-		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.ParticleColor (Has to be 6 characters)", "FFFFFF");
-		
-		config.addDefault("Abilities.Spirits.LightSpirit.Sanctity.Enabled", true);
-		config.addDefault("Abilities.Spirits.LightSpirit.Sanctity.Cooldown", 15000);
-		config.addDefault("Abilities.Spirits.LightSpirit.Sanctity.Power", 2);
-		config.addDefault("Abilities.Spirits.LightSpirit.Sanctity.PotionDuration", 1.5);
-		config.addDefault("Abilities.Spirits.LightSpirit.Sanctity.ChargeTime", 2500);
+		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Others.Cooldown", 5000);
+		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Others.Range", 5);
+		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Others.PotionInterval", 2000);
+		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Others.HealInterval", 5000);
+		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Others.ParticleColor (Has to be 6 characters)", "FFFFFF");
+		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Self.Cooldown", 5000);
+		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Self.ChargeTime", 2000);
+		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Self.HealDuration", 1.5);
+		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Self.NightVisionDuration", 1.5);
+		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Self.RemoveNegativePotionEffects", true);
+		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Self.ParticleColor (Has to be 6 characters)", "FFFFFF");
 		
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Enabled", true);
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.RemoveOnDamage", true);
