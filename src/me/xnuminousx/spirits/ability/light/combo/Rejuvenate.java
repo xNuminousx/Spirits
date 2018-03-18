@@ -29,17 +29,17 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
 
 	private Location location;
 	private Location location2;
-	private Location location3;
 	private Location circleCenter;
 	private long time;
 	private long cooldown;
 	private long duration;
-	private int currPoint;
 	private int radius;
 	private int effectInt;
 	private boolean damageMonsters;
 	private boolean damageDarkSpirits;
 	private double damage;
+	private int currPoint;
+	private Location location3;
 
 	public Rejuvenate(Player player) {
 		super(player);
@@ -83,19 +83,7 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
 	}
 	
 	public void spawnCircle() {
-		//Still circle
-		
-		int points = 8;
-		for (int p = 0; p < points; p++) {
-		  double angle = 360.0 / points * p;
-		  angle = Math.toRadians(angle);
-		  double x = radius * Math.cos(angle);
-		  double z = radius * Math.sin(angle);
-		  location.add(x, 0.2, z);
-		  ParticleEffect.INSTANT_SPELL.display(location, 0.1F, 0, 0.1F, 0, 1);
-		  location.subtract(x, 0.2, z);
-		}
-		
+		Methods.createPolygon(location, 8, radius, 0.2, ParticleEffect.INSTANT_SPELL);
 		for (int i = 0; i < 6; i++) {
 			this.currPoint += 360 / 300;
 			if (this.currPoint > 360) {

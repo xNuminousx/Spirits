@@ -78,4 +78,54 @@ public class Methods {
 		direction.setY(height);
 		player.setVelocity(direction);
 	}
+	
+	public static void createPolygon(Location location, int points, int radius, double height, ParticleEffect particleEffect) {
+		for (int i = 0; i < points; i++) {
+			  double angle = 360.0 / points * i;
+			  angle = Math.toRadians(angle);
+			  double x = radius * Math.cos(angle);
+			  double z = radius * Math.sin(angle);
+			  location.add(x, height, z);
+			  particleEffect.display(location, 0, 0, 0, 0, 1);
+			  location.subtract(x, height, z);
+			}
+	}
+	
+	public static void createRotatingCircle(Location location, int speed, int points, int radius, double height, ParticleEffect particleEffect) {
+		for (int i = 0; i < speed; i++) {
+			int currPoint = 0;
+			currPoint += 360 / points;
+			if (currPoint > 360) {
+				currPoint = 0;
+			}
+			double angle = currPoint * Math.PI / 180.0D;
+			double x = radius * Math.cos(angle);
+			double z = radius * Math.sin(angle);
+			location.add(x, height, z);
+			particleEffect.display(location, 0, 0, 0, 0, 1);
+			location.subtract(x, height, z);
+		}
+	}
+	
+	public static void createDoubleRotatingCircle(Location location, Location location2, int speed, int points, int radius, double height, ParticleEffect particleEffect1, ParticleEffect particleEffect2, int particleAmount) {
+		for (int i = 0; i < speed; i++) {
+			int currPoint = 0;
+			currPoint += 360 / points;
+			if (currPoint > 360) {
+				currPoint = 0;
+			}
+			double angle = currPoint * Math.PI / 180.0D;
+			double x = radius * Math.cos(angle);
+			double x2 = radius * Math.sin(angle);
+			double z = radius * Math.sin(angle);
+			double z2 = radius * Math.cos(angle);
+			location.add(x, height, z);
+			ParticleEffect.END_ROD.display(location, 0, 0, 0, 0, particleAmount);
+			location.subtract(x, height, z);
+			
+			location2.add(x2, height, z2);
+			ParticleEffect.END_ROD.display(location2, 0, 0, 0, 0, particleAmount);
+			location2.subtract(x2, height, z2);
+		}
+	}
 }
