@@ -50,6 +50,9 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		langConfig.addDefault("Abilities.LightSpirit.Alleviate.Description", "The healing ability for LightSpirits, this allows you to heal yourself and others! When healing, whoever is being healed will be removed of ANY negative potion effects aswell as recieve regeneration for a period of time.");
 		langConfig.addDefault("Abilities.LightSpirit.Alleviate.Instructions", "Hold Shift while lookat at a target: Heal them ⏐ Hold Shift while looking away: Heal yourself.");
 		
+		langConfig.addDefault("Abilities.LightSpirit.Rejuvenate.Description", "After executing the combo sequence, you will mark the ground will positively charged spiritual energy for a duration of time. Entities can come to this location to heal themselves, but dark creatures must beware!");
+		langConfig.addDefault("Abilities.LightSpirit.Rejuvenate.Instructions", "Alleviate (Shift down) > Alleviate (Right-Click block) > Alleviate (Shift up)");
+		
 		langConfig.addDefault("Abilities.DzarkSpirit.Intoxicate.Description", "Sacrifice some of your energy to pour a bit of chaos into the souls of your nearby enemies by taking away their positive potion effects and adding negative ones. Then watch as it destroys them from the inside out! The great spirit Vaatu was known to have this influence over other unbalanced Spirits.");
 		langConfig.addDefault("Abilities.DarkSpirit.Intoxicate.Instructions", "Hold shift");
 		
@@ -108,6 +111,15 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Self.ShieldSize", 4);
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Others.KnockbackPower", 1);
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Self.KnockbackPower", 1);
+		
+		config.addDefault("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Enabled", true);
+		config.addDefault("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Cooldown", 15000);
+		config.addDefault("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Duration", 10000);
+		config.addDefault("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Radius", 5);
+		config.addDefault("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Damage", 1);
+		config.addDefault("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.EffectInterval", 10);
+		config.addDefault("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.HurtDarkSpirits", true);
+		config.addDefault("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.HurtMonsters", true);
 		
 		config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.Enabled", true);
 		config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.Cooldown", 5000);
