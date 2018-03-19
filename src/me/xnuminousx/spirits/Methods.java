@@ -120,11 +120,11 @@ public class Methods {
 			double z = radius * Math.sin(angle);
 			double z2 = radius * Math.cos(angle);
 			location.add(x, height, z);
-			ParticleEffect.END_ROD.display(location, 0, 0, 0, 0, particleAmount);
+			particleEffect1.display(location, 0, 0, 0, 0, particleAmount);
 			location.subtract(x, height, z);
 			
 			location2.add(x2, height, z2);
-			ParticleEffect.END_ROD.display(location2, 0, 0, 0, 0, particleAmount);
+			particleEffect2.display(location2, 0, 0, 0, 0, particleAmount);
 			location2.subtract(x2, height, z2);
 		}
 	}

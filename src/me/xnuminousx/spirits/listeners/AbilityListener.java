@@ -83,17 +83,17 @@ public class AbilityListener implements Listener {
 	}
 
 	@EventHandler
-	public void onPlayerFall(EntityDamageEvent event) {
+	public void onFallDamage(EntityDamageEvent event) {
 
 		if (event.getEntity() instanceof Player) {
-			Element element = Element.getElement("Spirit");
+			Element spirit = Element.getElement("Spirit");
 			Player player = (Player) event.getEntity();
 			BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
 
 			if (event.isCancelled() || bPlayer == null || bPlayer.hasElement(Element.AIR) || bPlayer.hasElement(Element.EARTH)) {
 				return;
 
-			} else if (bPlayer.hasElement(element) && event.getCause() == DamageCause.FALL) {
+			} else if (bPlayer.hasElement(spirit) && event.getCause() == DamageCause.FALL) {
 				event.setDamage(0D);
 				event.setCancelled(true);
 				

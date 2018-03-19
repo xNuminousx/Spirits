@@ -50,8 +50,8 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		langConfig.addDefault("Abilities.LightSpirit.Alleviate.Description", "The healing ability for LightSpirits, this allows you to heal yourself and others! When healing, whoever is being healed will be removed of ANY negative potion effects aswell as recieve regeneration for a period of time.");
 		langConfig.addDefault("Abilities.LightSpirit.Alleviate.Instructions", "Hold Shift while lookat at a target: Heal them ⏐ Hold Shift while looking away: Heal yourself.");
 		
-		langConfig.addDefault("Abilities.LightSpirit.Rejuvenate.Description", "After executing the combo sequence, you will mark the ground will positively charged spiritual energy for a duration of time. Entities can come to this location to heal themselves, but dark creatures must beware!");
-		langConfig.addDefault("Abilities.LightSpirit.Rejuvenate.Instructions", "Alleviate (Shift down) > Alleviate (Right-Click block) > Alleviate (Shift up)");
+		langConfig.addDefault("Abilities.LightSpirit.Rejuvenate.Description", "After executing the combo sequence, you will mark the ground with positively charged spiritual energy for a duration of time. Entities can come to this location to heal themselves, but dark creatures must beware!");
+		langConfig.addDefault("Abilities.LightSpirit.Rejuvenate.Instructions", "Alleviate (Shift down) > Alleviate (Right-Click block) > Alleviate (Release shift)");
 		
 		langConfig.addDefault("Abilities.DzarkSpirit.Intoxicate.Description", "Sacrifice some of your energy to pour a bit of chaos into the souls of your nearby enemies by taking away their positive potion effects and adding negative ones. Then watch as it destroys them from the inside out! The great spirit Vaatu was known to have this influence over other unbalanced Spirits.");
 		langConfig.addDefault("Abilities.DarkSpirit.Intoxicate.Instructions", "Hold shift");
@@ -59,8 +59,8 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		langConfig.addDefault("Abilities.LightSpirit.Shelter.Description", "A very useful tactic when group battling, a light spirit can temporarily shield a friend or even a foe from incoming enemies. Additionally, they have the options to shield themselves!");
 		langConfig.addDefault("Abilities.LightSpirit.Shelter.Instructions", "Left click: Shield others ⏐ Hold shift: Shield yourself.");
 		
-		langConfig.addDefault("Abilities.DarkSpirit.Infest.Description", "A very dangerous combo; used in offense to attack players and infest them with the influence of darkness. When your swarm attaches to an entity, it will begin to damage them then leave them temporarily blind! This ability will not work against other Spirits.");
-		langConfig.addDefault("Abilities.DarkSpirit.Infest.Instructions", "Intoxicate (Hold shift) > Strike (Left-click x3) > Strike (Release shift)");
+		langConfig.addDefault("Abilities.DarkSpirit.Infest.Description", "After executing the combo sequence, you will mark the ground with negatively charged spiritual energy for a duration of time. Monsters can come to this location for strength, but any other entities must beware!");
+		langConfig.addDefault("Abilities.DarkSpirit.Infest.Instructions", "Intoxicate (Shift down) > Intoxicate (Right-Click block) > Intoxicate (Release shift)");
 		
 		langConfig.addDefault("Abilities.DarkSpirit.Shackle.Description", "With this technique a DarkSpirit is able to temporarily trap an anyone dead in their tracks, even if you can't see them! Useful for a quick get away...");
 		langConfig.addDefault("Abilities.DarkSpirit.Shackle.Instructions", "Left click");
@@ -140,11 +140,13 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.DarkSpirit.Strike.Damage", 3);
 		
 		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Enabled", true);
-		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Cooldown", 10000);
-		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Duration", 5000);
-		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Range", 20);
-		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Radius", 2);
-		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.CanUseOnSpirits", false);
+		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Cooldown", 15000);
+		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Duration", 10000);
+		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Radius", 8);
+		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.EffectInterval", 10);
+		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Damage", 1);
+		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.DamageEntities", true);
+		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.HealDarkSpirits", true);
 		
 		//Save default configurations
 		ConfigManager.defaultConfig.save();

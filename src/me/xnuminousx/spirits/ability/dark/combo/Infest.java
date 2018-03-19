@@ -1,14 +1,15 @@
 package me.xnuminousx.spirits.ability.dark.combo;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.Element;
@@ -18,25 +19,27 @@ import com.projectkorra.projectkorra.ability.ComboAbility;
 import com.projectkorra.projectkorra.ability.util.ComboManager.AbilityInformation;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ClickType;
+import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.DarkAbility;
 
-public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
+public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 
-	private boolean progress;
-	private long cooldown;
 	private Location location;
-	private Location origin;
-	private Vector direction;
-	private int currPoint;
-	private int range;
-	private double radius;
+	private Location location2;
+	private Location circleCenter;
 	private long time;
+	private long cooldown;
 	private long duration;
-	private boolean firstEff;
-	private boolean canUseOnSpirits;
+	private int radius;
+	private int effectInt;
+	private boolean damageEntities;
+	private boolean healDarkSpirits;
+	private double damage;
+	private int currPoint;
+	private Location location3;
 
 	public Infest(Player player) {
 		super(player);
@@ -44,94 +47,93 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 		if (!bPlayer.canBendIgnoreBinds(this)) {
 			return;
 		}
-		
 		setFields();
-		start();
 		time = System.currentTimeMillis();
+		start();
 		bPlayer.addCooldown(this);
 	}
 
 	private void setFields() {
 		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Combo.Infest.Cooldown");
 		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Combo.Infest.Duration");
-		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.DarkSpirit.Combo.Infest.Range");
-		this.radius = ConfigManager.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Combo.Infest.Radius");
-		this.canUseOnSpirits = ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Combo.Infest.CanUseOtherSpirits");
-		this.origin = player.getLocation().clone().add(0, 1, 0);
-		this.location = origin.clone();
-		this.direction = player.getLocation().getDirection();
-		this.progress = true;
-		this.firstEff = true;
+		this.radius = ConfigManager.getConfig().getInt("Abilities.Spirits.DarkSpirit.Combo.Infest.Radius");
+		this.effectInt = ConfigManager.getConfig().getInt("Abilities.Spirits.DarkSpirit.Combo.Infest.EffectInterval");
+		this.damage = ConfigManager.getConfig().getInt("Abilities.Spirits.DarkSpirit.Combo.Infest.Damage");
+		this.damageEntities = ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Combo.Infest.DamageEntities");
+		this.healDarkSpirits = ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Combo.Infest.HealDarkSpirits");
+		location = player.getLocation();
+		location2 = player.getLocation();
+		location3 = player.getLocation();
+		circleCenter = player.getLocation();
 	}
 
 	@Override
 	public void progress() {
 		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location) || !bPlayer.canBendIgnoreBindsCooldowns(this)) {
-			bPlayer.addCooldown(this);
 			remove();
 			return;
 		}
-		if (origin.distanceSquared(location) > range * range) {
-			bPlayer.addCooldown(this);
+		spawnCircle();
+		grabEntities();
+		if (System.currentTimeMillis() > time + duration) {
 			remove();
 			return;
-			
 		}
-		swarm(20, 0.02F);
+		
 	}
 	
-	public void swarm(int points, float size) {
-		if (progress) {
-			location.add(direction.multiply(1));
-			for (int i = 0; i < 6; i++) {
-				currPoint += 360 / points;
-				if (currPoint > 360) {
-					currPoint = 0;
-				}
-				double angle = currPoint * Math.PI / 180 * Math.cos(Math.PI);
-				double x = size * (Math.PI * 4 - angle) * Math.cos(angle + i);
-				double y = 0.6 * Math.cos(angle);
-	            double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
-				location.add(x, y, z);
-				ParticleEffect.WITCH_MAGIC.display(location, 0.6F, 0.6F, 0.6F, 0, 1);
-				ParticleEffect.SMOKE.display(location, 0, 0, 0, 0, 1);
-				location.subtract(x, y, z);
+	public void spawnCircle() {
+		Methods.createPolygon(location, 8, radius, 0.2, ParticleEffect.SPELL_WITCH);
+		for (int i = 0; i < 6; i++) {
+			this.currPoint += 360 / 300;
+			if (this.currPoint > 360) {
+				this.currPoint = 0;
+			}
+			double angle = this.currPoint * Math.PI / 180.0D;
+			double x = radius * Math.cos(angle);
+			double x2 = radius * Math.sin(angle);
+			double z = radius * Math.sin(angle);
+			double z2 = radius * Math.cos(angle);
+			location2.add(x, 0, z);
+			ParticleEffect.SMOKE.display(location2, 0, 0, 0, 0, 1);
+			location2.subtract(x, 0, z);
+			
+			location3.add(x2, 0, z2);
+			ParticleEffect.SMOKE.display(location3, 0, 0, 0, 0, 1);
+			location3.subtract(x2, 0, z2);
+		}
+		
+		ParticleEffect.DRAGON_BREATH.display(location, radius / 2, 0.4F, radius / 2, 0.01F, 1);
+	}
+	
+	public void grabEntities() {
+		for (Entity entity : GeneralMethods.getEntitiesAroundPoint(circleCenter, radius)) {
+			if (entity instanceof LivingEntity) {
+				infestEntities(entity);
 			}
 		}
-		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, radius)) {
-			if ((target instanceof LivingEntity || target instanceof Player) && !target.getUniqueId().equals(player.getUniqueId())) {
-				this.progress = false;
-				location = target.getLocation();
-				LivingEntity le = (LivingEntity)target;
-				
-				if (!canUseOnSpirits) {
-					if (target instanceof Player) {
-						Player player = (Player)target;
-						BendingPlayer bTarget = BendingPlayer.getBendingPlayer(player);
-						if (bTarget.hasElement(Element.getElement("Spirit")) || bTarget.hasElement(Element.getElement("DarkSpirit")) || bTarget.hasElement(Element.getElement("LightSpirit"))) {
-							bPlayer.addCooldown(this);
-							remove();
-							return;
-						}
-					}
+	}
+	
+	public void infestEntities(Entity entity) {
+		if (new Random().nextInt(effectInt) == 0) {
+			if (entity instanceof Player) {
+				Player ePlayer = (Player) entity;
+				BendingPlayer bEntity = BendingPlayer.getBendingPlayer(ePlayer);
+				if (bEntity.hasElement(Element.getElement("DarkSpirit")) && healDarkSpirits) {
+					LivingEntity le = (LivingEntity)entity;
+					le.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 1));
+					ParticleEffect.HEART.display(entity.getLocation().add(0, 2, 0), 0, 0, 0, 0, 1);
 				}
 				
-				if (System.currentTimeMillis() > time + duration) {
-					bPlayer.addCooldown(this);
-					remove();
-					return;
-				} else {
-					ParticleEffect.SMOKE.display(location, 1, 1, 1, 0, 2);
-					if (System.currentTimeMillis() > time + (duration / 4) && (firstEff)) {
-						ParticleEffect.DRAGON_BREATH.display(location, 0.5F, 1F, 0.5F, 0.05F, 2);
-						le.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 60, 1), true);
-					}
-					
-					if (System.currentTimeMillis() > time + (duration / 2)) {
-						firstEff = false;
-						le.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 2), true);
-					}
+			} else if (entity instanceof LivingEntity && damageEntities) {
+				if (!(entity instanceof Monster)) {
+					DamageHandler.damageEntity(entity, damage, this);
+					ParticleEffect.PORTAL.display(entity.getLocation().add(0, 1, 0), 0, 0, 0, 1.5F, 5);
 				}
+				
+			} else if (entity instanceof Monster) {
+				LivingEntity le = (LivingEntity)entity;
+				le.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 120, 1));
 			}
 		}
 	}
@@ -145,15 +147,14 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 	public ArrayList<AbilityInformation> getCombination() {
 		ArrayList<AbilityInformation> combo = new ArrayList<>();
 		combo.add(new AbilityInformation("Intoxicate", ClickType.SHIFT_DOWN));
-		combo.add(new AbilityInformation("Strike", ClickType.LEFT_CLICK));
-		combo.add(new AbilityInformation("Strike", ClickType.LEFT_CLICK));
-		combo.add(new AbilityInformation("Strike", ClickType.LEFT_CLICK));
-		combo.add(new AbilityInformation("Strike", ClickType.SHIFT_UP));
+		combo.add(new AbilityInformation("Intoxicate", ClickType.RIGHT_CLICK_BLOCK));
+		combo.add(new AbilityInformation("Intoxicate", ClickType.SHIFT_UP));
 		return combo;
 	}
 
 	@Override
 	public long getCooldown() {
+
 		return cooldown;
 	}
 
@@ -164,13 +165,13 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 
 	@Override
 	public String getName() {
+
 		return "Infest";
 	}
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("dark", "Combo") + 
-				ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Infest.Description");
+		return Methods.getSpiritDescription("dark", "Combo") + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Infest.Description");
 	}
 	
 	@Override
@@ -195,21 +196,25 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 
 	@Override
 	public boolean isExplosiveAbility() {
+
 		return false;
 	}
 
 	@Override
 	public boolean isHarmlessAbility() {
+
 		return false;
 	}
 
 	@Override
 	public boolean isIgniteAbility() {
+
 		return false;
 	}
 
 	@Override
 	public boolean isSneakAbility() {
+
 		return false;
 	}
 
@@ -219,6 +224,6 @@ public class Infest extends DarkAbility implements ComboAbility, AddonAbility {
 
 	@Override
 	public void stop() {
-
 	}
+
 }
