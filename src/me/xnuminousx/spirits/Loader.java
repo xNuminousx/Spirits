@@ -41,7 +41,7 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		langConfig.addDefault("Abilities.Spirit.Agility.Description", "This ability offers you 2 modes of mobility. The first being the ability to dash forward very quickly. The second being the ability to soar through the skies as if gravity is non-existant.");
 		langConfig.addDefault("Abilities.Spirit.Agility.Instructions", "Left-Click: Dash ⏐ Hold shift: Soar");
 		
-		langConfig.addDefault("Abilities.Spirit.Fuse.Description", "Rush towards a human to combine your energies and temporarily empower them with strength! This will come at a cost of your own power and strength, however. You must collide with your target for this to be used successfully. An alternative usage is a powerful boost.");
+		langConfig.addDefault("Abilities.Spirit.Fuse.Description", "A rarely seen ability of Spirits is the ability to Fuse with a being, combine your energies, and empower your host. If the host is a human, they will enter the Avatar State only while being fused. This is very dangerous for the human, however, because if a spirit fuses with a human for too long, the human will die immediately. A spirit must wait 1 second after fusing to be able to exit the even. To exit, tap shift.");
 		langConfig.addDefault("Abilities.Spirit.Fuse.Instructions", "Possess (Left-click) > Agility (Left-click) > Agility (Hold shift)");
 		
 		langConfig.addDefault("Abilities.Spirit.Possess.Description", "A very ancient ability of Spitits is the ability to jump inside the body of a human. As a Spirit, you'll be able to possess a human for a short amount of time and do harm. While this ability is active, both the Spirit and the target will be motionless.");
@@ -83,10 +83,12 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.Neutral.Possess.Duration", 2000);
 		
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Enabled", true);
-		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Cooldown", 8000);
-		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Distance", 10);
-		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.StrengthDuration", 2);
-		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.WeaknessDuration", 2);
+		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Cooldown", 20000);
+		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Duration", 10000);
+		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Players.KillAfterDuration", true);
+		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.NonPlayers.Enabled", true);
+		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.NonPlayers.BuffDuration", 10);
+		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.NonPlayers.HarmfulFuseDelay", 5000);
 		
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Enabled", true);
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Others.Cooldown", 5000);

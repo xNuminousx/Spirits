@@ -1,21 +1,25 @@
 package me.xnuminousx.spirits.ability.spirit.combo;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
+import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.ComboAbility;
 import com.projectkorra.projectkorra.ability.util.ComboManager.AbilityInformation;
+import com.projectkorra.projectkorra.avatar.AvatarState;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ClickType;
+import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Methods;
@@ -24,9 +28,16 @@ import me.xnuminousx.spirits.ability.api.SpiritAbility;
 public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	private long cooldown;
 	private Location origin;
-	private int distance;
-	private int posEffectDuration;
-	private int weaknessDuration;
+	private GameMode originGM;
+	private long time;
+	private long maxDuration;
+	private long dangerDelay;
+	private int potDuration;
+	private boolean enableNPCMerge;
+	private boolean isFusing;
+	private boolean canCancel;
+	private boolean killAfterDuration;
+	private LivingEntity target;
 
 	public Fuse(Player player) {
 		super(player);
@@ -36,54 +47,107 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 		}
 		
 		setFields();
-		
+		time = System.currentTimeMillis();
 		start();
 		bPlayer.addCooldown(this);
 	}
 
 	private void setFields() {
 		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Fuse.Cooldown");
-		this.distance = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Fuse.Distance");
-		this.posEffectDuration = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Fuse.StrengthDuration");
-		this.weaknessDuration = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Fuse.WeaknessDuration");
+		this.maxDuration = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Fuse.Duration");
+		this.killAfterDuration = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Fuse.Players.KillAfterDuration");
+		this.dangerDelay = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Fuse.NonPlayers.HarmfulFuseDelay");
+		this.enableNPCMerge = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Fuse.NonPlayers.Enabled");
+		this.potDuration = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Fuse.NonPlayers.BuffDuration");
 		this.origin = player.getLocation();
-		
+		this.originGM = player.getGameMode();
+		isFusing = false;
+		canCancel = false;
 	}
 
 	@Override
 	public void progress() {
 		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, origin)) {
+			defuse();
 			remove();
 			return;
 		}
-		
-		if (!player.isSneaking() || origin.distanceSquared(player.getLocation()) > distance * distance) {
+		dash();
+		if (System.currentTimeMillis() > time + maxDuration) {
+			ParticleEffect.FIREWORKS_SPARK.display(player.getLocation(), 0.5F, 0.5F, 0.5F, 0.5F, 20);
+			ParticleEffect.DRAGON_BREATH.display(player.getLocation(), 0.5F, 0.5F, 0.5F, 1F, 20);
+			if (target instanceof Player && killAfterDuration) {
+				DamageHandler.damageEntity(target, 30, this);
+			}
+			defuse();
 			remove();
 			return;
-		} else {
-			dash();
+		} else if (System.currentTimeMillis() > time + 1000) {
+			canCancel = true;
+		}
+		if (player.isSneaking() && isFusing && canCancel) {
+			defuse();
+			remove();
+			return;
 		}
 		
 	}
 	
 	public void dash() {
-		Vector direction = player.getLocation().getDirection().normalize().multiply(2);
-		player.setVelocity(direction);
-		Methods.spiritParticles(bPlayer, player.getLocation(), 0.5F, 0.5F, 0.5F, 0, 10);
-		
 		for (Entity target : GeneralMethods.getEntitiesAroundPoint(player.getLocation(), 1)) {
-			if (((target instanceof LivingEntity)) && (target.getEntityId() != player.getEntityId())) {
-				Vector newDir = player.getLocation().getDirection().normalize().multiply(0);
-				player.setVelocity(newDir);
-				
-				LivingEntity le = (LivingEntity)target;
-				ParticleEffect.FIREWORKS_SPARK.display(target.getLocation().add(0, 1, 0), 0.5F, 1, 0.5F, 0.2F, 10);
-				le.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, posEffectDuration * 100, 0), true);
-				le.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, posEffectDuration * 100, 1), true);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, weaknessDuration * 100, 0), true);
-				
+			if (((target instanceof Player)) && (target.getEntityId() != player.getEntityId())) {
+				this.target = (LivingEntity) target;
+				fuse(target);
+			} else if (target instanceof LivingEntity && enableNPCMerge && (target.getEntityId() != player.getEntityId())) {
+				this.target = (LivingEntity) target;
+				fuse(target);
+			}
+		}
+	}
+	
+	public void fuse(Entity target) {
+		isFusing = true;
+		player.setGameMode(GameMode.SPECTATOR);
+		player.setSpectatorTarget(target);
+		if (new Random().nextInt(5) == 0) {
+			Methods.spiritParticles(bPlayer, player.getLocation().add(0, 1, 0), 0.5F, 0.5F, 0.5F, 0.2F, 5);
+		}
+		if (target instanceof Player) {
+			new AvatarState((Player)target);
+			if (System.currentTimeMillis() > time + dangerDelay) {
+				if (new Random().nextInt(10) == 0) {
+					DamageHandler.damageEntity(target, 1, this);
+					ParticleEffect.MAGIC_CRIT.display(target.getLocation().add(0, 1, 0), 0, 0, 0, 0.2F, 10);
+				}
+			}
+		} else if (target instanceof LivingEntity) {
+			if (!enableNPCMerge) {
+				defuse();
 				remove();
 				return;
+			}
+			if (System.currentTimeMillis() > time + dangerDelay) {
+				if (new Random().nextInt(10) == 0) {
+					DamageHandler.damageEntity(target, 1, this);
+					ParticleEffect.MAGIC_CRIT.display(target.getLocation().add(0, 1, 0), 0, 0, 0, 0.2F, 10);
+				}
+			}
+			LivingEntity le = (LivingEntity)target;
+			le.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, potDuration * 24, 2));
+			le.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, potDuration * 24, 1));
+			le.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, potDuration * 24, 2));
+		}
+	}
+	
+	public void defuse() {
+		player.setSpectatorTarget(null);
+		player.setGameMode(originGM);
+		
+		if (target instanceof Player) {
+			BendingPlayer bTarget = BendingPlayer.getBendingPlayer((Player)target);
+			if (bTarget.isAvatarState()) {
+				AvatarState avatarState = getAbility((Player)target, AvatarState.class);
+				avatarState.remove();
 			}
 		}
 	}
