@@ -69,7 +69,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		}
 		
 		if (player.isSneaking()) {
-			grabTarget();
+			checkEntities();
 		} else {
 			remove();
 			return;
@@ -77,14 +77,15 @@ public class Possess extends SpiritAbility implements AddonAbility {
 
 	}
 	
-	public void grabTarget() {
+	public void checkEntities() {
 		if (progress) {
 			location.add(direction.multiply(1));
 		}
 		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 1.5)) {
 			if ((target instanceof LivingEntity) && target.getUniqueId() != player.getUniqueId()) {
 				if (System.currentTimeMillis() > time + duration) {
-					this.doEffect(target, location);
+					DamageHandler.damageEntity(target, damage, this);
+					player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.5F, 0.5F);
 					remove();
 					return;
 				} else {
@@ -92,7 +93,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 				}
 			}
 		}
-	}
+}
 	
 	public void possess(LivingEntity target) {
 		progress = false;
