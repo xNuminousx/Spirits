@@ -26,18 +26,19 @@ import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
 
 public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
+	
+	private int potDuration;
 	private long cooldown;
-	private Location origin;
-	private GameMode originGM;
 	private long time;
 	private long maxDuration;
 	private long dangerDelay;
-	private int potDuration;
 	private boolean enableNPCMerge;
 	private boolean isFusing;
 	private boolean canCancel;
 	private boolean killAfterDuration;
 	private LivingEntity target;
+	private Location origin;
+	private GameMode originGM;
 
 	public Fuse(Player player) {
 		super(player);
@@ -110,7 +111,7 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 		player.setGameMode(GameMode.SPECTATOR);
 		player.setSpectatorTarget(target);
 		if (new Random().nextInt(5) == 0) {
-			Methods.spiritParticles(bPlayer, player.getLocation().add(0, 1, 0), 0.5F, 0.5F, 0.5F, 0.2F, 5);
+			Methods.playSpiritParticles(bPlayer, player.getLocation().add(0, 1, 0), 0.5F, 0.5F, 0.5F, 0.2F, 5);
 		}
 		if (target instanceof Player) {
 			new AvatarState((Player)target);
@@ -140,8 +141,10 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	}
 	
 	public void defuse() {
-		player.setSpectatorTarget(null);
-		player.setGameMode(originGM);
+		if (player.getGameMode() == GameMode.SPECTATOR) {
+			player.setSpectatorTarget(null);
+			player.setGameMode(originGM);
+		}
 		
 		if (target instanceof Player) {
 			BendingPlayer bTarget = BendingPlayer.getBendingPlayer((Player)target);
