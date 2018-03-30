@@ -62,7 +62,7 @@ public class Methods {
 	}
 	
 	public static String getVersion() {
-		return "Beta 1.0.9";
+		return "Beta 1.0.10";
 	}
 	
 	public static void playSpiritParticles(BendingPlayer bPlayer, Location loc, float X, float Y, float Z, float speed, int amount) {

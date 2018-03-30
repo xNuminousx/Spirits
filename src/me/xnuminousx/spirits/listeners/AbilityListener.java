@@ -3,17 +3,15 @@ package me.xnuminousx.spirits.listeners;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import com.projectkorra.projectkorra.BendingPlayer;
-import com.projectkorra.projectkorra.Element;
 
 import me.xnuminousx.spirits.ability.spirit.Dash;
 import me.xnuminousx.spirits.ability.spirit.Possess;
 import me.xnuminousx.spirits.ability.spirit.Soar;
+import me.xnuminousx.spirits.ability.spirit.Vanish;
 import me.xnuminousx.spirits.ability.dark.Intoxicate;
 import me.xnuminousx.spirits.ability.dark.Shackle;
 import me.xnuminousx.spirits.ability.dark.Strike;
@@ -78,26 +76,13 @@ public class AbilityListener implements Listener {
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shelter")) {
 			new Shelter(player, ShelterType.SHIFT);
 			
-		}
-
-	}
-
-	@EventHandler
-	public void onFallDamage(EntityDamageEvent event) {
-
-		if (event.getEntity() instanceof Player) {
-			Element spirit = Element.getElement("Spirit");
-			Player player = (Player) event.getEntity();
-			BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
-
-			if (event.isCancelled() || bPlayer == null || bPlayer.hasElement(Element.AIR) || bPlayer.hasElement(Element.EARTH)) {
+		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Vanish")) {
+			if (event.isSneaking()) {
+				new Vanish(player);
+			} else {
 				return;
-
-			} else if (bPlayer.hasElement(spirit) && event.getCause() == DamageCause.FALL) {
-				event.setDamage(0D);
-				event.setCancelled(true);
-				
 			}
 		}
+
 	}
 }

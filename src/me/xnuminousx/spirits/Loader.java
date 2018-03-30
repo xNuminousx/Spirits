@@ -47,6 +47,9 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		langConfig.addDefault("Abilities.Spirit.Possess.Description", "A very ancient ability of Spitits is the ability to jump inside the body of a human. As a Spirit, you'll be able to possess a human for a short amount of time and do harm. While this ability is active, both the Spirit and the target will be motionless.");
 		langConfig.addDefault("Abilities.Spirit.Possess.Instructions", "Hold shift and look at a human.");
 		
+		langConfig.addDefault("Abilities.Spirit.Vanish.Description", "Spirits are often seen disappearing into thin air and then reappearing somewhere different. With this ability, you can harness that power as well! However, there is a certain duration you are able to vanish for an a radius of how far away from your original location you're allowed to get!");
+		langConfig.addDefault("Abilities.Spirit.Vanish.Instructions", "Hold shift: Disappear ⏐ Release shift: Reappear");
+		
 		langConfig.addDefault("Abilities.LightSpirit.Alleviate.Description", "The healing ability for LightSpirits, this allows you to heal yourself and others! When healing, whoever is being healed will be removed of ANY negative potion effects aswell as recieve regeneration for a period of time.");
 		langConfig.addDefault("Abilities.LightSpirit.Alleviate.Instructions", "Hold Shift while lookat at a target: Heal them ⏐ Hold Shift while looking away: Heal yourself.");
 		
@@ -81,6 +84,12 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.Neutral.Possess.Radius", 5);
 		config.addDefault("Abilities.Spirits.Neutral.Possess.Damage", 5);
 		config.addDefault("Abilities.Spirits.Neutral.Possess.Duration", 2000);
+		
+		config.addDefault("Abilities.Spirits.Neutral.Vanish.Enabled", true);
+		config.addDefault("Abilities.Spirits.Neutral.Vanish.Cooldown", 7000);
+		config.addDefault("Abilities.Spirits.Neutral.Vanish.Duration", 3000);
+		config.addDefault("Abilities.Spirits.Neutral.Vanish.Range", 15);
+		config.addDefault("Abilities.Spirits.Neutral.Vanish.Radius", 5);
 		
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Enabled", true);
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Cooldown", 20000);
