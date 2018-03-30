@@ -1,6 +1,7 @@
 package me.xnuminousx.spirits.ability.light;
 
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -51,6 +52,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 		time = System.currentTimeMillis();
 		this.shelterType = shelterType;
 		startHealth = player.getHealth();
+		player.getWorld().playSound(player.getLocation(), Sound.BLOCK_PORTAL_TRAVEL, 0.1F, 2);
 		
 		start();
 	}

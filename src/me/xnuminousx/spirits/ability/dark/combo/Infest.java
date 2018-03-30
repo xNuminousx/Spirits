@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
@@ -49,6 +50,7 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 		}
 		setFields();
 		time = System.currentTimeMillis();
+		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 0.3F, -1);
 		start();
 		bPlayer.addCooldown(this);
 	}

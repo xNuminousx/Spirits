@@ -1,5 +1,7 @@
 package me.xnuminousx.spirits.ability.spirit;
 
+import java.util.Random;
+
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
@@ -40,7 +42,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		
 		setFields();
 		time = System.currentTimeMillis();
-		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.5F, 5);
+		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.2F, 1);
 		start();
 	}
 
@@ -108,18 +110,15 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		// Grab target
 		Vector vec = targetLoc.getDirection().normalize().multiply(0);
 		target.setVelocity(vec);
-		player.getWorld().playSound(targetLoc, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.5F, 5);
+		if (new Random().nextInt(10) == 0) {
+			player.getWorld().playSound(targetLoc, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.1F, 2);
+		}
 		
 		// Possession effects
 		ParticleEffect.DRAGON_BREATH.display(targetLoc, 0.3F, 1F, 0.3F, 0.02F, 1);
 		target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2), true);
 		target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 2), true);
 		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 120, 2), true);
-	}
-	
-	public void doEffect(Entity target, Location location) {
-		DamageHandler.damageEntity(target, damage, this);
-		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.5F, 0.5F);
 	}
 	
 	@Override

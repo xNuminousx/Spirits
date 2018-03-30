@@ -1,5 +1,7 @@
 package me.xnuminousx.spirits.ability.spirit;
 
+import java.util.Random;
+
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -61,7 +63,9 @@ public class Soar extends SpiritAbility implements AddonAbility {
 			} else {
 				Vector vec = player.getLocation().getDirection().normalize().multiply(speed);
 				player.setVelocity(vec);
-				player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.3F, 5F);
+				if (new Random().nextInt(4) == 0) {
+					player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.3F, 5F);
+				}
 				Methods.playSpiritParticles(bPlayer, player.getLocation(), 0.2F, 0.2f, 0.2F, 0, 10);
 			}
 		} else {

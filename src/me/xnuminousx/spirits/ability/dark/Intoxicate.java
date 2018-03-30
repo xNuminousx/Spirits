@@ -1,6 +1,9 @@
 package me.xnuminousx.spirits.ability.dark;
 
+import java.util.Random;
+
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -68,7 +71,9 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 		
 		if (player.isSneaking()) {
 			effect(200, 0.04F);
-			
+			if (new Random().nextInt(20) == 0) {
+				player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDEREYE_DEATH, 1, -1);
+			}
 		} else {
 			remove();
 			return;

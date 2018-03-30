@@ -1,6 +1,9 @@
 package me.xnuminousx.spirits.ability.light;
 
+import java.util.Random;
+
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -143,6 +146,9 @@ public class Alleviate extends LightAbility implements AddonAbility {
 		if (!player.isSneaking()) {
 			bPlayer.addCooldown(this, otherCooldown);
 		}
+		if (new Random().nextInt(20) == 0) {
+			target.getWorld().playSound(target.getLocation(), Sound.ENTITY_ENDEREYE_DEATH, 1, 1);
+		}
 	}
 	
 	public void progressSanctity(int points, float size) {
@@ -179,6 +185,9 @@ public class Alleviate extends LightAbility implements AddonAbility {
 		}
 		if (!player.isSneaking()) {
 			bPlayer.addCooldown(this, selfCooldown);
+		}
+		if (new Random().nextInt(20) == 0) {
+			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDEREYE_DEATH, 1, 1);
 		}
 	}
 
