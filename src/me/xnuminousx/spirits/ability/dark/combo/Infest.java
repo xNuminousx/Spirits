@@ -127,15 +127,14 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 					ParticleEffect.HEART.display(entity.getLocation().add(0, 2, 0), 0, 0, 0, 0, 1);
 				}
 				
-			} else if (entity instanceof LivingEntity && damageEntities) {
-				if (!(entity instanceof Monster)) {
-					DamageHandler.damageEntity(entity, damage, this);
-					ParticleEffect.PORTAL.display(entity.getLocation().add(0, 1, 0), 0, 0, 0, 1.5F, 5);
-				}
-				
 			} else if (entity instanceof Monster) {
 				LivingEntity le = (LivingEntity)entity;
 				le.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 120, 1));
+				ParticleEffect.ANGRY_VILLAGER.display(entity.getLocation().add(0, 1, 0), 0, 0, 0, 0, 1);
+			} else if (entity instanceof LivingEntity && damageEntities) {
+				DamageHandler.damageEntity(entity, damage, this);
+				ParticleEffect.PORTAL.display(entity.getLocation().add(0, 1, 0), 0, 0, 0, 1.5F, 5);
+				
 			}
 		}
 	}
