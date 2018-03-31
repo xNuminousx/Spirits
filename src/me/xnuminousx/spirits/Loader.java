@@ -11,6 +11,7 @@ import com.projectkorra.projectkorra.configuration.ConfigManager;
 
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.listeners.AbilityListener;
+import me.xnuminousx.spirits.listeners.PassiveListener;
 
 public class Loader extends AvatarAbility implements AddonAbility {
 
@@ -23,8 +24,9 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		FileConfiguration langConfig = ConfigManager.languageConfig.get();
 		FileConfiguration config = ConfigManager.getConfig();
 		
-		//Register Listener
+		//Register Listeners
 		ProjectKorra.plugin.getServer().getPluginManager().registerEvents(new AbilityListener(), ProjectKorra.plugin);
+		ProjectKorra.plugin.getServer().getPluginManager().registerEvents(new PassiveListener(), ProjectKorra.plugin);
 	
 		//Language config
 		langConfig.addDefault("Chat.Colors.Spirit", "DARK_AQUA");
