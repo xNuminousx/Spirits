@@ -76,6 +76,7 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 	public void playEffects() {
 		ParticleEffect.DRAGON_BREATH.display(player.getLocation().add(0, 1, 0), 0, 0, 0, 0.09F, 20);
 		ParticleEffect.PORTAL.display(player.getLocation().add(0, 1, 0), 0, 0, 0, 2F, 30);
+		Methods.playSpiritParticles(bPlayer, player.getLocation().add(0, 1, 0), 0.5F, 0.5f, 0.5F, 0, 10);
 		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 0.5F, -1);
 	}
 	
