@@ -75,7 +75,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 			if (progress) {
 				entityCheck = location;
 				entityCheck.add(direction.multiply(1));
-				ParticleEffect.FLAME.display(entityCheck, 0, 0, 0, 0, 1);
+				//ParticleEffect.FLAME.display(entityCheck, 0, 0, 0, 0, 1);
 			}
 			if (origin.distanceSquared(entityCheck) > range * range) {
 				progress = false;
