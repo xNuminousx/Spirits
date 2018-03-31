@@ -36,6 +36,7 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	private boolean isFusing;
 	private boolean canCancel;
 	private boolean killAfterDuration;
+	private boolean enableAvatarState;
 	private LivingEntity target;
 	private Location origin;
 	private GameMode originGM;
@@ -45,6 +46,10 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 
 		if (!bPlayer.canBendIgnoreBinds(this)) {
 			return;
+		}
+		
+		if (enableAvatarState) {
+			new AvatarState((Player)target);
 		}
 		
 		setFields();
@@ -64,6 +69,7 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 		this.originGM = player.getGameMode();
 		isFusing = false;
 		canCancel = false;
+		enableAvatarState = false;
 	}
 
 	@Override
@@ -114,7 +120,7 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 			Methods.playSpiritParticles(bPlayer, player.getLocation().add(0, 1, 0), 0.5F, 0.5F, 0.5F, 0.2F, 5);
 		}
 		if (target instanceof Player) {
-			new AvatarState((Player)target);
+			enableAvatarState = true;
 			if (System.currentTimeMillis() > time + dangerDelay) {
 				if (new Random().nextInt(10) == 0) {
 					DamageHandler.damageEntity(target, 1, this);
