@@ -15,6 +15,7 @@ import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
+import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.ability.api.DarkAbility;
@@ -23,6 +24,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 
 	private Location location;
 	private Location origin;
+	private Location entityCheck;
 	private Vector direction;
 	private int currPoint;
 	private double range;
@@ -59,7 +61,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 
 	@Override
 	public void progress() {
-		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location) || origin.distanceSquared(location) > range * range) {
+		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location)) {
 			remove();
 			return;
 		}
@@ -70,9 +72,19 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 		}
 		
 		if (player.isSneaking()) {
-			effect(200, 0.04F);
-			if (new Random().nextInt(20) == 0) {
-				player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDEREYE_DEATH, 1, -1);
+			if (progress) {
+				entityCheck = location;
+				entityCheck.add(direction.multiply(1));
+				ParticleEffect.FLAME.display(entityCheck, 0, 0, 0, 0, 1);
+			}
+			if (origin.distanceSquared(entityCheck) > range * range) {
+				progress = false;
+			}
+			for (Entity target : GeneralMethods.getEntitiesAroundPoint(entityCheck, 1)) {
+				if (((target instanceof LivingEntity)) && (target.getEntityId() != player.getEntityId())) {
+					entityCheck = target.getLocation();
+					effect(200, 0.04F, target);
+				}
 			}
 		} else {
 			remove();
@@ -80,49 +92,43 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 		}
 	}
 	
-	public void effect(int points, float size) {
-		if (progress) {
-			location.add(direction.multiply(1));
+	public void effect(int points, float size, Entity target) {
+		LivingEntity le = (LivingEntity)target;
+		location = target.getLocation();
+		
+		for (int i = 0; i < 6; i++) {
+			currPoint += 360 / points;
+			if (currPoint > 360) {
+				currPoint = 0;
+			}
+			double angle = currPoint * Math.PI / 180 * Math.cos(Math.PI);
+			double x = size * (Math.PI * 4 - angle) * Math.cos(angle + i);
+            double y = 1.2 * Math.cos(angle) + 1.2;
+            double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
+			location.add(x, y, z);
+			GeneralMethods.displayColoredParticle(location, hexColor, 0, 0, 0);
+			GeneralMethods.displayColoredParticle(location, "000000", 0, 0, 0);
+			location.subtract(x, y, z);
 		}
 		
-		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 1)) {
-			if (((target instanceof LivingEntity)) && (target.getEntityId() != player.getEntityId())) {
-				location = target.getLocation();
-				LivingEntity le = (LivingEntity)target;
-				progress = false;
-				
-				for (int i = 0; i < 6; i++) {
-					currPoint += 360 / points;
-					if (currPoint > 360) {
-						currPoint = 0;
-					}
-					double angle = currPoint * Math.PI / 180 * Math.cos(Math.PI);
-					double x = size * (Math.PI * 4 - angle) * Math.cos(angle + i);
-		            double y = 1.2 * Math.cos(angle) + 1.2;
-		            double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
-					location.add(x, y, z);
-					GeneralMethods.displayColoredParticle(location, hexColor, 0, 0, 0);
-					GeneralMethods.displayColoredParticle(location, "000000", 0, 0, 0);
-					location.subtract(x, y, z);
-				}
-				
-				if (System.currentTimeMillis() - time > potInt) {
-					for (PotionEffect targetEffect : le.getActivePotionEffects()) {
-						if (isPositiveEffect(targetEffect.getType())) {
-							le.removePotionEffect(targetEffect.getType());
-						}
-					}
-					bPlayer.addCooldown(this);
-				}
-				if (System.currentTimeMillis() - time > harmInt) {
-					le.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 100, 1), true);
-					le.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 1000, 1), true);
-					DamageHandler.damageEntity(player, 4, this);
-					bPlayer.addCooldown(this);
-					remove();
-					return;
+		if (System.currentTimeMillis() - time > potInt) {
+			for (PotionEffect targetEffect : le.getActivePotionEffects()) {
+				if (isPositiveEffect(targetEffect.getType())) {
+					le.removePotionEffect(targetEffect.getType());
 				}
 			}
+			bPlayer.addCooldown(this);
+		}
+		if (System.currentTimeMillis() - time > harmInt) {
+			le.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 100, 1), true);
+			le.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 1000, 1), true);
+			DamageHandler.damageEntity(player, 4, this);
+			bPlayer.addCooldown(this);
+			remove();
+			return;
+		}
+		if (new Random().nextInt(20) == 0) {
+			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDEREYE_DEATH, 1, -1);
 		}
 	}
 

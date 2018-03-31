@@ -99,7 +99,7 @@ public class Alleviate extends LightAbility implements AddonAbility {
 			}
 			for (Entity target : GeneralMethods.getEntitiesAroundPoint(entityCheck, 1)) {
 				if (((target instanceof LivingEntity)) && (target.getEntityId() != player.getEntityId())) {
-					progress = false;
+					entityCheck = target.getLocation();
 					progressAlleviate(200, 0.04F, target);
 				}
 			}
