@@ -47,11 +47,6 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 		if (!bPlayer.canBendIgnoreBinds(this)) {
 			return;
 		}
-		
-		if (enableAvatarState) {
-			new AvatarState((Player)target);
-		}
-		
 		setFields();
 		time = System.currentTimeMillis();
 		start();
@@ -121,6 +116,10 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 		}
 		if (target instanceof Player) {
 			enableAvatarState = true;
+			if (enableAvatarState) {
+				new AvatarState((Player) target);
+				enableAvatarState = false;
+			}
 			if (System.currentTimeMillis() > time + dangerDelay) {
 				if (new Random().nextInt(10) == 0) {
 					DamageHandler.damageEntity(target, 1, this);
