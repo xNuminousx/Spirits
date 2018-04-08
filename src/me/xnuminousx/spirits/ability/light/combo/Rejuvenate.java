@@ -118,13 +118,15 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
 	
 	public void healEntities(Entity entity) {
 		if (new Random().nextInt(effectInt) == 0) {
-			if (entity instanceof Player && damageDarkSpirits) {
+			if (entity instanceof Player) {
 				Player ePlayer = (Player) entity;
 				BendingPlayer bEntity = BendingPlayer.getBendingPlayer(ePlayer);
-				if (bEntity.hasElement(Element.getElement("DarkSpirit"))) {
+				if (bEntity.hasElement(Element.getElement("LightSpirit"))) {
+					ePlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 1));
+					ParticleEffect.HEART.display(ePlayer.getLocation().add(0, 2, 0), 0, 0, 0, 0, 1);
+				} else if (bEntity.hasElement(Element.getElement("DarkSpirit")) && damageDarkSpirits) {
 					DamageHandler.damageEntity(ePlayer, damage, this);
 				}
-				
 			} else if (entity instanceof Monster && damageMonsters) {
 				DamageHandler.damageEntity(entity, damage, this);
 				
