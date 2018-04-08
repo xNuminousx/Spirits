@@ -22,7 +22,6 @@ import me.xnuminousx.spirits.ability.api.SpiritAbility;
 
 public class Possess extends SpiritAbility implements AddonAbility {
 
-	private Location location;
 	private double range;
 	private long time;
 	private long duration;
@@ -30,6 +29,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	private long cooldown;
 	private boolean progress;
 	private Vector direction;
+	private Location entityCheck;
 	private Location origin;
 	
 
@@ -52,14 +52,14 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		this.damage = ConfigManager.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Damage");
 		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Possess.Duration");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
-		this.location = origin.clone();
+		this.entityCheck = origin.clone();
 		this.direction = player.getLocation().getDirection();
 		this.progress = true;
 	}
 
 	@Override
 	public void progress() {
-		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location) || origin.distanceSquared(location) > range * range) {
+		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, player.getLocation()) || origin.distanceSquared(entityCheck) > range * range) {
 			remove();
 			return;
 		}
@@ -81,24 +81,25 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	
 	public void checkEntities() {
 		if (progress) {
-			location.add(direction.multiply(1));
+			entityCheck.add(direction.multiply(1));
 		}
-		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 1.5)) {
+		for (Entity target : GeneralMethods.getEntitiesAroundPoint(entityCheck, 1.5)) {
 			if ((target instanceof LivingEntity) && target.getUniqueId() != player.getUniqueId()) {
+				progress = false;
+				entityCheck = target.getLocation();
 				if (System.currentTimeMillis() > time + duration) {
 					DamageHandler.damageEntity(target, damage, this);
 					player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.5F, 0.5F);
 					remove();
 					return;
 				} else {
-					this.possess((LivingEntity) target);
+					this.possess((LivingEntity) target, player.getLocation());
 				}
 			}
 		}
 }
 	
-	public void possess(LivingEntity target) {
-		progress = false;
+	public void possess(LivingEntity target, Location location) {
 		bPlayer.addCooldown(this);
 		Location targetLoc = target.getLocation().clone();
 		
