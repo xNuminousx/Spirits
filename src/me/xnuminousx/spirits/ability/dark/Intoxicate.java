@@ -81,8 +81,9 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 			}
 			for (Entity target : GeneralMethods.getEntitiesAroundPoint(entityCheck, 1)) {
 				if (((target instanceof LivingEntity)) && (target.getEntityId() != player.getEntityId())) {
+					progress = false;
 					entityCheck = target.getLocation();
-					effect(200, 0.04F, target);
+					effect(200, 0.04F, target, target.getLocation().clone());
 				}
 			}
 		} else {
@@ -91,9 +92,8 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 		}
 	}
 	
-	public void effect(int points, float size, Entity target) {
+	public void effect(int points, float size, Entity target, Location location) {
 		LivingEntity le = (LivingEntity)target;
-		location = target.getLocation();
 		
 		for (int i = 0; i < 6; i++) {
 			currPoint += 360 / points;

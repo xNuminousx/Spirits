@@ -99,8 +99,9 @@ public class Alleviate extends LightAbility implements AddonAbility {
 			}
 			for (Entity target : GeneralMethods.getEntitiesAroundPoint(entityCheck, 1)) {
 				if (((target instanceof LivingEntity)) && (target.getEntityId() != player.getEntityId())) {
+					progress = false;
 					entityCheck = target.getLocation();
-					progressAlleviate(200, 0.04F, target);
+					progressAlleviate(200, 0.04F, target, target.getLocation().clone());
 				}
 			}
 		} else {
@@ -109,9 +110,8 @@ public class Alleviate extends LightAbility implements AddonAbility {
 		}
 	}
 	
-	public void progressAlleviate(int points, float size, Entity target) {
+	public void progressAlleviate(int points, float size, Entity target, Location location) {
 		playingAlleviate = true;
-		location = target.getLocation().clone();
 		LivingEntity le = (LivingEntity)target;
 		
 		for (int i = 0; i < 6; i++) {
