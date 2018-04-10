@@ -13,13 +13,27 @@ Don't know how to code? Well, you can also contribute by downloading the project
 - How to recreate the problem
 
 # Requirements
-This is a list of requirements for the Spirits plugin:
-- ProjectKorra version 1.8.3
-- Spigot version 1.11.2
+This is a list of requirements for the Spirits add-on:
+- ProjectKorra version 1.8.3+
+- Spigot version 1.12+
 
-# Information
-Spirits are incredibly diverse creatures who inhabit the Spirit World, a place that coexists alongside the mortal world. Spirits can come in any shape, size, color, or even material. They are greatly respected by most humans, even though many of the spirits seem to despise human life. This project will allow you to become one of these incredible creatures!
-- Light Spirits - The spirits of light are considered internally balanced and have full control of their actions. These spirits often imbody different aspects of life and nature (such as a forest or moon).
-- Dark Spirits - The spirits of darkness are entities who have become unbalanced due to the influence of the spirit of chaos, Vaatu. These spirits are often very hostile and will lurk in secluded or sacred areas that have been neglected over time (these areas are often over-grown with vegetation).
+# Spirits API
+Spirits comes with an ever growing API which developers can manipulate for their Spirit addons! Here will be an explanation of what individual aspects of the API means so that you can use them in the most effective manner!
 
-Avatar - This being is one that is fused with the spirit of light, Raava. The Avatar is reincarnated to new bodies when their old body dies. For 10,000 years the Avatar has been tasked with keeping peace and balance in the world. A key feature of the Avatar is the AvatarState in which they are able to access all the power and knowledge of every single one of their past lives. If the Avatar dies while in this state, the Avatar will be severed from their connection with Raava and the Avatar cycle will end with them. Only on Harmonic Convergence, which occurs once every 10,000 years, can Raava fuse with another human to restart the Avatar cycle.
+A lot of the customizable aspects of this API are done by doing "Methods." in your IDE. After entering the period, all of the things you're able to manipulate will pop up. You must have Spirits.jar in your library to use any of the API!
+
+- Elements - To create an ability that classifies in any of the spirit elements, you must have your project extend one of the following: SpiritAbility, LightAbility, DarkAbility. When your ability is loaded, one of the following will decide which element your ability goes under.
+
+- createPolygon - This API comes with a method which spawns a polygon without needing to know the math! You can create any form of polygon (Ex: Triangle, Square, Pentagon, Hexagon, Septagon, etc). Additionally, you can classify the radius, height, and particle effect type.
+
+- createRotatingCircle - A polygon isn't all you can make! You can also create a rotating circle with this API! Skip the math! You're able to determine the size, speed at which it rotates, height where it spawns, and particle effect type of this circle.
+
+- getSpiritType - Using this, you're able to get what type of spirit a certain target is. After getting their spirit type, you're able to run certain lines of code that will only happen if YOUR conditions are met!
+
+- playSpiritParticles - By using this, you will be able to play the spirit particles determined by the developers! If you don't feel like designing your own, this is a good back up! There are two methods that go along with this. One will player a different particle type depending on the type of spirit that the player who is attached to this method is. With the second method, you're able to play a specific spirit particle at a location.
+
+- setPlayerVelocity - This is a method you can use when you're wanting to manipulate how a player is moving. You can shoot them forwards or backwards and also determine how quickly they are shot.
+
+- setSpiritDescriptionColor - Spirits, by default, has a unique description format. There are 2 methods that you can use to achieve a very similar format for your ability. By using this one, you're able to change the color of your description to the Spirits theme color by defining what type of ability your describing.
+
+- setSpiritDescription - Along with editing the color format, you're also able to define the ability type. This will appear at the beginning of your ability description in bold.
