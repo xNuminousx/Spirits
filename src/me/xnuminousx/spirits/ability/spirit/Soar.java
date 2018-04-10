@@ -12,6 +12,7 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 
 import me.xnuminousx.spirits.Methods;
+import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
 
 public class Soar extends SpiritAbility implements AddonAbility {
@@ -95,23 +96,23 @@ public class Soar extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("spirit", "Mobility") +
+		return Methods.setSpiritDescription(SpiritType.NEUTRAL, "Mobility") +
 				ConfigManager.languageConfig.get().getString("Abilities.Spirit.Agility.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.spiritChatColor("spirit") + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Agility.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Agility.Instructions");
 	}
 
 	@Override
 	public String getAuthor() {
-		return Methods.spiritChatColor("spirit") + Methods.getAuthor();
+		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Methods.getAuthor();
 	}
 
 	@Override
 	public String getVersion() {
-		return Methods.spiritChatColor("spirit") + Methods.getVersion();
+		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Methods.getVersion();
 	}
 	
 	@Override

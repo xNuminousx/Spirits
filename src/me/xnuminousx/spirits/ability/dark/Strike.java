@@ -14,6 +14,7 @@ import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Methods;
+import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.DarkAbility;
 
 public class Strike extends DarkAbility implements AddonAbility {
@@ -99,23 +100,23 @@ public class Strike extends DarkAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("dark", "Offense") + 
+		return Methods.setSpiritDescription(SpiritType.DARK, "Offense") + 
 				ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Strike.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.spiritChatColor("dark") + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Strike.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Strike.Instructions");
 	}
 
 	@Override
 	public String getAuthor() {
-		return Methods.spiritChatColor("dark") + Methods.getAuthor();
+		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Methods.getAuthor();
 	}
 
 	@Override
 	public String getVersion() {
-		return Methods.spiritChatColor("dark") + Methods.getVersion();
+		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Methods.getVersion();
 	}
 	
 	@Override

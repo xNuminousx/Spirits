@@ -9,6 +9,7 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 
 import me.xnuminousx.spirits.Methods;
+import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
 
 public class Dash extends SpiritAbility implements AddonAbility {
@@ -49,7 +50,7 @@ public class Dash extends SpiritAbility implements AddonAbility {
 
 	private void progressDash() {
 		Location loc = player.getLocation();
-		Methods.setPlayerVelocity(player, loc, true, distance, 0.2);
+		Methods.setPlayerVelocity(player, true, distance, 0.2);
 		loc.getWorld().playSound(loc, Sound.ENTITY_ELDER_GUARDIAN_HURT, 1.5F, 0.5F);
 		loc.getWorld().playSound(loc, Sound.ENTITY_PLAYER_ATTACK_SWEEP, 0.3F, 0.5F);
 		Methods.playSpiritParticles(bPlayer, player.getLocation(), 0.5F, 0.5f, 0.5F, 0, 10);
@@ -78,12 +79,12 @@ public class Dash extends SpiritAbility implements AddonAbility {
 
 	@Override
 	public String getAuthor() {
-		return Methods.spiritChatColor("spirit") + Methods.getAuthor();
+		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Methods.getAuthor();
 	}
 
 	@Override
 	public String getVersion() {
-		return Methods.spiritChatColor("spirit") + Methods.getVersion();
+		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Methods.getVersion();
 	}
 	
 	@Override

@@ -24,6 +24,7 @@ import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Methods;
+import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.DarkAbility;
 
 public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
@@ -177,22 +178,22 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("dark", "Combo") + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Infest.Description");
+		return Methods.setSpiritDescription(SpiritType.DARK, "Combo") + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Infest.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.spiritChatColor("dark") + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Infest.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Infest.Instructions");
 	}
 
 	@Override
 	public String getAuthor() {
-		return Methods.spiritChatColor("dark") + Methods.getAuthor();
+		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Methods.getAuthor();
 	}
 
 	@Override
 	public String getVersion() {
-		return Methods.spiritChatColor("dark") + Methods.getVersion();
+		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Methods.getVersion();
 	}
 	
 	@Override

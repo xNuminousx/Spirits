@@ -17,6 +17,7 @@ import com.projectkorra.projectkorra.util.ClickType;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Methods;
+import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
 
 public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
@@ -142,24 +143,24 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("spirit", "Combo") + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Phase.Description");
+		return Methods.setSpiritDescription(SpiritType.NEUTRAL, "Combo") + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Phase.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.spiritChatColor("spirit") + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Phase.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Phase.Instructions");
 	}
 
 	@Override
 	public String getAuthor() {
 
-		return Methods.spiritChatColor("spirit") + Methods.getAuthor();
+		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Methods.getAuthor();
 	}
 
 	@Override
 	public String getVersion() {
 
-		return Methods.spiritChatColor("spirit") + Methods.getVersion();
+		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Methods.getVersion();
 	}
 	
 	@Override

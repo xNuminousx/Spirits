@@ -18,6 +18,7 @@ import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Methods;
+import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
 
 public class Possess extends SpiritAbility implements AddonAbility {
@@ -147,23 +148,23 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("spirit", "Offense") +
+		return Methods.setSpiritDescription(SpiritType.NEUTRAL, "Offense") +
 				ConfigManager.languageConfig.get().getString("Abilities.Spirit.Possess.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.spiritChatColor("spirit") + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Possess.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Possess.Instructions");
 	}
 
 	@Override
 	public String getAuthor() {
-		return Methods.spiritChatColor("spirit") + Methods.getAuthor();
+		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Methods.getAuthor();
 	}
 
 	@Override
 	public String getVersion() {
-		return Methods.spiritChatColor("spirit") + Methods.getVersion();
+		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Methods.getVersion();
 	}
 	
 	@Override

@@ -13,6 +13,7 @@ import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Methods;
+import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.DarkAbility;
 
 public class Shackle extends DarkAbility implements AddonAbility {
@@ -136,23 +137,23 @@ public class Shackle extends DarkAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("dark", "Defense") + 
+		return Methods.setSpiritDescription(SpiritType.DARK, "Defense") + 
 				ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Shackle.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.spiritChatColor("dark") + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Shackle.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Shackle.Instructions");
 	}
 
 	@Override
 	public String getAuthor() {
-		return Methods.spiritChatColor("dark") + Methods.getAuthor();
+		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Methods.getAuthor();
 	}
 
 	@Override
 	public String getVersion() {
-		return Methods.spiritChatColor("dark") + Methods.getVersion();
+		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Methods.getVersion();
 	}
 	
 	@Override

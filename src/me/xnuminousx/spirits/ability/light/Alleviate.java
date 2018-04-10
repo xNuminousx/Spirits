@@ -17,6 +17,7 @@ import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 
 import me.xnuminousx.spirits.Methods;
+import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.LightAbility;
 
 public class Alleviate extends LightAbility implements AddonAbility {
@@ -208,23 +209,23 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("light", "Utility") +
+		return Methods.setSpiritDescription(SpiritType.LIGHT, "Utility") +
 				ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Alleviate.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.spiritChatColor("light") + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Alleviate.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Alleviate.Instructions");
 	}
 
 	@Override
 	public String getAuthor() {
-		return Methods.spiritChatColor("light") + Methods.getAuthor();
+		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Methods.getAuthor();
 	}
 
 	@Override
 	public String getVersion() {
-		return Methods.spiritChatColor("light") + Methods.getVersion();
+		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Methods.getVersion();
 	}
 	
 	@Override

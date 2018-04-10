@@ -13,6 +13,7 @@ import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.xnuminousx.spirits.Methods;
+import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.LightAbility;
 
 public class Shelter extends LightAbility implements AddonAbility {
@@ -197,23 +198,23 @@ public class Shelter extends LightAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.getSpiritDescription("light", "Defense") +
+		return Methods.setSpiritDescription(SpiritType.LIGHT, "Defense") +
 				ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Shelter.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.spiritChatColor("light") + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Shelter.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Shelter.Instructions");
 	}
 
 	@Override
 	public String getAuthor() {
-		return Methods.spiritChatColor("light") + Methods.getAuthor();
+		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Methods.getAuthor();
 	}
 
 	@Override
 	public String getVersion() {
-		return Methods.spiritChatColor("light") + Methods.getVersion();
+		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Methods.getVersion();
 	}
 	
 	@Override
