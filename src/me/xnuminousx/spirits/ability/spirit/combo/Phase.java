@@ -56,8 +56,6 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Phase.Range");
 		this.applyVanishCD = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Phase.Vanish.ApplyCooldown");
 		this.vanishCD = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Phase.Vanish.Cooldown");
-		this.duration = 10000;
-		this.range = 20;
 		this.origin = player.getLocation();
 	}
 
