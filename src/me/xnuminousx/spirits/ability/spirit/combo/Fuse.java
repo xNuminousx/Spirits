@@ -213,7 +213,15 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Fuse.Enabled");
+		return false;
+		/*
+		ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Fuse.Enabled")
+		*/
+	}
+	
+	@Override
+	public boolean isHiddenAbility() {
+		return true;
 	}
 
 	@Override

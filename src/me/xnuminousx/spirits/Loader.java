@@ -42,9 +42,11 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		//Descriptions & Instructions
 		langConfig.addDefault("Abilities.Spirit.Agility.Description", "This ability offers you 2 modes of mobility. The first being the ability to dash forward very quickly. The second being the ability to soar through the skies as if gravity is non-existant.");
 		langConfig.addDefault("Abilities.Spirit.Agility.Instructions", "Left-Click: Dash ⏐ Hold shift: Soar");
-		
+		/*
+		 * 
 		langConfig.addDefault("Abilities.Spirit.Fuse.Description", "A rarely seen ability of Spirits is the ability to Fuse with a being, combine your energies, and empower your host. If the host is a human, they will enter the Avatar State only while being fused. This is very dangerous for the human, however, because if a spirit fuses with a human for too long, the human will die immediately. A spirit must wait 1 second after fusing to be able to exit the even. To exit, tap shift.");
 		langConfig.addDefault("Abilities.Spirit.Fuse.Instructions", "Possess (Left-click) > Agility (Left-click) > Agility (Hold shift)");
+		*/
 		
 		langConfig.addDefault("Abilities.Spirit.Possess.Description", "A very ancient ability of Spitits is the ability to jump inside the body of a human. As a Spirit, you'll be able to possess a human for a short amount of time and do harm. While this ability is active, both the Spirit and the target will be motionless.");
 		langConfig.addDefault("Abilities.Spirit.Possess.Instructions", "Hold shift and look at a human.");
@@ -96,6 +98,7 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.Neutral.Vanish.Range", 20);
 		config.addDefault("Abilities.Spirits.Neutral.Vanish.Radius", 10);
 		
+		/*
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Enabled", true);
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Cooldown", 20000);
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Duration", 10000);
@@ -103,6 +106,7 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.NonPlayers.Enabled", true);
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.NonPlayers.BuffDuration", 10);
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.NonPlayers.HarmfulFuseDelay", 5000);
+		*/
 		
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.Enabled", true);
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.Cooldown", 20000);
