@@ -123,7 +123,7 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
 				Player ePlayer = (Player) entity;
 				BendingPlayer bEntity = BendingPlayer.getBendingPlayer(ePlayer);
 				if (bEntity.hasElement(Element.getElement("LightSpirit"))) {
-					ePlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 1));
+					ePlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 0));
 					ParticleEffect.HEART.display(ePlayer.getLocation().add(0, 2, 0), 0, 0, 0, 0, 1);
 				} else if (bEntity.hasElement(Element.getElement("DarkSpirit")) && damageDarkSpirits) {
 					DamageHandler.damageEntity(ePlayer, damage, this);
@@ -133,7 +133,7 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
 				
 			} else {
 				LivingEntity le = (LivingEntity)entity;
-				le.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 1));
+				le.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 0));
 				ParticleEffect.HEART.display(entity.getLocation().add(0, 2, 0), 0, 0, 0, 0, 1);
 			}
 		}
