@@ -77,7 +77,7 @@ public class Methods {
 	 * The current version of Spirits
 	 */
 	public static String getVersion() {
-		return "Beta 1.0.10";
+		return "Beta 1.0.11";
 	}
 	
 	/* 
