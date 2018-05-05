@@ -71,6 +71,7 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 	
 	public void vanishPlayer() {
 		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 120, 2), true);
+		player.setFireTicks(-1);
 		bPlayer.addCooldown(this);
 	}
 	
