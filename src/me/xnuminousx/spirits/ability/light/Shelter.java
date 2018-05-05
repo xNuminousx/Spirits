@@ -148,6 +148,8 @@ public class Shelter extends LightAbility implements AddonAbility {
 					}
 					rotateShield(location, 100, shieldSize);
 				}
+			} else {
+				bPlayer.addCooldown(this, 1000);
 			}
 		}
 	}
