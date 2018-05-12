@@ -81,7 +81,7 @@ public class Orb extends LightAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return ChatColor.BOLD + "COMING SOON: " + "With this upcoming ability, LightSpirits will be able to summon an Orb of light which you can plant at a location. If someone gets within radius of this orb, it will begin to expand and the light energy will harm them.";
+		return ChatColor.BOLD + "COMING SOON: " + ChatColor.WHITE + "With this upcoming ability, LightSpirits will be able to summon an Orb of light which you can plant at a location. If someone gets within radius of this orb, it will begin to expand and the light energy will harm them.";
 	}
 	
 	@Override
