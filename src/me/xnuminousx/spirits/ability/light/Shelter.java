@@ -40,6 +40,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 	private float selfShield;
 	private long knockDis;
 	private long selfKnockDis;
+	private long clickDelay;
 
 	public Shelter(Player player, ShelterType shelterType) {
 		super(player);
@@ -63,6 +64,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 		this.selfCooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Self.Cooldown");
 		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Duration");
 		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Range");
+		this.clickDelay = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Others.ClickDelay");
 		this.shieldSize = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Others.ShieldSize");
 		this.selfShield = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Self.ShieldSize");
 		this.knockDis = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Others.KnockbackPower");
@@ -149,7 +151,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 					rotateShield(location, 100, shieldSize);
 				}
 			} else {
-				bPlayer.addCooldown(this, 1000);
+				bPlayer.addCooldown(this, clickDelay);
 			}
 		}
 	}

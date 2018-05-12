@@ -133,6 +133,7 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.RemoveOnDamage", true);
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Duration", 7000);
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Range", 20);
+		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Others.ClickDelay", 2000);
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Others.Cooldown", 10000);
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Self.Cooldown", 10000);
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Others.ShieldSize", 5);
