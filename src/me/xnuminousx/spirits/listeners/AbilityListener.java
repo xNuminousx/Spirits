@@ -12,6 +12,7 @@ import me.xnuminousx.spirits.ability.dark.Intoxicate;
 import me.xnuminousx.spirits.ability.dark.Shackle;
 import me.xnuminousx.spirits.ability.dark.Strike;
 import me.xnuminousx.spirits.ability.light.Alleviate;
+import me.xnuminousx.spirits.ability.light.Orb;
 import me.xnuminousx.spirits.ability.light.Shelter;
 import me.xnuminousx.spirits.ability.light.Shelter.ShelterType;
 import me.xnuminousx.spirits.ability.spirit.Dash;
@@ -82,6 +83,8 @@ public class AbilityListener implements Listener {
 			} else {
 				return;
 			}
+		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Orb")) {
+			new Orb(player);
 		}
 
 	}
