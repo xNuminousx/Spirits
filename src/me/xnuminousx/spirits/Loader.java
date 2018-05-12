@@ -97,6 +97,7 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.Neutral.Vanish.Duration", 4000);
 		config.addDefault("Abilities.Spirits.Neutral.Vanish.Range", 20);
 		config.addDefault("Abilities.Spirits.Neutral.Vanish.Radius", 10);
+		config.addDefault("Abilities.Spirits.Neutral.Vanish.RemoveFire", true);
 		
 		/*
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Enabled", true);

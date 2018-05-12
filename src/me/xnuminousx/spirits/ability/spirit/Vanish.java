@@ -21,6 +21,7 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 	private long time;
 	private long duration;
 	private boolean playSound;
+	private boolean removeFire;
 	private Location origin;
 	private Location targetLoc;
 	private long range;
@@ -42,6 +43,7 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Duration");
 		this.range = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Range");
 		this.radius = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Radius");
+		this.removeFire = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Vanish.RemoveFire");
 		this.origin = player.getLocation();
 		this.playSound = true;
 
@@ -71,7 +73,9 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 	
 	public void vanishPlayer() {
 		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 120, 2), true);
-		player.setFireTicks(-1);
+		if (removeFire) {
+			player.setFireTicks(-1);
+		}
 		bPlayer.addCooldown(this);
 	}
 	
