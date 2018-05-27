@@ -90,7 +90,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
 		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, radius)) {
 			if (target instanceof LivingEntity && !target.getUniqueId().equals(player.getUniqueId())) {
 				LivingEntity le = (LivingEntity)target;
-				if ((System.currentTimeMillis() > time + duration) || le.isDead()) {
+				if (((System.currentTimeMillis() > time + duration)) || (le.isDead()) || (le.getHealth() <= 3) || (le.getLocation() != location)) {
 					ParticleEffect.CLOUD.display(location, 0, 0, 0, 0.08F, 5);
 					player.getWorld().playSound(location, Sound.BLOCK_IRON_TRAPDOOR_CLOSE, 0.5F, 1.5F);
 					remove();
