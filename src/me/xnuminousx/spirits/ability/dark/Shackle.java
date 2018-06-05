@@ -169,7 +169,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
 
 	@Override
 	public boolean isHarmlessAbility() {
-		return true;
+		return false;
 	}
 
 	@Override

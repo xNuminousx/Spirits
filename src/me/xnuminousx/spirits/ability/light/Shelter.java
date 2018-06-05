@@ -233,7 +233,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 
 	@Override
 	public boolean isHarmlessAbility() {
-		return true;
+		return false;
 	}
 
 	@Override
