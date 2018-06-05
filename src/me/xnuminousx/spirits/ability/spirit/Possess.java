@@ -93,6 +93,12 @@ public class Possess extends SpiritAbility implements AddonAbility {
 			if ((target instanceof LivingEntity) && target.getUniqueId() != player.getUniqueId()) {
 				progress = false;
 				entityCheck = target.getLocation();
+				if (target instanceof Player) {
+					Player tPlayer = (Player)target;
+					if (tPlayer.isFlying()) {
+						tPlayer.setFlying(false);
+					}
+				}
 				if (System.currentTimeMillis() > time + duration) {
 					DamageHandler.damageEntity(target, damage, this);
 					player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.5F, 0.5F);
