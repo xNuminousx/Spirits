@@ -82,7 +82,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	
 	public void checkEntities() {
 		if (progress) {
-			entityCheck.add(direction.multiply(1));
+			entityCheck.add(direction.multiply(2));
 		}
 		for (Entity target : GeneralMethods.getEntitiesAroundPoint(entityCheck, 1.5)) {
 			if ((target instanceof LivingEntity) && target.getUniqueId() != player.getUniqueId()) {
