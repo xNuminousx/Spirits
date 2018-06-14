@@ -70,7 +70,7 @@ public class Methods {
 	 * The author(s) of the project.
 	 */
 	public static String getAuthor() {
-		return "xNuminousx";
+		return "Numin";
 	}
 	
 	/*
