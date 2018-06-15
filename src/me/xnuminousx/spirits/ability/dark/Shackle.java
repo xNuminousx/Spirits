@@ -73,18 +73,8 @@ public class Shackle extends DarkAbility implements AddonAbility {
 		bPlayer.addCooldown(this);
 		if (progress) {
 			location.add(direction.multiply(1));
-			for (int i = 0; i < 6; i++) {
-				currPoint += 360 / points;
-				if (currPoint > 360) {
-					currPoint = 0;
-				}
-				double angle = currPoint * Math.PI / 180 * Math.cos(Math.PI);
-				double x = size * (Math.PI * 4 - angle) * Math.cos(angle + i);
-	            double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
-				location.add(x, 0.1F, z);
-				ParticleEffect.WITCH_MAGIC.display(location, 0, 0, 0, 0, 1);
-				location.subtract(x, 0.1F, z);
-			}
+			
+			blastSpiral(200, 0.04F, location);
 		}
 		
 		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, radius)) {
@@ -104,20 +94,39 @@ public class Shackle extends DarkAbility implements AddonAbility {
 					location.setYaw(location.getYaw());
 					target.setVelocity(vec);
 					
-					for (int t = 0; t < 2; t++) {
-						currPoint += 360 / points2;
-						if (currPoint > 360) {
-							currPoint = 0;
-						}
-						double angle2 = currPoint * Math.PI / 180 * Math.cos(Math.PI);
-						double x2 = size * (Math.PI * 5 - angle2) * Math.cos(angle2 + t);
-			            double z2 = size * (Math.PI * 5 - angle2) * Math.sin(angle2 + t);
-						location.add(x2, 0.1F, z2);
-						ParticleEffect.WITCH_MAGIC.display(location, 0, 0, 0, 0, 1);
-						location.subtract(x2, 0.1F, z2);
-					}
+					holdSpiral(30, 0.04F, location);
 				}
 			}
+		}
+	}
+	
+	public void blastSpiral(int points, float size, Location location) {
+		for (int i = 0; i < 6; i++) {
+			currPoint += 360 / points;
+			if (currPoint > 360) {
+				currPoint = 0;
+			}
+			double angle = currPoint * Math.PI / 180 * Math.cos(Math.PI);
+			double x = size * (Math.PI * 4 - angle) * Math.cos(angle + i);
+            double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
+			location.add(x, 0.1F, z);
+			ParticleEffect.WITCH_MAGIC.display(location, 0, 0, 0, 0, 1);
+			location.subtract(x, 0.1F, z);
+		}
+	}
+	
+	public void holdSpiral(int points, float size, Location location) {
+		for (int t = 0; t < 2; t++) {
+			currPoint += 360 / points;
+			if (currPoint > 360) {
+				currPoint = 0;
+			}
+			double angle2 = currPoint * Math.PI / 180 * Math.cos(Math.PI);
+			double x2 = size * (Math.PI * 5 - angle2) * Math.cos(angle2 + t);
+            double z2 = size * (Math.PI * 5 - angle2) * Math.sin(angle2 + t);
+			location.add(x2, 0.1F, z2);
+			ParticleEffect.WITCH_MAGIC.display(location, 0, 0, 0, 0, 1);
+			location.subtract(x2, 0.1F, z2);
 		}
 	}
 
