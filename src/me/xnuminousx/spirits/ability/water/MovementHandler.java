@@ -1,4 +1,4 @@
-package com.Pride.korra.Purify;
+package me.xnuminousx.spirits.ability.water;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
