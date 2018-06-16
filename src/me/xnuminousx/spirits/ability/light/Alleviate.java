@@ -22,6 +22,7 @@ import me.xnuminousx.spirits.ability.api.LightAbility;
 
 public class Alleviate extends LightAbility implements AddonAbility {
 
+	private LivingEntity target = null;
 	private Location location;
 	private Location origin;
 	private Location entityCheck;
@@ -91,19 +92,23 @@ public class Alleviate extends LightAbility implements AddonAbility {
 		if (player.isSneaking()) {
 			if (progress) {
 				entityCheck = location;
-				entityCheck.add(direction.multiply(2));
+				entityCheck.add(direction.multiply(1));
 				// ParticleEffect.FLAME.display(location, 0, 0, 0, 0, 1);
 			}
 			if (origin.distanceSquared(entityCheck) > range * range) {
 				progress = false;
 				progressSanctity(200, 0.04F);
 			}
-			for (Entity target : GeneralMethods.getEntitiesAroundPoint(entityCheck, 1)) {
-				if (((target instanceof LivingEntity)) && (target.getEntityId() != player.getEntityId())) {
-					progress = false;
-					entityCheck = target.getLocation();
-					progressAlleviate(200, 0.04F, target, target.getLocation().clone());
+			if (target == null) {
+				for (Entity entity : GeneralMethods.getEntitiesAroundPoint(entityCheck, 1)) {
+					if ((entity instanceof LivingEntity) && entity.getUniqueId() != player.getUniqueId()) {
+						target = (LivingEntity) entity;
+					}
 				}
+			} else {
+				progress = false;
+				entityCheck = target.getLocation();
+				progressAlleviate(200, 0.04F, target, target.getLocation().clone());
 			}
 		} else {
 			remove();

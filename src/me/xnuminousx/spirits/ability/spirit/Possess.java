@@ -23,6 +23,7 @@ import me.xnuminousx.spirits.ability.api.SpiritAbility;
 
 public class Possess extends SpiritAbility implements AddonAbility {
 
+	private LivingEntity target = null;
 	private double range;
 	private long time;
 	private long duration;
@@ -87,26 +88,30 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	
 	public void checkEntities() {
 		if (progress) {
-			entityCheck.add(direction.multiply(2));
+			entityCheck.add(direction.multiply(1));
 		}
-		for (Entity target : GeneralMethods.getEntitiesAroundPoint(entityCheck, 1.5)) {
-			if ((target instanceof LivingEntity) && target.getUniqueId() != player.getUniqueId()) {
-				progress = false;
-				entityCheck = target.getLocation();
-				if (target instanceof Player) {
-					Player tPlayer = (Player)target;
-					if (tPlayer.isFlying()) {
-						tPlayer.setFlying(false);
-					}
+		if (target == null) {
+			for (Entity entity : GeneralMethods.getEntitiesAroundPoint(entityCheck, 1.5)) {
+				if ((entity instanceof LivingEntity) && entity.getUniqueId() != player.getUniqueId()) {
+					target = (LivingEntity) entity;
 				}
-				if (System.currentTimeMillis() > time + duration) {
-					DamageHandler.damageEntity(target, damage, this);
-					player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.5F, 0.5F);
-					remove();
-					return;
-				} else {
-					this.possess((LivingEntity) target, player.getLocation());
+			}
+		} else {
+			progress = false;
+			entityCheck = target.getLocation();
+			if (target instanceof Player) {
+				Player tPlayer = (Player)target;
+				if (tPlayer.isFlying()) {
+					tPlayer.setFlying(false);
 				}
+			}
+			if (System.currentTimeMillis() > time + duration) {
+				DamageHandler.damageEntity(target, damage, this);
+				player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.5F, 0.5F);
+				remove();
+				return;
+			} else {
+				this.possess(target, player.getLocation());
 			}
 		}
 }
