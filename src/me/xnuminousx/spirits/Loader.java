@@ -78,6 +78,12 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		langConfig.addDefault("Abilities.DarkSpirit.Strike.Description", "The most basic ability of an aggressive, unbalanced Spirit is to rush towards their enemy and try to bite them in 1 swift motion. When you activate this ability, you'll see your target zone. If your target zone gets in range of another entity, you'll be rushed over to them an deal damage.");
 		langConfig.addDefault("Abilities.DarkSpirit.Strike.Instructions", "Left-Click to trigger target spectacle");
 		
+		langConfig.addDefault("Abilities.Water.Purify.Description", "A rare technique practice amongst waterbenders is the ability to influence a Spirits nature towards either the darkness or the light. Using this ability, you can influence a DarkSpirit to be peaceful and guide them towards the light.");
+		langConfig.addDefault("Abilities.Water.Purify.Instructions", "Hold shift while looking at an entity");
+		
+		langConfig.addDefault("Abilities.Water.Corrupt.Description", "A rare technique practice amongst waterbenders is the ability to influence a Spirits nature towards either the darkness or the light. Using this ability, you can influence a LightSpirit to be chaotic and follow the will of the great DarkSpirit, Vatuu.");
+		langConfig.addDefault("Abilities.Water.Corrupt.Instructions", "Hold shift while looking at an entity");
+		
 		//Ability configuration
 		config.addDefault("Abilities.Spirits.Neutral.Agility.Enabled", true);
 		config.addDefault("Abilities.Spirits.Neutral.Agility.Dash.Cooldown", 2000);
@@ -176,6 +182,18 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Damage", 1);
 		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.DamageEntities", true);
 		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.HealDarkSpirits", true);
+		
+		config.addDefault("Abilities.Spirits.Water.Purify.Enabled", true);
+		config.addDefault("Abilities.Spirits.Water.Purify.Cooldown", 5000);
+		config.addDefault("Abilities.Spirits.Water.Purify.Duration", 20000);
+		config.addDefault("Abilities.Spirits.Water.Purify.Range", 10);
+		config.addDefault("Abilities.Spirits.Water.Purify.SetElement", true);
+		
+		config.addDefault("Abilities.Spirits.Water.Corrupt.Enabled", true);
+		config.addDefault("Abilities.Spirits.Water.Corrupt.Cooldown", 5000);
+		config.addDefault("Abilities.Spirits.Water.Corrupt.Duration", 20000);
+		config.addDefault("Abilities.Spirits.Water.Corrupt.Range", 10);
+		config.addDefault("Abilities.Spirits.Water.Corrupt.SetElement", true);
 		
 		//Save default configurations
 		ConfigManager.defaultConfig.save();

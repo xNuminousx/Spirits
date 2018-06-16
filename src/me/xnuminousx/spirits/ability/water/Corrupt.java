@@ -15,13 +15,14 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.GeneralMethods;
-import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.WaterAbility;
 import com.projectkorra.projectkorra.airbending.Suffocate;
+import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.elements.SpiritElement;
 import net.md_5.bungee.api.ChatColor;
 
@@ -41,10 +42,10 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 	private int chargeTicks;
 	private long time;
 	private boolean charged = false;
+	private boolean setElement;
 
 	public Corrupt(Player player) {
 		super(player);
-		// TODO Auto-generated constructor stub
 		if (!bPlayer.canBend(this)) {
 			return;
 		}
@@ -57,19 +58,23 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 				}
 			}
 		}
-		
-		duration = 20000;
-		cooldown = 5000;
-		range = 10;
 		time = System.currentTimeMillis();
 		
 		if (target == null) {
 			return;
 		}
 		heldEntities.add(target.getEntityId());
+		setFields();
 		start();
 	}
 	
+	private void setFields() {
+		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Water.Corrupt.Cooldown");
+		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.Water.Corrupt.Duration");
+		this.range = ConfigManager.getConfig().getDouble("Abilities.Spirits.Water.Corrupt.Range");
+		this.setElement = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Water.Corrupt.SetElement");
+	}
+
 	public double calculateSize(LivingEntity entity) {
 		return (entity.getEyeLocation().distance(entity.getLocation()) / 2 + 0.8D);
 	}
@@ -85,49 +90,41 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 
 	@Override
 	public long getCooldown() {
-		// TODO Auto-generated method stub
 		return cooldown;
 	}
 
 	@Override
 	public Location getLocation() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "Corrupt";
 	}
 
 	@Override
 	public boolean isExplosiveAbility() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isHarmlessAbility() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isIgniteAbility() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isSneakAbility() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public void progress() {
-		// TODO Auto-generated method stub
 		if (!bPlayer.canBendIgnoreCooldowns(this)) {
 			remove();
 			return;
@@ -165,7 +162,7 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 		
 		if (charged) {
 			if (!player.isSneaking()) {
-				if (target instanceof OfflinePlayer) {
+				if (target instanceof OfflinePlayer && setElement) {
 					BendingPlayer bPlayer = BendingPlayer.getBendingPlayer((OfflinePlayer) target);
 					if (bPlayer.hasElement(SpiritElement.LIGHT_SPIRIT)) {
 						bPlayer.setElement(SpiritElement.DARK_SPIRIT);
@@ -278,34 +275,35 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 
 	@Override
 	public String getAuthor() {
-		// TODO Auto-generated method stub
 		return "Prride";
 	}
 	
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return "Cage them nibbas";
+		return ConfigManager.languageConfig.get().getString("Abilities.Water.Corrupt.Description");
+	}
+	
+	@Override
+	public String getInstructions() {
+		return ConfigManager.languageConfig.get().getString("Abilities.Water.Corrupt.Instructions");
 	}
 
 	@Override
 	public String getVersion() {
-		// TODO Auto-generated method stub
-		return "Build v1.0";
+		return Methods.getVersion();
+	}
+	
+	@Override
+	public boolean isEnabled() {
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Water.Corrupt.Enabled");
 	}
 
 	@Override
 	public void load() {
-		// TODO Auto-generated method stub
-		ProjectKorra.plugin.getServer().getPluginManager().registerEvents(new CorruptListener(), ProjectKorra.plugin);
-		ProjectKorra.log.info(getName() + " " + getVersion() + " by " + getAuthor() + " loaded! ");
 	}
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
-		super.remove();
-		ProjectKorra.log.info(getName() + " " + getVersion() + " by " + getAuthor() + " stopped! ");
 	}
 
 }
