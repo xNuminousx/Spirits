@@ -63,7 +63,10 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		langConfig.addDefault("Abilities.LightSpirit.Rejuvenate.Description", "After executing the combo sequence, you will mark the ground with positively charged spiritual energy for a duration of time. Entities can come to this location to heal themselves, but dark creatures must beware!");
 		langConfig.addDefault("Abilities.LightSpirit.Rejuvenate.Instructions", "Alleviate (Shift down) > Alleviate (Right-Click block) > Alleviate (Release shift)");
 		
-		langConfig.addDefault("Abilities.DzarkSpirit.Intoxicate.Description", "Sacrifice some of your energy to pour a bit of chaos into the souls of your nearby enemies by taking away their positive potion effects and adding negative ones. Then watch as it destroys them from the inside out! The great spirit Vaatu was known to have this influence over other unbalanced Spirits.");
+		langConfig.addDefault("Abilities.LightSpirit.Orb.Description", "Plant an orb of positive energy on the ground which awaits for oncoming entities. If the orb detects something moving past it, it'll expand and harm anyone in its wake! More features to come...");
+		langConfig.addDefault("Abilities.LightSpirit.Orb.Instructions", "Hold shift until you see particles. Release shift while looking at an area nearby on the ground to plant it there.");
+		
+		langConfig.addDefault("Abilities.DarkSpirit.Intoxicate.Description", "Sacrifice some of your energy to pour a bit of chaos into the souls of your nearby enemies by taking away their positive potion effects and adding negative ones. Then watch as it destroys them from the inside out! The great spirit Vaatu was known to have this influence over other unbalanced Spirits.");
 		langConfig.addDefault("Abilities.DarkSpirit.Intoxicate.Instructions", "Hold shift");
 		
 		langConfig.addDefault("Abilities.LightSpirit.Shelter.Description", "A very useful tactic when group battling, a light spirit can temporarily shield a friend or even a foe from incoming enemies. Additionally, they have the options to shield themselves!");
@@ -134,6 +137,18 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Self.NightVisionDuration", 1.5);
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Self.RemoveNegativePotionEffects", true);
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Self.ParticleColor (Has to be 6 characters)", "FFFFFF");
+		
+		config.addDefault("Abilities.Spirits.LightSpirit.Orb.Enabled", true);
+		config.addDefault("Abilities.Spirits.LightSpirit.Orb.Cooldown", 10000);
+		config.addDefault("Abilities.Spirits.LightSpirit.Orb.ChargeTime", 2000);
+		config.addDefault("Abilities.Spirits.LightSpirit.Orb.Duration", 30000);
+		config.addDefault("Abilities.Spirits.LightSpirit.Orb.Damage", 3);
+		config.addDefault("Abilities.Spirits.LightSpirit.Orb.PlaceRange", 20);
+		config.addDefault("Abilities.Spirits.LightSpirit.Orb.DetonateRange", 3);
+		config.addDefault("Abilities.Spirits.LightSpirit.Orb.EffectRange", 5);
+		config.addDefault("Abilities.Spirits.LightSpirit.Orb.BlindnessDuration", 120);
+		config.addDefault("Abilities.Spirits.LightSpirit.Orb.NauseaDuration", 300);
+		config.addDefault("Abilities.Spirits.LightSpirit.Orb.PotionPower", 2);
 		
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Enabled", true);
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.RemoveOnDamage", true);
