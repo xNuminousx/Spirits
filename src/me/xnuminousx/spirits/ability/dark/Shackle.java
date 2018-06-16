@@ -18,6 +18,8 @@ import me.xnuminousx.spirits.ability.api.DarkAbility;
 
 public class Shackle extends DarkAbility implements AddonAbility {
 
+	private LivingEntity target = null;
+	private Location targetLoc;
 	private Location location;
 	private int range;
 	private long time;
@@ -55,47 +57,52 @@ public class Shackle extends DarkAbility implements AddonAbility {
 
 	@Override
 	public void progress() {
-		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, origin)) {
 			remove();
 			return;
 		}
 		
-		if (origin.distanceSquared(location) > range * range) {
-			bPlayer.addCooldown(this);
+		if ((origin.distanceSquared(location) > range * range) && target == null) {
+			bPlayer.addCooldown(this, 1000);
 			remove();
 			return;
 			
 		}
-		bind(200, 30, 0.04F);
+		bind();
 	}
 	
-	public void bind(int points, int points2, float size) {
+	public void bind() {
 		bPlayer.addCooldown(this);
 		if (progress) {
 			location.add(direction.multiply(1));
 			
 			blastSpiral(200, 0.04F, location);
 		}
-		
-		for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, radius)) {
-			if (target instanceof LivingEntity && !target.getUniqueId().equals(player.getUniqueId())) {
-				LivingEntity le = (LivingEntity)target;
-				if (((System.currentTimeMillis() > time + duration)) || (le.isDead()) || (le.getHealth() <= 3)) {
-					ParticleEffect.CLOUD.display(location, 0, 0, 0, 0.08F, 5);
-					player.getWorld().playSound(location, Sound.BLOCK_IRON_TRAPDOOR_CLOSE, 0.5F, 1.5F);
-					bPlayer.addCooldown(this);
-					remove();
-					return;
-				} else {
-					this.progress = false;
-					location = target.getLocation();
-					Vector vec = location.getDirection().normalize().multiply(0);
-					location.setPitch(location.getPitch());
-					location.setYaw(location.getYaw());
-					target.setVelocity(vec);
-					
-					holdSpiral(30, 0.04F, location);
+		if (target == null) {
+			for (Entity entity : GeneralMethods.getEntitiesAroundPoint(location, radius)) {
+				if (entity instanceof LivingEntity && entity.getUniqueId() != player.getUniqueId()) {
+					target = (LivingEntity) entity;
+					targetLoc = entity.getLocation();
 				}
+			}
+		} else {
+			if (System.currentTimeMillis() > time + duration) {
+				ParticleEffect.CLOUD.display(targetLoc, 0, 0, 0, 0.08F, 5);
+				player.getWorld().playSound(targetLoc, Sound.BLOCK_IRON_TRAPDOOR_CLOSE, 0.5F, 1.5F);
+				bPlayer.addCooldown(this);
+				remove();
+				return;
+			} else {
+				if (target.getLocation() != targetLoc) {
+					target.teleport(targetLoc);
+				}
+				this.progress = false;
+				Vector vec = targetLoc.getDirection().normalize().multiply(0);
+				target.setVelocity(vec);
+				targetLoc.setPitch(targetLoc.getPitch());
+				targetLoc.setYaw(targetLoc.getYaw());
+				
+				holdSpiral(30, 0.04F, location);
 			}
 		}
 	}
