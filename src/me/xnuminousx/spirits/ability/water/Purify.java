@@ -1,4 +1,4 @@
-package com.Pride.korra.Purify;
+package me.xnuminousx.spirits.ability.water;
 
 import java.util.HashSet;
 import java.util.Random;
