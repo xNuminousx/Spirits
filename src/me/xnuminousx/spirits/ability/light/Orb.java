@@ -68,7 +68,7 @@ public class Orb extends LightAbility implements AddonAbility {
 		this.checkEntities = false;
 		this.registerOrbLoc = true;
 		this.progressExplosion = false;
-		this.playDormant = true;
+		this.playDormant = false;
 	}
 
 	@Override
@@ -77,27 +77,33 @@ public class Orb extends LightAbility implements AddonAbility {
 			remove();
 			return;
 		}
-		explodeOrb();
-		if (player.isSneaking()) {
-			if (System.currentTimeMillis() > time + chargeTime) {
-				isCharged = true;
+		if (!isCharged) {
+			if (player.isSneaking()) {
+				if (System.currentTimeMillis() > time + chargeTime) {
+					isCharged = true;
+				}
+			} else {
+				remove();
+				return;
+			}
+		} else {
+			if (player.isSneaking() && !playDormant) {
 				Location eyeLoc = player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(3));
 				ParticleEffect.CRIT.display(eyeLoc, 0, 0, 0, 0, 2);
-			}
-		} else if (isCharged) {
-			if (registerOrbLoc) {
-				this.targetLoc = GeneralMethods.getTargetedLocation(player, plantRange);
-				Block block = targetLoc.getBlock().getRelative(BlockFace.DOWN);
-				if (!GeneralMethods.isSolid(block) || block.isLiquid()) {
-					remove();
-					return;
+			} else {
+				playDormant = true;
+				if (registerOrbLoc) {
+					this.targetLoc = GeneralMethods.getTargetedLocation(player, plantRange);
+					Block block = targetLoc.getBlock().getRelative(BlockFace.DOWN);
+					if (!GeneralMethods.isSolid(block) || block.isLiquid()) {
+						remove();
+						return;
+					}
+					registerOrbLoc = false;
 				}
-				registerOrbLoc = false;
+				displayOrb(targetLoc);
 			}
-			displayOrb(targetLoc);
-		} else {
-			remove();
-			return;
+			explodeOrb();
 		}
 	}
 	
