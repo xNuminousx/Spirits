@@ -113,6 +113,10 @@ public class Orb extends LightAbility implements AddonAbility {
 			ParticleEffect.ENCHANTMENT_TABLE.display(location, 3, 1, 3, 0, 1);
 			ParticleEffect.END_ROD.display(location, 0, 0, 0, 0, 2);
 			ParticleEffect.MAGIC_CRIT.display(location, 0.2F, 0.2F, 0.2F, 0, 3);
+			if (player.isSneaking()) {
+				progressExplosion = true;
+				playDormant = false;
+			}
 		}
 		if (System.currentTimeMillis() > time + duration) {
 			playDormant = false;
