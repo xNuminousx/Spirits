@@ -42,6 +42,7 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 	private int chargeTicks;
 	private long time;
 	private boolean charged = false;
+	private boolean setElement;
 
 	public Corrupt(Player player) {
 		super(player);
@@ -165,7 +166,7 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 		
 		if (charged) {
 			if (!player.isSneaking()) {
-				if (target instanceof OfflinePlayer) {
+				if (target instanceof OfflinePlayer && setElement) {
 					BendingPlayer bPlayer = BendingPlayer.getBendingPlayer((OfflinePlayer) target);
 					if (bPlayer.hasElement(SpiritElement.LIGHT_SPIRIT) && bPlayer.hasElement(SpiritElement.SPIRIT)) {
 						bPlayer.addElement(SpiritElement.SPIRIT);
