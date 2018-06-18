@@ -15,12 +15,13 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.GeneralMethods;
-import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.WaterAbility;
 import com.projectkorra.projectkorra.airbending.Suffocate;
+import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.elements.SpiritElement;
 import net.md_5.bungee.api.ChatColor;
 
@@ -281,34 +282,35 @@ public class Purify extends WaterAbility implements AddonAbility {
 
 	@Override
 	public String getAuthor() {
-		// TODO Auto-generated method stub
 		return "Prride";
 	}
 	
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return "Cage them nibbas";
+		return ConfigManager.languageConfig.get().getString("Abilities.Water.Purify.Description");
+	}
+	
+	@Override
+	public String getInstructions() {
+		return ConfigManager.languageConfig.get().getString("Abilities.Water.Purify.Instructions");
 	}
 
 	@Override
 	public String getVersion() {
-		// TODO Auto-generated method stub
-		return "Build v1.0";
+		return Methods.getVersion();
+	}
+	
+	@Override
+	public boolean isEnabled() {
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Water.Purify.Enabled");
 	}
 
 	@Override
 	public void load() {
-		// TODO Auto-generated method stub
-		ProjectKorra.plugin.getServer().getPluginManager().registerEvents(new PurifyListener(), ProjectKorra.plugin);
-		ProjectKorra.log.info(getName() + " " + getVersion() + " by " + getAuthor() + " loaded! ");
 	}
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
-		super.remove();
-		ProjectKorra.log.info(getName() + " " + getVersion() + " by " + getAuthor() + " stopped! ");
 	}
 
 }
