@@ -68,6 +68,11 @@ public class Shackle extends DarkAbility implements AddonAbility {
 			return;
 			
 		}
+		
+		if (target.isDead() || target.getWorld() != player.getWorld()) {
+			remove();
+			return;
+		}
 		bind();
 	}
 	
@@ -93,8 +98,10 @@ public class Shackle extends DarkAbility implements AddonAbility {
 				remove();
 				return;
 			} else {
-				if (target.getLocation() != targetLoc) {
-					target.teleport(targetLoc);
+				for (Entity entity : GeneralMethods.getEntitiesAroundPoint(targetLoc, 2)) {
+					if (entity != target) {
+						target.teleport(targetLoc);
+					}
 				}
 				this.progress = false;
 				Vector vec = targetLoc.getDirection().normalize().multiply(0);
@@ -102,7 +109,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
 				targetLoc.setPitch(targetLoc.getPitch());
 				targetLoc.setYaw(targetLoc.getYaw());
 				
-				holdSpiral(30, 0.04F, location);
+				holdSpiral(30, 0.04F, target.getLocation());
 			}
 		}
 	}
