@@ -46,7 +46,6 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 
 	public Corrupt(Player player) {
 		super(player);
-		// TODO Auto-generated constructor stub
 		if (!bPlayer.canBend(this)) {
 			return;
 		}
@@ -69,7 +68,15 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 			return;
 		}
 		heldEntities.add(target.getEntityId());
+		setFields();
 		start();
+	}
+	
+	private void setFields() {
+		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Water.Corrupt.Cooldown");
+		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.Water.Corrupt.Duration");
+		this.range = ConfigManager.getConfig().getDouble("Abilities.Spirits.Water.Corrupt.Range");
+		this.setElement = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Water.Corrupt.SetElement");
 	}
 	
 	public double calculateSize(LivingEntity entity) {
@@ -87,49 +94,41 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 
 	@Override
 	public long getCooldown() {
-		// TODO Auto-generated method stub
 		return cooldown;
 	}
 
 	@Override
 	public Location getLocation() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "Corrupt";
 	}
 
 	@Override
 	public boolean isExplosiveAbility() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isHarmlessAbility() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isIgniteAbility() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isSneakAbility() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public void progress() {
-		// TODO Auto-generated method stub
 		if (!bPlayer.canBendIgnoreCooldowns(this)) {
 			remove();
 			return;
