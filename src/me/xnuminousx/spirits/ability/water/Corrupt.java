@@ -282,34 +282,35 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 
 	@Override
 	public String getAuthor() {
-		// TODO Auto-generated method stub
 		return "Prride";
 	}
 	
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return "Cage them nibbas";
+		return ConfigManager.languageConfig.get().getString("Abilities.Water.Corrupt.Description");
+	}
+	
+	@Override
+	public String getInstructions() {
+		return ConfigManager.languageConfig.get().getString("Abilities.Water.Corrupt.Instructions");
 	}
 
 	@Override
 	public String getVersion() {
-		// TODO Auto-generated method stub
-		return "Build v1.0";
+		return Methods.getVersion();
+	}
+	
+	@Override
+	public boolean isEnabled() {
+		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Water.Corrupt.Enabled");
 	}
 
 	@Override
 	public void load() {
-		// TODO Auto-generated method stub
-		ProjectKorra.plugin.getServer().getPluginManager().registerEvents(new CorruptListener(), ProjectKorra.plugin);
-		ProjectKorra.log.info(getName() + " " + getVersion() + " by " + getAuthor() + " loaded! ");
 	}
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
-		super.remove();
-		ProjectKorra.log.info(getName() + " " + getVersion() + " by " + getAuthor() + " stopped! ");
 	}
 
 }
