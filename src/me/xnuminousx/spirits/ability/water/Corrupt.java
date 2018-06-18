@@ -176,6 +176,7 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 						target.sendMessage(SpiritElement.LIGHT_SPIRIT.getColor() + "You are now a" + ChatColor.BOLD + "" + ChatColor.BLUE + " DarkSpirit");
 						ParticleEffect.WITCH_MAGIC.display(target.getLocation(), (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.0F, 3);
 					}
+					GeneralMethods.saveElements(bPlayer);
 				} else if (target instanceof Entity || target instanceof LivingEntity) {
 					DamageHandler.damageEntity(target, 7, this);
 					target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 300, 2));
