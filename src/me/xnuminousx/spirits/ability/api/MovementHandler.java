@@ -1,4 +1,4 @@
-package me.xnuminousx.spirits.ability.water;
+package me.xnuminousx.spirits.ability.api;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
