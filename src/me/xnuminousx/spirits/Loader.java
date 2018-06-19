@@ -122,6 +122,7 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.Cooldown", 20000);
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.Duration", 10000);
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.Range", 10);
+		config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.MinHealth", 6);
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.Vanish.ApplyCooldown", true);
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.Vanish.Cooldown", 20000);
 		

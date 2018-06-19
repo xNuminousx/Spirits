@@ -27,6 +27,7 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 	private long time;
 	private long duration;
 	private long vanishCD;
+	private int minHealth;
 	private boolean isPhased;
 	private boolean playEffects;
 	private boolean applyVanishCD;
@@ -54,6 +55,7 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Phase.Cooldown");
 		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Phase.Duration");
 		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Phase.Range");
+		this.minHealth = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Phase.MinHealth");
 		this.applyVanishCD = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Phase.Vanish.ApplyCooldown");
 		this.vanishCD = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Phase.Vanish.Cooldown");
 		this.origin = player.getLocation();
@@ -63,6 +65,10 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 	public void progress() {
 		if (player.isDead() || !player.isOnline() || (player.getWorld() != playerWorld) || GeneralMethods.isRegionProtectedFromBuild(this, origin)) {
 			resetGameMode();
+			remove();
+			return;
+		}
+		if (player.getHealth() >= minHealth) {
 			remove();
 			return;
 		}
