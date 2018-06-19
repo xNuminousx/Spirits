@@ -163,19 +163,18 @@ public class Purify extends WaterAbility implements AddonAbility {
 			if (!player.isSneaking()) {
 				if (target instanceof OfflinePlayer && setElement) {
 					BendingPlayer bPlayer = BendingPlayer.getBendingPlayer((OfflinePlayer) target);
-					if (bPlayer.hasElement(SpiritElement.DARK_SPIRIT) && bPlayer.hasElement(SpiritElement.SPIRIT)) {
-						bPlayer.getElements().remove(SpiritElement.DARK_SPIRIT);
-						bPlayer.addElement(SpiritElement.SPIRIT);
+					if (bPlayer.hasElement(SpiritElement.DARK_SPIRIT)) {
 						bPlayer.addElement(SpiritElement.LIGHT_SPIRIT);
+						bPlayer.getElements().remove(SpiritElement.DARK_SPIRIT);
+						GeneralMethods.saveElements(bPlayer);
 						target.sendMessage(SpiritElement.DARK_SPIRIT.getColor() + "You are now a" + ChatColor.BOLD + "" + ChatColor.AQUA + " LightSpirit");
 						ParticleEffect.FIREWORKS_SPARK.display(target.getLocation(), (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.0F, 3);
-					} else if (bPlayer.hasElement(SpiritElement.DARK_SPIRIT)) {
-						bPlayer.addElement(SpiritElement.LIGHT_SPIRIT);
-						bPlayer.getElements().remove(SpiritElement.DARK_SPIRIT);
-						target.sendMessage(SpiritElement.DARK_SPIRIT.getColor() + "You are now a" + ChatColor.BOLD + "" + ChatColor.AQUA + " LightSpirit");
+					} else {
+						target.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 300, 2));
+						target.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 300, 2));
+						target.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 300, 2));
 						ParticleEffect.FIREWORKS_SPARK.display(target.getLocation(), (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.0F, 3);
 					}
-					GeneralMethods.saveElements(bPlayer);
 				} else if (target instanceof Entity || target instanceof LivingEntity) {
 					target.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 300, 2));
 					target.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 300, 2));

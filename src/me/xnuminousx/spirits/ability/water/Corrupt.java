@@ -164,19 +164,17 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 			if (!player.isSneaking()) {
 				if (target instanceof OfflinePlayer && setElement) {
 					BendingPlayer bPlayer = BendingPlayer.getBendingPlayer((OfflinePlayer) target);
-					if (bPlayer.hasElement(SpiritElement.DARK_SPIRIT) && bPlayer.hasElement(SpiritElement.SPIRIT)) {
-						bPlayer.addElement(SpiritElement.SPIRIT);
+					if (bPlayer.hasElement(SpiritElement.LIGHT_SPIRIT)) {
 						bPlayer.addElement(SpiritElement.DARK_SPIRIT);
 						bPlayer.getElements().remove(SpiritElement.LIGHT_SPIRIT);
+						GeneralMethods.saveElements(bPlayer);
 						target.sendMessage(SpiritElement.LIGHT_SPIRIT.getColor() + "You are now a" + ChatColor.BOLD + "" + ChatColor.BLUE + " DarkSpirit");
 						ParticleEffect.WITCH_MAGIC.display(target.getLocation(), (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.0F, 3);
-					} else if (bPlayer.hasElement(SpiritElement.DARK_SPIRIT)) {
-						bPlayer.getElements().remove(SpiritElement.LIGHT_SPIRIT);
-						bPlayer.addElement(SpiritElement.DARK_SPIRIT);
-						target.sendMessage(SpiritElement.LIGHT_SPIRIT.getColor() + "You are now a" + ChatColor.BOLD + "" + ChatColor.BLUE + " DarkSpirit");
+					} else {
+						DamageHandler.damageEntity(target, 7, this);
+						target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 300, 2));
 						ParticleEffect.WITCH_MAGIC.display(target.getLocation(), (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.0F, 3);
 					}
-					GeneralMethods.saveElements(bPlayer);
 				} else if (target instanceof Entity || target instanceof LivingEntity) {
 					DamageHandler.damageEntity(target, 7, this);
 					target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 300, 2));
