@@ -31,6 +31,7 @@ public class Orb extends LightAbility implements AddonAbility {
 	private boolean registerOrbLoc;
 	private boolean progressExplosion;
 	private boolean playDormant;
+	private boolean requireGround;
 	private long duration;
 	private int plantRange;
 	private int blindDuration;
@@ -63,6 +64,7 @@ public class Orb extends LightAbility implements AddonAbility {
 		this.blindDuration = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.BlindnessDuration");
 		this.nauseaDuration = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.NauseaDuration");
 		this.potionAmp = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.PotionPower");
+		this.requireGround = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Orb.RequireGround");
 		this.location = player.getLocation();
 		this.isCharged = false;
 		this.checkEntities = false;
@@ -94,10 +96,12 @@ public class Orb extends LightAbility implements AddonAbility {
 				playDormant = true;
 				if (registerOrbLoc) {
 					this.targetLoc = GeneralMethods.getTargetedLocation(player, plantRange);
-					Block block = targetLoc.getBlock().getRelative(BlockFace.DOWN);
-					if (!GeneralMethods.isSolid(block) || block.isLiquid()) {
-						remove();
-						return;
+					if (requireGround) {
+						Block block = targetLoc.getBlock().getRelative(BlockFace.DOWN);
+						if (!GeneralMethods.isSolid(block) || block.isLiquid()) {
+							remove();
+							return;
+						}
 					}
 					registerOrbLoc = false;
 				}

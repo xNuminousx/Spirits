@@ -150,6 +150,7 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.LightSpirit.Orb.BlindnessDuration", 120);
 		config.addDefault("Abilities.Spirits.LightSpirit.Orb.NauseaDuration", 300);
 		config.addDefault("Abilities.Spirits.LightSpirit.Orb.PotionPower", 2);
+		config.addDefault("Abilities.Spirits.LightSpirit.Orb.RequireGround", true);
 		
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Enabled", true);
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.RemoveOnDamage", true);
