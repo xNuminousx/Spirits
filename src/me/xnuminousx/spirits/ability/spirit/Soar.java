@@ -9,8 +9,8 @@ import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 
+import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
@@ -35,9 +35,9 @@ public class Soar extends SpiritAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.soarCooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Agility.Soar.Cooldown");
-		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Agility.Soar.Duration");
-		this.speed = ConfigManager.getConfig().getDouble("Abilities.Spirits.Neutral.Agility.Soar.Speed");
+		this.soarCooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Agility.Soar.Cooldown");
+		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Agility.Soar.Duration");
+		this.speed = Main.plugin.getConfig().getDouble("Abilities.Spirits.Neutral.Agility.Soar.Speed");
 		this.location = player.getLocation();
 	}
 
@@ -97,12 +97,12 @@ public class Soar extends SpiritAbility implements AddonAbility {
 	@Override
 	public String getDescription() {
 		return Methods.setSpiritDescription(SpiritType.NEUTRAL, "Mobility") +
-				ConfigManager.languageConfig.get().getString("Abilities.Spirit.Agility.Description");
+				Main.plugin.getConfig().getString("Language.Abilities.Spirit.Agility.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Agility.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Main.plugin.getConfig().getString("Language.Abilities.Spirit.Agility.Instructions");
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class Soar extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Agility.Enabled");
+		return Main.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Agility.Enabled");
 	}
 
 	@Override

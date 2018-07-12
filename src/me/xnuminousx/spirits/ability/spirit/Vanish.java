@@ -8,9 +8,9 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
@@ -39,11 +39,11 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Cooldown");
-		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Duration");
-		this.range = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Range");
-		this.radius = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Radius");
-		this.removeFire = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Vanish.RemoveFire");
+		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Cooldown");
+		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Duration");
+		this.range = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Range");
+		this.radius = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Radius");
+		this.removeFire = Main.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Vanish.RemoveFire");
 		this.origin = player.getLocation();
 		this.playSound = true;
 
@@ -116,12 +116,12 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 	@Override
 	public String getDescription() {
 		return Methods.setSpiritDescription(SpiritType.NEUTRAL, "Mobility") +
-				ConfigManager.languageConfig.get().getString("Abilities.Spirit.Vanish.Description");
+				Main.plugin.getConfig().getString("Language.Abilities.Spirit.Vanish.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Vanish.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Main.plugin.getConfig().getString("Language.Abilities.Spirit.Vanish.Instructions");
 	}
 
 	@Override
@@ -136,7 +136,7 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Vanish.Enabled");
+		return Main.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Vanish.Enabled");
 	}
 
 	@Override

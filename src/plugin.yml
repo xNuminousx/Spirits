@@ -1,0 +1,5 @@
+name: Spirits
+version: BETA-1.0.12
+main: me.xnuminousx.spirits.Main
+author: Numin
+depend: [ProjectKorra]

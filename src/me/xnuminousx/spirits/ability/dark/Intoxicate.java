@@ -13,9 +13,9 @@ import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 
+import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.DarkAbility;
@@ -49,11 +49,11 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Intoxicate.Cooldown");
-		this.range = ConfigManager.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Intoxicate.Radius");
-		this.potInt = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Intoxicate.PotionInterval");
-		this.harmInt = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Intoxicate.HarmInterval");
-		this.hexColor = ConfigManager.getConfig().getString("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor (Has to be 6 characters)");
+		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Intoxicate.Cooldown");
+		this.range = Main.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Intoxicate.Radius");
+		this.potInt = Main.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Intoxicate.PotionInterval");
+		this.harmInt = Main.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Intoxicate.HarmInterval");
+		this.hexColor = Main.plugin.getConfig().getString("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor (Has to be 6 characters)");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
@@ -156,12 +156,12 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 	@Override
 	public String getDescription() {
 		return Methods.setSpiritDescription(SpiritType.DARK, "Offense") +
-				ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Intoxicate.Description");
+				Main.plugin.getConfig().getString("Language.Abilities.DarkSpirit.Intoxicate.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Intoxicate.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Main.plugin.getConfig().getString("Language.Abilities.DarkSpirit.Intoxicate.Instructions");
 	}
 
 	@Override
@@ -176,7 +176,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Intoxicate.Enabled");
+		return Main.plugin.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Intoxicate.Enabled");
 	}
 
 	@Override

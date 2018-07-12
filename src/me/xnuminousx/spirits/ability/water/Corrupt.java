@@ -18,11 +18,11 @@ import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.WaterAbility;
 import com.projectkorra.projectkorra.airbending.Suffocate;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.MovementHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.elements.SpiritElement;
 import net.md_5.bungee.api.ChatColor;
@@ -70,10 +70,10 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 	}
 	
 	private void setFields() {
-		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Water.Corrupt.Cooldown");
-		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.Water.Corrupt.Duration");
-		this.range = ConfigManager.getConfig().getDouble("Abilities.Spirits.Water.Corrupt.Range");
-		this.setElement = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Water.Corrupt.SetElement");
+		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.Water.Corrupt.Cooldown");
+		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirits.Water.Corrupt.Duration");
+		this.range = Main.plugin.getConfig().getDouble("Abilities.Spirits.Water.Corrupt.Range");
+		this.setElement = Main.plugin.getConfig().getBoolean("Abilities.Spirits.Water.Corrupt.SetElement");
 	}
 
 	public double calculateSize(LivingEntity entity) {
@@ -88,7 +88,7 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 			heldEntities.remove(target.getEntityId());
 		}
 	}
-
+	
 	@Override
 	public long getCooldown() {
 		return cooldown;
@@ -284,14 +284,14 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return ConfigManager.languageConfig.get().getString("Abilities.Water.Corrupt.Description");
+		return Main.plugin.getConfig().getString("Language.Abilities.Water.Corrupt.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return ConfigManager.languageConfig.get().getString("Abilities.Water.Corrupt.Instructions");
+		return Main.plugin.getConfig().getString("Language.Abilities.Water.Corrupt.Instructions");
 	}
-
+	
 	@Override
 	public String getVersion() {
 		return Methods.getVersion();
@@ -299,7 +299,7 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Water.Corrupt.Enabled");
+		return Main.plugin.getConfig().getBoolean("Abilities.Spirits.Water.Corrupt.Enabled");
 	}
 
 	@Override

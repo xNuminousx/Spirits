@@ -17,11 +17,11 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.ComboAbility;
 import com.projectkorra.projectkorra.ability.util.ComboManager.AbilityInformation;
 import com.projectkorra.projectkorra.avatar.AvatarState;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ClickType;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
@@ -55,12 +55,12 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	}
 
 	private void setFields() {
-		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Fuse.Cooldown");
-		this.maxDuration = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Fuse.Duration");
-		this.killAfterDuration = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Fuse.Players.KillAfterDuration");
-		this.dangerDelay = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Fuse.NonPlayers.HarmfulFuseDelay");
-		this.enableNPCMerge = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Fuse.NonPlayers.Enabled");
-		this.potDuration = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Fuse.NonPlayers.BuffDuration");
+		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Fuse.Cooldown");
+		this.maxDuration = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Fuse.Duration");
+		this.killAfterDuration = Main.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Fuse.Players.KillAfterDuration");
+		this.dangerDelay = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Fuse.NonPlayers.HarmfulFuseDelay");
+		this.enableNPCMerge = Main.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Fuse.NonPlayers.Enabled");
+		this.potDuration = Main.plugin.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Fuse.NonPlayers.BuffDuration");
 		this.origin = player.getLocation();
 		this.originGM = player.getGameMode();
 		isFusing = false;
@@ -193,12 +193,12 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	@Override
 	public String getDescription() {
 		return Methods.setSpiritDescription(SpiritType.NEUTRAL, "Combo") +
-				ConfigManager.languageConfig.get().getString("Abilities.Spirit.Fuse.Description");
+				Main.plugin.getConfig().getString("Language.Abilities.Spirit.Fuse.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Fuse.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Main.plugin.getConfig().getString("Language.Abilities.Spirit.Fuse.Instructions");
 	}
 
 	@Override
@@ -215,7 +215,7 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 	public boolean isEnabled() {
 		return false;
 		/*
-		ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Fuse.Enabled")
+		Main.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Fuse.Enabled")
 		*/
 	}
 	

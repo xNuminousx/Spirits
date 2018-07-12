@@ -9,9 +9,9 @@ import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.DarkAbility;
@@ -29,6 +29,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
 	private double radius;
 	private int currPoint;
 	private boolean progress;
+	private boolean registerLoc;
 	private long cooldown;
 
 	public Shackle(Player player) {
@@ -45,14 +46,15 @@ public class Shackle extends DarkAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Shackle.Cooldown");
-		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Shackle.Duration");
-		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.DarkSpirit.Shackle.Range");
-		this.radius = ConfigManager.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Shackle.Radius");
+		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Shackle.Cooldown");
+		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Shackle.Duration");
+		this.range = Main.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Shackle.Range");
+		this.radius = Main.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Shackle.Radius");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
 		this.progress = true;
+		this.registerLoc = false;
 	}
 
 	@Override
@@ -68,11 +70,6 @@ public class Shackle extends DarkAbility implements AddonAbility {
 			return;
 			
 		}
-		
-		if (target.isDead() || target.getWorld() != player.getWorld()) {
-			remove();
-			return;
-		}
 		bind();
 	}
 	
@@ -87,10 +84,18 @@ public class Shackle extends DarkAbility implements AddonAbility {
 			for (Entity entity : GeneralMethods.getEntitiesAroundPoint(location, radius)) {
 				if (entity instanceof LivingEntity && entity.getUniqueId() != player.getUniqueId()) {
 					target = (LivingEntity) entity;
-					targetLoc = entity.getLocation();
+					registerLoc = true;
 				}
 			}
 		} else {
+			if (registerLoc) {
+				targetLoc = target.getLocation();
+				registerLoc = false;
+			}
+			if (target.isDead() || target.getWorld() != player.getWorld()) {
+				remove();
+				return;
+			}
 			if (System.currentTimeMillis() > time + duration) {
 				ParticleEffect.CLOUD.display(targetLoc, 0, 0, 0, 0.08F, 5);
 				player.getWorld().playSound(targetLoc, Sound.BLOCK_IRON_TRAPDOOR_CLOSE, 0.5F, 1.5F);
@@ -99,8 +104,9 @@ public class Shackle extends DarkAbility implements AddonAbility {
 				return;
 			} else {
 				for (Entity entity : GeneralMethods.getEntitiesAroundPoint(targetLoc, 2)) {
-					if (entity != target) {
-						target.teleport(targetLoc);
+					if (entity != target || entity == null) {
+						remove();
+						return;
 					}
 				}
 				this.progress = false;
@@ -109,7 +115,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
 				targetLoc.setPitch(targetLoc.getPitch());
 				targetLoc.setYaw(targetLoc.getYaw());
 				
-				holdSpiral(30, 0.04F, target.getLocation());
+				holdSpiral(30, 0.04F, targetLoc);
 			}
 		}
 	}
@@ -162,12 +168,12 @@ public class Shackle extends DarkAbility implements AddonAbility {
 	@Override
 	public String getDescription() {
 		return Methods.setSpiritDescription(SpiritType.DARK, "Defense") + 
-				ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Shackle.Description");
+				Main.plugin.getConfig().getString("Langauge.Abilities.DarkSpirit.Shackle.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Shackle.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Main.plugin.getConfig().getString("Language.Abilities.DarkSpirit.Shackle.Instructions");
 	}
 
 	@Override
@@ -182,7 +188,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Shackle.Enabled");
+		return Main.plugin.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Shackle.Enabled");
 	}
 
 	@Override

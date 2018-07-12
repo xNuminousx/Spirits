@@ -13,10 +13,10 @@ import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
@@ -33,6 +33,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	private Vector direction;
 	private Location entityCheck;
 	private Location origin;
+	private boolean allowPossession;
 	
 
 	public Possess(Player player) {
@@ -49,14 +50,15 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Possess.Cooldown");
-		this.range = ConfigManager.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Radius");
-		this.damage = ConfigManager.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Damage");
-		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Possess.Duration");
+		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Possess.Cooldown");
+		this.range = Main.plugin.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Radius");
+		this.damage = Main.plugin.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Damage");
+		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Possess.Duration");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.entityCheck = origin.clone();
 		this.direction = player.getLocation().getDirection();
 		this.progress = true;
+		this.allowPossession = true;
 	}
 
 	@Override
@@ -117,26 +119,28 @@ public class Possess extends SpiritAbility implements AddonAbility {
 }
 	
 	public void possess(LivingEntity target, Location location) {
-		bPlayer.addCooldown(this);
-		Location targetLoc = target.getLocation().clone();
-		
-		// Teleport player
-		targetLoc.setPitch(location.getPitch());
-		targetLoc.setYaw(location.getYaw());
-		player.teleport(targetLoc);
-		
-		// Grab target
-		Vector vec = targetLoc.getDirection().normalize().multiply(0);
-		target.setVelocity(vec);
-		if (new Random().nextInt(10) == 0) {
-			player.getWorld().playSound(targetLoc, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.1F, 2);
+		if (allowPossession) {
+			bPlayer.addCooldown(this);
+			Location targetLoc = target.getLocation().clone();
+			
+			// Teleport player
+			targetLoc.setPitch(location.getPitch());
+			targetLoc.setYaw(location.getYaw());
+			player.teleport(targetLoc);
+			
+			// Grab target
+			Vector vec = targetLoc.getDirection().normalize().multiply(0);
+			target.setVelocity(vec);
+			if (new Random().nextInt(10) == 0) {
+				player.getWorld().playSound(targetLoc, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.1F, 2);
+			}
+			
+			// Possession effects
+			ParticleEffect.DRAGON_BREATH.display(targetLoc, 0.3F, 1F, 0.3F, 0.02F, 1);
+			target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2), true);
+			target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 2), true);
+			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 120, 2), true);
 		}
-		
-		// Possession effects
-		ParticleEffect.DRAGON_BREATH.display(targetLoc, 0.3F, 1F, 0.3F, 0.02F, 1);
-		target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2), true);
-		target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 2), true);
-		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 120, 2), true);
 	}
 	
 	@Override
@@ -165,12 +169,12 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	@Override
 	public String getDescription() {
 		return Methods.setSpiritDescription(SpiritType.NEUTRAL, "Offense") +
-				ConfigManager.languageConfig.get().getString("Abilities.Spirit.Possess.Description");
+				Main.plugin.getConfig().getString("Language.Abilities.Spirit.Possess.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Possess.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Main.plugin.getConfig().getString("Language.Abilities.Spirit.Possess.Instructions");
 	}
 
 	@Override
@@ -185,7 +189,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Possess.Enabled");
+		return Main.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Possess.Enabled");
 	}
 
 	@Override

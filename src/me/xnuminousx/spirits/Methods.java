@@ -1,5 +1,7 @@
 package me.xnuminousx.spirits;
 
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -69,15 +71,15 @@ public class Methods {
 	/*
 	 * The author(s) of the project.
 	 */
-	public static String getAuthor() {
-		return "Numin";
+	public static List<String> getAuthor() {
+		return Main.plugin.getDescription().getAuthors();
 	}
 	
 	/*
 	 * The current version of Spirits
 	 */
 	public static String getVersion() {
-		return "Beta 1.0.12";
+		return Main.plugin.getDescription().getVersion();
 	}
 	
 	/* 

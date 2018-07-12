@@ -11,10 +11,10 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.LightAbility;
@@ -54,17 +54,17 @@ public class Orb extends LightAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Orb.Cooldown");
-		this.chargeTime = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Orb.ChargeTime");
-		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Orb.Duration");
-		this.damage = ConfigManager.getConfig().getDouble("Abilities.Spirits.LightSpirit.Orb.Damage");
-		this.plantRange = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.PlaceRange");
-		this.detonateRange = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.DetonateRange");
-		this.effectRange = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.EffectRange");
-		this.blindDuration = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.BlindnessDuration");
-		this.nauseaDuration = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.NauseaDuration");
-		this.potionAmp = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.PotionPower");
-		this.requireGround = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Orb.RequireGround");
+		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Orb.Cooldown");
+		this.chargeTime = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Orb.ChargeTime");
+		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Orb.Duration");
+		this.damage = Main.plugin.getConfig().getDouble("Abilities.Spirits.LightSpirit.Orb.Damage");
+		this.plantRange = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.PlaceRange");
+		this.detonateRange = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.DetonateRange");
+		this.effectRange = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.EffectRange");
+		this.blindDuration = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.BlindnessDuration");
+		this.nauseaDuration = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.NauseaDuration");
+		this.potionAmp = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.PotionPower");
+		this.requireGround = Main.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Orb.RequireGround");
 		this.location = player.getLocation();
 		this.isCharged = false;
 		this.checkEntities = false;
@@ -73,7 +73,6 @@ public class Orb extends LightAbility implements AddonAbility {
 		this.playDormant = false;
 	}
 
-	@Override
 	public void progress() {
 		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location)) {
 			remove();
@@ -159,19 +158,16 @@ public class Orb extends LightAbility implements AddonAbility {
 		}
 	}
 
-	@Override
 	public long getCooldown() {
 
 		return cooldown;
 	}
 
-	@Override
 	public Location getLocation() {
 
 		return null;
 	}
 
-	@Override
 	public String getName() {
 
 		return "Orb";
@@ -179,21 +175,19 @@ public class Orb extends LightAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.setSpiritDescription(SpiritType.LIGHT, "Offense") + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Orb.Description");
+		return Methods.setSpiritDescription(SpiritType.LIGHT, "Offense") + Main.plugin.getConfig().getString("Language.Abilities.LightSpirit.Orb.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Orb.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Main.plugin.getConfig().getString("Language.Abilities.LightSpirit.Orb.Instructions");
 	}
 
-	@Override
 	public String getAuthor() {
 
 		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Methods.getAuthor();
 	}
 
-	@Override
 	public String getVersion() {
 
 		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Methods.getVersion();
@@ -201,38 +195,32 @@ public class Orb extends LightAbility implements AddonAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Orb.Enabled");
+		return Main.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Orb.Enabled");
 	}
 
-	@Override
 	public boolean isExplosiveAbility() {
 
 		return false;
 	}
 
-	@Override
 	public boolean isHarmlessAbility() {
 
 		return false;
 	}
 
-	@Override
 	public boolean isIgniteAbility() {
 
 		return false;
 	}
 
-	@Override
 	public boolean isSneakAbility() {
 
 		return false;
 	}
 
-	@Override
 	public void load() {
 	}
 
-	@Override
 	public void stop() {
 	}
 

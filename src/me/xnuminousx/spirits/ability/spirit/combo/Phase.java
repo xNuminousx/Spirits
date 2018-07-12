@@ -12,10 +12,10 @@ import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.ComboAbility;
 import com.projectkorra.projectkorra.ability.util.ComboManager.AbilityInformation;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ClickType;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
@@ -52,12 +52,12 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 	}
 
 	private void setFields() {
-		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Phase.Cooldown");
-		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Phase.Duration");
-		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Phase.Range");
-		this.minHealth = ConfigManager.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Phase.MinHealth");
-		this.applyVanishCD = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Phase.Vanish.ApplyCooldown");
-		this.vanishCD = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Phase.Vanish.Cooldown");
+		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Phase.Cooldown");
+		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Phase.Duration");
+		this.range = Main.plugin.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Phase.Range");
+		this.minHealth = Main.plugin.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Phase.MinHealth");
+		this.applyVanishCD = Main.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Phase.Vanish.ApplyCooldown");
+		this.vanishCD = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Phase.Vanish.Cooldown");
 		this.origin = player.getLocation();
 	}
 
@@ -147,12 +147,12 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.setSpiritDescription(SpiritType.NEUTRAL, "Combo") + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Phase.Description");
+		return Methods.setSpiritDescription(SpiritType.NEUTRAL, "Combo") + Main.plugin.getConfig().getString("Language.Abilities.Spirit.Phase.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + ConfigManager.languageConfig.get().getString("Abilities.Spirit.Phase.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Main.plugin.getConfig().getString("Language.Abilities.Spirit.Phase.Instructions");
 	}
 
 	@Override
@@ -169,7 +169,7 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Phase.Enabled");
+		return Main.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Phase.Enabled");
 	}
 
 	@Override

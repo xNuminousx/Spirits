@@ -13,9 +13,9 @@ import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 
+import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.LightAbility;
@@ -57,19 +57,19 @@ public class Alleviate extends LightAbility implements AddonAbility {
 
 	private void setFields() {
 		//Alleviate
-		this.otherCooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.Others.Cooldown");
-		this.range = ConfigManager.getConfig().getDouble("Abilities.Spirits.LightSpirit.Alleviate.Others.Range");
-		this.potInt = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.Others.PotionInterval");
-		this.healInt = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.Others.HealInterval");
-		this.hexColor = ConfigManager.getConfig().getString("Abilities.Spirits.LightSpirit.Alleviate.Others.ParticleColor (Has to be 6 characters)");
+		this.otherCooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.Others.Cooldown");
+		this.range = Main.plugin.getConfig().getDouble("Abilities.Spirits.LightSpirit.Alleviate.Others.Range");
+		this.potInt = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.Others.PotionInterval");
+		this.healInt = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.Others.HealInterval");
+		this.hexColor = Main.plugin.getConfig().getString("Abilities.Spirits.LightSpirit.Alleviate.Others.ParticleColor (Has to be 6 characters)");
 		
 		//Sanctity
-		this.selfCooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.Self.Cooldown");
-		this.chargeTime = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.Self.ChargeTime");
-		this.healDuration = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Alleviate.Self.HealDuration");
-		this.nightVisDuration = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Alleviate.Self.NightVisionDuration");
-		this.removeNegPots = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Alleviate.Self.RemoveNegativePotionEffects");
-		this.selfHexColor = ConfigManager.getConfig().getString("Abilities.Spirits.LightSpirit.Alleviate.Self.ParticleColor (Has to be 6 characters)");
+		this.selfCooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.Self.Cooldown");
+		this.chargeTime = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.Self.ChargeTime");
+		this.healDuration = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Alleviate.Self.HealDuration");
+		this.nightVisDuration = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Alleviate.Self.NightVisionDuration");
+		this.removeNegPots = Main.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Alleviate.Self.RemoveNegativePotionEffects");
+		this.selfHexColor = Main.plugin.getConfig().getString("Abilities.Spirits.LightSpirit.Alleviate.Self.ParticleColor (Has to be 6 characters)");
 		
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
@@ -215,12 +215,12 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	@Override
 	public String getDescription() {
 		return Methods.setSpiritDescription(SpiritType.LIGHT, "Utility") +
-				ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Alleviate.Description");
+				Main.plugin.getConfig().getString("Language.Abilities.LightSpirit.Alleviate.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Alleviate.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Main.plugin.getConfig().getString("Language.Abilities.LightSpirit.Alleviate.Instructions");
 	}
 
 	@Override
@@ -235,7 +235,7 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Alleviate.Enabled");
+		return Main.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Alleviate.Enabled");
 	}
 
 	@Override

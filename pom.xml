@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>me.xnuminousx</groupId>
+	<artifactId>spirits</artifactId>
+	<version>BETA-1.0.12</version>
+	
+  <dependencies>
+  	<!-- Spigot API -->
+  	<dependency>
+    	<groupId>org.spigotmc</groupId>
+    	<artifactId>Spigot-Server</artifactId>
+    	<version>LATEST</version>
+    	<scope>system</scope>
+    	<systemPath>${project.basedir}/lib/spigot-1.12.2.jar</systemPath>
+    </dependency>
+    <!-- ProjectKorra -->
+    <dependency>
+    	<groupId>com.projectkorra</groupId>
+    	<artifactId>projectkorra</artifactId>
+    	<version>1.8.6</version>
+    	<scope>system</scope>
+    	<systemPath>${project.basedir}/lib/ProjectKorra-1.8.6.jar</systemPath>
+    </dependency>
+  </dependencies>
+  
+  
+  
+</project>

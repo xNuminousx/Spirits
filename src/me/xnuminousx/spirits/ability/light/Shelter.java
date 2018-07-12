@@ -9,9 +9,9 @@ import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.LightAbility;
@@ -60,16 +60,16 @@ public class Shelter extends LightAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.othersCooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Others.Cooldown");
-		this.selfCooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Self.Cooldown");
-		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Duration");
-		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Range");
-		this.clickDelay = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Others.ClickDelay");
-		this.shieldSize = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Others.ShieldSize");
-		this.selfShield = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Self.ShieldSize");
-		this.knockDis = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Others.KnockbackPower");
-		this.selfKnockDis = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Self.KnockbackPower");
-		this.removeOnDamage = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirits.Shelter.RemoveOnDamage");
+		this.othersCooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Others.Cooldown");
+		this.selfCooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Self.Cooldown");
+		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Duration");
+		this.range = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Range");
+		this.clickDelay = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Others.ClickDelay");
+		this.shieldSize = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Others.ShieldSize");
+		this.selfShield = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Self.ShieldSize");
+		this.knockDis = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Others.KnockbackPower");
+		this.selfKnockDis = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Self.KnockbackPower");
+		this.removeOnDamage = Main.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirits.Shelter.RemoveOnDamage");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
@@ -203,12 +203,12 @@ public class Shelter extends LightAbility implements AddonAbility {
 	@Override
 	public String getDescription() {
 		return Methods.setSpiritDescription(SpiritType.LIGHT, "Defense") +
-				ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Shelter.Description");
+				Main.plugin.getConfig().getString("Language.Abilities.LightSpirit.Shelter.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Shelter.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Main.plugin.getConfig().getString("Language.Abilities.LightSpirit.Shelter.Instructions");
 	}
 
 	@Override
@@ -223,7 +223,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Shelter.Enabled");
+		return Main.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Shelter.Enabled");
 	}
 
 	@Override

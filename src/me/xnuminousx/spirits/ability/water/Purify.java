@@ -18,10 +18,10 @@ import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.WaterAbility;
 import com.projectkorra.projectkorra.airbending.Suffocate;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.MovementHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.elements.SpiritElement;
 import net.md_5.bungee.api.ChatColor;
@@ -69,10 +69,10 @@ public class Purify extends WaterAbility implements AddonAbility {
 	}
 	
 	private void setFields() {
-		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Water.Purify.Cooldown");
-		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.Water.Purify.Duration");
-		this.range = ConfigManager.getConfig().getDouble("Abilities.Spirits.Water.Purify.Range");
-		this.setElement = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Water.Purify.SetElement");
+		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.Water.Purify.Cooldown");
+		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirits.Water.Purify.Duration");
+		this.range = Main.plugin.getConfig().getDouble("Abilities.Spirits.Water.Purify.Range");
+		this.setElement = Main.plugin.getConfig().getBoolean("Abilities.Spirits.Water.Purify.SetElement");
 	}
 
 	public double calculateSize(LivingEntity entity) {
@@ -287,22 +287,21 @@ public class Purify extends WaterAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return ConfigManager.languageConfig.get().getString("Abilities.Water.Purify.Description");
+		return Main.plugin.getConfig().getString("Language.Abilities.Water.Purify.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return ConfigManager.languageConfig.get().getString("Abilities.Water.Purify.Instructions");
+		return Main.plugin.getConfig().getString("Language.Abilities.Water.Purify.Instructions");
 	}
 
-	@Override
 	public String getVersion() {
 		return Methods.getVersion();
 	}
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Water.Purify.Enabled");
+		return Main.plugin.getConfig().getBoolean("Abilities.Spirits.Water.Purify.Enabled");
 	}
 
 	@Override

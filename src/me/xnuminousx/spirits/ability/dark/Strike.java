@@ -9,10 +9,10 @@ import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.DarkAbility;
@@ -39,9 +39,9 @@ public class Strike extends DarkAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Strike.Cooldown");
-		this.damage = ConfigManager.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Strike.Damage");
-		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.DarkSpirit.Strike.Range");
+		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Strike.Cooldown");
+		this.damage = Main.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Strike.Damage");
+		this.range = Main.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Strike.Range");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
@@ -101,12 +101,12 @@ public class Strike extends DarkAbility implements AddonAbility {
 	@Override
 	public String getDescription() {
 		return Methods.setSpiritDescription(SpiritType.DARK, "Offense") + 
-				ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Strike.Description");
+				Main.plugin.getConfig().getString("Language.Abilities.DarkSpirit.Strike.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Strike.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Main.plugin.getConfig().getString("Language.Abilities.DarkSpirit.Strike.Instructions");
 	}
 
 	@Override
@@ -121,7 +121,7 @@ public class Strike extends DarkAbility implements AddonAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Strike.Enabled");
+		return Main.plugin.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Strike.Enabled");
 	}
 
 	@Override

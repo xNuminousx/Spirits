@@ -18,11 +18,11 @@ import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.ComboAbility;
 import com.projectkorra.projectkorra.ability.util.ComboManager.AbilityInformation;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ClickType;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.DarkAbility;
@@ -57,13 +57,13 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 	}
 
 	private void setFields() {
-		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Combo.Infest.Cooldown");
-		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.DarkSpirit.Combo.Infest.Duration");
-		this.radius = ConfigManager.getConfig().getInt("Abilities.Spirits.DarkSpirit.Combo.Infest.Radius");
-		this.effectInt = ConfigManager.getConfig().getInt("Abilities.Spirits.DarkSpirit.Combo.Infest.EffectInterval");
-		this.damage = ConfigManager.getConfig().getInt("Abilities.Spirits.DarkSpirit.Combo.Infest.Damage");
-		this.damageEntities = ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Combo.Infest.DamageEntities");
-		this.healDarkSpirits = ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Combo.Infest.HealDarkSpirits");
+		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Combo.Infest.Cooldown");
+		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Combo.Infest.Duration");
+		this.radius = Main.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Combo.Infest.Radius");
+		this.effectInt = Main.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Combo.Infest.EffectInterval");
+		this.damage = Main.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Combo.Infest.Damage");
+		this.damageEntities = Main.plugin.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Combo.Infest.DamageEntities");
+		this.healDarkSpirits = Main.plugin.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Combo.Infest.HealDarkSpirits");
 		location = player.getLocation();
 		location2 = player.getLocation();
 		location3 = player.getLocation();
@@ -178,12 +178,12 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.setSpiritDescription(SpiritType.DARK, "Combo") + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Infest.Description");
+		return Methods.setSpiritDescription(SpiritType.DARK, "Combo") + Main.plugin.getConfig().getString("Language.Abilities.DarkSpirit.Infest.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + ConfigManager.languageConfig.get().getString("Abilities.DarkSpirit.Infest.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Main.plugin.getConfig().getString("Langauge.Abilities.DarkSpirit.Infest.Instructions");
 	}
 
 	@Override
@@ -198,7 +198,7 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Combo.Infest.Enabled");
+		return Main.plugin.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Combo.Infest.Enabled");
 	}
 
 	@Override

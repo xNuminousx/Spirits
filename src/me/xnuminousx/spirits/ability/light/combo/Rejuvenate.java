@@ -18,11 +18,11 @@ import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.ComboAbility;
 import com.projectkorra.projectkorra.ability.util.ComboManager.AbilityInformation;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.ClickType;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
+import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.LightAbility;
@@ -57,13 +57,13 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
 	}
 
 	private void setFields() {
-		this.cooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Cooldown");
-		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Duration");
-		this.radius = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Radius");
-		this.effectInt = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.EffectInterval");
-		this.damage = ConfigManager.getConfig().getDouble("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Damage");
-		this.damageDarkSpirits = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.HurtDarkSpirits");
-		this.damageMonsters = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.HurtMonsters");
+		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Cooldown");
+		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Duration");
+		this.radius = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Radius");
+		this.effectInt = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.EffectInterval");
+		this.damage = Main.plugin.getConfig().getDouble("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Damage");
+		this.damageDarkSpirits = Main.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.HurtDarkSpirits");
+		this.damageMonsters = Main.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.HurtMonsters");
 		location = player.getLocation();
 		location2 = player.getLocation();
 		location3 = player.getLocation();
@@ -173,12 +173,12 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
 	
 	@Override
 	public String getDescription() {
-		return Methods.setSpiritDescription(SpiritType.LIGHT, "Combo") + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Rejuvenate.Description");
+		return Methods.setSpiritDescription(SpiritType.LIGHT, "Combo") + Main.plugin.getConfig().getString("Language.Abilities.LightSpirit.Rejuvenate.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Rejuvenate.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Main.plugin.getConfig().getString("Language.Abilities.LightSpirit.Rejuvenate.Instructions");
 	}
 
 	@Override
@@ -193,7 +193,7 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Enabled");
+		return Main.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Enabled");
 	}
 
 	@Override

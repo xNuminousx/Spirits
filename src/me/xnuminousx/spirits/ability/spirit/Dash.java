@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
 
+import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
@@ -29,8 +29,8 @@ public class Dash extends SpiritAbility implements AddonAbility {
 	}
 
 	private void setFields() {
-		this.dashCooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Agility.Dash.Cooldown");
-		this.distance = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Agility.Dash.Distance");
+		this.dashCooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Agility.Dash.Cooldown");
+		this.distance = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Agility.Dash.Distance");
 		this.location = player.getLocation();
 	}
 
@@ -89,7 +89,7 @@ public class Dash extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Agility.Enabled");
+		return Main.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Agility.Enabled");
 	}
 
 	@Override
