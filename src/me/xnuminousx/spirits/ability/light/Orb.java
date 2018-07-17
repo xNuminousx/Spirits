@@ -97,8 +97,8 @@ public class Orb extends LightAbility implements AddonAbility {
 				if (registerOrbLoc) {
 					this.targetLoc = GeneralMethods.getTargetedLocation(player, plantRange);
 					if (requireGround) {
-						Block block = targetLoc.getBlock().getRelative(BlockFace.DOWN);
-						if (!GeneralMethods.isSolid(block) || block.isLiquid()) {
+						Block block = targetLoc.getBlock();
+						if (!GeneralMethods.isSolid(block)) {
 							remove();
 							return;
 						}
