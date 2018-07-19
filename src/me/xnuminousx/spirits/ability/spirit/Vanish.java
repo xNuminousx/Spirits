@@ -1,5 +1,7 @@
 package me.xnuminousx.spirits.ability.spirit;
 
+import java.util.Random;
+
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -19,13 +21,16 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 
 	private long cooldown;
 	private long time;
+	private long chargeTime;
 	private long duration;
-	private boolean playSound;
 	private boolean removeFire;
+	private boolean isCharged;
 	private Location origin;
 	private Location targetLoc;
 	private long range;
 	private long radius;
+	private boolean applyInvis = true;
+	private int particleFrequency;
 
 	public Vanish(Player player) {
 		super(player);
@@ -41,11 +46,13 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 	private void setFields() {
 		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Cooldown");
 		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Duration");
+		this.chargeTime = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.ChargeTime");
 		this.range = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Range");
 		this.radius = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Radius");
+		this.particleFrequency = Main.plugin.getConfig().getInt("Abilities.Spirits.Neutral.Vanish.ParticleFrequency");
 		this.removeFire = Main.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Vanish.RemoveFire");
 		this.origin = player.getLocation();
-		this.playSound = true;
+		this.isCharged = false;
 
 	}
 
@@ -55,24 +62,44 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 			remove();
 			return;
 		}
-		vanishPlayer();
-		if (playSound) {
-			playSound = false;
-			playEffects();
-		}
-		if ((origin.distanceSquared(player.getLocation()) > radius * radius) || (System.currentTimeMillis() > time + duration)) {
-			remove();
-			return;
-		} else if (!player.isSneaking()) {
-			targetLoc = GeneralMethods.getTargetedLocation(player, range);
-			player.teleport(targetLoc);
-			remove();
-			return;
+		
+		if (!isCharged) {
+			if (player.isSneaking()) {
+				if (System.currentTimeMillis() > time + chargeTime) {
+					isCharged = true;
+				} else {
+					if (new Random().nextInt(particleFrequency) == 0) {
+						ParticleEffect.DRAGON_BREATH.display(player.getLocation().add(0, 1, 0), 0, 0, 0, 0.09F, 1);
+					}
+				}
+			} else {
+				remove();
+				return;
+			}
+		} else {
+			if (player.isSneaking()) {
+				playEffects();
+				
+				if ((origin.distanceSquared(player.getLocation()) > radius * radius) || (System.currentTimeMillis() > time + duration)) {
+					player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 0.5F, -1);
+					remove();
+					return;
+				}
+			} else {
+				vanishPlayer();
+				targetLoc = GeneralMethods.getTargetedLocation(player, range);
+				player.teleport(targetLoc);
+				player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 0.5F, -1);
+				ParticleEffect.DRAGON_BREATH.display(player.getLocation().add(0, 1, 0), 0, 0, 0, 0.09F, 20);
+				ParticleEffect.PORTAL.display(player.getLocation().add(0, 1, 0), 0, 0, 0, 2F, 30);
+				Methods.playSpiritParticles(bPlayer, player.getLocation().add(0, 1, 0), 0.5F, 0.5f, 0.5F, 0, 10);
+				remove();
+				return;
+			}
 		}
 	}
 	
 	public void vanishPlayer() {
-		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 120, 2), true);
 		if (removeFire) {
 			player.setFireTicks(-1);
 		}
@@ -80,15 +107,18 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 	}
 	
 	public void playEffects() {
-		ParticleEffect.DRAGON_BREATH.display(player.getLocation().add(0, 1, 0), 0, 0, 0, 0.09F, 20);
-		ParticleEffect.PORTAL.display(player.getLocation().add(0, 1, 0), 0, 0, 0, 2F, 30);
-		Methods.playSpiritParticles(bPlayer, player.getLocation().add(0, 1, 0), 0.5F, 0.5f, 0.5F, 0, 10);
-		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 0.5F, -1);
+		if (new Random().nextInt(particleFrequency) == 0) {
+			Methods.playSpiritParticles(bPlayer, player.getLocation().add(0, 1, 0), 0.5F, 0.5f, 0.5F, 0, 2);
+		}
+		if (applyInvis) {
+			applyInvis = false;
+			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, (int) duration, 2), true);
+			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 0.5F, -1);
+		}
 	}
 	
 	@Override
 	public void remove() {
-		playEffects();
 		if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
 			player.removePotionEffect(PotionEffectType.INVISIBILITY);
 		}

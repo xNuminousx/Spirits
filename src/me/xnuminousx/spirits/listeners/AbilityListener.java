@@ -98,13 +98,11 @@ public class AbilityListener implements Listener {
 			new Shelter(player, ShelterType.SHIFT);
 			
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Vanish")) {
-			if (event.isSneaking()) {
-				new Vanish(player);
-			} else {
-				return;
-			}
+			new Vanish(player);
+			
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Orb")) {
 			new Orb(player);
+			
 		}
 
 	}

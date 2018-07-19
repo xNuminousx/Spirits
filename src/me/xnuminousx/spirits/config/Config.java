@@ -103,9 +103,11 @@ public class Config {
 		
 		config.addDefault("Abilities.Spirits.Neutral.Vanish.Enabled", true);
 		config.addDefault("Abilities.Spirits.Neutral.Vanish.Cooldown", 7000);
-		config.addDefault("Abilities.Spirits.Neutral.Vanish.Duration", 4000);
+		config.addDefault("Abilities.Spirits.Neutral.Vanish.Duration", 10000);
+		config.addDefault("Abilities.Spirits.Neutral.Vanish.ChargeTime", 1500);
 		config.addDefault("Abilities.Spirits.Neutral.Vanish.Range", 20);
 		config.addDefault("Abilities.Spirits.Neutral.Vanish.Radius", 10);
+		config.addDefault("Abilities.Spirits.Neutral.Vanish.ParticleFrequency", 5);
 		config.addDefault("Abilities.Spirits.Neutral.Vanish.RemoveFire", true);
 		
 		/*
