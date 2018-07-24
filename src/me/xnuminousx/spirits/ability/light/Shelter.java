@@ -41,6 +41,8 @@ public class Shelter extends LightAbility implements AddonAbility {
 	private long knockDis;
 	private long selfKnockDis;
 	private long clickDelay;
+	private boolean removeIfFar;
+	private int removeDistance;
 
 	public Shelter(Player player, ShelterType shelterType) {
 		super(player);
@@ -70,6 +72,8 @@ public class Shelter extends LightAbility implements AddonAbility {
 		this.knockDis = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Others.KnockbackPower");
 		this.selfKnockDis = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Self.KnockbackPower");
 		this.removeOnDamage = Main.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirits.Shelter.RemoveOnDamage");
+		this.removeIfFar = Main.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirits.Shelter.RemoveIfFarAway.Enabled");
+		this.removeDistance = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirits.Shelter.RemoveIfFarAway.Distance");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
@@ -149,6 +153,13 @@ public class Shelter extends LightAbility implements AddonAbility {
 						}
 					}
 					rotateShield(location, 100, shieldSize);
+					
+					if (removeIfFar) {
+						if (player.getLocation().distanceSquared(target.getLocation()) > removeDistance * removeDistance) {
+							remove();
+							return;
+						}
+					}
 				}
 			} else {
 				bPlayer.addCooldown(this, clickDelay);
