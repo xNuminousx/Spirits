@@ -31,6 +31,9 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 	private long radius;
 	private boolean applyInvis = true;
 	private int particleFrequency;
+	private boolean doHalfEffect;
+	private double healthReq;
+	private int divideFactor;
 
 	public Vanish(Player player) {
 		super(player);
@@ -47,10 +50,19 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 		this.cooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Cooldown");
 		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Duration");
 		this.chargeTime = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.ChargeTime");
-		this.range = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Range");
 		this.radius = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Radius");
 		this.particleFrequency = Main.plugin.getConfig().getInt("Abilities.Spirits.Neutral.Vanish.ParticleFrequency");
 		this.removeFire = Main.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Vanish.RemoveFire");
+		this.doHalfEffect = Main.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Vanish.DivideRange.Enabled");
+		this.healthReq = Main.plugin.getConfig().getDouble("Abilities.Spirits.Neutral.Vanish.DivideRange.HealthRequired");
+		this.divideFactor = Main.plugin.getConfig().getInt("Abilities.Spirits.Neutral.Vanish.DivideRange.DivideFactor");
+		
+		if (doHalfEffect && player.getHealth() < healthReq) {
+			this.range = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Range") / divideFactor;
+		} else {
+			this.range = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Range");
+		}
+		
 		this.origin = player.getLocation();
 		this.isCharged = false;
 

@@ -109,6 +109,9 @@ public class Config {
 		config.addDefault("Abilities.Spirits.Neutral.Vanish.Radius", 10);
 		config.addDefault("Abilities.Spirits.Neutral.Vanish.ParticleFrequency", 5);
 		config.addDefault("Abilities.Spirits.Neutral.Vanish.RemoveFire", true);
+		config.addDefault("Abilities.Spirits.Neutral.Vanish.DivideRange.Enabled", true);
+		config.addDefault("Abilities.Spirits.Neutral.Vanish.DivideRange.HealthRequired", 10);
+		config.addDefault("Abilities.Spirits.Neutral.Vanish.DivideRange.DivideFactor", 2);
 		
 		/*
 		config.addDefault("Abilities.Spirits.Neutral.Combo.Fuse.Enabled", true);
@@ -166,8 +169,8 @@ public class Config {
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Self.ShieldSize", 4);
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Others.KnockbackPower", 1);
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Self.KnockbackPower", 1);
-		config.addDefault("Abilities.Spirits.LightSpirits.Shelter.RemoveIfFarAway.Enabled", true);
-		config.addDefault("Abilities.Spirits.LightSpirits.Shelter.RemoveIfFarAway.Distance", 5);
+		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.RemoveIfFarAway.Enabled", true);
+		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.RemoveIfFarAway.Distance", 5);
 		
 		config.addDefault("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Enabled", true);
 		config.addDefault("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Cooldown", 15000);
