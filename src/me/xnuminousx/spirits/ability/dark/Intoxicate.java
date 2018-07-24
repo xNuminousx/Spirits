@@ -29,6 +29,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 	private Vector direction;
 	private int currPoint;
 	private double range;
+	private double selfDamage;
 	private long time;
 	private long potInt;
 	private long harmInt;
@@ -53,6 +54,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 		this.range = Main.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Intoxicate.Radius");
 		this.potInt = Main.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Intoxicate.PotionInterval");
 		this.harmInt = Main.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Intoxicate.HarmInterval");
+		this.selfDamage = Main.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Intoxicate.SelfDamage");
 		this.hexColor = Main.plugin.getConfig().getString("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor (Has to be 6 characters)");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
@@ -128,7 +130,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 			le.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 100, 1), true);
 			le.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 1000, 1), true);
 			le.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 300, 1), true);
-			DamageHandler.damageEntity(player, 4, this);
+			DamageHandler.damageEntity(player, selfDamage, this);
 			bPlayer.addCooldown(this);
 			remove();
 			return;
