@@ -71,9 +71,9 @@ public class Shelter extends LightAbility implements AddonAbility {
 		this.selfShield = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Self.ShieldSize");
 		this.knockDis = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Others.KnockbackPower");
 		this.selfKnockDis = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Self.KnockbackPower");
-		this.removeOnDamage = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirits.Shelter.RemoveOnDamage");
-		this.removeIfFar = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirits.Shelter.RemoveIfFarAway.Enabled");
-		this.removeDistance = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirits.Shelter.RemoveIfFarAway.Distance");
+		this.removeOnDamage = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Shelter.RemoveOnDamage");
+		this.removeIfFar = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Shelter.RemoveIfFarAway.Enabled");
+		this.removeDistance = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.RemoveIfFarAway.Distance");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
