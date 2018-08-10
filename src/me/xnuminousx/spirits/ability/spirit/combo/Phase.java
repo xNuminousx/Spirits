@@ -68,7 +68,7 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 			remove();
 			return;
 		}
-		if (player.getHealth() >= minHealth) {
+		if (player.getHealth() <= minHealth) {
 			remove();
 			return;
 		}
