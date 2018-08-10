@@ -3,6 +3,8 @@ package me.xnuminousx.spirits.listeners;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
@@ -26,6 +28,8 @@ import me.xnuminousx.spirits.ability.water.Purify;
 
 public class AbilityListener implements Listener {
 
+	private boolean isPossessing;
+	
 	@EventHandler
 	public void onSwing(PlayerAnimationEvent event) {
 
@@ -67,7 +71,13 @@ public class AbilityListener implements Listener {
 			return;
 
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Possess")) {
-			new Possess(player);
+			if (event.isSneaking()) {
+				new Possess(player);
+				isPossessing = true;
+			} else {
+				isPossessing = false;
+				return;
+			}
 
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Alleviate")) {
 			new Alleviate(player);
@@ -112,6 +122,20 @@ public class AbilityListener implements Listener {
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Vanish")) {
 			if (event.getCause() == TeleportCause.SPECTATE) {
 				event.setCancelled(true);
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onEntityDamage(EntityDamageByEntityEvent event) {
+		if (event.getDamager() instanceof Player) {
+			Player player = (Player) event.getDamager();
+			BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
+			String boundAbility = bPlayer.getBoundAbilityName();
+			
+			if (boundAbility.equalsIgnoreCase("Possess") && isPossessing && event.getCause() == DamageCause.CONTACT) {
+				event.setCancelled(true);
+				return;
 			}
 		}
 	}
