@@ -166,6 +166,8 @@ public class Loader extends AvatarAbility implements AddonAbility {
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Self.ShieldSize", 4);
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Others.KnockbackPower", 1);
 		config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Self.KnockbackPower", 1);
+		config.addDefault("Abilities.Spirits.LightSpirits.Shelter.RemoveIfFarAway.Enabled", true);
+		config.addDefault("Abilities.Spirits.LightSpirits.Shelter.RemoveIfFarAway.Distance", 5);
 		
 		config.addDefault("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Enabled", true);
 		config.addDefault("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Cooldown", 15000);
