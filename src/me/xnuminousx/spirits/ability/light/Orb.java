@@ -1,7 +1,9 @@
 package me.xnuminousx.spirits.ability.light;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -96,8 +98,7 @@ public class Orb extends LightAbility implements AddonAbility {
 				if (registerOrbLoc) {
 					this.targetLoc = GeneralMethods.getTargetedLocation(player, plantRange);
 					if (requireGround) {
-						Block block = targetLoc.getBlock();
-						if (!GeneralMethods.isSolid(block)) {
+						if (!canSpawn(targetLoc)) {
 							remove();
 							return;
 						}
@@ -155,6 +156,20 @@ public class Orb extends LightAbility implements AddonAbility {
 			bPlayer.addCooldown(this);
 			remove();
 			return;
+		}
+	}
+	
+	private boolean canSpawn(Location loc) {
+		Block targetBlock = loc.getBlock();
+		if (targetBlock.getRelative(BlockFace.DOWN).getType() == Material.AIR &&
+				targetBlock.getRelative(BlockFace.UP).getType() == Material.AIR &&
+				targetBlock.getRelative(BlockFace.EAST).getType() == Material.AIR &&
+				targetBlock.getRelative(BlockFace.WEST).getType() == Material.AIR &&
+				targetBlock.getRelative(BlockFace.NORTH).getType() == Material.AIR &&
+				targetBlock.getRelative(BlockFace.SOUTH).getType() == Material.AIR) {
+			return false;
+		} else {
+			return true;
 		}
 	}
 
