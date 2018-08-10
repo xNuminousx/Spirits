@@ -31,6 +31,7 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	private int healDuration;
 	private int nightVisDuration;
 	private double range;
+	private double selfDamage;
 	private long time;
 	private long potInt;
 	private long healInt;
@@ -61,6 +62,7 @@ public class Alleviate extends LightAbility implements AddonAbility {
 		this.range = ConfigManager.getConfig().getDouble("Abilities.Spirits.LightSpirit.Alleviate.Others.Range");
 		this.potInt = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.Others.PotionInterval");
 		this.healInt = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.Others.HealInterval");
+		this.selfDamage = ConfigManager.getConfig().getDouble("Abilities.Spirits.LightSpirit.Alleviate.Others.SelfDamage");
 		this.hexColor = ConfigManager.getConfig().getString("Abilities.Spirits.LightSpirit.Alleviate.Others.ParticleColor (Has to be 6 characters)");
 		
 		//Sanctity
@@ -144,7 +146,7 @@ public class Alleviate extends LightAbility implements AddonAbility {
 		}
 		if (System.currentTimeMillis() - time > healInt) {
 			le.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 100, 1), true);
-			DamageHandler.damageEntity(player, 6, this);
+			DamageHandler.damageEntity(player, selfDamage, this);
 			bPlayer.addCooldown(this, otherCooldown);
 			remove();
 			return;
