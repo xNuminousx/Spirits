@@ -136,6 +136,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		ParticleEffect.DRAGON_BREATH.display(targetLoc, 0.3F, 1F, 0.3F, 0.02F, 1);
 		target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2), true);
 		target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 2), true);
+		player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, (int) duration, 3), true);
 		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 120, 2), true);
 	}
 	
@@ -143,6 +144,9 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	public void remove() {
 		if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
 			player.removePotionEffect(PotionEffectType.INVISIBILITY);
+		}
+		if (player.hasPotionEffect(PotionEffectType.WEAKNESS)) {
+			player.removePotionEffect(PotionEffectType.WEAKNESS);
 		}
 		super.remove();
 	}
