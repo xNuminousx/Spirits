@@ -193,12 +193,12 @@ public class Orb extends LightAbility implements AddonAbility {
 	
 	@Override
 	public String getDescription() {
-		return Methods.setSpiritDescription(SpiritType.LIGHT, "Offense") + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Orb.Description");
+		return Methods.setSpiritDescription(SpiritType.LIGHT, "Offense") + ConfigManager.getConfig().getString("Abilities.LightSpirit.Orb.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + ConfigManager.languageConfig.get().getString("Abilities.LightSpirit.Orb.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + ConfigManager.getConfig().getString("Abilities.LightSpirit.Orb.Instructions");
 	}
 
 	@Override
