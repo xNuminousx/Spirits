@@ -149,8 +149,8 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 		}
 		
 		if (System.currentTimeMillis() - time > 10000L) {
-			MovementHandler mh = new MovementHandler((Player) player);
-			mh.stop(0/1000*20, ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "" + ChatColor.UNDERLINE + "* READY *");
+			MovementHandler mh = new MovementHandler((Player) player, this);
+			mh.stop(ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "" + ChatColor.UNDERLINE + "* READY *");
 			charged = true;
 			createNewSpirals();
 		}
@@ -225,8 +225,8 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 				Suffocate.remove((Player) entity);
 			}
 		} 
-		MovementHandler mh = new MovementHandler((LivingEntity) entity);
-		mh.stop(duration/1000*20, ChatColor.DARK_PURPLE + "* CORRUPTING *");
+		MovementHandler mh = new MovementHandler((LivingEntity) entity, this);
+		mh.stop(ChatColor.DARK_PURPLE + "* CORRUPTING *");
 	}
 	
 	private void createSpirals() {

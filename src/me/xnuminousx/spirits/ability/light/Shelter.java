@@ -8,8 +8,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
+import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
+import com.projectkorra.projectkorra.ability.CoreAbility;
+import com.projectkorra.projectkorra.ability.util.Collision;
+import com.projectkorra.projectkorra.airbending.AirSwipe;
+import com.projectkorra.projectkorra.earthbending.EarthBlast;
+import com.projectkorra.projectkorra.firebending.FireBlast;
+import com.projectkorra.projectkorra.firebending.FireBlastCharged;
+import com.projectkorra.projectkorra.firebending.combustion.Combustion;
 import com.projectkorra.projectkorra.util.ParticleEffect;
+import com.projectkorra.projectkorra.waterbending.WaterManipulation;
 
 import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
@@ -204,10 +213,10 @@ public class Shelter extends LightAbility implements AddonAbility {
 		CoreAbility waterManip = CoreAbility.getAbility(WaterManipulation.class);
 		CoreAbility airSwipe = CoreAbility.getAbility(AirSwipe.class);
 		CoreAbility combustion = CoreAbility.getAbility(Combustion.class);
-		CoreAbility fireBall = CoreAbility.getAbility(FireBall.class);
-		CoreAbility fireShots = CoreAbility.getAbility(FireShots.class);
-		CoreAbility earthShard = CoreAbility.getAbility(EarthShard.class);
-		CoreAbility airPunch = CoreAbility.getAbility(AirPunch.class);
+		CoreAbility fireBall = CoreAbility.getAbility("FireBall");
+		CoreAbility fireShots = CoreAbility.getAbility("FireShots");
+		CoreAbility earthShard = CoreAbility.getAbility("EarthShard");
+		CoreAbility airPunch = CoreAbility.getAbility("AirPunch");
 		CoreAbility fireBlastCharged = CoreAbility.getAbility(FireBlastCharged.class);
 		
 		CoreAbility shelter = CoreAbility.getAbility(Shelter.class);

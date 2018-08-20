@@ -148,8 +148,8 @@ public class Purify extends WaterAbility implements AddonAbility {
 		}
 		
 		if (System.currentTimeMillis() - time > 10000L) {
-			MovementHandler mh = new MovementHandler((Player) player);
-			mh.stop(0/1000*20, ChatColor.YELLOW + "" + ChatColor.BOLD + "" + ChatColor.UNDERLINE + "* READY *");
+			MovementHandler mh = new MovementHandler((Player) player, this);
+			mh.stop(ChatColor.YELLOW + "" + ChatColor.BOLD + "" + ChatColor.UNDERLINE + "* READY *");
 			charged = true;
 			createNewSpirals();
 		}
@@ -228,8 +228,8 @@ public class Purify extends WaterAbility implements AddonAbility {
 				Suffocate.remove((Player) entity);
 			}
 		} 
-		MovementHandler mh = new MovementHandler((LivingEntity) entity);
-		mh.stop(duration/1000*20, ChatColor.YELLOW + "* PURIFYING *");
+		MovementHandler mh = new MovementHandler((LivingEntity) entity, this);
+		mh.stop(ChatColor.YELLOW + "* PURIFYING *");
 	}
 	
 	private void createSpirals() {

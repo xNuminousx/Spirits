@@ -21,9 +21,9 @@
     <dependency>
     	<groupId>com.projectkorra</groupId>
     	<artifactId>projectkorra</artifactId>
-    	<version>1.8.6</version>
+    	<version>1.8.7</version>
     	<scope>system</scope>
-    	<systemPath>${project.basedir}/lib/ProjectKorra-1.8.6.jar</systemPath>
+    	<systemPath>${project.basedir}/lib/ProjectKorra-1.8.7.jar</systemPath>
     </dependency>
   </dependencies>
   
