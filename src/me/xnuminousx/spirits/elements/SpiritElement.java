@@ -1,7 +1,6 @@
 package me.xnuminousx.spirits.elements;
 
 import com.projectkorra.projectkorra.Element;
-import com.projectkorra.projectkorra.Element.ElementType;
 import com.projectkorra.projectkorra.ProjectKorra;
 
 public class SpiritElement {
