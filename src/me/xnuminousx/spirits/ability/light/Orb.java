@@ -1,8 +1,6 @@
 package me.xnuminousx.spirits.ability.light;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -22,18 +20,18 @@ import me.xnuminousx.spirits.ability.api.LightAbility;
 
 public class Orb extends LightAbility implements AddonAbility {
 
-	private long time;
-	private long cooldown;
 	private Location location;
 	private Location targetLoc;
-	private long chargeTime;
 	private boolean isCharged;
 	private boolean checkEntities;
 	private boolean registerOrbLoc;
 	private boolean progressExplosion;
 	private boolean playDormant;
 	private boolean requireGround;
+	private long chargeTime;
 	private long duration;
+	private long time;
+	private long cooldown;
 	private int plantRange;
 	private int blindDuration;
 	private int nauseaDuration;
@@ -159,18 +157,20 @@ public class Orb extends LightAbility implements AddonAbility {
 		}
 	}
 	
-	private boolean canSpawn(Location loc) {
-		Block targetBlock = loc.getBlock();
-		if (targetBlock.getRelative(BlockFace.DOWN).getType() == Material.AIR &&
-				targetBlock.getRelative(BlockFace.UP).getType() == Material.AIR &&
-				targetBlock.getRelative(BlockFace.EAST).getType() == Material.AIR &&
-				targetBlock.getRelative(BlockFace.WEST).getType() == Material.AIR &&
-				targetBlock.getRelative(BlockFace.NORTH).getType() == Material.AIR &&
-				targetBlock.getRelative(BlockFace.SOUTH).getType() == Material.AIR) {
-			return false;
-		} else {
-			return true;
+    private boolean canSpawn(Location loc) {
+		
+		BlockFace[] faces = { BlockFace.EAST, BlockFace.WEST, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.UP, BlockFace.DOWN,
+				              BlockFace.EAST_NORTH_EAST, BlockFace.EAST_SOUTH_EAST,
+				              BlockFace.NORTH_EAST, BlockFace.NORTH_NORTH_EAST, BlockFace.NORTH_NORTH_WEST, BlockFace.NORTH_WEST,
+				              BlockFace.SOUTH_EAST, BlockFace.SOUTH_SOUTH_EAST, BlockFace.SOUTH_SOUTH_WEST, BlockFace.SOUTH_WEST,
+				              BlockFace.WEST_NORTH_WEST, BlockFace.WEST_SOUTH_WEST };
+		
+		for (BlockFace face : faces) {
+			if (GeneralMethods.isSolid(loc.getBlock().getRelative(face))) {
+				return true;
+			}
 		}
+		return false;
 	}
 
 	@Override
