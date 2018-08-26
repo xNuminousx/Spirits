@@ -63,7 +63,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
 		}
 		
 		if ((origin.distanceSquared(location) > range * range) && target == null) {
-			bPlayer.addCooldown(this, 1000);
+			bPlayer.addCooldown(this);
 			remove();
 			return;
 			
