@@ -47,8 +47,6 @@ public class Shelter extends LightAbility implements AddonAbility {
 	private long selfCooldown;
 	private float shieldSize;
 	private float selfShield;
-	private long knockDis;
-	private long selfKnockDis;
 	private boolean removeIfFar;
 	private int removeDistance;
 
@@ -76,8 +74,6 @@ public class Shelter extends LightAbility implements AddonAbility {
 		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Range");
 		this.shieldSize = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Others.ShieldSize");
 		this.selfShield = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Self.ShieldSize");
-		this.knockDis = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Others.KnockbackPower");
-		this.selfKnockDis = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Self.KnockbackPower");
 		this.removeOnDamage = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Shelter.RemoveOnDamage");
 		this.removeIfFar = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Shelter.RemoveIfFarAway.Enabled");
 		this.removeDistance = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.RemoveIfFarAway.Distance");
@@ -114,6 +110,28 @@ public class Shelter extends LightAbility implements AddonAbility {
 			}
 		}
 	}
+
+	public void newVelocity(LivingEntity entity) {
+		double x, z, vx, vz, mag;
+		double angle = 50;
+		angle = Math.toRadians(angle);
+
+		x = entity.getLocation().getX() - origin.getX();
+		z = entity.getLocation().getZ() - origin.getZ();
+
+		mag = Math.sqrt(x * x + z * z);
+
+		vx = (x * Math.cos(angle) - z * Math.sin(angle)) / mag;
+		vz = (x * Math.sin(angle) + z * Math.cos(angle)) / mag;
+
+		final Vector velocity = entity.getVelocity();
+		velocity.setX(vx);
+		velocity.setZ(vz);
+
+		velocity.multiply(0.5);
+		GeneralMethods.setVelocity(entity, velocity);
+		entity.setFallDistance(0);
+	}
 	
 	public void shieldSelf() {
 		if (System.currentTimeMillis() > time + duration) {
@@ -125,9 +143,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 			blockMove();
 			for (Entity target : GeneralMethods.getEntitiesAroundPoint(player.getLocation(), selfShield)) {
 				if (target instanceof LivingEntity && !target.getUniqueId().equals(player.getUniqueId())) {
-					Vector vec = target.getLocation().getDirection().normalize().multiply(-selfKnockDis);
-					vec.setY(0.3);
-					target.setVelocity(vec);
+					newVelocity((LivingEntity) target);
 				}
 			}
 		}
@@ -155,9 +171,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 					}
 					for (Entity target2 : GeneralMethods.getEntitiesAroundPoint(location, shieldSize)) {
 						if (target2 instanceof LivingEntity && !target2.getUniqueId().equals(target.getUniqueId()) && !target2.getUniqueId().equals(player.getUniqueId())) {
-							Vector vec = target2.getLocation().getDirection().normalize().multiply(-knockDis);
-							vec.setY(0.3);
-							target2.setVelocity(vec);
+							newVelocity((LivingEntity) target2);
 						}
 					}
 					blockMove();
