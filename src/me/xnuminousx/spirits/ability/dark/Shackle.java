@@ -68,11 +68,6 @@ public class Shackle extends DarkAbility implements AddonAbility {
 			return;
 			
 		}
-		
-		if (target.isDead() || target.getWorld() != player.getWorld()) {
-			remove();
-			return;
-		}
 		bind();
 	}
 	
@@ -91,6 +86,10 @@ public class Shackle extends DarkAbility implements AddonAbility {
 				}
 			}
 		} else {
+			if (target.isDead() || target.getWorld() != player.getWorld()) {
+				remove();
+				return;
+			}
 			if (System.currentTimeMillis() > time + duration) {
 				ParticleEffect.CLOUD.display(targetLoc, 0, 0, 0, 0.08F, 5);
 				player.getWorld().playSound(targetLoc, Sound.BLOCK_IRON_TRAPDOOR_CLOSE, 0.5F, 1.5F);
