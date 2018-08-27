@@ -13,12 +13,14 @@ import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
+import com.projectkorra.projectkorra.ability.CoreAbility;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.LightAbility;
+import me.xnuminousx.spirits.ability.light.combo.Rejuvenate;
 
 public class Alleviate extends LightAbility implements AddonAbility {
 
@@ -47,7 +49,7 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	public Alleviate(Player player) {
 		super(player);
 
-		if (!bPlayer.canBend(this)) {
+		if (!bPlayer.canBend(this) || CoreAbility.hasAbility(player, Rejuvenate.class)) {
 			return;
 		}
 		
