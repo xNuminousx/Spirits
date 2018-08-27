@@ -1,38 +1,6 @@
 name: Spirits
+author: Numin
 version: BETA-1.0.12
-main: me.xnuminousx.spirits.Main
-authors: [Numin]
 depend: [ProjectKorra]
-
-permissions:
-  bending.spirit:
-    default: true
-    description: Grants access to the entire Spirit element.
-    children:
-      bending.ability.vanish: true
-      bending.ability.possess: true
-      bending.ability.agility: true
-      bending.ability.fuse: true
-      bending.ability.phase: true
-  bending.lightspirit:
-    default: true
-    description: Grants access to the entire LightSpirit element.
-    children:
-      bending.ability.alleviate: true
-      bending.ability.shelter: true
-      bending.ability.orb: true
-      bending.ability.rejuvenate: true
-  bending.darkspirit:
-    default: true
-    description: Grants access to the entire DarkSpirit element.
-    children:
-      bending.ability.shackle: true
-      bending.ability.intoxicate: true
-      bending.ability.strike: true
-      bending.ability.infest: true
-  bending.ability.purify:
-    default: true
-    description: Grants access to the Waterbending ability Purify.
-  bending.ability.corrupt:
-    default: true
-    description: Grants access to the Waterbending ability Corrupt.
+main: me.xnuminousx.spirits.Main
+description: A ProjectKorra extension that allows your players to be Spirits!
