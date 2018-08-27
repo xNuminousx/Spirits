@@ -49,7 +49,6 @@ public class Shelter extends LightAbility implements AddonAbility {
 	private float selfShield;
 	private long knockDis;
 	private long selfKnockDis;
-	private long clickDelay;
 	private boolean removeIfFar;
 	private int removeDistance;
 
@@ -75,7 +74,6 @@ public class Shelter extends LightAbility implements AddonAbility {
 		this.selfCooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Self.Cooldown");
 		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Duration");
 		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Range");
-		this.clickDelay = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Others.ClickDelay");
 		this.shieldSize = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Others.ShieldSize");
 		this.selfShield = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Self.ShieldSize");
 		this.knockDis = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Others.KnockbackPower");
@@ -173,7 +171,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 					}
 				}
 			} else {
-				bPlayer.addCooldown(this, clickDelay);
+				bPlayer.addCooldown(this, othersCooldown);
 			}
 		}
 	}
