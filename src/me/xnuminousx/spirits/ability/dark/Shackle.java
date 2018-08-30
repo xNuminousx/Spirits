@@ -29,7 +29,6 @@ public class Shackle extends DarkAbility implements AddonAbility {
 	private double radius;
 	private int currPoint;
 	private boolean progress;
-	private boolean registerLoc;
 	private long cooldown;
 
 	public Shackle(Player player) {
@@ -54,7 +53,6 @@ public class Shackle extends DarkAbility implements AddonAbility {
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
 		this.progress = true;
-		this.registerLoc = false;
 	}
 
 	@Override
@@ -77,21 +75,16 @@ public class Shackle extends DarkAbility implements AddonAbility {
 		bPlayer.addCooldown(this);
 		if (progress) {
 			location.add(direction.multiply(1));
-			
 			blastSpiral(200, 0.04F, location);
 		}
 		if (target == null) {
 			for (Entity entity : GeneralMethods.getEntitiesAroundPoint(location, radius)) {
 				if (entity instanceof LivingEntity && entity.getUniqueId() != player.getUniqueId()) {
 					target = (LivingEntity) entity;
-					registerLoc = true;
+					targetLoc = entity.getLocation();
 				}
 			}
 		} else {
-			if (registerLoc) {
-				targetLoc = target.getLocation();
-				registerLoc = false;
-			}
 			if (target.isDead() || target.getWorld() != player.getWorld()) {
 				remove();
 				return;
@@ -104,9 +97,8 @@ public class Shackle extends DarkAbility implements AddonAbility {
 				return;
 			} else {
 				for (Entity entity : GeneralMethods.getEntitiesAroundPoint(targetLoc, 2)) {
-					if (entity != target || entity == null) {
-						remove();
-						return;
+					if (entity != target) {
+						target.teleport(targetLoc);
 					}
 				}
 				this.progress = false;
@@ -115,7 +107,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
 				targetLoc.setPitch(targetLoc.getPitch());
 				targetLoc.setYaw(targetLoc.getYaw());
 				
-				holdSpiral(30, 0.04F, targetLoc);
+				holdSpiral(30, 0.04F, target.getLocation());
 			}
 		}
 	}
