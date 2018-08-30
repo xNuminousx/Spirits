@@ -5,6 +5,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
@@ -12,14 +13,9 @@ import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.CoreAbility;
 import com.projectkorra.projectkorra.ability.util.Collision;
-import com.projectkorra.projectkorra.airbending.AirSwipe;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
-import com.projectkorra.projectkorra.earthbending.EarthBlast;
 import com.projectkorra.projectkorra.firebending.FireBlast;
-import com.projectkorra.projectkorra.firebending.FireBlastCharged;
-import com.projectkorra.projectkorra.firebending.combustion.Combustion;
 import com.projectkorra.projectkorra.util.ParticleEffect;
-import com.projectkorra.projectkorra.waterbending.WaterManipulation;
 
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
@@ -36,6 +32,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 	private boolean removeOnDamage;
 	private double startHealth;
 	private Location location;
+	private Location shieldLocation;
 	private int range;
 	private long time;
 	private long duration;
@@ -56,7 +53,6 @@ public class Shelter extends LightAbility implements AddonAbility {
 		if (!bPlayer.canBend(this)) {
 			return;
 		}
-		
 		setFields();
 		
 		time = System.currentTimeMillis();
@@ -109,6 +105,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 				return;
 			}
 		}
+		checkCollisions();
 	}
 
 	public void newVelocity(LivingEntity entity) {
@@ -140,10 +137,11 @@ public class Shelter extends LightAbility implements AddonAbility {
 			return;
 		} else {
 			rotateShield(player.getLocation(), 96, selfShield);
-			blockMove();
 			for (Entity target : GeneralMethods.getEntitiesAroundPoint(player.getLocation(), selfShield)) {
 				if (target instanceof LivingEntity && !target.getUniqueId().equals(player.getUniqueId())) {
 					newVelocity((LivingEntity) target);
+				} else if (target instanceof Projectile) {
+					target.remove();
 				}
 			}
 		}
@@ -172,10 +170,12 @@ public class Shelter extends LightAbility implements AddonAbility {
 					for (Entity target2 : GeneralMethods.getEntitiesAroundPoint(location, shieldSize)) {
 						if (target2 instanceof LivingEntity && !target2.getUniqueId().equals(target.getUniqueId()) && !target2.getUniqueId().equals(player.getUniqueId())) {
 							newVelocity((LivingEntity) target2);
+						} else if (target2 instanceof Projectile) {
+							target2.remove();
 						}
 					}
-					blockMove();
 					rotateShield(location, 100, shieldSize);
+					shieldLocation = location;
 					
 					if (removeIfFar) {
 						if (player.getLocation().distanceSquared(target.getLocation()) > removeDistance * removeDistance) {
@@ -219,35 +219,20 @@ public class Shelter extends LightAbility implements AddonAbility {
 		}
 	}
 	
-	private static void blockMove() {
-		CoreAbility fireBlast = CoreAbility.getAbility(FireBlast.class);
-		CoreAbility earthBlast = CoreAbility.getAbility(EarthBlast.class);
-		CoreAbility waterManip = CoreAbility.getAbility(WaterManipulation.class);
-		CoreAbility airSwipe = CoreAbility.getAbility(AirSwipe.class);
-		CoreAbility combustion = CoreAbility.getAbility(Combustion.class);
-		CoreAbility fireBall = CoreAbility.getAbility("FireBall");
-		CoreAbility fireShots = CoreAbility.getAbility("FireShots");
-		CoreAbility earthShard = CoreAbility.getAbility("EarthShard");
-		CoreAbility airPunch = CoreAbility.getAbility("AirPunch");
-		CoreAbility fireBlastCharged = CoreAbility.getAbility(FireBlastCharged.class);
-		
+	public void checkCollisions() {
 		CoreAbility shelter = CoreAbility.getAbility(Shelter.class);
-		
-		CoreAbility[] smallAbilities = { earthShard, airSwipe, earthBlast, waterManip, fireBlast, combustion, fireBlastCharged, fireShots, fireBall, airPunch };
-		
-		for (CoreAbility smallAbil : smallAbilities) {
-			ProjectKorra.getCollisionManager().addCollision(new Collision(shelter, smallAbil, false, true));
-		}
+		CoreAbility fireBlast = CoreAbility.getAbility(FireBlast.class);
+		ProjectKorra.getCollisionManager().addCollision(new Collision(shelter, fireBlast, false, true));
 	}
 
 	@Override
 	public long getCooldown() {
-		return 0;
+		return shelterType == ShelterType.CLICK ? othersCooldown : selfCooldown;
 	}
 
 	@Override
 	public Location getLocation() {
-		return null;
+		return shelterType == ShelterType.CLICK ?  shieldLocation : player.getLocation();
 	}
 
 	@Override

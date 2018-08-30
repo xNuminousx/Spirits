@@ -30,6 +30,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	private double damage;
 	private long cooldown;
 	private boolean progress;
+	private boolean disablePunching;
 	private Vector direction;
 	private Location entityCheck;
 	private Location origin;
@@ -53,6 +54,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		this.range = ConfigManager.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Radius");
 		this.damage = ConfigManager.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Damage");
 		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Possess.Duration");
+		this.disablePunching = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Possess.Duration");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.entityCheck = origin.clone();
 		this.direction = player.getLocation().getDirection();
@@ -136,7 +138,9 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		ParticleEffect.DRAGON_BREATH.display(targetLoc, 0.3F, 1F, 0.3F, 0.02F, 1);
 		target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2), true);
 		target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 2), true);
-		player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, (int) duration, 3), true);
+		if (disablePunching) {
+			player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, (int) duration, 3), true);
+		}
 		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 120, 2), true);
 	}
 	
@@ -145,7 +149,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
 			player.removePotionEffect(PotionEffectType.INVISIBILITY);
 		}
-		if (player.hasPotionEffect(PotionEffectType.WEAKNESS)) {
+		if (player.hasPotionEffect(PotionEffectType.WEAKNESS) && disablePunching) {
 			player.removePotionEffect(PotionEffectType.WEAKNESS);
 		}
 		super.remove();
