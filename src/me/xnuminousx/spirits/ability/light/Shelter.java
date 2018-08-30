@@ -13,9 +13,13 @@ import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.CoreAbility;
 import com.projectkorra.projectkorra.ability.util.Collision;
+import com.projectkorra.projectkorra.airbending.AirSwipe;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
+import com.projectkorra.projectkorra.earthbending.EarthBlast;
 import com.projectkorra.projectkorra.firebending.FireBlast;
+import com.projectkorra.projectkorra.firebending.FireBlastCharged;
 import com.projectkorra.projectkorra.util.ParticleEffect;
+import com.projectkorra.projectkorra.waterbending.WaterManipulation;
 
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
@@ -42,8 +46,8 @@ public class Shelter extends LightAbility implements AddonAbility {
 	private boolean progress;
 	private long othersCooldown;
 	private long selfCooldown;
-	private float shieldSize;
-	private float selfShield;
+	private double shieldSize;
+	private double selfShield;
 	private boolean removeIfFar;
 	private int removeDistance;
 
@@ -68,8 +72,8 @@ public class Shelter extends LightAbility implements AddonAbility {
 		this.selfCooldown = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Self.Cooldown");
 		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Duration");
 		this.range = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Range");
-		this.shieldSize = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Others.ShieldSize");
-		this.selfShield = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Self.ShieldSize");
+		this.shieldSize = ConfigManager.getConfig().getDouble("Abilities.Spirits.LightSpirit.Shelter.Others.ShieldSize");
+		this.selfShield = ConfigManager.getConfig().getDouble("Abilities.Spirits.LightSpirit.Shelter.Self.ShieldSize");
 		this.removeOnDamage = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Shelter.RemoveOnDamage");
 		this.removeIfFar = ConfigManager.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Shelter.RemoveIfFarAway.Enabled");
 		this.removeDistance = ConfigManager.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.RemoveIfFarAway.Distance");
@@ -189,7 +193,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 			}
 		}
 	}
-	public void rotateShield(Location location, int points, float size) {
+	public void rotateShield(Location location, int points, double size) {
 		for (int t = 0; t < 6; t++) {
 			currPoint += 360 / points;
 			if (currPoint > 360) {
@@ -221,8 +225,21 @@ public class Shelter extends LightAbility implements AddonAbility {
 	
 	public void checkCollisions() {
 		CoreAbility shelter = CoreAbility.getAbility(Shelter.class);
+		
 		CoreAbility fireBlast = CoreAbility.getAbility(FireBlast.class);
 		ProjectKorra.getCollisionManager().addCollision(new Collision(shelter, fireBlast, false, true));
+		
+		CoreAbility earthBlast = CoreAbility.getAbility(EarthBlast.class);
+		ProjectKorra.getCollisionManager().addCollision(new Collision(shelter, earthBlast, false, true));
+		
+		CoreAbility waterManipulation = CoreAbility.getAbility(WaterManipulation.class);
+		ProjectKorra.getCollisionManager().addCollision(new Collision(shelter, waterManipulation, false, true));
+		
+		CoreAbility airSwipe = CoreAbility.getAbility(AirSwipe.class);
+		ProjectKorra.getCollisionManager().addCollision(new Collision(shelter, airSwipe, false, true));
+		
+		CoreAbility fireBlastCharged = CoreAbility.getAbility(FireBlastCharged.class);
+		ProjectKorra.getCollisionManager().addCollision(new Collision(shelter, fireBlastCharged, false, true));
 	}
 
 	@Override
@@ -233,6 +250,11 @@ public class Shelter extends LightAbility implements AddonAbility {
 	@Override
 	public Location getLocation() {
 		return shelterType == ShelterType.CLICK ?  shieldLocation : player.getLocation();
+	}
+	
+	@Override
+	public double getCollisionRadius() {
+		return shelterType == ShelterType.CLICK ? shieldSize : selfShield;
 	}
 
 	@Override
