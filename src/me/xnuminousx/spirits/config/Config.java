@@ -100,6 +100,7 @@ public class Config {
 		config.addDefault("Abilities.Spirits.Neutral.Possess.Radius", 5);
 		config.addDefault("Abilities.Spirits.Neutral.Possess.Damage", 5);
 		config.addDefault("Abilities.Spirits.Neutral.Possess.Duration", 2000);
+		config.addDefault("Abilities.Spirits.Neutral.Possess.DisablePunching", true);
 		
 		config.addDefault("Abilities.Spirits.Neutral.Vanish.Enabled", true);
 		config.addDefault("Abilities.Spirits.Neutral.Vanish.Cooldown", 7000);

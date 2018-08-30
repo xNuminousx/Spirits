@@ -13,6 +13,7 @@ import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
+import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
@@ -30,6 +31,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	private double damage;
 	private long cooldown;
 	private boolean progress;
+	private boolean disablePunching;
 	private Vector direction;
 	private Location entityCheck;
 	private Location origin;
@@ -54,6 +56,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		this.range = Main.plugin.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Radius");
 		this.damage = Main.plugin.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Damage");
 		this.duration = Main.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Possess.Duration");
+		this.disablePunching = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Possess.DisablePunching");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.entityCheck = origin.clone();
 		this.direction = player.getLocation().getDirection();
@@ -139,6 +142,9 @@ public class Possess extends SpiritAbility implements AddonAbility {
 			ParticleEffect.DRAGON_BREATH.display(targetLoc, 0.3F, 1F, 0.3F, 0.02F, 1);
 			target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2), true);
 			target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 2), true);
+			if (disablePunching) {
+				player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, (int) duration, 3), true);
+			}
 			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 120, 2), true);
 		}
 	}
@@ -147,6 +153,9 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	public void remove() {
 		if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
 			player.removePotionEffect(PotionEffectType.INVISIBILITY);
+		}
+		if (player.hasPotionEffect(PotionEffectType.WEAKNESS) && disablePunching) {
+			player.removePotionEffect(PotionEffectType.WEAKNESS);
 		}
 		super.remove();
 	}
