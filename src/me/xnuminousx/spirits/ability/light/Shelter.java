@@ -16,7 +16,6 @@ import com.projectkorra.projectkorra.airbending.AirSwipe;
 import com.projectkorra.projectkorra.earthbending.EarthBlast;
 import com.projectkorra.projectkorra.firebending.FireBlast;
 import com.projectkorra.projectkorra.firebending.FireBlastCharged;
-import com.projectkorra.projectkorra.firebending.combustion.Combustion;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 import com.projectkorra.projectkorra.waterbending.WaterManipulation;
 
@@ -52,6 +51,8 @@ public class Shelter extends LightAbility implements AddonAbility {
 	private long clickDelay;
 	private boolean removeIfFar;
 	private int removeDistance;
+
+	private Location shieldLocation;
 
 	public Shelter(Player player, ShelterType shelterType) {
 		super(player);
@@ -164,6 +165,7 @@ public class Shelter extends LightAbility implements AddonAbility {
 					}
 					blockMove();
 					rotateShield(location, 100, shieldSize);
+					shieldLocation = location;
 					
 					if (removeIfFar) {
 						if (player.getLocation().distanceSquared(target.getLocation()) > removeDistance * removeDistance) {
@@ -212,16 +214,11 @@ public class Shelter extends LightAbility implements AddonAbility {
 		CoreAbility earthBlast = CoreAbility.getAbility(EarthBlast.class);
 		CoreAbility waterManip = CoreAbility.getAbility(WaterManipulation.class);
 		CoreAbility airSwipe = CoreAbility.getAbility(AirSwipe.class);
-		CoreAbility combustion = CoreAbility.getAbility(Combustion.class);
-		CoreAbility fireBall = CoreAbility.getAbility("FireBall");
-		CoreAbility fireShots = CoreAbility.getAbility("FireShots");
-		CoreAbility earthShard = CoreAbility.getAbility("EarthShard");
-		CoreAbility airPunch = CoreAbility.getAbility("AirPunch");
 		CoreAbility fireBlastCharged = CoreAbility.getAbility(FireBlastCharged.class);
 		
 		CoreAbility shelter = CoreAbility.getAbility(Shelter.class);
 		
-		CoreAbility[] smallAbilities = { earthShard, airSwipe, earthBlast, waterManip, fireBlast, combustion, fireBlastCharged, fireShots, fireBall, airPunch };
+		CoreAbility[] smallAbilities = { airSwipe, earthBlast, waterManip, fireBlast, fireBlastCharged };
 		
 		for (CoreAbility smallAbil : smallAbilities) {
 			ProjectKorra.getCollisionManager().addCollision(new Collision(shelter, smallAbil, false, true));
@@ -230,12 +227,17 @@ public class Shelter extends LightAbility implements AddonAbility {
 
 	@Override
 	public long getCooldown() {
-		return 0;
+		return shelterType == ShelterType.CLICK ? othersCooldown : selfCooldown;
 	}
 
 	@Override
 	public Location getLocation() {
-		return null;
+		return shelterType == ShelterType.CLICK ?  shieldLocation : player.getLocation();
+	}
+	
+	@Override
+	public double getCollisionRadius() {
+		return shelterType == ShelterType.CLICK ? shieldSize : selfShield;
 	}
 
 	@Override
