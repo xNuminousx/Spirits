@@ -54,7 +54,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 		this.range = ConfigManager.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Radius");
 		this.damage = ConfigManager.getConfig().getDouble("Abilities.Spirits.Neutral.Possess.Damage");
 		this.duration = ConfigManager.getConfig().getLong("Abilities.Spirits.Neutral.Possess.Duration");
-		this.disablePunching = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Possess.Duration");
+		this.disablePunching = ConfigManager.getConfig().getBoolean("Abilities.Spirits.Neutral.Possess.DisablePunching");
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.entityCheck = origin.clone();
 		this.direction = player.getLocation().getDirection();
