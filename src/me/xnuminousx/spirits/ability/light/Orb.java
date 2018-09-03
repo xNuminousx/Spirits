@@ -10,6 +10,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
+import com.projectkorra.projectkorra.ability.CoreAbility;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
@@ -115,7 +116,7 @@ public class Orb extends LightAbility implements AddonAbility {
 			ParticleEffect.ENCHANTMENT_TABLE.display(location, 3, 1, 3, 0, 1);
 			ParticleEffect.END_ROD.display(location, 0, 0, 0, 0, 2);
 			ParticleEffect.MAGIC_CRIT.display(location, 0.2F, 0.2F, 0.2F, 0, 3);
-			if (player.isSneaking()) {
+			if (player.isSneaking() && hasOrb()) {
 				progressExplosion = true;
 				playDormant = false;
 			}
@@ -168,6 +169,14 @@ public class Orb extends LightAbility implements AddonAbility {
 		}
 		return false;
 	}
+	
+	private boolean hasOrb() {
+    	if (bPlayer.getBoundAbility().equals(CoreAbility.getAbility(Orb.class))) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
 
 	@Override
 	public long getCooldown() {
