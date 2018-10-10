@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -34,6 +35,7 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 	private boolean doHalfEffect;
 	private double healthReq;
 	private int divideFactor;
+	private World originWorld;
 
 	public Vanish(Player player) {
 		super(player);
@@ -65,15 +67,13 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 		}
 		this.origin = player.getLocation();
 		this.isCharged = false;
+		originWorld = player.getWorld();
 
 	}
 
 	@Override
 	public void progress() {
-		if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, player.getLocation())) {
-			remove();
-			return;
-		}
+		Methods.readGeneralMethods(this, player, originWorld);
 		
 		if (!isCharged) {
 			if (player.isSneaking()) {

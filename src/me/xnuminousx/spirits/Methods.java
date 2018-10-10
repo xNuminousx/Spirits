@@ -2,11 +2,14 @@ package me.xnuminousx.spirits;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.Element;
+import com.projectkorra.projectkorra.GeneralMethods;
+import com.projectkorra.projectkorra.ability.Ability;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 public class Methods {
@@ -153,6 +156,27 @@ public class Methods {
 		} else if (spiritType == SpiritType.LIGHT) {
 			ParticleEffect.INSTANT_SPELL.display(location, X, Y, Z, speed, amount);
 			
+		}
+	}
+	
+	/*
+	 * A list of general checks that most, if not all, abilities should use.
+	 * 
+	 * ability = The ability in question.
+	 * player = The player using the ability.
+	 * originWorld = The original world that the player was in when the ability started.
+	 */
+	public static void readGeneralMethods(Ability ability, Player player, World originWorld) {
+		if (!player.isOnline()) {
+			ability.remove();
+		} else if (player.isDead()) {
+			ability.remove();
+		} else if (player.getWorld() != originWorld) {
+			ability.remove();
+		} else if (GeneralMethods.isRegionProtectedFromBuild(ability, player.getLocation())) {
+			ability.remove();
+		} else {
+			return;
 		}
 	}
 	
