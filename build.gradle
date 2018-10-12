@@ -1,0 +1,58 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+
+version = '1.0.12'
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+	maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+	maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+	maven { url "http://repo.dmulloy2.net/nexus/repository/public/" }
+	maven { url "http://repo.md-5.net/content/groups/public/" }
+	maven { url "https://jitpack.io" }
+	maven { url "http://maven.sk89q.com/repo/" }
+	flatDir {
+		dirs 'libs'
+	}
+}
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ['src']
+		}
+		resources {
+			srcDirs = ['src/main/resources']
+		}
+	}
+}
+
+processResources {
+	filter {
+		line ->
+		line
+		.replace('${name}', project.name)
+		.replace('${version}', project.version)
+	}
+}
+
+jar {
+	manifest {
+		attributes 'Implementation-Title': project.name,
+							 'Implementation-Version': project.version
+	}
+}
+
+dependencies {
+	compile 'com.sk89q.worldguard:worldguard-legacy:7.+'
+	compile 'com.sk89q.worldedit:worldedit-core:7.+'
+	compile 'com.projectkorra:projectkorra:1.8.4.30'
+	compile 'org.spigotmc:spigot-api:1.13.1-R0.1-SNAPSHOT'
+}
+
+buildDir = 'bin'
