@@ -40,7 +40,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
 		
 		setFields();
 		time = System.currentTimeMillis();
-		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDEREYE_DEATH, 1, -1);
+		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 1, -1);
 		start();
 	}
 

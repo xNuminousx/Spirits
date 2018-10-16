@@ -136,7 +136,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 			return;
 		}
 		if (new Random().nextInt(20) == 0) {
-			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDEREYE_DEATH, 1, -1);
+			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 1, -1);
 		}
 	}
 

@@ -108,7 +108,7 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 	public void playEffects() {
 		ParticleEffect.PORTAL.display(player.getLocation().add(0, 1, 0), 0, 0, 0, 1.5F, 100);
 		Methods.playSpiritParticles(bPlayer, player.getLocation().add(0, 1, 0), 1, 1, 1, 0, 20);
-		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 0.5F, -1);
+		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.5F, -1);
 	}
 
 	@Override
