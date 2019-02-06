@@ -4,8 +4,11 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Particle;
+import org.bukkit.Particle.DustOptions;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -66,7 +69,9 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 		}
 		heldEntities.add(target.getEntityId());
 		setFields();
-		start();
+		if (isEnabled()) {
+			start();
+		}
 	}
 	
 	private void setFields() {
@@ -228,9 +233,13 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 		MovementHandler mh = new MovementHandler((LivingEntity) entity, this);
 		mh.stop(ChatColor.DARK_PURPLE + "* CORRUPTING *");
 	}
-	
-	@SuppressWarnings("deprecation")
 	private void createSpirals() {
+		Color blue = Color.fromBGR(244, 170, 66);
+		DustOptions dustBlue = new DustOptions(blue, 1);
+		
+		Color lightBlue = Color.fromBGR(255, 221, 112);
+		DustOptions dustLight = new DustOptions(lightBlue, 1);
+		
 		if (hasReached) {
 			int amount = chargeTicks + 2;
 			double maxHeight = 4;
@@ -246,16 +255,19 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 			double x2 = Math.cos(Math.toRadians(angle2)) * distanceFromPlayer;
 			double z2 = Math.sin(Math.toRadians(angle2)) * distanceFromPlayer;
 			Location displayLoc2 = target.getLocation().clone().add(x2, height, z2);
-			GeneralMethods.displayColoredParticle(displayLoc2, "42aaf4", 0, 0, 0);
-			GeneralMethods.displayColoredParticle(displayLoc, "42aaf4", 0, 0, 0);
-			GeneralMethods.displayColoredParticle(displayLoc2, "70ddff", 0, 0, 0);
-			GeneralMethods.displayColoredParticle(displayLoc, "70ddff", 0, 0, 0);
-			GeneralMethods.displayColoredParticle(displayLoc2, ParticleEffect.MOB_SPELL, "42aaf4", 0, 0, 0);
-			GeneralMethods.displayColoredParticle(displayLoc, ParticleEffect.MOB_SPELL, "42aaf4", 0, 0, 0);
+			target.getWorld().spawnParticle(Particle.REDSTONE, displayLoc, 1, 0, 0, 0, dustBlue);
+			target.getWorld().spawnParticle(Particle.REDSTONE, displayLoc2, 1, 0, 0, 0, dustBlue);
+			target.getWorld().spawnParticle(Particle.REDSTONE, displayLoc, 1, 0, 0, 0, dustLight);
+			target.getWorld().spawnParticle(Particle.REDSTONE, displayLoc2, 1, 0, 0, 0, dustLight);
 		}
 	}
-	@SuppressWarnings("deprecation")
 	private void createNewSpirals() {
+		Color purple = Color.fromBGR(193, 44, 176);
+		DustOptions dustPurple = new DustOptions(purple, 1);
+		
+		Color darkPurple = Color.fromBGR(201, 58, 137);
+		DustOptions dustDark = new DustOptions(darkPurple, 1);
+		
 		if (hasReached) {
 			int amount = chargeTicks + 2;
 			double maxHeight = 4;
@@ -271,10 +283,10 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 			double x2 = Math.cos(Math.toRadians(angle2)) * distanceFromPlayer;
 			double z2 = Math.sin(Math.toRadians(angle2)) * distanceFromPlayer;
 			Location displayLoc2 = target.getLocation().clone().add(x2, height, z2);
-			GeneralMethods.displayColoredParticle(displayLoc2, "b02cc1", 0, 0, 0);
-			GeneralMethods.displayColoredParticle(displayLoc, "b02cc1", 0, 0, 0);
-			GeneralMethods.displayColoredParticle(displayLoc2, "893ac9", 0, 0, 0);
-			GeneralMethods.displayColoredParticle(displayLoc, "893ac9", 0, 0, 0);
+			target.getWorld().spawnParticle(Particle.REDSTONE, displayLoc, 1, 0, 0, 0, 0, dustPurple);
+			target.getWorld().spawnParticle(Particle.REDSTONE, displayLoc2, 1, 0, 0, 0, 0, dustPurple);
+			target.getWorld().spawnParticle(Particle.REDSTONE, displayLoc, 1, 0, 0, 0, 0, dustDark);
+			target.getWorld().spawnParticle(Particle.REDSTONE, displayLoc2, 1, 0, 0, 0, 0, dustDark);
 		}
 	}
 
@@ -300,7 +312,12 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return Main.plugin.getConfig().getBoolean("Abilities.Spirits.Water.Corrupt.Enabled");
+		return false;
+	}
+	
+	@Override
+	public boolean isHiddenAbility() {
+		return true;
 	}
 
 	@Override

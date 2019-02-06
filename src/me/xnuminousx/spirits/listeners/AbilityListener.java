@@ -23,8 +23,8 @@ import me.xnuminousx.spirits.ability.spirit.Dash;
 import me.xnuminousx.spirits.ability.spirit.Possess;
 import me.xnuminousx.spirits.ability.spirit.Soar;
 import me.xnuminousx.spirits.ability.spirit.Vanish;
-import me.xnuminousx.spirits.ability.water.Corrupt;
-import me.xnuminousx.spirits.ability.water.Purify;
+/*import me.xnuminousx.spirits.ability.water.Corrupt;
+import me.xnuminousx.spirits.ability.water.Purify;*/
 
 public class AbilityListener implements Listener {
 	
@@ -87,13 +87,13 @@ public class AbilityListener implements Listener {
 
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Agility")) {
 			new Soar(player);
-			
+		/*	
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Corrupt")) {
 			new Corrupt(player);
 
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Purify")) {
 			new Purify(player);
-			
+			*/
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shelter")) {
 			new Shelter(player, ShelterType.SHIFT);
 			

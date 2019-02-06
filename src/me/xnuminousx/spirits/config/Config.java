@@ -42,11 +42,9 @@ public class Config {
 		//Descriptions & Instructions
 		langConfig.addDefault("Language.Abilities.Spirit.Agility.Description", "This ability offers you 2 modes of mobility. The first being the ability to dash forward very quickly. The second being the ability to soar through the skies as if gravity is non-existant.");
 		langConfig.addDefault("Language.Abilities.Spirit.Agility.Instructions", "Left-Click: Dash ⏐ Hold shift: Soar");
-		/*
-		 * 
-		langConfig.addDefault("Abilities.Spirit.Fuse.Description", "A rarely seen ability of Spirits is the ability to Fuse with a being, combine your energies, and empower your host. If the host is a human, they will enter the Avatar State only while being fused. This is very dangerous for the human, however, because if a spirit fuses with a human for too long, the human will die immediately. A spirit must wait 1 second after fusing to be able to exit the even. To exit, tap shift.");
-		langConfig.addDefault("Abilities.Spirit.Fuse.Instructions", "Possess (Left-click) > Agility (Left-click) > Agility (Hold shift)");
-		*/
+		
+		/*langConfig.addDefault("Abilities.Spirit.Fuse.Description", "A rarely seen ability of Spirits is the ability to Fuse with a being, combine your energies, and empower your host. If the host is a human, they will enter the Avatar State only while being fused. This is very dangerous for the human, however, because if a spirit fuses with a human for too long, the human will die immediately. A spirit must wait 1 second after fusing to be able to exit the even. To exit, tap shift.");
+		langConfig.addDefault("Abilities.Spirit.Fuse.Instructions", "Possess (Left-click) > Agility (Left-click) > Agility (Hold shift)");*/
 		
 		langConfig.addDefault("Language.Abilities.Spirit.Possess.Description", "A very ancient ability of Spirits is the ability to jump inside the body of a human. As a Spirit, you'll be able to possess a human for a short amount of time and do harm. While this ability is active, both the Spirit and the target will be motionless.");
 		langConfig.addDefault("Language.Abilities.Spirit.Possess.Instructions", "Hold shift and look at a human.");
@@ -84,8 +82,8 @@ public class Config {
 		langConfig.addDefault("Language.Abilities.Water.Purify.Description", "A rare technique practice amongst waterbenders is the ability to influence a Spirits nature towards either the darkness or the light. Using this ability, you can influence a DarkSpirit to be peaceful and guide them towards the light.");
 		langConfig.addDefault("Language.Abilities.Water.Purify.Instructions", "Hold shift while looking at an entity");
 		
-		langConfig.addDefault("Language.Abilities.Water.Corrupt.Description", "A rare technique practice amongst waterbenders is the ability to influence a Spirits nature towards either the darkness or the light. Using this ability, you can influence a LightSpirit to be chaotic and follow the will of the great DarkSpirit, Vatuu.");
-		langConfig.addDefault("Language.Abilities.Water.Corrupt.Instructions", "Hold shift while looking at an entity");
+		/*langConfig.addDefault("Language.Abilities.Water.Corrupt.Description", "A rare technique practice amongst waterbenders is the ability to influence a Spirits nature towards either the darkness or the light. Using this ability, you can influence a LightSpirit to be chaotic and follow the will of the great DarkSpirit, Vatuu.");
+		langConfig.addDefault("Language.Abilities.Water.Corrupt.Instructions", "Hold shift while looking at an entity");*/
 		
 		//Ability configuration
 		config.addDefault("Abilities.Spirits.Neutral.Agility.Enabled", true);
@@ -212,7 +210,7 @@ public class Config {
 		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Damage", 1);
 		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.DamageEntities", true);
 		config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.HealDarkSpirits", true);
-		
+		/*
 		config.addDefault("Abilities.Spirits.Water.Purify.Enabled", true);
 		config.addDefault("Abilities.Spirits.Water.Purify.Cooldown", 5000);
 		config.addDefault("Abilities.Spirits.Water.Purify.Duration", 20000);
@@ -224,7 +222,7 @@ public class Config {
 		config.addDefault("Abilities.Spirits.Water.Corrupt.Duration", 20000);
 		config.addDefault("Abilities.Spirits.Water.Corrupt.Range", 10);
 		config.addDefault("Abilities.Spirits.Water.Corrupt.SetElement", true);
-		
+		*/
 		ConfigManager.languageConfig.save();
 		config.options().copyDefaults(true);
 		plugin.saveConfig();

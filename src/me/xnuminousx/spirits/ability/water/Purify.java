@@ -4,8 +4,11 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Particle;
+import org.bukkit.Particle.DustOptions;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -65,7 +68,9 @@ public class Purify extends WaterAbility implements AddonAbility {
 		}
 		heldEntities.add(target.getEntityId());
 		setFields();
-		start();
+		if (isEnabled()) {
+			start();
+		}
 	}
 	
 	private void setFields() {
@@ -231,8 +236,13 @@ public class Purify extends WaterAbility implements AddonAbility {
 		MovementHandler mh = new MovementHandler((LivingEntity) entity, this);
 		mh.stop(ChatColor.YELLOW + "* PURIFYING *");
 	}
-	@SuppressWarnings("deprecation")
 	private void createSpirals() {
+		Color blue = Color.fromBGR(244, 170, 66);
+		DustOptions dustBlue = new DustOptions(blue, 1);
+		
+		Color lightBlue = Color.fromBGR(255, 221, 112);
+		DustOptions dustLight = new DustOptions(lightBlue, 1);
+		
 		if (hasReached) {
 			int amount = chargeTicks + 2;
 			double maxHeight = 4;
@@ -248,16 +258,18 @@ public class Purify extends WaterAbility implements AddonAbility {
 			double x2 = Math.cos(Math.toRadians(angle2)) * distanceFromPlayer;
 			double z2 = Math.sin(Math.toRadians(angle2)) * distanceFromPlayer;
 			Location displayLoc2 = target.getLocation().clone().add(x2, height, z2);
-			GeneralMethods.displayColoredParticle(displayLoc2, "42aaf4", 0, 0, 0);
-			GeneralMethods.displayColoredParticle(displayLoc, "42aaf4", 0, 0, 0);
-			GeneralMethods.displayColoredParticle(displayLoc2, "70ddff", 0, 0, 0);
-			GeneralMethods.displayColoredParticle(displayLoc, "70ddff", 0, 0, 0);
-			GeneralMethods.displayColoredParticle(displayLoc2, ParticleEffect.MOB_SPELL, "42aaf4", 0, 0, 0);
-			GeneralMethods.displayColoredParticle(displayLoc, ParticleEffect.MOB_SPELL, "42aaf4", 0, 0, 0);
+			target.getWorld().spawnParticle(Particle.REDSTONE, displayLoc, 1, 0, 0, 0, 0, dustBlue, true);
+			target.getWorld().spawnParticle(Particle.REDSTONE, displayLoc2, 1, 0, 0, 0, 0, dustBlue, true);
+			target.getWorld().spawnParticle(Particle.REDSTONE, displayLoc, 1, 0, 0, 0, 0, dustLight, true);
+			target.getWorld().spawnParticle(Particle.REDSTONE, displayLoc2, 1, 0, 0, 0, 0, dustLight, true);
 		}
 	}
-	@SuppressWarnings("deprecation")
 	private void createNewSpirals() {
+		Color yellow = Color.fromBGR(155, 255, 250);
+		DustOptions dustYellow = new DustOptions(yellow, 1);
+		
+		Color darkYellow = Color.fromBGR(94, 255, 246);
+		DustOptions dustDark = new DustOptions(darkYellow, 1);
 		if (hasReached) {
 			int amount = chargeTicks + 2;
 			double maxHeight = 4;
@@ -266,17 +278,17 @@ public class Purify extends WaterAbility implements AddonAbility {
 			int angle = 5 * amount + 5 * ticks;
 			double x = Math.cos(Math.toRadians(angle)) * distanceFromPlayer;
 			double z = Math.sin(Math.toRadians(angle)) * distanceFromPlayer;
-			double height = (amount * 0.10) % maxHeight;
+			double height = (amount * 0.10) / maxHeight;
 			Location displayLoc = target.getLocation().clone().add(x, height, z);
 
 			int angle2 = 5 * amount + 180 + 5 * ticks;
 			double x2 = Math.cos(Math.toRadians(angle2)) * distanceFromPlayer;
 			double z2 = Math.sin(Math.toRadians(angle2)) * distanceFromPlayer;
 			Location displayLoc2 = target.getLocation().clone().add(x2, height, z2);
-			GeneralMethods.displayColoredParticle(displayLoc2, "faff9b", 0, 0, 0);
-			GeneralMethods.displayColoredParticle(displayLoc, "faff9b", 0, 0, 0);
-			GeneralMethods.displayColoredParticle(displayLoc2, "f6ff5e", 0, 0, 0);
-			GeneralMethods.displayColoredParticle(displayLoc, "f6ff5e", 0, 0, 0);
+			target.getWorld().spawnParticle(Particle.REDSTONE, displayLoc, 1, 0, 0, 0, 0, dustYellow, true);
+			target.getWorld().spawnParticle(Particle.REDSTONE, displayLoc2, 1, 0, 0, 0, 0, dustYellow, true);
+			target.getWorld().spawnParticle(Particle.REDSTONE, displayLoc, 1, 0, 0, 0, 0, dustDark, true);
+			target.getWorld().spawnParticle(Particle.REDSTONE, displayLoc2, 1, 0, 0, 0, 0, dustDark, true);
 		}
 	}
 
@@ -301,7 +313,12 @@ public class Purify extends WaterAbility implements AddonAbility {
 	
 	@Override
 	public boolean isEnabled() {
-		return Main.plugin.getConfig().getBoolean("Abilities.Spirits.Water.Purify.Enabled");
+		return false;
+	}
+	
+	@Override
+	public boolean isHiddenAbility() {
+		return true;
 	}
 
 	@Override
