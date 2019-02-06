@@ -139,7 +139,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 			}
 			
 			// Possession effects
-			ParticleEffect.DRAGON_BREATH.display(targetLoc, 0.3F, 1F, 0.3F, 0.02F, 1);
+			ParticleEffect.DRAGON_BREATH.display(targetLoc, 1, 0.3, 1, 0.3, 0.02);
 			target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2), true);
 			target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 2), true);
 			if (disablePunching) {

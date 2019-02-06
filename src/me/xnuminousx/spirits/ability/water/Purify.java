@@ -169,18 +169,18 @@ public class Purify extends WaterAbility implements AddonAbility {
 						bPlayer.getElements().remove(SpiritElement.DARK_SPIRIT);
 						GeneralMethods.saveElements(bPlayer);
 						target.sendMessage(SpiritElement.DARK_SPIRIT.getColor() + "You are now a" + ChatColor.BOLD + "" + ChatColor.AQUA + " LightSpirit");
-						ParticleEffect.FIREWORKS_SPARK.display(target.getLocation(), (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.0F, 3);
+						ParticleEffect.FIREWORKS_SPARK.display(target.getLocation(), 3, (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.0F);
 					} else {
 						target.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 300, 2));
 						target.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 300, 2));
 						target.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 300, 2));
-						ParticleEffect.FIREWORKS_SPARK.display(target.getLocation(), (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.0F, 3);
+						ParticleEffect.FIREWORKS_SPARK.display(target.getLocation(), 3, (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.0F);
 					}
 				} else if (target instanceof Entity || target instanceof LivingEntity) {
 					target.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 300, 2));
 					target.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 300, 2));
 					target.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 300, 2));
-					ParticleEffect.FIREWORKS_SPARK.display(target.getLocation(), (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.0F, 3);
+					ParticleEffect.FIREWORKS_SPARK.display(target.getLocation(), 3, (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.0F);
 				}
 			}
 		}
@@ -231,7 +231,7 @@ public class Purify extends WaterAbility implements AddonAbility {
 		MovementHandler mh = new MovementHandler((LivingEntity) entity, this);
 		mh.stop(ChatColor.YELLOW + "* PURIFYING *");
 	}
-	
+	@SuppressWarnings("deprecation")
 	private void createSpirals() {
 		if (hasReached) {
 			int amount = chargeTicks + 2;
@@ -256,7 +256,7 @@ public class Purify extends WaterAbility implements AddonAbility {
 			GeneralMethods.displayColoredParticle(displayLoc, ParticleEffect.MOB_SPELL, "42aaf4", 0, 0, 0);
 		}
 	}
-	
+	@SuppressWarnings("deprecation")
 	private void createNewSpirals() {
 		if (hasReached) {
 			int amount = chargeTicks + 2;

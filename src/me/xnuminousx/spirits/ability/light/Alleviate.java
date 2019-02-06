@@ -2,7 +2,10 @@ package me.xnuminousx.spirits.ability.light;
 
 import java.util.Random;
 
+import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.Particle.DustOptions;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -30,6 +33,7 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	private int currPoint;
 	private int healDuration;
 	private int nightVisDuration;
+	private int red,green,blue;
 	private double range;
 	private double selfDamage;
 	private long time;
@@ -38,8 +42,6 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	private long otherCooldown;
 	private long selfCooldown;
 	private long chargeTime;
-	private String hexColor;
-	private String selfHexColor;
 	private boolean progress;
 	private boolean playingAlleviate;
 	private boolean removeNegPots;
@@ -63,7 +65,6 @@ public class Alleviate extends LightAbility implements AddonAbility {
 		this.potInt = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.Others.PotionInterval");
 		this.healInt = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.Others.HealInterval");
 		this.selfDamage = Main.plugin.getConfig().getDouble("Abilities.Spirits.LightSpirit.Alleviate.Others.SelfDamage");
-		this.hexColor = Main.plugin.getConfig().getString("Abilities.Spirits.LightSpirit.Alleviate.Others.ParticleColor (Has to be 6 characters)");
 		
 		//Sanctity
 		this.selfCooldown = Main.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Alleviate.Self.Cooldown");
@@ -71,7 +72,10 @@ public class Alleviate extends LightAbility implements AddonAbility {
 		this.healDuration = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Alleviate.Self.HealDuration");
 		this.nightVisDuration = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Alleviate.Self.NightVisionDuration");
 		this.removeNegPots = Main.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Alleviate.Self.RemoveNegativePotionEffects");
-		this.selfHexColor = Main.plugin.getConfig().getString("Abilities.Spirits.LightSpirit.Alleviate.Self.ParticleColor (Has to be 6 characters)");
+		
+		this.red = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Alleviate.ParticleColor.Red");
+		this.green = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Alleviate.ParticleColor.Green");
+		this.blue = Main.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Alleviate.ParticleColor.Blue");
 		
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
@@ -119,6 +123,8 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	}
 	
 	public void progressAlleviate(int points, float size, Entity target, Location location) {
+		Color color = Color.fromBGR(blue, green, red);
+		DustOptions dustOptions = new DustOptions(color, 1);
 		playingAlleviate = true;
 		LivingEntity le = (LivingEntity)target;
 		
@@ -132,7 +138,8 @@ public class Alleviate extends LightAbility implements AddonAbility {
             double y = 1.2 * Math.cos(angle) + 1.2;
             double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
 			location.add(x, y, z);
-			GeneralMethods.displayColoredParticle(location, hexColor, 0, 0, 0);
+			player.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 0, dustOptions);
+			//GeneralMethods.displayColoredParticle(location, hexColor);
 			location.subtract(x, y, z);
 		}
 		
@@ -160,6 +167,9 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	}
 	
 	public void progressSanctity(int points, float size) {
+		Color color = Color.fromBGR(blue, green, red);
+		DustOptions dustOptions = new DustOptions(color, 1);
+		
 		if (playingAlleviate) {
 			return;
 		} else {
@@ -174,7 +184,8 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	            double y = 1.2 * Math.cos(angle) + 1.2;
 	            double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
 				location.add(x, y, z);
-				GeneralMethods.displayColoredParticle(location, selfHexColor, 0, 0, 0);
+				player.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 0, dustOptions);
+				//GeneralMethods.displayColoredParticle(location, selfHexColor);
 				location.subtract(x, y, z);
 			}
 			if (System.currentTimeMillis() > time + chargeTime) {

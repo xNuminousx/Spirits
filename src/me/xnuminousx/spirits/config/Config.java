@@ -138,13 +138,14 @@ public class Config {
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Others.PotionInterval", 2000);
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Others.HealInterval", 5000);
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Others.SelfDamage", 6);
-		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Others.ParticleColor (Has to be 6 characters)", "FFFFFF");
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Self.Cooldown", 5000);
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Self.ChargeTime", 2000);
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Self.HealDuration", 1.5);
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Self.NightVisionDuration", 1.5);
 		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Self.RemoveNegativePotionEffects", true);
-		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Self.ParticleColor (Has to be 6 characters)", "FFFFFF");
+		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.ParticleColor.Red", 255);
+		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.ParticleColor.Green", 255);
+		config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.ParticleColor.Blue", 255);
 		
 		config.addDefault("Abilities.Spirits.LightSpirit.Orb.Enabled", true);
 		config.addDefault("Abilities.Spirits.LightSpirit.Orb.Cooldown", 10000);
@@ -188,7 +189,9 @@ public class Config {
 		config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.PotionInterval", 2000);
 		config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.HarmInterval", 5000);
 		config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.SelfDamage", 4);
-		config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor (Has to be 6 characters)", "BD0000");
+		config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Red", 255);
+		config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Green", 0);
+		config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Blue", 0);
 		
 		config.addDefault("Abilities.Spirits.DarkSpirit.Shackle.Enabled", true);
 		config.addDefault("Abilities.Spirits.DarkSpirit.Shackle.Cooldown", 5000);

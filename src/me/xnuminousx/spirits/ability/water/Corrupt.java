@@ -170,16 +170,16 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 						bPlayer.getElements().remove(SpiritElement.LIGHT_SPIRIT);
 						GeneralMethods.saveElements(bPlayer);
 						target.sendMessage(SpiritElement.LIGHT_SPIRIT.getColor() + "You are now a" + ChatColor.BOLD + "" + ChatColor.BLUE + " DarkSpirit");
-						ParticleEffect.WITCH_MAGIC.display(target.getLocation(), (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.0F, 3);
+						ParticleEffect.SPELL_WITCH.display(target.getLocation(), 3, (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.0);
 					} else {
 						DamageHandler.damageEntity(target, 7, this);
 						target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 300, 2));
-						ParticleEffect.WITCH_MAGIC.display(target.getLocation(), (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.0F, 3);
+						ParticleEffect.SPELL_WITCH.display(target.getLocation(), 3, (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.0);
 					}
 				} else if (target instanceof Entity || target instanceof LivingEntity) {
 					DamageHandler.damageEntity(target, 7, this);
 					target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 300, 2));
-					ParticleEffect.WITCH_MAGIC.display(target.getLocation(), (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.0F, 3);
+					ParticleEffect.SPELL_WITCH.display(target.getLocation(), 3, (float) Math.random(), (float) Math.random(), (float) Math.random(), 0.0);
 				}
 			}
 		}
@@ -229,6 +229,7 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 		mh.stop(ChatColor.DARK_PURPLE + "* CORRUPTING *");
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void createSpirals() {
 		if (hasReached) {
 			int amount = chargeTicks + 2;
@@ -253,7 +254,7 @@ public class Corrupt extends WaterAbility implements AddonAbility {
 			GeneralMethods.displayColoredParticle(displayLoc, ParticleEffect.MOB_SPELL, "42aaf4", 0, 0, 0);
 		}
 	}
-	
+	@SuppressWarnings("deprecation")
 	private void createNewSpirals() {
 		if (hasReached) {
 			int amount = chargeTicks + 2;

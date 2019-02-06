@@ -2,7 +2,10 @@ package me.xnuminousx.spirits.ability.dark;
 
 import java.util.Random;
 
+import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.Particle.DustOptions;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -28,13 +31,13 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 	private Location entityCheck;
 	private Vector direction;
 	private int currPoint;
+	private int red,green,blue;
 	private double range;
 	private double selfDamage;
 	private long time;
 	private long potInt;
 	private long harmInt;
 	private long cooldown;
-	private String hexColor;
 	private boolean progress;
 
 	public Intoxicate(Player player) {
@@ -55,7 +58,11 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 		this.potInt = Main.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Intoxicate.PotionInterval");
 		this.harmInt = Main.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Intoxicate.HarmInterval");
 		this.selfDamage = Main.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Intoxicate.SelfDamage");
-		this.hexColor = Main.plugin.getConfig().getString("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor (Has to be 6 characters)");
+		
+		this.red = Main.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Red");
+		this.green = Main.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Green");
+		this.blue = Main.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Blue");
+		
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
@@ -101,6 +108,8 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 	}
 	
 	public void effect(int points, float size, Entity target, Location location) {
+		Color color = Color.fromBGR(blue, green, red);
+		DustOptions dustOptions = new DustOptions(color,1);
 		LivingEntity le = (LivingEntity)target;
 		
 		for (int i = 0; i < 6; i++) {
@@ -113,8 +122,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
             double y = 1.2 * Math.cos(angle) + 1.2;
             double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
 			location.add(x, y, z);
-			GeneralMethods.displayColoredParticle(location, hexColor, 0, 0, 0);
-			GeneralMethods.displayColoredParticle(location, "000000", 0, 0, 0);
+			player.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 0, dustOptions);
 			location.subtract(x, y, z);
 		}
 		

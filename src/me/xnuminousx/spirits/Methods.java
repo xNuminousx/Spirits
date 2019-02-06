@@ -124,16 +124,16 @@ public class Methods {
 		Element s = Element.getElement("Spirit");
 		
 		if (bPlayer.hasElement(ls) && bPlayer.hasElement(ds)) {
-			ParticleEffect.MAGIC_CRIT.display(location, X, Y, Z, speed, amount);
+			ParticleEffect.CRIT_MAGIC.display(location, amount, X, Y, Z, speed);
 		
 		} else if (!bPlayer.hasElement(ls) && !bPlayer.hasElement(ds) && bPlayer.hasElement(s)) {
-			ParticleEffect.MAGIC_CRIT.display(location, X, Y, Z, speed, amount);
+			ParticleEffect.CRIT_MAGIC.display(location, amount, X, Y, Z, speed);
 			
 		} else if (bPlayer.hasElement(ds)) {
-			ParticleEffect.WITCH_MAGIC.display(location, X, Y, Z, speed, amount);
+			ParticleEffect.SPELL_WITCH.display(location, amount, X, Y, Z, speed);
 			
 		} else if (bPlayer.hasElement(ls)) {
-			ParticleEffect.INSTANT_SPELL.display(location, X, Y, Z, speed, amount);
+			ParticleEffect.SPELL_INSTANT.display(location, amount, X, Y, Z, speed);
 			
 		}
 	}
@@ -150,13 +150,13 @@ public class Methods {
 	public static void playSpiritParticles(SpiritType spiritType, Location location, float X, float Y, float Z, float speed, int amount) {
 		
 		if (spiritType == SpiritType.NEUTRAL) {
-			ParticleEffect.MAGIC_CRIT.display(location, X, Y, Z, speed, amount);
+			ParticleEffect.CRIT_MAGIC.display(location, amount, X, Y, Z, speed);
 		
 		} else if (spiritType == SpiritType.DARK) {
-			ParticleEffect.WITCH_MAGIC.display(location, X, Y, Z, speed, amount);
+			ParticleEffect.SPELL_WITCH.display(location, amount, X, Y, Z, speed);
 			
 		} else if (spiritType == SpiritType.LIGHT) {
-			ParticleEffect.INSTANT_SPELL.display(location, X, Y, Z, speed, amount);
+			ParticleEffect.SPELL_INSTANT.display(location, amount, X, Y, Z, speed);
 			
 		}
 	}

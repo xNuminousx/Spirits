@@ -86,7 +86,7 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
 	}
 	
 	public void spawnCircle() {
-		Methods.createPolygon(location, 8, radius, 0.2, ParticleEffect.INSTANT_SPELL);
+		Methods.createPolygon(location, 8, radius, 0.2, ParticleEffect.SPELL_INSTANT);
 		for (int i = 0; i < 6; i++) {
 			this.currPoint += 360 / 300;
 			if (this.currPoint > 360) {
@@ -98,15 +98,15 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
 			double z = radius * Math.sin(angle);
 			double z2 = radius * Math.cos(angle);
 			location2.add(x, 0, z);
-			ParticleEffect.END_ROD.display(location2, 0, 0, 0, 0, 1);
+			ParticleEffect.END_ROD.display(location2, 1, 0, 0, 0, 0);
 			location2.subtract(x, 0, z);
 			
 			location3.add(x2, 0, z2);
-			ParticleEffect.END_ROD.display(location3, 0, 0, 0, 0, 1);
+			ParticleEffect.END_ROD.display(location3, 1, 0, 0, 0, 0);
 			location3.subtract(x2, 0, z2);
 		}
 		
-		ParticleEffect.ENCHANTMENT_TABLE.display(location, radius / 2, 0.4F, radius / 2, 0, 10);
+		ParticleEffect.ENCHANTMENT_TABLE.display(location, 10, radius / 2, 0.4F, radius / 2, 0);
 	}
 	
 	public void grabEntities() {
@@ -124,7 +124,7 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
 				BendingPlayer bEntity = BendingPlayer.getBendingPlayer(ePlayer);
 				if (bEntity.hasElement(Element.getElement("LightSpirit"))) {
 					ePlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 0));
-					ParticleEffect.HEART.display(ePlayer.getLocation().add(0, 2, 0), 0, 0, 0, 0, 1);
+					ParticleEffect.HEART.display(ePlayer.getLocation().add(0, 2, 0), 1, 0, 0, 0, 0);
 				} else if (bEntity.hasElement(Element.getElement("DarkSpirit")) && damageDarkSpirits) {
 					DamageHandler.damageEntity(ePlayer, damage, this);
 				}
@@ -134,7 +134,7 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
 			} else {
 				LivingEntity le = (LivingEntity)entity;
 				le.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 0));
-				ParticleEffect.HEART.display(entity.getLocation().add(0, 2, 0), 0, 0, 0, 0, 1);
+				ParticleEffect.HEART.display(entity.getLocation().add(0, 2, 0), 1, 0, 0, 0, 0);
 			}
 		}
 	}

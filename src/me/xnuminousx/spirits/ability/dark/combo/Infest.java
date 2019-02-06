@@ -98,15 +98,15 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 			double z = radius * Math.sin(angle);
 			double z2 = radius * Math.cos(angle);
 			location2.add(x, 0, z);
-			ParticleEffect.SMOKE.display(location2, 0, 0, 0, 0, 1);
+			ParticleEffect.SMOKE_NORMAL.display(location2, 1, 0, 0, 0, 0);
 			location2.subtract(x, 0, z);
 			
 			location3.add(x2, 0, z2);
-			ParticleEffect.SMOKE.display(location3, 0, 0, 0, 0, 1);
+			ParticleEffect.SMOKE_NORMAL.display(location3, 1, 0, 0, 0, 0);
 			location3.subtract(x2, 0, z2);
 		}
 		
-		ParticleEffect.DRAGON_BREATH.display(location, radius / 2, 0.4F, radius / 2, 0.01F, 1);
+		ParticleEffect.DRAGON_BREATH.display(location, 1, radius / 2, 0.4F, radius / 2, 0.01F);
 	}
 	
 	public void grabEntities() {
@@ -126,20 +126,20 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 					if (healDarkSpirits) {
 						LivingEntity le = (LivingEntity)entity;
 						le.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 1));
-						ParticleEffect.HEART.display(entity.getLocation().add(0, 2, 0), 0, 0, 0, 0, 1);
+						ParticleEffect.HEART.display(entity.getLocation().add(0, 2, 0), 1, 0, 0, 0, 0);
 					}
 				} else {
 					DamageHandler.damageEntity(entity, damage, this);
-					ParticleEffect.PORTAL.display(entity.getLocation().add(0, 1, 0), 0, 0, 0, 1.5F, 5);
+					ParticleEffect.PORTAL.display(entity.getLocation().add(0, 1, 0), 5, 0, 0, 0, 1.5F);
 				}
 				
 			} else if (entity instanceof Monster) {
 				LivingEntity le = (LivingEntity)entity;
 				le.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 120, 1));
-				ParticleEffect.ANGRY_VILLAGER.display(entity.getLocation().add(0, 1, 0), 0, 0, 0, 0, 1);
+				ParticleEffect.VILLAGER_ANGRY.display(entity.getLocation().add(0, 1, 0), 1, 0, 0, 0, 0);
 			} else if (entity instanceof LivingEntity && damageEntities) {
 				DamageHandler.damageEntity(entity, damage, this);
-				ParticleEffect.PORTAL.display(entity.getLocation().add(0, 1, 0), 0, 0, 0, 1.5F, 5);
+				ParticleEffect.PORTAL.display(entity.getLocation().add(0, 1, 0), 5, 0, 0, 0, 1.5F);
 				
 			}
 		}

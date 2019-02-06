@@ -77,8 +77,8 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 		}
 		dash();
 		if (System.currentTimeMillis() > time + maxDuration) {
-			ParticleEffect.FIREWORKS_SPARK.display(player.getLocation(), 0.5F, 0.5F, 0.5F, 0.5F, 20);
-			ParticleEffect.DRAGON_BREATH.display(player.getLocation(), 0.5F, 0.5F, 0.5F, 1F, 20);
+			ParticleEffect.FIREWORKS_SPARK.display(player.getLocation(), 20, 0.5F, 0.5F, 0.5F, 0.5F);
+			ParticleEffect.DRAGON_BREATH.display(player.getLocation(), 20, 0.5F, 0.5F, 0.5F, 1F);
 			if (target instanceof Player && killAfterDuration) {
 				DamageHandler.damageEntity(target, 30, this);
 			}
@@ -124,7 +124,7 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 			if (System.currentTimeMillis() > time + dangerDelay) {
 				if (new Random().nextInt(10) == 0) {
 					DamageHandler.damageEntity(target, 1, this);
-					ParticleEffect.MAGIC_CRIT.display(target.getLocation().add(0, 1, 0), 0, 0, 0, 0.2F, 10);
+					ParticleEffect.CRIT_MAGIC.display(target.getLocation().add(0, 1, 0), 0, 0, 0, 0.2F, 10);
 				}
 			}
 		} else if (target instanceof LivingEntity) {
@@ -136,7 +136,7 @@ public class Fuse extends SpiritAbility implements AddonAbility, ComboAbility {
 			if (System.currentTimeMillis() > time + dangerDelay) {
 				if (new Random().nextInt(10) == 0) {
 					DamageHandler.damageEntity(target, 1, this);
-					ParticleEffect.MAGIC_CRIT.display(target.getLocation().add(0, 1, 0), 0, 0, 0, 0.2F, 10);
+					ParticleEffect.CRIT_MAGIC.display(target.getLocation().add(0, 1, 0), 0, 0, 0, 0.2F, 10);
 				}
 			}
 			LivingEntity le = (LivingEntity)target;
