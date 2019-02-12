@@ -4,8 +4,12 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.BendingPlayer;
@@ -21,6 +25,44 @@ public class Methods {
 	 */
 	public enum SpiritType {
 		DARK, LIGHT, NEUTRAL
+	}
+	
+	/*
+	 * Creates an item with a description or "lore".
+	 * 
+	 * icon = Material seen in GUI.
+	 * name = Name of the item in the GUI.
+	 * color = Color of the name of the item.
+	 * description = The lore of the item.
+	 */
+	public static ItemStack createItem(Material icon, String name, ChatColor color, List<String> description) {
+		ItemStack item = new ItemStack(icon);
+		ItemMeta itemMeta = item.getItemMeta();
+		
+		itemMeta.setDisplayName(color + "" + ChatColor.BOLD + name);
+		itemMeta.setLore(description);
+		
+		item.setItemMeta(itemMeta);
+		
+		return item;
+	}
+	
+	/*
+	 * Creates a basic item with no description.
+	 * 
+	 * icon = Material seen in the GUI.
+	 * name = Name of the item in the GUI.
+	 * color = Color of the name of the item.
+	 */
+	public static ItemStack createItem(Material icon, String name, ChatColor color) {
+		ItemStack item = new ItemStack(icon);
+		ItemMeta itemMeta = item.getItemMeta();
+		
+		itemMeta.setDisplayName(color + name);
+		
+		item.setItemMeta(itemMeta);
+		
+		return item;
 	}
 	
 	/*
@@ -168,7 +210,7 @@ public class Methods {
 	 * player = The player using the ability.
 	 * originWorld = The original world that the player was in when the ability started.
 	 */
-	public static void readGeneralMethods(Ability ability, Player player, World originWorld) {
+	public static void generalChecks(Ability ability, Player player, World originWorld) {
 		if (!player.isOnline()) {
 			ability.remove();
 		} else if (player.isDead()) {
@@ -190,16 +232,13 @@ public class Methods {
 	 * speed = The speed at which the player is being sent.
 	 * height = The height from their original location the player is shot.
 	 */
-	public static void setPlayerVelocity(Player player, boolean isForward, float speed, double height) {
-		Location location = player.getLocation();
-		Vector direction;
-		if (isForward) {
-			direction = location.getDirection().normalize().multiply(speed);
-		} else {
-			direction = location.getDirection().normalize().multiply(-speed);
+	public static Vector setVelocity(LivingEntity target, float speed, double height) {
+		Location location = target.getLocation();
+		Vector direction = location.getDirection().normalize().multiply(speed);
+		if (height != 0) {
+			direction.setY(height);
 		}
-		direction.setY(height);
-		player.setVelocity(direction);
+		return direction;
 	}
 	
 	/*

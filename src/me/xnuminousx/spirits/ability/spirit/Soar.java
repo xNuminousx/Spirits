@@ -5,7 +5,6 @@ import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
@@ -62,8 +61,7 @@ public class Soar extends SpiritAbility implements AddonAbility {
 				remove();
 				return;
 			} else {
-				Vector vec = player.getLocation().getDirection().normalize().multiply(speed);
-				player.setVelocity(vec);
+				Methods.setVelocity(player, (float) speed, 0);
 				if (new Random().nextInt(4) == 0) {
 					player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.3F, 5F);
 				}

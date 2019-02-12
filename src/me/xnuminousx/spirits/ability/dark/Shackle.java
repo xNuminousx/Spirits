@@ -102,8 +102,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
 					}
 				}
 				this.progress = false;
-				Vector vec = targetLoc.getDirection().normalize().multiply(0);
-				target.setVelocity(vec);
+				Methods.setVelocity(target, 0, 0);
 				targetLoc.setPitch(targetLoc.getPitch());
 				targetLoc.setYaw(targetLoc.getYaw());
 				

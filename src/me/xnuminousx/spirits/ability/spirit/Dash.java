@@ -50,7 +50,7 @@ public class Dash extends SpiritAbility implements AddonAbility {
 
 	private void progressDash() {
 		Location loc = player.getLocation();
-		Methods.setPlayerVelocity(player, true, distance, 0.2);
+		Methods.setVelocity(player, distance, 0.2);
 		loc.getWorld().playSound(loc, Sound.ENTITY_ELDER_GUARDIAN_HURT, 1.5F, 0.5F);
 		loc.getWorld().playSound(loc, Sound.ENTITY_PLAYER_ATTACK_SWEEP, 0.3F, 0.5F);
 		Methods.playSpiritParticles(bPlayer, player.getLocation(), 0.5F, 0.5f, 0.5F, 0, 10);
