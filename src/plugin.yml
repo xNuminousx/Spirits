@@ -1,6 +1,7 @@
 name: Spirits
 author: Numin
 version: BETA-1.0.13
+api-version: 1.13
 depend: [ProjectKorra]
 main: me.xnuminousx.spirits.Main
 description: A ProjectKorra extension that allows your players to be Spirits!
