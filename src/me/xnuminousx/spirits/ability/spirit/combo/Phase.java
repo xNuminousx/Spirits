@@ -129,30 +129,29 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 
 	@Override
 	public long getCooldown() {
-
 		return cooldown;
 	}
 
 	@Override
 	public Location getLocation() {
-
 		return null;
 	}
 
 	@Override
 	public String getName() {
-
 		return "Phase";
 	}
 	
 	@Override
 	public String getDescription() {
-		return Methods.setSpiritDescription(SpiritType.NEUTRAL, "Combo") + Main.plugin.getConfig().getString("Language.Abilities.Spirit.Phase.Description");
+		return Methods.setSpiritDescription(SpiritType.NEUTRAL, "Combo") +
+				Main.plugin.getConfig().getString("Language.Abilities.Spirit.Phase.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Main.plugin.getConfig().getString("Language.Abilities.Spirit.Phase.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) +
+				Main.plugin.getConfig().getString("Language.Abilities.Spirit.Phase.Instructions");
 	}
 
 	@Override
@@ -174,25 +173,21 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 
 	@Override
 	public boolean isExplosiveAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isHarmlessAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isIgniteAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isSneakAbility() {
-
 		return false;
 	}
 

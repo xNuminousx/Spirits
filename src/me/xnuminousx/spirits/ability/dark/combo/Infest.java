@@ -161,7 +161,6 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 
 	@Override
 	public long getCooldown() {
-
 		return cooldown;
 	}
 
@@ -172,18 +171,19 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 
 	@Override
 	public String getName() {
-
 		return "Infest";
 	}
 	
 	@Override
 	public String getDescription() {
-		return Methods.setSpiritDescription(SpiritType.DARK, "Combo") + Main.plugin.getConfig().getString("Language.Abilities.DarkSpirit.Infest.Description");
+		return Methods.setSpiritDescription(SpiritType.DARK, "Combo") +
+				Main.plugin.getConfig().getString("Language.Abilities.DarkSpirit.Infest.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Main.plugin.getConfig().getString("Langauge.Abilities.DarkSpirit.Infest.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.DARK) +
+				Main.plugin.getConfig().getString("Langauge.Abilities.DarkSpirit.Infest.Instructions");
 	}
 
 	@Override
@@ -203,25 +203,21 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 
 	@Override
 	public boolean isExplosiveAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isHarmlessAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isIgniteAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isSneakAbility() {
-
 		return false;
 	}
 

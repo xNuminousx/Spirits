@@ -183,7 +183,8 @@ public class Possess extends SpiritAbility implements AddonAbility {
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Main.plugin.getConfig().getString("Language.Abilities.Spirit.Possess.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) +
+				Main.plugin.getConfig().getString("Language.Abilities.Spirit.Possess.Instructions");
 	}
 
 	@Override

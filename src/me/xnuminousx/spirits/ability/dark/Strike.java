@@ -146,12 +146,10 @@ public class Strike extends DarkAbility implements AddonAbility {
 
 	@Override
 	public void load() {
-
 	}
 
 	@Override
 	public void stop() {
-
 	}
 
 }

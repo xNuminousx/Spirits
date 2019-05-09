@@ -61,19 +61,16 @@ public class Dash extends SpiritAbility implements AddonAbility {
 
 	@Override
 	public long getCooldown() {
-
 		return dashCooldown;
 	}
 
 	@Override
 	public Location getLocation() {
-
 		return null;
 	}
 
 	@Override
 	public String getName() {
-		
 		return "Agility";
 	}
 
@@ -94,25 +91,21 @@ public class Dash extends SpiritAbility implements AddonAbility {
 
 	@Override
 	public boolean isExplosiveAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isHarmlessAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isIgniteAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isSneakAbility() {
-
 		return false;
 	}
 

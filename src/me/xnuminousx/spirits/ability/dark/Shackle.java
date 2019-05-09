@@ -204,12 +204,10 @@ public class Shackle extends DarkAbility implements AddonAbility {
 
 	@Override
 	public void load() {
-
 	}
 
 	@Override
 	public void stop() {
-
 	}
 
 }

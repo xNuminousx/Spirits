@@ -180,42 +180,43 @@ public class Orb extends LightAbility implements AddonAbility {
 
 	@Override
 	public long getCooldown() {
-
 		return cooldown;
 	}
 
 	@Override
 	public Location getLocation() {
-
 		return null;
 	}
 
 	@Override
 	public String getName() {
-
 		return "Orb";
 	}
 	
 	@Override
 	public String getDescription() {
-		return Methods.setSpiritDescription(SpiritType.LIGHT, "Offense") + Main.plugin.getConfig().getString("Language.Abilities.LightSpirit.Orb.Description");
+		return Methods.setSpiritDescription(SpiritType.LIGHT, "Offense") +
+				Main.plugin.getConfig().getString("Language.Abilities.LightSpirit.Orb.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Main.plugin.getConfig().getString("Language.Abilities.LightSpirit.Orb.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) +
+				Main.plugin.getConfig().getString("Language.Abilities.LightSpirit.Orb.Instructions");
 	}
 
 	@Override
 	public String getAuthor() {
 
-		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Methods.getAuthor();
+		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) +
+				Methods.getAuthor();
 	}
 
 	@Override
 	public String getVersion() {
 
-		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Methods.getVersion();
+		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) +
+				Methods.getVersion();
 	}
 	
 	@Override
@@ -225,25 +226,21 @@ public class Orb extends LightAbility implements AddonAbility {
 
 	@Override
 	public boolean isExplosiveAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isHarmlessAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isIgniteAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isSneakAbility() {
-
 		return false;
 	}
 

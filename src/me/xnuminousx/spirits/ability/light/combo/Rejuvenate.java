@@ -155,30 +155,29 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
 
 	@Override
 	public long getCooldown() {
-
 		return cooldown;
 	}
 
 	@Override
 	public Location getLocation() {
-
 		return null;
 	}
 
 	@Override
 	public String getName() {
-
 		return "Rejuvenate";
 	}
 	
 	@Override
 	public String getDescription() {
-		return Methods.setSpiritDescription(SpiritType.LIGHT, "Combo") + Main.plugin.getConfig().getString("Language.Abilities.LightSpirit.Rejuvenate.Description");
+		return Methods.setSpiritDescription(SpiritType.LIGHT, "Combo") +
+				Main.plugin.getConfig().getString("Language.Abilities.LightSpirit.Rejuvenate.Description");
 	}
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Main.plugin.getConfig().getString("Language.Abilities.LightSpirit.Rejuvenate.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) +
+				Main.plugin.getConfig().getString("Language.Abilities.LightSpirit.Rejuvenate.Instructions");
 	}
 
 	@Override
@@ -198,25 +197,21 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
 
 	@Override
 	public boolean isExplosiveAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isHarmlessAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isIgniteAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isSneakAbility() {
-
 		return false;
 	}
 

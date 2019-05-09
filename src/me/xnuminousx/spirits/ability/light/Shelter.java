@@ -289,12 +289,10 @@ public class Shelter extends LightAbility implements AddonAbility {
 
 	@Override
 	public void load() {
-
 	}
 
 	@Override
 	public void stop() {
-
 	}
 
 }

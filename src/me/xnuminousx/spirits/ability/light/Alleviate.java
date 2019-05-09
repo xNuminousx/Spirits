@@ -233,7 +233,8 @@ public class Alleviate extends LightAbility implements AddonAbility {
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Main.plugin.getConfig().getString("Language.Abilities.LightSpirit.Alleviate.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) +
+				Main.plugin.getConfig().getString("Language.Abilities.LightSpirit.Alleviate.Instructions");
 	}
 
 	@Override
@@ -273,12 +274,9 @@ public class Alleviate extends LightAbility implements AddonAbility {
 
 	@Override
 	public void load() {
-
 	}
 
 	@Override
 	public void stop() {
-
 	}
-
 }

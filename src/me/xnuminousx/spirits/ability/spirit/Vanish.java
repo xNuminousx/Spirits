@@ -139,19 +139,16 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 
 	@Override
 	public long getCooldown() {
-
 		return cooldown;
 	}
 
 	@Override
 	public Location getLocation() {
-
 		return null;
 	}
 
 	@Override
 	public String getName() {
-
 		return "Vanish";
 	}
 	
@@ -183,25 +180,21 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 
 	@Override
 	public boolean isExplosiveAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isHarmlessAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isIgniteAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isSneakAbility() {
-
 		return false;
 	}
 

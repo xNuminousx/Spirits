@@ -76,19 +76,16 @@ public class Soar extends SpiritAbility implements AddonAbility {
 
 	@Override
 	public long getCooldown() {
-
 		return soarCooldown;
 	}
 
 	@Override
 	public Location getLocation() {
-
 		return null;
 	}
 
 	@Override
 	public String getName() {
-
 		return "Agility";
 	}
 	
@@ -120,25 +117,21 @@ public class Soar extends SpiritAbility implements AddonAbility {
 
 	@Override
 	public boolean isExplosiveAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isHarmlessAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isIgniteAbility() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isSneakAbility() {
-
 		return false;
 	}
 
@@ -149,5 +142,4 @@ public class Soar extends SpiritAbility implements AddonAbility {
 	@Override
 	public void stop() {
 	}
-
 }

@@ -171,7 +171,8 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 	
 	@Override
 	public String getInstructions() {
-		return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Main.plugin.getConfig().getString("Language.Abilities.DarkSpirit.Intoxicate.Instructions");
+		return Methods.setSpiritDescriptionColor(SpiritType.DARK) +
+				Main.plugin.getConfig().getString("Language.Abilities.DarkSpirit.Intoxicate.Instructions");
 	}
 
 	@Override
@@ -211,12 +212,10 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 
 	@Override
 	public void load() {
-
 	}
 
 	@Override
 	public void stop() {
-
 	}
 
 }
