@@ -1,17 +1,5 @@
 package me.xnuminousx.spirits.ability.dark.combo;
 
-import java.util.ArrayList;
-import java.util.Random;
-
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-
 import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.GeneralMethods;
@@ -21,11 +9,21 @@ import com.projectkorra.projectkorra.ability.util.ComboManager.AbilityInformatio
 import com.projectkorra.projectkorra.util.ClickType;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
-
 import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.DarkAbility;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
+import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 
@@ -105,7 +103,6 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 			ParticleEffect.SMOKE_NORMAL.display(location3, 1, 0, 0, 0, 0);
 			location3.subtract(x2, 0, z2);
 		}
-		
 		ParticleEffect.DRAGON_BREATH.display(location, 1, radius / 2, 0.4F, radius / 2, 0.01F);
 	}
 	
@@ -152,7 +149,7 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 
 	@Override
 	public ArrayList<AbilityInformation> getCombination() {
-		ArrayList<AbilityInformation> combo = new ArrayList<>();
+		ArrayList<AbilityInformation> combo = new ArrayList<AbilityInformation>();
 		combo.add(new AbilityInformation("Intoxicate", ClickType.SHIFT_DOWN));
 		combo.add(new AbilityInformation("Intoxicate", ClickType.RIGHT_CLICK_BLOCK));
 		combo.add(new AbilityInformation("Intoxicate", ClickType.SHIFT_UP));
@@ -183,7 +180,7 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 	@Override
 	public String getInstructions() {
 		return Methods.setSpiritDescriptionColor(SpiritType.DARK) +
-				Main.plugin.getConfig().getString("Langauge.Abilities.DarkSpirit.Infest.Instructions");
+				Main.plugin.getConfig().getString("Language.Abilities.DarkSpirit.Infest.Instructions");
 	}
 
 	@Override

@@ -1,17 +1,5 @@
 package me.xnuminousx.spirits.ability.light.combo;
 
-import java.util.ArrayList;
-import java.util.Random;
-
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-
 import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.GeneralMethods;
@@ -21,11 +9,21 @@ import com.projectkorra.projectkorra.ability.util.ComboManager.AbilityInformatio
 import com.projectkorra.projectkorra.util.ClickType;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
-
 import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.LightAbility;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
+import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbility {
 
@@ -146,7 +144,7 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
 
 	@Override
 	public ArrayList<AbilityInformation> getCombination() {
-		ArrayList<AbilityInformation> combo = new ArrayList<>();
+		ArrayList<AbilityInformation> combo = new ArrayList<AbilityInformation>();
 		combo.add(new AbilityInformation("Alleviate", ClickType.SHIFT_DOWN));
 		combo.add(new AbilityInformation("Alleviate", ClickType.RIGHT_CLICK_BLOCK));
 		combo.add(new AbilityInformation("Alleviate", ClickType.SHIFT_UP));

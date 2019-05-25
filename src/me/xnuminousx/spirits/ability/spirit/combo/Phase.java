@@ -1,24 +1,22 @@
 package me.xnuminousx.spirits.ability.spirit.combo;
 
-import java.util.ArrayList;
-
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
-
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.ComboAbility;
 import com.projectkorra.projectkorra.ability.util.ComboManager.AbilityInformation;
 import com.projectkorra.projectkorra.util.ClickType;
 import com.projectkorra.projectkorra.util.ParticleEffect;
-
 import me.xnuminousx.spirits.Main;
 import me.xnuminousx.spirits.Methods;
 import me.xnuminousx.spirits.Methods.SpiritType;
 import me.xnuminousx.spirits.ability.api.SpiritAbility;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
 
 public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 
@@ -118,7 +116,7 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 
 	@Override
 	public ArrayList<AbilityInformation> getCombination() {
-		ArrayList<AbilityInformation> combo = new ArrayList<>();
+		ArrayList<AbilityInformation> combo = new ArrayList<AbilityInformation>();
 		combo.add(new AbilityInformation("Vanish", ClickType.LEFT_CLICK));
 		combo.add(new AbilityInformation("Vanish", ClickType.LEFT_CLICK));
 		combo.add(new AbilityInformation("Possess", ClickType.SHIFT_DOWN));

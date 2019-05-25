@@ -1,20 +1,18 @@
 package me.xnuminousx.spirits.ability.dark;
 
+import com.projectkorra.projectkorra.GeneralMethods;
+import com.projectkorra.projectkorra.ability.AddonAbility;
+import com.projectkorra.projectkorra.util.ParticleEffect;
+import me.xnuminousx.spirits.Main;
+import me.xnuminousx.spirits.Methods;
+import me.xnuminousx.spirits.Methods.SpiritType;
+import me.xnuminousx.spirits.ability.api.DarkAbility;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
-
-import com.projectkorra.projectkorra.GeneralMethods;
-import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.util.ParticleEffect;
-
-import me.xnuminousx.spirits.Main;
-import me.xnuminousx.spirits.Methods;
-import me.xnuminousx.spirits.Methods.SpiritType;
-import me.xnuminousx.spirits.ability.api.DarkAbility;
 
 public class Shackle extends DarkAbility implements AddonAbility {
 
@@ -159,7 +157,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
 	@Override
 	public String getDescription() {
 		return Methods.setSpiritDescription(SpiritType.DARK, "Defense") + 
-				Main.plugin.getConfig().getString("Langauge.Abilities.DarkSpirit.Shackle.Description");
+				Main.plugin.getConfig().getString("Language.Abilities.DarkSpirit.Shackle.Description");
 	}
 	
 	@Override
