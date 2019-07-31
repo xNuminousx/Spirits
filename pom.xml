@@ -6,7 +6,7 @@
 
     <groupId>me.numin</groupId>
     <artifactId>spirits</artifactId>
-    <version>BETA-1.0.14</version>
+    <version>MYSTIC-1.0.13.1</version>
     <packaging>jar</packaging>
 
     <name>Spirits</name>
@@ -75,9 +75,9 @@
         <dependency>
             <groupId>com.projectkorra</groupId>
             <artifactId>projectkorra</artifactId>
-            <version>1.8.8</version>
+            <version>1.8.4.35</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/ProjectKorra-1.8.8.jar</systemPath>
+            <systemPath>${project.basedir}/lib/ProjectKorra-1.8.4.35.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

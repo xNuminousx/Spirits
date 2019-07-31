@@ -13,7 +13,10 @@ import me.numin.spirits.Spirits;
 import me.numin.spirits.Methods;
 import me.numin.spirits.Methods.SpiritType;
 import me.numin.spirits.ability.api.DarkAbility;
+import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.Particle.DustOptions;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -38,6 +41,7 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
     private boolean damageEntities;
     private boolean healDarkSpirits;
     private double damage;
+    private double t;
     private int currPoint;
     private Location location3;
 
@@ -103,7 +107,20 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
             ParticleEffect.SMOKE_NORMAL.display(location3, 1, 0, 0, 0, 0);
             location3.subtract(x2, 0, z2);
         }
-        ParticleEffect.DRAGON_BREATH.display(location, 1, radius / 2, 0.4F, radius / 2, 0.01F);
+        t += Math.PI / 32;
+        if (!(t >= Math.PI * 4)) {
+            for (double i = 0; i <= Math.PI * 2; i += Math.PI / 1.2) {
+                double x = 0.5 * (Math.PI * 4 - t) * Math.cos(t - i);
+                double y = 0.4 * t;
+                double z = 0.5 * (Math.PI * 4 - t) * Math.sin(t - i);
+                location.add(x, y, z);
+                Methods.playSpiritParticles(SpiritType.DARK, location, 0, 0, 0, 0, 1);
+                player.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0.1, 0.1, 0.1, 0, new DustOptions(Color.fromBGR(100, 100, 100), 1));
+                location.subtract(x, y, z);
+            }
+        }
+
+        ParticleEffect.DRAGON_BREATH.display(location, radius/2, 0.6F, radius/2, (int)0.01, 1);
     }
 
     public void grabEntities() {
@@ -127,7 +144,7 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
                     }
                 } else {
                     DamageHandler.damageEntity(entity, damage, this);
-                    ParticleEffect.PORTAL.display(entity.getLocation().add(0, 1, 0), 5, 0, 0, 0, 1.5F);
+                    ParticleEffect.PORTAL.display(entity.getLocation().add(0, 1, 0), 0, 0, 0, 1.5F, 5);
                 }
 
             } else if (entity instanceof Monster) {
@@ -136,7 +153,7 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
                 ParticleEffect.VILLAGER_ANGRY.display(entity.getLocation().add(0, 1, 0), 1, 0, 0, 0, 0);
             } else if (entity instanceof LivingEntity && damageEntities) {
                 DamageHandler.damageEntity(entity, damage, this);
-                ParticleEffect.PORTAL.display(entity.getLocation().add(0, 1, 0), 5, 0, 0, 0, 1.5F);
+                ParticleEffect.PORTAL.display(entity.getLocation().add(0, 1, 0),0, 0, 0, 1.5F, 5);
 
             }
         }

@@ -62,7 +62,6 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
     @Override
     public void progress() {
         if (player.isDead() || !player.isOnline() || (player.getWorld() != playerWorld) || GeneralMethods.isRegionProtectedFromBuild(this, origin)) {
-            resetGameMode();
             remove();
             return;
         }
@@ -77,16 +76,23 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
         }
         if (System.currentTimeMillis() > time + duration || origin.distanceSquared(player.getLocation()) > range * range) {
             playEffects();
-            resetGameMode();
             remove();
             return;
         }
         if (player.isSneaking() && isPhased) {
             playEffects();
-            resetGameMode();
             remove();
             return;
         }
+    }
+    @Override
+    public void remove() {
+        resetGameMode();
+        bPlayer.addCooldown(this);
+        if (applyVanishCD) {
+            bPlayer.addCooldown("Vanish", vanishCD);
+        }
+        super.remove();
     }
 
     public void setGameMode() {
@@ -97,15 +103,11 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
     public void resetGameMode() {
         player.setGameMode(originGM);
         isPhased = false;
-        bPlayer.addCooldown(this);
-        if (applyVanishCD) {
-            bPlayer.addCooldown("Vanish", vanishCD);
-        }
     }
 
     public void playEffects() {
-        ParticleEffect.PORTAL.display(player.getLocation().add(0, 1, 0), 100, 0, 0, 0, 1.5F);
-        Methods.playSpiritParticles(bPlayer, player.getLocation().add(0, 1, 0), 1, 1, 1, 0, 20);
+        ParticleEffect.PORTAL.display(player.getLocation().add(0, 1, 0), 0, 0, 0, (int) 1.5F, 100);
+        Methods.playSpiritParticles(player, player.getLocation().add(0, 1, 0), 1, 1, 1, 0, 20);
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.5F, -1);
     }
 

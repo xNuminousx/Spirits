@@ -88,7 +88,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
                 return;
             }
             if (System.currentTimeMillis() > time + duration) {
-                ParticleEffect.CLOUD.display(targetLoc, 5, 0, 0, 0, 0.08F);
+                ParticleEffect.CLOUD.display(targetLoc, 0, 0, 0, (int) 0.08F, 5);
                 player.getWorld().playSound(targetLoc, Sound.BLOCK_IRON_TRAPDOOR_CLOSE, 0.5F, 1.5F);
                 bPlayer.addCooldown(this);
                 remove();
@@ -100,7 +100,8 @@ public class Shackle extends DarkAbility implements AddonAbility {
                     }
                 }
                 this.progress = false;
-                Methods.setVelocity(target, 0, 0);
+                Vector vec = targetLoc.getDirection().normalize().multiply(0);
+                target.setVelocity(vec);
                 targetLoc.setPitch(targetLoc.getPitch());
                 targetLoc.setYaw(targetLoc.getYaw());
 
@@ -119,7 +120,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
             double x = size * (Math.PI * 4 - angle) * Math.cos(angle + i);
             double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
             location.add(x, 0.1F, z);
-            ParticleEffect.SPELL_WITCH.display(location, 1, 0, 0, 0, 0);
+            ParticleEffect.SPELL_WITCH.display(location, 0, 0, 0, 0, 1);
             location.subtract(x, 0.1F, z);
         }
     }
@@ -134,7 +135,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
             double x2 = size * (Math.PI * 5 - angle2) * Math.cos(angle2 + t);
             double z2 = size * (Math.PI * 5 - angle2) * Math.sin(angle2 + t);
             location.add(x2, 0.1F, z2);
-            ParticleEffect.SPELL_WITCH.display(location, 1, 0, 0, 0, 0);
+            ParticleEffect.SPELL_WITCH.display(location, 0, 0, 0, 0, 1);
             location.subtract(x2, 0.1F, z2);
         }
     }
@@ -202,10 +203,12 @@ public class Shackle extends DarkAbility implements AddonAbility {
 
     @Override
     public void load() {
+
     }
 
     @Override
     public void stop() {
+
     }
 
 }

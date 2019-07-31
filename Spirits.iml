@@ -31,9 +31,9 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.md-5:bungeecord-chat:1.13-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.yaml:snakeyaml:1.23" level="project" />
     <orderEntry type="module-library">
-      <library name="Maven: com.projectkorra:projectkorra:1.8.8">
+      <library name="Maven: com.projectkorra:projectkorra:1.8.4.35">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/ProjectKorra-1.8.8.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/ProjectKorra-1.8.4.35.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

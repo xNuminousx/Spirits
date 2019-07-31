@@ -1,5 +1,5 @@
 name: Spirits
-version: BETA-1.0.14
+version: MYSTIC-1.0.13.1
 main: me.numin.spirits.Spirits
 api-version: 1.13
 depend: [ProjectKorra]

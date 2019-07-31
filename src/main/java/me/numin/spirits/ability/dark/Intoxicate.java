@@ -122,6 +122,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
             double y = 1.2 * Math.cos(angle) + 1.2;
             double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
             location.add(x, y, z);
+            player.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 0, new DustOptions(Color.fromRGB(0, 0, 0), 1));
             player.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 0, dustOptions);
             location.subtract(x, y, z);
         }

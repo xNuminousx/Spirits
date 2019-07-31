@@ -13,7 +13,10 @@ import me.numin.spirits.Spirits;
 import me.numin.spirits.Methods;
 import me.numin.spirits.Methods.SpiritType;
 import me.numin.spirits.ability.api.LightAbility;
+import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.Particle.DustOptions;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -38,6 +41,7 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
     private boolean damageMonsters;
     private boolean damageDarkSpirits;
     private double damage;
+    private double t;
     private int currPoint;
     private Location location3;
 
@@ -96,15 +100,27 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
             double z = radius * Math.sin(angle);
             double z2 = radius * Math.cos(angle);
             location2.add(x, 0, z);
-            ParticleEffect.END_ROD.display(location2, 1, 0, 0, 0, 0);
+            ParticleEffect.END_ROD.display(location2, 0, 0, 0, 0, 1);
             location2.subtract(x, 0, z);
 
             location3.add(x2, 0, z2);
-            ParticleEffect.END_ROD.display(location3, 1, 0, 0, 0, 0);
+            ParticleEffect.END_ROD.display(location3, 0, 0, 0, 0, 1);
             location3.subtract(x2, 0, z2);
         }
+        t += Math.PI / 32;
+        if (!(t >= Math.PI * 4)) {
+            for (double i = 0; i <= Math.PI * 2; i += Math.PI / 1.2) {
+                double x = 0.5 * (Math.PI * 4 - t) * Math.cos(t - i);
+                double y = 0.4 * t;
+                double z = 0.5 * (Math.PI * 4 - t) * Math.sin(t - i);
+                location.add(x, y, z);
+                Methods.playSpiritParticles(SpiritType.LIGHT, location, 0, 0, 0, 0, 1);
+                player.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0.1, 0.1, 0.1, 0, new DustOptions(Color.fromBGR(255, 255, 255), 1));
+                location.subtract(x, y, z);
+            }
+        }
 
-        ParticleEffect.ENCHANTMENT_TABLE.display(location, 10, radius / 2, 0.4F, radius / 2, 0);
+        ParticleEffect.ENCHANTMENT_TABLE.display(location, radius / 2, 0.4F, radius / 2, 0, 10);
     }
 
     public void grabEntities() {
@@ -120,11 +136,13 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
             if (entity instanceof Player) {
                 Player ePlayer = (Player) entity;
                 BendingPlayer bEntity = BendingPlayer.getBendingPlayer(ePlayer);
-                if (bEntity.hasElement(Element.getElement("LightSpirit"))) {
+                if (!bEntity.hasElement(Element.getElement("DarkSpirit"))) {
                     ePlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 0));
-                    ParticleEffect.HEART.display(ePlayer.getLocation().add(0, 2, 0), 1, 0, 0, 0, 0);
-                } else if (bEntity.hasElement(Element.getElement("DarkSpirit")) && damageDarkSpirits) {
-                    DamageHandler.damageEntity(ePlayer, damage, this);
+                    ParticleEffect.HEART.display(ePlayer.getLocation().add(0, 2, 0), 0, 0, 0, 0, 1);
+                } else {
+                    if (damageDarkSpirits) {
+                        DamageHandler.damageEntity(ePlayer, damage, this);
+                    }
                 }
             } else if (entity instanceof Monster && damageMonsters) {
                 DamageHandler.damageEntity(entity, damage, this);
@@ -132,7 +150,7 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
             } else {
                 LivingEntity le = (LivingEntity)entity;
                 le.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 0));
-                ParticleEffect.HEART.display(entity.getLocation().add(0, 2, 0), 1, 0, 0, 0, 0);
+                ParticleEffect.HEART.display(entity.getLocation().add(0, 2, 0), 0, 0, 0, 0, 1);
             }
         }
     }

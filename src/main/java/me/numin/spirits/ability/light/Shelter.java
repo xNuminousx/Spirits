@@ -5,6 +5,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.GeneralMethods;
@@ -118,6 +119,28 @@ public class Shelter extends LightAbility implements AddonAbility {
         }
     }
 
+    public void newVelocity(LivingEntity entity) {
+        double x, z, vx, vz, mag;
+        double angle = 50;
+        angle = Math.toRadians(angle);
+
+        x = entity.getLocation().getX() - origin.getX();
+        z = entity.getLocation().getZ() - origin.getZ();
+
+        mag = Math.sqrt(x * x + z * z);
+
+        vx = (x * Math.cos(angle) - z * Math.sin(angle)) / mag;
+        vz = (x * Math.sin(angle) + z * Math.cos(angle)) / mag;
+
+        final Vector velocity = entity.getVelocity();
+        velocity.setX(vx);
+        velocity.setZ(vz);
+
+        velocity.multiply(0.5);
+        GeneralMethods.setVelocity(entity, velocity);
+        entity.setFallDistance(0);
+    }
+
     public void shieldSelf() {
         if (System.currentTimeMillis() > time + duration) {
             bPlayer.addCooldown(this, selfCooldown);
@@ -128,7 +151,9 @@ public class Shelter extends LightAbility implements AddonAbility {
             blockMove();
             for (Entity target : GeneralMethods.getEntitiesAroundPoint(player.getLocation(), selfShield)) {
                 if (target instanceof LivingEntity && !target.getUniqueId().equals(player.getUniqueId())) {
-                    Methods.setVelocity((LivingEntity) target, -selfKnockDis, 1);
+                    newVelocity((LivingEntity) target);
+                } else if (target instanceof Projectile) {
+                    target.remove();
                 }
             }
         }
@@ -156,7 +181,9 @@ public class Shelter extends LightAbility implements AddonAbility {
                     }
                     for (Entity target2 : GeneralMethods.getEntitiesAroundPoint(location, shieldSize)) {
                         if (target2 instanceof LivingEntity && !target2.getUniqueId().equals(target.getUniqueId()) && !target2.getUniqueId().equals(player.getUniqueId())) {
-                            Methods.setVelocity((LivingEntity) target2, -knockDis, 1);
+                            newVelocity((LivingEntity) target2);
+                        } else if (target2 instanceof Projectile) {
+                            target2.remove();
                         }
                     }
                     blockMove();
@@ -186,7 +213,7 @@ public class Shelter extends LightAbility implements AddonAbility {
             double y = 0.9 * (Math.PI * 5 - t) - 10;
             double z2 = size * Math.sin(angle);
             location.add(x2, y, z2);
-            ParticleEffect.SPELL_INSTANT.display(location, 1, 0.5F, 0.5F, 0.5F, 0);
+            ParticleEffect.SPELL_INSTANT.display(location, 0.5F, 0.5F, 0.5F, 0, 1);
             location.subtract(x2, y, z2);
         }
     }
@@ -200,7 +227,7 @@ public class Shelter extends LightAbility implements AddonAbility {
             double x = size * (Math.PI * 4 - angle) * Math.cos(angle + i);
             double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
             location.add(x, 0.1F, z);
-            ParticleEffect.SPELL_INSTANT.display(location, 1, 0, 0, 0, 0);
+            ParticleEffect.SPELL_INSTANT.display(location, 0, 0, 0, 0, 1);
             location.subtract(x, 0.1F, z);
         }
     }

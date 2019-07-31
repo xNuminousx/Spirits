@@ -81,7 +81,7 @@ public class Vanish extends SpiritAbility implements AddonAbility {
                     isCharged = true;
                 } else {
                     if (new Random().nextInt(particleFrequency) == 0) {
-                        ParticleEffect.DRAGON_BREATH.display(player.getLocation().add(0, 1, 0), 1, 0, 0, 0, 0.09F);
+                        ParticleEffect.DRAGON_BREATH.display(player.getLocation().add(0, 1, 0), 0, 0, 0, 0.09F, 1);
                     }
                 }
             } else {
@@ -102,9 +102,9 @@ public class Vanish extends SpiritAbility implements AddonAbility {
                 targetLoc = GeneralMethods.getTargetedLocation(player, range);
                 player.teleport(targetLoc);
                 player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.5F, -1);
-                ParticleEffect.DRAGON_BREATH.display(player.getLocation().add(0, 1, 0), 20, 0, 0, 0, 0.09F);
-                ParticleEffect.PORTAL.display(player.getLocation().add(0, 1, 0), 30, 0, 0, 0, 2F);
-                Methods.playSpiritParticles(bPlayer, player.getLocation().add(0, 1, 0), 0.5F, 0.5f, 0.5F, 0, 10);
+                ParticleEffect.DRAGON_BREATH.display(player.getLocation().add(0, 1, 0), 0, 0, 0, 0.09F, 20);
+                ParticleEffect.PORTAL.display(player.getLocation().add(0, 1, 0), 0, 0, 0, 2F, 30);
+                Methods.playSpiritParticles(player, player.getLocation().add(0, 1, 0), 0.5F, 0.5f, 0.5F, 0, 10);
                 remove();
                 return;
             }
@@ -120,7 +120,7 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 
     public void playEffects() {
         if (new Random().nextInt(particleFrequency) == 0) {
-            Methods.playSpiritParticles(bPlayer, player.getLocation().add(0, 1, 0), 0.5F, 0.5f, 0.5F, 0, 2);
+            Methods.playSpiritParticles(player, player.getLocation().add(0, 1, 0), 0.5F, 0.5f, 0.5F, 0, 2);
         }
         if (applyInvis) {
             applyInvis = false;

@@ -3,8 +3,11 @@ package me.numin.spirits;
 import java.util.List;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Particle.DustOptions;
 import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -160,22 +163,26 @@ public class Methods {
      * speed = The speed at which the particles move.
      * amount = The amount of particles that spawn per tick.
      */
-    public static void playSpiritParticles(BendingPlayer bPlayer, Location location, float X, float Y, float Z, float speed, int amount) {
+    public static void playSpiritParticles(Player player, Location location, float X, float Y, float Z, float speed, int amount) {
         Element ls = Element.getElement("LightSpirit");
         Element ds = Element.getElement("DarkSpirit");
         Element s = Element.getElement("Spirit");
+        DustOptions dustOptions = new DustOptions(Color.fromRGB(0, 176, 180), 1);
+        BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
 
         if (bPlayer.hasElement(ls) && bPlayer.hasElement(ds)) {
-            ParticleEffect.CRIT_MAGIC.display(location, amount, X, Y, Z, speed);
+            ParticleEffect.CRIT_MAGIC.display(location, X, Y, Z, speed, amount);
+            player.getWorld().spawnParticle(Particle.REDSTONE, location, amount, X, Y, Z, speed, dustOptions);
 
         } else if (!bPlayer.hasElement(ls) && !bPlayer.hasElement(ds) && bPlayer.hasElement(s)) {
-            ParticleEffect.CRIT_MAGIC.display(location, amount, X, Y, Z, speed);
+            ParticleEffect.CRIT_MAGIC.display(location, X, Y, Z, speed, amount);
+            player.getWorld().spawnParticle(Particle.REDSTONE, location, amount, X, Y, Z, speed, dustOptions);
 
         } else if (bPlayer.hasElement(ds)) {
-            ParticleEffect.SPELL_WITCH.display(location, amount, X, Y, Z, speed);
+            ParticleEffect.SPELL_WITCH.display(location, X, Y, Z, speed, amount);
 
         } else if (bPlayer.hasElement(ls)) {
-            ParticleEffect.SPELL_INSTANT.display(location, amount, X, Y, Z, speed);
+            ParticleEffect.SPELL_INSTANT.display(location, X, Y, Z, speed, amount);
 
         }
     }
@@ -190,15 +197,15 @@ public class Methods {
      * amount = The amount of particles that spawn per tick.
      */
     public static void playSpiritParticles(SpiritType spiritType, Location location, float X, float Y, float Z, float speed, int amount) {
-
+        DustOptions dustOptions = new DustOptions(Color.fromRGB(0, 176, 180), 1);
         if (spiritType == SpiritType.NEUTRAL) {
-            ParticleEffect.CRIT_MAGIC.display(location, amount, X, Y, Z, speed);
-
+            ParticleEffect.CRIT_MAGIC.display(location, X, Y, Z, speed, amount);
+            location.getWorld().spawnParticle(Particle.REDSTONE, location, amount, X, Y, Z, speed, dustOptions);
         } else if (spiritType == SpiritType.DARK) {
-            ParticleEffect.SPELL_WITCH.display(location, amount, X, Y, Z, speed);
+            ParticleEffect.SPELL_WITCH.display(location, X, Y, Z, speed, amount);
 
         } else if (spiritType == SpiritType.LIGHT) {
-            ParticleEffect.SPELL_INSTANT.display(location, amount, X, Y, Z, speed);
+            ParticleEffect.SPELL_INSTANT.display(location, X, Y, Z, speed, amount);
 
         }
     }
@@ -235,9 +242,12 @@ public class Methods {
     public static Vector setVelocity(LivingEntity target, float speed, double height) {
         Location location = target.getLocation();
         Vector direction = location.getDirection().normalize().multiply(speed);
-        if (height != 0) {
-            direction.setY(height);
-        }
+        direction.setY(height);
+        return direction;
+    }
+    public static Vector setVelocity(LivingEntity target, float speed) {
+        Location location = target.getLocation();
+        Vector direction = location.getDirection().normalize().multiply(speed);
         return direction;
     }
 
