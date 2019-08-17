@@ -19,122 +19,124 @@ import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.Ability;
-import com.projectkorra.projectkorra.util.ParticleEffect;
 
 public class Methods {
 
-    /*
-     * The types of spirits in the plugin.
+    /**
+     * The types of Spirits in the plugin.
      */
     public enum SpiritType {
         DARK, LIGHT, NEUTRAL
     }
 
-    /*
-     * Creates an item with a description or "lore".
+    /**
+     * Used to move a point to a certain direction.
      *
-     * icon = Material seen in GUI.
-     * name = Name of the item in the GUI.
-     * color = Color of the name of the item.
-     * description = The lore of the item.
+     * @param direction The direction in which to move.
+     * @param origin The starting point from which the location moves.
+     * @return The new location.
      */
-    public static ItemStack createItem(Material icon, String name, ChatColor color, List<String> description) {
-        ItemStack item = new ItemStack(icon);
-        ItemMeta itemMeta = item.getItemMeta();
-
-        itemMeta.setDisplayName(color + "" + ChatColor.BOLD + name);
-        itemMeta.setLore(description);
-
-        item.setItemMeta(itemMeta);
-
-        return item;
+    public static Location advanceLocationToDirection(Vector direction, Location origin) {
+        origin.add(direction.multiply(1).normalize().clone());
+        return origin;
     }
 
-    /*
-     * Creates a basic item with no description.
+    /**
+     * Moves a point from point 1 to point 2.
      *
-     * icon = Material seen in the GUI.
-     * name = Name of the item in the GUI.
-     * color = Color of the name of the item.
+     * @param vector The vector used to move the points.
+     * @param point1 The starting point.
+     * @param point2 The end point.
+     * @return The new location.
+     */
+    public static Location advanceLocationToPoint(Vector vector, Location point1, Location point2) {
+        vector.add(point2.toVector()).subtract(point1.toVector()).multiply(1).normalize();
+        point1.add(vector.clone().multiply(0.5));
+        return point1;
+    }
+
+    /**
+     * Used to create an inventory item.
+     *
+     * @param icon The item which displays in a players inventory.
+     * @param name The name of the item.
+     * @param color The color that the name displays in.
+     * @return The item.
      */
     public static ItemStack createItem(Material icon, String name, ChatColor color) {
         ItemStack item = new ItemStack(icon);
         ItemMeta itemMeta = item.getItemMeta();
 
+        assert itemMeta != null;
         itemMeta.setDisplayName(color + name);
-
         item.setItemMeta(itemMeta);
 
         return item;
     }
 
-    /*
-     * Used to create some polygon in a specific location.
+    /**
+     * Used to create an inventory item with a lore.
      *
-     * location = The center of the polygon.
-     * points = The type of polygon it will be.
-     * radius = How far from the location of the polygon the edge is.
-     * height = How high from the location the polygon spawns.
-     * particleEffect = What type of particle spawns.
+     * @param icon The item which displays in a players inventory.
+     * @param name The name of the item.
+     * @param color The color that the name displays in.
+     * @param description The lore of the item.
+     * @return The item.
      */
-    public static void createPolygon(Location location, int points, int radius, double height, ParticleEffect particleEffect) {
+    public static ItemStack createItem(Material icon, String name, ChatColor color, List<String> description) {
+        ItemStack item = createItem(icon, name, color);
+        ItemMeta meta = item.getItemMeta();
+
+        assert meta != null;
+        meta.setLore(description);
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    /**
+     * Used to create some polygon at a location.
+     *
+     * @param location Center point for the polygon.
+     * @param points How many vertices the polygon will have.
+     * @param radius The radius the polygon will have.
+     * @param height The height from location.
+     * @param particle The type of particle that spawns at each point.
+     */
+    public static void createPolygon(Location location, int points, double radius, double height, Particle particle) {
         for (int i = 0; i < points; i++) {
             double angle = 360.0 / points * i;
             angle = Math.toRadians(angle);
             double x = radius * Math.cos(angle);
             double z = radius * Math.sin(angle);
             location.add(x, height, z);
-            particleEffect.display(location, 0, 0, 0, 0, 1);
+            location.getWorld().spawnParticle(particle, location, 1, 0, 0, 0, 0);
             location.subtract(x, height, z);
         }
     }
 
-    /*
-     * Used to create a circle which rotates at a certain
-     * speed around a certain location.
+    /**
+     * Used to get the authors defined in the pom.xml file.
      *
-     * location = The center of the circle.
-     * speed = The speed at which the circle progresses.
-     * points = The amount of points which spawn particles.
-     * radius = How far from the location of the circle the edge is.
-     * height = How high from the location the circle spawns.
-     * particleEffect = What type of particle spawns.
-     */
-    public static void createRotatingCircle(Location location, int speed, int points, int radius, double height, ParticleEffect particleEffect) {
-        for (int i = 0; i < speed; i++) {
-            int currPoint = 0;
-            currPoint += 360 / points;
-            if (currPoint > 360) {
-                currPoint = 0;
-            }
-            double angle = currPoint * Math.PI / 180.0D;
-            double x = radius * Math.cos(angle);
-            double z = radius * Math.sin(angle);
-            location.add(x, height, z);
-            particleEffect.display(location, 0, 0, 0, 0, 1);
-            location.subtract(x, height, z);
-        }
-    }
-
-    /*
-     * The author(s) of the project.
+     * @return List of authors.
      */
     public static List<String> getAuthor() {
         return Spirits.plugin.getDescription().getAuthors();
     }
 
-    /*
-     * The current version of Spirits
+    /**
+     * Used to get the version of the project from the pom.xml file.
+     *
+     * @return The plugin version.
      */
     public static String getVersion() {
         return Spirits.plugin.getDescription().getVersion();
     }
 
-    /*
-     * Used to get the spirit type of a specific player. This allows
-     * certain actions to be ran depending on their spirit type.
+    /**
+     * Gets the type of spirit a player may be.
      *
-     * player = The player which is being checked for spirit elements.
+     * @param player The player being tested.
+     * @return The type of spirit they are.
      */
     public static SpiritType getSpiritType(Player player) {
         BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
@@ -153,69 +155,67 @@ public class Methods {
         }
     }
 
-    /*
-     * Used to play particles which attach to the info of a player so that
-     * the particles change type depending on what type of spirit is using them.
+    /**
+     * Plays particles based on SpiritType.
      *
-     * bPlayer = The BendingPlayer which the particles will attach to.
-     * location = The location at which to display the particles.
-     * X / Y / Z = The distance in each respective coordinate the particles are allowed to get.
-     * speed = The speed at which the particles move.
-     * amount = The amount of particles that spawn per tick.
-     */
-    public static void playSpiritParticles(Player player, Location location, float X, float Y, float Z, float speed, int amount) {
-        Element ls = Element.getElement("LightSpirit");
-        Element ds = Element.getElement("DarkSpirit");
-        Element s = Element.getElement("Spirit");
-        DustOptions dustOptions = new DustOptions(Color.fromRGB(0, 176, 180), 1);
-        BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
-
-        if (bPlayer.hasElement(ls) && bPlayer.hasElement(ds)) {
-            ParticleEffect.CRIT_MAGIC.display(location, X, Y, Z, speed, amount);
-            player.getWorld().spawnParticle(Particle.REDSTONE, location, amount, X, Y, Z, speed, dustOptions);
-
-        } else if (!bPlayer.hasElement(ls) && !bPlayer.hasElement(ds) && bPlayer.hasElement(s)) {
-            ParticleEffect.CRIT_MAGIC.display(location, X, Y, Z, speed, amount);
-            player.getWorld().spawnParticle(Particle.REDSTONE, location, amount, X, Y, Z, speed, dustOptions);
-
-        } else if (bPlayer.hasElement(ds)) {
-            ParticleEffect.SPELL_WITCH.display(location, X, Y, Z, speed, amount);
-
-        } else if (bPlayer.hasElement(ls)) {
-            ParticleEffect.SPELL_INSTANT.display(location, X, Y, Z, speed, amount);
-
-        }
-    }
-
-    /*
-     * Used to play spirit particles without the need of a player.
-     *
-     * spiritType = The type of spirit particles to display.
-     * location = the location at which to display the particles.
-     * X / Y / Z = The distance in each respective coordinate the particles are allowed to get.
-     * speed = The speed at which the particles move.
-     * amount = The amount of particles that spawn per tick.
+     * @param spiritType The type of particles to display.
+     * @param location The location where the particles will spawn.
+     * @param X The off-set of the X axis.
+     * @param Y The off-set of the Y axis.
+     * @param Z The off-set of the Z axis.
+     * @param speed The particle speed.
+     * @param amount The amount of particles to display.
      */
     public static void playSpiritParticles(SpiritType spiritType, Location location, float X, float Y, float Z, float speed, int amount) {
-        DustOptions dustOptions = new DustOptions(Color.fromRGB(0, 176, 180), 1);
+        DustOptions teal = new DustOptions(Color.fromRGB(0, 176, 180), 1),
+                white = new DustOptions(Color.fromRGB(255, 255,255), 1),
+                black = new DustOptions(Color.fromRGB(0, 0, 0), 1);
+
         if (spiritType == SpiritType.NEUTRAL) {
-            ParticleEffect.CRIT_MAGIC.display(location, X, Y, Z, speed, amount);
-            location.getWorld().spawnParticle(Particle.REDSTONE, location, amount, X, Y, Z, speed, dustOptions);
+            location.getWorld().spawnParticle(Particle.CRIT_MAGIC, location, amount, X, Y, Z, speed);
+            location.getWorld().spawnParticle(Particle.REDSTONE, location, amount, X, Y, Z, speed, teal);
         } else if (spiritType == SpiritType.DARK) {
-            ParticleEffect.SPELL_WITCH.display(location, X, Y, Z, speed, amount);
+            location.getWorld().spawnParticle(Particle.SPELL_WITCH, location, amount, X, Y, Z, speed);
+            location.getWorld().spawnParticle(Particle.REDSTONE, location, amount, X, Y, Z, speed, black);
 
         } else if (spiritType == SpiritType.LIGHT) {
-            ParticleEffect.SPELL_INSTANT.display(location, X, Y, Z, speed, amount);
+            location.getWorld().spawnParticle(Particle.SPELL_INSTANT, location, amount, X, Y, Z, speed);
+            location.getWorld().spawnParticle(Particle.REDSTONE, location, amount, X, Y, Z, speed, white);
 
         }
     }
 
-    /*
-     * A list of general checks that most, if not all, abilities should use.
+    /**
+     * Used to play particles based on the type of Spirit a
+     * player is.
      *
-     * ability = The ability in question.
-     * player = The player using the ability.
-     * originWorld = The original world that the player was in when the ability started.
+     * @param player The player being tested.
+     * @param location The location of the particles.
+     * @param X The off-set of the X axis.
+     * @param Y The off-set of the Y axis.
+     * @param Z The off-set of the Z axis.
+     * @param speed The particle speed.
+     * @param amount The amount of particles to display.
+     */
+    public static void playSpiritParticles(Player player, Location location, float X, float Y, float Z, float speed, int amount) {
+        BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
+        Element ls = Element.getElement("LightSpirit"), ds = Element.getElement("DarkSpirit"), s = Element.getElement("Spirit");
+
+        if ((bPlayer.hasElement(ls) && bPlayer.hasElement(ds)) || (!bPlayer.hasElement(ls) && !bPlayer.hasElement(ds) && bPlayer.hasElement(s))) {
+            playSpiritParticles(SpiritType.NEUTRAL, location, X, Y, Z, speed, amount);
+        } else if (bPlayer.hasElement(ds)) {
+            playSpiritParticles(SpiritType.DARK, location, X, Y, Z, speed, amount);
+        } else if (bPlayer.hasElement(ls)) {
+            playSpiritParticles(SpiritType.LIGHT, location, X, Y, Z, speed, amount);
+        }
+    }
+
+    /**
+     * A list of checks each ability should use.
+     *
+     * @param ability The ability being tested.
+     * @param player The player being tested.
+     * @param originWorld The original world of the player.
      */
     public static void generalChecks(Ability ability, Player player, World originWorld) {
         if (!player.isOnline()) {
@@ -226,72 +226,71 @@ public class Methods {
             ability.remove();
         } else if (GeneralMethods.isRegionProtectedFromBuild(ability, player.getLocation())) {
             ability.remove();
-        } else {
-            return;
         }
     }
 
-    /*
-     * Used to set the velocity of a player.
+    /**
+     * Sets the velocity of a player.
      *
-     * player = The player which is being manipulated.
-     * isForward = Whether the velocity is going forward or backwards.
-     * speed = The speed at which the player is being sent.
-     * height = The height from their original location the player is shot.
+     * @param target The target being manipulated.
+     * @param speed The speed of the player.
+     * @return The players new velocity.
+     */
+    public static Vector setVelocity(LivingEntity target, float speed) {
+        Location location = target.getLocation();
+        return location.getDirection().normalize().multiply(speed);
+    }
+
+    /**
+     * Sets the velocity of a player with a height
+     * addition.
+     *
+     * @param target The target being manipulated.
+     * @param speed The speed of the player.
+     * @param height The height of the player.
+     * @return The players new velocity.
      */
     public static Vector setVelocity(LivingEntity target, float speed, double height) {
-        Location location = target.getLocation();
-        Vector direction = location.getDirection().normalize().multiply(speed);
+        Vector direction = setVelocity(target, speed);
         direction.setY(height);
         return direction;
     }
-    public static Vector setVelocity(LivingEntity target, float speed) {
-        Location location = target.getLocation();
-        Vector direction = location.getDirection().normalize().multiply(speed);
-        return direction;
-    }
 
-    /*
-     * Used to set the color of a string of text in chat.
+    /**
+     * Used to get a ChatColor based on SpiritType.
      *
-     * spiritType = The type of spirit color that will appear.
+     * @param spiritType The SpiritType being tested.
+     * @return The correct chat color.
      */
-    public static String setSpiritDescriptionColor(SpiritType spiritType) {
-        ChatColor chatColor = null;
-
-        if (spiritType == SpiritType.NEUTRAL) {
-            chatColor = ChatColor.BLUE;
-        } else if (spiritType == SpiritType.LIGHT) {
-            chatColor = ChatColor.AQUA;
-        } else if (spiritType == SpiritType.DARK) {
-            chatColor = ChatColor.DARK_GRAY;
+    public static ChatColor getSpiritColor(SpiritType spiritType) {
+        switch (spiritType) {
+            case NEUTRAL: return ChatColor.BLUE;
+            case LIGHT: return ChatColor.AQUA;
+            case DARK: return ChatColor.DARK_GRAY;
+            default: return null;
         }
-
-        return chatColor + "";
     }
 
-    /*
-     * Used to set a unique spirit description in chat
-     * which will appear in the '/b h' command.
+    /**
+     * Used to create a string with the generic Spirits
+     * formatting.
      *
-     * spiritType = The type of spirit color that will appear.
-     * abilityType = What type of ability the description is for.
+     * @param spiritType The type of Spirit colors to use.
+     * @param abilityType The header for the description.
+     * @return The new description.
      */
     public static String setSpiritDescription(SpiritType spiritType, String abilityType) {
-        ChatColor titleColor = null;
+        ChatColor titleColor = getSpiritColor(spiritType);
         ChatColor descColor = null;
 
-        if (spiritType == SpiritType.NEUTRAL) {
-            titleColor = ChatColor.BLUE;
-            descColor = ChatColor.DARK_AQUA;
-        } else if (spiritType == SpiritType.LIGHT) {
-            titleColor = ChatColor.AQUA;
-            descColor = ChatColor.WHITE;
-        } else if (spiritType == SpiritType.DARK) {
-            titleColor = ChatColor.DARK_GRAY;
-            descColor = ChatColor.DARK_RED;
+        switch(spiritType) {
+            case NEUTRAL: descColor = ChatColor.DARK_AQUA;
+            break;
+            case LIGHT: descColor = ChatColor.WHITE;
+            break;
+            case DARK: descColor = ChatColor.DARK_RED;
+            break;
         }
-
         return titleColor + "" + ChatColor.BOLD + abilityType + ": " + descColor;
     }
 }

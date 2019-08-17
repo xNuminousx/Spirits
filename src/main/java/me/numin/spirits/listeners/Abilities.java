@@ -1,5 +1,9 @@
 package me.numin.spirits.listeners;
 
+import com.projectkorra.projectkorra.ability.CoreAbility;
+import com.projectkorra.projectkorra.configuration.ConfigManager;
+import me.numin.spirits.ability.dark.DarkBlast;
+import me.numin.spirits.ability.light.LightBlast;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,34 +30,44 @@ import me.numin.spirits.ability.spirit.Vanish;
 
 public class Abilities implements Listener {
 
-    private boolean isPossessing;
-
     @EventHandler
-    public void onSwing(PlayerAnimationEvent event) {
-
+    public void onClick(PlayerAnimationEvent event) {
         Player player = event.getPlayer();
         BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
 
         if (event.isCancelled() || bPlayer == null) {
             return;
-
-        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase(null)) {
-            return;
-
-        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Agility")) {
+        }
+        if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Possess")) {
+            new Possess(player);
+        }
+        if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Agility")) {
             new Dash(player);
-
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shackle")) {
             new Shackle(player);
-
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shelter")) {
             new Shelter(player, ShelterType.CLICK);
-
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Strike")) {
             new Strike(player);
-
+        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("LightBlast")) {
+            if (CoreAbility.hasAbility(player, LightBlast.class)) {
+                LightBlast lightBlast = CoreAbility.getAbility(player, LightBlast.class);
+                if (lightBlast.getAction() == LightBlast.Action.SHIFT) {
+                    lightBlast.canHeal = true;
+                }
+            } else {
+                new LightBlast(player, LightBlast.Action.CLICK);
+            }
+        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("DarkBlast")) {
+            if (CoreAbility.hasAbility(player, DarkBlast.class)) {
+                DarkBlast darkBlast = CoreAbility.getAbility(player, DarkBlast.class);
+                if (darkBlast.getAction() == DarkBlast.Type.SHIFT && !darkBlast.hasReached) {
+                    darkBlast.canShoot = true;
+                }
+            } else {
+                new DarkBlast(player, DarkBlast.Type.CLICK);
+            }
         }
-
     }
 
     @EventHandler
@@ -64,38 +78,25 @@ public class Abilities implements Listener {
 
         if (event.isCancelled() || bPlayer == null) {
             return;
+        }
 
-        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase(null)) {
-            return;
-
-        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Possess")) {
-            if (event.isSneaking()) {
-                new Possess(player);
-                isPossessing = true;
-            } else {
-                isPossessing = false;
-                return;
-            }
-
-        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Alleviate")) {
+        if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Alleviate")) {
             new Alleviate(player);
-
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Intoxicate")) {
             new Intoxicate(player);
-
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Agility")) {
             new Soar(player);
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shelter")) {
             new Shelter(player, ShelterType.SHIFT);
-
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Vanish")) {
             new Vanish(player);
-
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Orb")) {
             new Orb(player);
-
+        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("LightBlast")) {
+            new LightBlast(player, LightBlast.Action.SHIFT);
+        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("DarkBlast") && !CoreAbility.hasAbility(player, DarkBlast.class)) {
+            new DarkBlast(player, DarkBlast.Type.SHIFT);
         }
-
     }
 
     @EventHandler
@@ -106,25 +107,10 @@ public class Abilities implements Listener {
 
         if (event.isCancelled() || bPlayer == null) {
             return;
-        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase(null)) {
-            return;
-        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Vanish")) {
+        }
+        if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Vanish")) {
             if (event.getCause() == TeleportCause.SPECTATE) {
                 event.setCancelled(true);
-            }
-        }
-    }
-
-    @EventHandler
-    public void onEntityDamage(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Player) {
-            Player player = (Player) event.getDamager();
-            BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
-            String boundAbility = bPlayer.getBoundAbilityName();
-
-            if (boundAbility.equalsIgnoreCase("Possess") && isPossessing && event.getCause() == DamageCause.CONTACT) {
-                event.setCancelled(true);
-                return;
             }
         }
     }

@@ -87,8 +87,8 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 
     }
 
-    public void spawnCircle() {
-        Methods.createPolygon(location, 8, radius, 0.2, ParticleEffect.SPELL_WITCH);
+    private void spawnCircle() {
+        Methods.createPolygon(location, 8, radius, 0.2, Particle.SPELL_WITCH);
         for (int i = 0; i < 6; i++) {
             this.currPoint += 360 / 300;
             if (this.currPoint > 360) {
@@ -123,7 +123,7 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
         ParticleEffect.DRAGON_BREATH.display(location, radius/2, 0.6F, radius/2, (int)0.01, 1);
     }
 
-    public void grabEntities() {
+    private void grabEntities() {
         for (Entity entity : GeneralMethods.getEntitiesAroundPoint(circleCenter, radius)) {
             if (entity instanceof LivingEntity) {
                 infestEntities(entity);
@@ -131,7 +131,7 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
         }
     }
 
-    public void infestEntities(Entity entity) {
+    private void infestEntities(Entity entity) {
         if (new Random().nextInt(effectInt) == 0) {
             if (entity instanceof Player) {
                 Player ePlayer = (Player) entity;
@@ -180,7 +180,12 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 
     @Override
     public Location getLocation() {
-        return null;
+        return location;
+    }
+
+    @Override
+    public double getCollisionRadius() {
+        return radius;
     }
 
     @Override
@@ -196,18 +201,18 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
 
     @Override
     public String getInstructions() {
-        return Methods.setSpiritDescriptionColor(SpiritType.DARK) +
+        return Methods.getSpiritColor(SpiritType.DARK) +
                 Spirits.plugin.getConfig().getString("Language.Abilities.DarkSpirit.Infest.Instructions");
     }
 
     @Override
     public String getAuthor() {
-        return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Methods.getAuthor();
+        return Methods.getSpiritColor(SpiritType.DARK) + "" + Methods.getAuthor();
     }
 
     @Override
     public String getVersion() {
-        return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Methods.getVersion();
+        return Methods.getSpiritColor(SpiritType.DARK) + Methods.getVersion();
     }
 
     @Override

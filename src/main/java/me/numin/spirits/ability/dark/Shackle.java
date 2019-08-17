@@ -69,11 +69,11 @@ public class Shackle extends DarkAbility implements AddonAbility {
         bind();
     }
 
-    public void bind() {
+    private void bind() {
         bPlayer.addCooldown(this);
         if (progress) {
             location.add(direction.multiply(1));
-            blastSpiral(200, 0.04F, location);
+            blastSpiral(location);
         }
         if (target == null) {
             for (Entity entity : GeneralMethods.getEntitiesAroundPoint(location, radius)) {
@@ -105,35 +105,35 @@ public class Shackle extends DarkAbility implements AddonAbility {
                 targetLoc.setPitch(targetLoc.getPitch());
                 targetLoc.setYaw(targetLoc.getYaw());
 
-                holdSpiral(30, 0.04F, target.getLocation());
+                holdSpiral(target.getLocation());
             }
         }
     }
 
-    public void blastSpiral(int points, float size, Location location) {
+    private void blastSpiral(Location location) {
         for (int i = 0; i < 6; i++) {
-            currPoint += 360 / points;
+            currPoint += 360 / 200;
             if (currPoint > 360) {
                 currPoint = 0;
             }
             double angle = currPoint * Math.PI / 180 * Math.cos(Math.PI);
-            double x = size * (Math.PI * 4 - angle) * Math.cos(angle + i);
-            double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
+            double x = (float) 0.04 * (Math.PI * 4 - angle) * Math.cos(angle + i);
+            double z = (float) 0.04 * (Math.PI * 4 - angle) * Math.sin(angle + i);
             location.add(x, 0.1F, z);
             ParticleEffect.SPELL_WITCH.display(location, 0, 0, 0, 0, 1);
             location.subtract(x, 0.1F, z);
         }
     }
 
-    public void holdSpiral(int points, float size, Location location) {
+    private void holdSpiral(Location location) {
         for (int t = 0; t < 2; t++) {
-            currPoint += 360 / points;
+            currPoint += 360 / 30;
             if (currPoint > 360) {
                 currPoint = 0;
             }
             double angle2 = currPoint * Math.PI / 180 * Math.cos(Math.PI);
-            double x2 = size * (Math.PI * 5 - angle2) * Math.cos(angle2 + t);
-            double z2 = size * (Math.PI * 5 - angle2) * Math.sin(angle2 + t);
+            double x2 = (float) 0.04 * (Math.PI * 5 - angle2) * Math.cos(angle2 + t);
+            double z2 = (float) 0.04 * (Math.PI * 5 - angle2) * Math.sin(angle2 + t);
             location.add(x2, 0.1F, z2);
             ParticleEffect.SPELL_WITCH.display(location, 0, 0, 0, 0, 1);
             location.subtract(x2, 0.1F, z2);
@@ -147,7 +147,12 @@ public class Shackle extends DarkAbility implements AddonAbility {
 
     @Override
     public Location getLocation() {
-        return null;
+        return location;
+    }
+
+    @Override
+    public double getCollisionRadius() {
+        return radius;
     }
 
     @Override
@@ -163,17 +168,17 @@ public class Shackle extends DarkAbility implements AddonAbility {
 
     @Override
     public String getInstructions() {
-        return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Spirits.plugin.getConfig().getString("Language.Abilities.DarkSpirit.Shackle.Instructions");
+        return Methods.getSpiritColor(SpiritType.DARK) + Spirits.plugin.getConfig().getString("Language.Abilities.DarkSpirit.Shackle.Instructions");
     }
 
     @Override
     public String getAuthor() {
-        return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Methods.getAuthor();
+        return Methods.getSpiritColor(SpiritType.DARK) + "" + Methods.getAuthor();
     }
 
     @Override
     public String getVersion() {
-        return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Methods.getVersion();
+        return Methods.getSpiritColor(SpiritType.DARK) + Methods.getVersion();
     }
 
     @Override

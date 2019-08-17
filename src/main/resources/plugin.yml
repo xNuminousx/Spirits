@@ -11,6 +11,7 @@ permissions:
     default: true
     description: Grants access to all Spirit abilities.
     children:
+      bending.command.choose.spirit: true
       bending.ability.agility: true
       bending.ability.phase: true
       bending.ability.possess: true
@@ -19,14 +20,17 @@ permissions:
     default: true
     description: Grants access to all LightSpirit abilities.
     children:
+      bending.command.choose.lightspirit: true
       bending.ability.alleviate: true
       bending.ability.orb: true
       bending.ability.rejuvenate: true
       bending.ability.shelter: true
+      bending.ability.lightblast: true
   bending.darkspirit:
     default: true
     description: Grants access to all DarkSpirit abilities.
     children:
+      bending.command.choose.darkspirit: true
       bending.ability.infest: true
       bending.ability.intoxicate: true
       bending.ability.shackle: true

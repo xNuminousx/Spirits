@@ -25,7 +25,7 @@ import me.numin.spirits.ability.api.DarkAbility;
 
 public class Intoxicate extends DarkAbility implements AddonAbility {
 
-    LivingEntity target = null;
+    private LivingEntity target = null;
     private Location location;
     private Location origin;
     private Location entityCheck;
@@ -99,7 +99,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
             } else {
                 progress = false;
                 entityCheck = target.getLocation();
-                effect(200, 0.04F, target, target.getLocation().clone());
+                effect(target, target.getLocation().clone());
             }
         } else {
             remove();
@@ -107,20 +107,20 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
         }
     }
 
-    public void effect(int points, float size, Entity target, Location location) {
+    private void effect(Entity target, Location location) {
         Color color = Color.fromBGR(blue, green, red);
         DustOptions dustOptions = new DustOptions(color,1);
         LivingEntity le = (LivingEntity)target;
 
         for (int i = 0; i < 6; i++) {
-            currPoint += 360 / points;
+            currPoint += 360 / 200;
             if (currPoint > 360) {
                 currPoint = 0;
             }
             double angle = currPoint * Math.PI / 180 * Math.cos(Math.PI);
-            double x = size * (Math.PI * 4 - angle) * Math.cos(angle + i);
+            double x = (float) 0.04 * (Math.PI * 4 - angle) * Math.cos(angle + i);
             double y = 1.2 * Math.cos(angle) + 1.2;
-            double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
+            double z = (float) 0.04 * (Math.PI * 4 - angle) * Math.sin(angle + i);
             location.add(x, y, z);
             player.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 0, new DustOptions(Color.fromRGB(0, 0, 0), 1));
             player.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 0, dustOptions);
@@ -156,7 +156,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 
     @Override
     public Location getLocation() {
-        return null;
+        return target != null ? target.getLocation() : player.getLocation();
     }
 
     @Override
@@ -172,18 +172,18 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
 
     @Override
     public String getInstructions() {
-        return Methods.setSpiritDescriptionColor(SpiritType.DARK) +
+        return Methods.getSpiritColor(SpiritType.DARK) +
                 Spirits.plugin.getConfig().getString("Language.Abilities.DarkSpirit.Intoxicate.Instructions");
     }
 
     @Override
     public String getAuthor() {
-        return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Methods.getAuthor();
+        return Methods.getSpiritColor(SpiritType.DARK) + "" + Methods.getAuthor();
     }
 
     @Override
     public String getVersion() {
-        return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Methods.getVersion();
+        return Methods.getSpiritColor(SpiritType.DARK) + Methods.getVersion();
     }
 
     @Override

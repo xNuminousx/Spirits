@@ -103,7 +103,7 @@ public class Alleviate extends LightAbility implements AddonAbility {
             }
             if (origin.distanceSquared(entityCheck) > range * range) {
                 progress = false;
-                progressSanctity(200, 0.04F);
+                progressSanctity();
             }
             if (target == null) {
                 for (Entity entity : GeneralMethods.getEntitiesAroundPoint(entityCheck, 1)) {
@@ -114,7 +114,7 @@ public class Alleviate extends LightAbility implements AddonAbility {
             } else {
                 progress = false;
                 entityCheck = target.getLocation();
-                progressAlleviate(200, 0.04F, target, target.getLocation().clone());
+                progressAlleviate(target, target.getLocation().clone());
             }
         } else {
             remove();
@@ -122,21 +122,21 @@ public class Alleviate extends LightAbility implements AddonAbility {
         }
     }
 
-    public void progressAlleviate(int points, float size, Entity target, Location location) {
+    private void progressAlleviate(Entity target, Location location) {
         Color color = Color.fromBGR(blue, green, red);
         DustOptions dustOptions = new DustOptions(color, 1);
         playingAlleviate = true;
         LivingEntity le = (LivingEntity)target;
 
         for (int i = 0; i < 6; i++) {
-            currPoint += 360 / points;
+            currPoint += 360 / 200;
             if (currPoint > 360) {
                 currPoint = 0;
             }
             double angle = currPoint * Math.PI / 180 * Math.cos(Math.PI);
-            double x = size * (Math.PI * 4 - angle) * Math.cos(angle + i);
+            double x = (float) 0.04 * (Math.PI * 4 - angle) * Math.cos(angle + i);
             double y = 1.2 * Math.cos(angle) + 1.2;
-            double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
+            double z = (float) 0.04 * (Math.PI * 4 - angle) * Math.sin(angle + i);
             location.add(x, y, z);
             player.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 0, dustOptions);
             //GeneralMethods.displayColoredParticle(location, hexColor);
@@ -166,7 +166,7 @@ public class Alleviate extends LightAbility implements AddonAbility {
         }
     }
 
-    public void progressSanctity(int points, float size) {
+    private void progressSanctity() {
         Color color = Color.fromBGR(blue, green, red);
         DustOptions dustOptions = new DustOptions(color, 1);
 
@@ -175,14 +175,14 @@ public class Alleviate extends LightAbility implements AddonAbility {
         } else {
             Location location = player.getLocation();
             for (int i = 0; i < 6; i++) {
-                currPoint += 360 / points;
+                currPoint += 360 / 200;
                 if (currPoint > 360) {
                     currPoint = 0;
                 }
                 double angle = currPoint * Math.PI / 180 * Math.cos(Math.PI);
-                double x = size * (Math.PI * 4 - angle) * Math.cos(angle + i);
+                double x = (float) 0.04 * (Math.PI * 4 - angle) * Math.cos(angle + i);
                 double y = 1.2 * Math.cos(angle) + 1.2;
-                double z = size * (Math.PI * 4 - angle) * Math.sin(angle + i);
+                double z = (float) 0.04 * (Math.PI * 4 - angle) * Math.sin(angle + i);
                 location.add(x, y, z);
                 player.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 0, dustOptions);
                 //GeneralMethods.displayColoredParticle(location, selfHexColor);
@@ -212,12 +212,12 @@ public class Alleviate extends LightAbility implements AddonAbility {
 
     @Override
     public long getCooldown() {
-        return 0;
+        return playingAlleviate ? otherCooldown : selfCooldown;
     }
 
     @Override
     public Location getLocation() {
-        return null;
+        return playingAlleviate ? target.getLocation() : player.getLocation();
     }
 
     @Override
@@ -233,18 +233,18 @@ public class Alleviate extends LightAbility implements AddonAbility {
 
     @Override
     public String getInstructions() {
-        return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) +
+        return Methods.getSpiritColor(SpiritType.LIGHT) +
                 Spirits.plugin.getConfig().getString("Language.Abilities.LightSpirit.Alleviate.Instructions");
     }
 
     @Override
     public String getAuthor() {
-        return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Methods.getAuthor();
+        return Methods.getSpiritColor(SpiritType.LIGHT) + "" + Methods.getAuthor();
     }
 
     @Override
     public String getVersion() {
-        return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Methods.getVersion();
+        return Methods.getSpiritColor(SpiritType.LIGHT) + Methods.getVersion();
     }
 
     @Override

@@ -22,10 +22,11 @@ import me.numin.spirits.ability.api.LightAbility;
 
 public class Orb extends LightAbility implements AddonAbility {
 
-    private long time;
-    private long cooldown;
     private Location location;
     private Location targetLoc;
+    private long duration;
+    private long time;
+    private long cooldown;
     private long chargeTime;
     private boolean isCharged;
     private boolean checkEntities;
@@ -33,7 +34,6 @@ public class Orb extends LightAbility implements AddonAbility {
     private boolean progressExplosion;
     private boolean playDormant;
     private boolean requireGround;
-    private long duration;
     private int plantRange;
     private int blindDuration;
     private int nauseaDuration;
@@ -111,7 +111,7 @@ public class Orb extends LightAbility implements AddonAbility {
         }
     }
 
-    public void displayOrb(Location location) {
+    private void displayOrb(Location location) {
         if (playDormant) {
             progressExplosion = false;
             ParticleEffect.ENCHANTMENT_TABLE.display(location, 3, 1, 3, 0, 1);
@@ -133,7 +133,7 @@ public class Orb extends LightAbility implements AddonAbility {
             checkEntities = true;
         }
     }
-    public void explodeOrb() {
+    private void explodeOrb() {
         if (checkEntities) {
             for (Entity entity : GeneralMethods.getEntitiesAroundPoint(targetLoc, detonateRange)) {
                 if (entity instanceof LivingEntity && entity.getUniqueId() != player.getUniqueId()) {
@@ -172,11 +172,7 @@ public class Orb extends LightAbility implements AddonAbility {
     }
 
     private boolean hasOrb() {
-        if (bPlayer.getBoundAbility().equals(CoreAbility.getAbility(Orb.class))) {
-            return true;
-        } else {
-            return false;
-        }
+        return bPlayer.getBoundAbility().equals(CoreAbility.getAbility(Orb.class));
     }
 
     @Override
@@ -186,7 +182,7 @@ public class Orb extends LightAbility implements AddonAbility {
 
     @Override
     public Location getLocation() {
-        return null;
+        return targetLoc;
     }
 
     @Override
@@ -202,21 +198,21 @@ public class Orb extends LightAbility implements AddonAbility {
 
     @Override
     public String getInstructions() {
-        return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) +
+        return Methods.getSpiritColor(SpiritType.LIGHT) +
                 Spirits.plugin.getConfig().getString("Language.Abilities.LightSpirit.Orb.Instructions");
     }
 
     @Override
     public String getAuthor() {
 
-        return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) +
+        return Methods.getSpiritColor(SpiritType.LIGHT) + "" +
                 Methods.getAuthor();
     }
 
     @Override
     public String getVersion() {
 
-        return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) +
+        return Methods.getSpiritColor(SpiritType.LIGHT) +
                 Methods.getVersion();
     }
 

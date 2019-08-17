@@ -36,11 +36,11 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
     private long time;
     private long cooldown;
     private long duration;
-    private int radius;
     private int effectInt;
     private boolean damageMonsters;
     private boolean damageDarkSpirits;
     private double damage;
+    private double radius;
     private double t;
     private int currPoint;
     private Location location3;
@@ -61,7 +61,7 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
     private void setFields() {
         this.cooldown = Spirits.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Cooldown");
         this.duration = Spirits.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Duration");
-        this.radius = Spirits.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Radius");
+        this.radius = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Radius");
         this.effectInt = Spirits.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.EffectInterval");
         this.damage = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Damage");
         this.damageDarkSpirits = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.HurtDarkSpirits");
@@ -87,8 +87,8 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
 
     }
 
-    public void spawnCircle() {
-        Methods.createPolygon(location, 8, radius, 0.2, ParticleEffect.SPELL_INSTANT);
+    private void spawnCircle() {
+        Methods.createPolygon(location, 8, radius, 0.2, Particle.SPELL_INSTANT);
         for (int i = 0; i < 6; i++) {
             this.currPoint += 360 / 300;
             if (this.currPoint > 360) {
@@ -120,10 +120,10 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
             }
         }
 
-        ParticleEffect.ENCHANTMENT_TABLE.display(location, radius / 2, 0.4F, radius / 2, 0, 10);
+        ParticleEffect.ENCHANTMENT_TABLE.display(location, (float)(radius / 2), 0.4F, (float)(radius / 2), 0, 10);
     }
 
-    public void grabEntities() {
+    private void grabEntities() {
         for (Entity entity : GeneralMethods.getEntitiesAroundPoint(circleCenter, radius)) {
             if (entity instanceof LivingEntity) {
                 healEntities(entity);
@@ -131,7 +131,7 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
         }
     }
 
-    public void healEntities(Entity entity) {
+    private void healEntities(Entity entity) {
         if (new Random().nextInt(effectInt) == 0) {
             if (entity instanceof Player) {
                 Player ePlayer = (Player) entity;
@@ -176,7 +176,12 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
 
     @Override
     public Location getLocation() {
-        return null;
+        return location;
+    }
+
+    @Override
+    public double getCollisionRadius() {
+        return radius;
     }
 
     @Override
@@ -192,18 +197,18 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
 
     @Override
     public String getInstructions() {
-        return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) +
+        return Methods.getSpiritColor(SpiritType.LIGHT) +
                 Spirits.plugin.getConfig().getString("Language.Abilities.LightSpirit.Rejuvenate.Instructions");
     }
 
     @Override
     public String getAuthor() {
-        return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Methods.getAuthor();
+        return Methods.getSpiritColor(SpiritType.LIGHT) + "" + Methods.getAuthor();
     }
 
     @Override
     public String getVersion() {
-        return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Methods.getVersion();
+        return Methods.getSpiritColor(SpiritType.LIGHT) + Methods.getVersion();
     }
 
     @Override

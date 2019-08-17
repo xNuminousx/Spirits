@@ -46,12 +46,7 @@ public class Soar extends SpiritAbility implements AddonAbility {
             remove();
             return;
         }
-        if (bPlayer.isOnCooldown("Soar")) {
-            remove();
-            return;
-        } else {
-            progressSoar();
-        }
+        progressSoar();
     }
 
     private void progressSoar() {
@@ -59,18 +54,16 @@ public class Soar extends SpiritAbility implements AddonAbility {
             if (System.currentTimeMillis() > time + duration) {
                 bPlayer.addCooldown("Soar", soarCooldown);
                 remove();
-                return;
             } else {
                 player.setVelocity(Methods.setVelocity(player, (float)speed));
-                if (new Random().nextInt(4) == 0) {
+                if (new Random().nextInt(5) == 0) {
                     player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.3F, 5F);
                 }
-                Methods.playSpiritParticles(player, player.getLocation(), 0.5F, 0.5f, 0.5F, 0, 10);
+                Methods.playSpiritParticles(player, player.getLocation(), 0.5F, 0.5f, 0.5F, 0, 2);
             }
         } else {
             bPlayer.addCooldown("Soar", soarCooldown);
             remove();
-            return;
         }
     }
 
@@ -81,7 +74,7 @@ public class Soar extends SpiritAbility implements AddonAbility {
 
     @Override
     public Location getLocation() {
-        return null;
+        return player.getLocation();
     }
 
     @Override
@@ -97,17 +90,17 @@ public class Soar extends SpiritAbility implements AddonAbility {
 
     @Override
     public String getInstructions() {
-        return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Spirits.plugin.getConfig().getString("Language.Abilities.Spirit.Agility.Instructions");
+        return Methods.getSpiritColor(SpiritType.NEUTRAL) + Spirits.plugin.getConfig().getString("Language.Abilities.Spirit.Agility.Instructions");
     }
 
     @Override
     public String getAuthor() {
-        return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Methods.getAuthor();
+        return Methods.getSpiritColor(SpiritType.NEUTRAL) + "" + Methods.getAuthor();
     }
 
     @Override
     public String getVersion() {
-        return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Methods.getVersion();
+        return Methods.getSpiritColor(SpiritType.NEUTRAL) + Methods.getVersion();
     }
 
     @Override
@@ -122,7 +115,7 @@ public class Soar extends SpiritAbility implements AddonAbility {
 
     @Override
     public boolean isHarmlessAbility() {
-        return false;
+        return true;
     }
 
     @Override
@@ -132,7 +125,7 @@ public class Soar extends SpiritAbility implements AddonAbility {
 
     @Override
     public boolean isSneakAbility() {
-        return false;
+        return true;
     }
 
     @Override

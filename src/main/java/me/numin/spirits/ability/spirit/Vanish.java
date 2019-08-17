@@ -144,7 +144,7 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 
     @Override
     public Location getLocation() {
-        return null;
+        return player.getLocation();
     }
 
     @Override
@@ -160,17 +160,17 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 
     @Override
     public String getInstructions() {
-        return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Spirits.plugin.getConfig().getString("Language.Abilities.Spirit.Vanish.Instructions");
+        return Methods.getSpiritColor(SpiritType.NEUTRAL) + Spirits.plugin.getConfig().getString("Language.Abilities.Spirit.Vanish.Instructions");
     }
 
     @Override
     public String getAuthor() {
-        return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Methods.getAuthor();
+        return Methods.getSpiritColor(SpiritType.NEUTRAL) + "" + Methods.getAuthor();
     }
 
     @Override
     public String getVersion() {
-        return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Methods.getVersion();
+        return Methods.getSpiritColor(SpiritType.NEUTRAL) + Methods.getVersion();
     }
 
     @Override
@@ -195,7 +195,7 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 
     @Override
     public boolean isSneakAbility() {
-        return false;
+        return true;
     }
 
     @Override

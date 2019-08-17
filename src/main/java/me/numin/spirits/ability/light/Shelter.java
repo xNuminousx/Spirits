@@ -30,7 +30,7 @@ public class Shelter extends LightAbility implements AddonAbility {
     public enum ShelterType {
         CLICK, SHIFT
     }
-    public ShelterType shelterType;
+    private ShelterType shelterType;
 
     private boolean isDamaged;
     private boolean removeOnDamage;
@@ -47,8 +47,6 @@ public class Shelter extends LightAbility implements AddonAbility {
     private long selfCooldown;
     private float shieldSize;
     private float selfShield;
-    private long knockDis;
-    private long selfKnockDis;
     private long clickDelay;
     private boolean removeIfFar;
     private int removeDistance;
@@ -80,8 +78,6 @@ public class Shelter extends LightAbility implements AddonAbility {
         this.clickDelay = Spirits.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Others.ClickDelay");
         this.shieldSize = Spirits.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Others.ShieldSize");
         this.selfShield = Spirits.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.Self.ShieldSize");
-        this.knockDis = Spirits.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Others.KnockbackPower");
-        this.selfKnockDis = Spirits.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Shelter.Self.KnockbackPower");
         this.removeOnDamage = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirits.Shelter.RemoveOnDamage");
         this.removeIfFar = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Shelter.RemoveIfFarAway.Enabled");
         this.removeDistance = Spirits.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.RemoveIfFarAway.Distance");
@@ -119,7 +115,7 @@ public class Shelter extends LightAbility implements AddonAbility {
         }
     }
 
-    public void newVelocity(LivingEntity entity) {
+    private void newVelocity(LivingEntity entity) {
         double x, z, vx, vz, mag;
         double angle = 50;
         angle = Math.toRadians(angle);
@@ -141,7 +137,7 @@ public class Shelter extends LightAbility implements AddonAbility {
         entity.setFallDistance(0);
     }
 
-    public void shieldSelf() {
+    private void shieldSelf() {
         if (System.currentTimeMillis() > time + duration) {
             bPlayer.addCooldown(this, selfCooldown);
             remove();
@@ -159,7 +155,7 @@ public class Shelter extends LightAbility implements AddonAbility {
         }
     }
 
-    public void shieldOther() {
+    private void shieldOther() {
         if (progress) {
             location.add(direction.multiply(1));
             progressBlast(location, 100, 0.04F);
@@ -202,7 +198,7 @@ public class Shelter extends LightAbility implements AddonAbility {
             }
         }
     }
-    public void rotateShield(Location location, int points, float size) {
+    private void rotateShield(Location location, int points, float size) {
         for (int t = 0; t < 6; t++) {
             currPoint += 360 / points;
             if (currPoint > 360) {
@@ -217,7 +213,7 @@ public class Shelter extends LightAbility implements AddonAbility {
             location.subtract(x2, y, z2);
         }
     }
-    public void progressBlast(Location location, int points, float size) {
+    private void progressBlast(Location location, int points, float size) {
         for (int i = 0; i < 6; i++) {
             currPoint += 360 / points;
             if (currPoint > 360) {
@@ -276,17 +272,17 @@ public class Shelter extends LightAbility implements AddonAbility {
 
     @Override
     public String getInstructions() {
-        return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Spirits.plugin.getConfig().getString("Language.Abilities.LightSpirit.Shelter.Instructions");
+        return Methods.getSpiritColor(SpiritType.LIGHT) + Spirits.plugin.getConfig().getString("Language.Abilities.LightSpirit.Shelter.Instructions");
     }
 
     @Override
     public String getAuthor() {
-        return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Methods.getAuthor();
+        return Methods.getSpiritColor(SpiritType.LIGHT) + "" + Methods.getAuthor();
     }
 
     @Override
     public String getVersion() {
-        return Methods.setSpiritDescriptionColor(SpiritType.LIGHT) + Methods.getVersion();
+        return Methods.getSpiritColor(SpiritType.LIGHT) + Methods.getVersion();
     }
 
     @Override

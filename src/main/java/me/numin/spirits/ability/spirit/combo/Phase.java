@@ -40,12 +40,8 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
             return;
         }
 
+        this.time = System.currentTimeMillis();
         setFields();
-        isPhased = false;
-        playEffects = true;
-        time = System.currentTimeMillis();
-        originGM = player.getGameMode();
-        playerWorld = player.getWorld();
         start();
     }
 
@@ -57,6 +53,10 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
         this.applyVanishCD = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Phase.Vanish.ApplyCooldown");
         this.vanishCD = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Phase.Vanish.Cooldown");
         this.origin = player.getLocation();
+        this.playerWorld = player.getWorld();
+        this.originGM = player.getGameMode();
+        this.isPhased = false;
+        this.playEffects = true;
     }
 
     @Override
@@ -95,17 +95,17 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
         super.remove();
     }
 
-    public void setGameMode() {
+    private void setGameMode() {
         player.setGameMode(GameMode.SPECTATOR);
         isPhased = true;
     }
 
-    public void resetGameMode() {
+    private void resetGameMode() {
         player.setGameMode(originGM);
         isPhased = false;
     }
 
-    public void playEffects() {
+    private void playEffects() {
         ParticleEffect.PORTAL.display(player.getLocation().add(0, 1, 0), 0, 0, 0, (int) 1.5F, 100);
         Methods.playSpiritParticles(player, player.getLocation().add(0, 1, 0), 1, 1, 1, 0, 20);
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.5F, -1);
@@ -134,7 +134,7 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 
     @Override
     public Location getLocation() {
-        return null;
+        return player.getLocation();
     }
 
     @Override
@@ -150,20 +150,20 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 
     @Override
     public String getInstructions() {
-        return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) +
+        return Methods.getSpiritColor(SpiritType.NEUTRAL) +
                 Spirits.plugin.getConfig().getString("Language.Abilities.Spirit.Phase.Instructions");
     }
 
     @Override
     public String getAuthor() {
 
-        return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Methods.getAuthor();
+        return Methods.getSpiritColor(SpiritType.NEUTRAL) + "" + Methods.getAuthor();
     }
 
     @Override
     public String getVersion() {
 
-        return Methods.setSpiritDescriptionColor(SpiritType.NEUTRAL) + Methods.getVersion();
+        return Methods.getSpiritColor(SpiritType.NEUTRAL) + Methods.getVersion();
     }
 
     @Override

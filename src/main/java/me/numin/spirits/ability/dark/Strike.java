@@ -19,6 +19,8 @@ import me.numin.spirits.ability.api.DarkAbility;
 
 public class Strike extends DarkAbility implements AddonAbility {
 
+    //TODO: Implement radius variable into configuration.
+
     private long cooldown;
     private Location origin;
     private Location location;
@@ -26,6 +28,7 @@ public class Strike extends DarkAbility implements AddonAbility {
     private Vector direction;
     private boolean progress;
     private double damage;
+    private double radius;
 
     public Strike(Player player) {
         super(player);
@@ -58,13 +61,13 @@ public class Strike extends DarkAbility implements AddonAbility {
 
     }
 
-    public void strike() {
+    private void strike() {
         if (progress) {
             location.add(direction.multiply(1));
             ParticleEffect.CRIT.display(location, 0, 0, 0, 0, 1);
         }
 
-        for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, 1.5)) {
+        for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, radius)) {
             if (((target instanceof LivingEntity)) && (target.getUniqueId() != player.getUniqueId())) {
                 Location location = player.getLocation();
                 progress = false;
@@ -90,7 +93,12 @@ public class Strike extends DarkAbility implements AddonAbility {
 
     @Override
     public Location getLocation() {
-        return null;
+        return location;
+    }
+
+    @Override
+    public double getCollisionRadius() {
+        return radius;
     }
 
     @Override
@@ -106,17 +114,17 @@ public class Strike extends DarkAbility implements AddonAbility {
 
     @Override
     public String getInstructions() {
-        return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Spirits.plugin.getConfig().getString("Language.Abilities.DarkSpirit.Strike.Instructions");
+        return Methods.getSpiritColor(SpiritType.DARK) + Spirits.plugin.getConfig().getString("Language.Abilities.DarkSpirit.Strike.Instructions");
     }
 
     @Override
     public String getAuthor() {
-        return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Methods.getAuthor();
+        return Methods.getSpiritColor(SpiritType.DARK) + "" + Methods.getAuthor();
     }
 
     @Override
     public String getVersion() {
-        return Methods.setSpiritDescriptionColor(SpiritType.DARK) + Methods.getVersion();
+        return Methods.getSpiritColor(SpiritType.DARK) + Methods.getVersion();
     }
 
     @Override

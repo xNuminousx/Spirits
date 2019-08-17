@@ -1,10 +1,13 @@
 package me.numin.spirits;
 
+import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.CoreAbility;
+import me.numin.spirits.command.SpiritsCommand;
 import me.numin.spirits.config.Config;
 import me.numin.spirits.listeners.Abilities;
 import me.numin.spirits.listeners.Passives;
+import me.numin.spirits.listeners.PkEvent;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,6 +21,7 @@ public final class Spirits extends JavaPlugin {
         plugin = this;
 
         new Config(this);
+        new SpiritsCommand();
         new SpiritElement();
 
         CoreAbility.registerPluginAbilities(plugin, "me.numin.spirits.ability");
@@ -38,7 +42,7 @@ public final class Spirits extends JavaPlugin {
 
     private void registerPermissions() {
         String[] abilities = {"Infest", "Intoxicate", "Shackle", "Strike",
-        "Rejuvenate", "Alleviate", "Orb", "Shelter",
+        "Rejuvenate", "Alleviate", "Orb", "Shelter", "LightBlast",
         "Phase", "Agility", "Vanish", "Possess"};
 
         for (String ability : abilities) {
@@ -54,10 +58,25 @@ public final class Spirits extends JavaPlugin {
                 }
             }
         }
+
+        String[] elements = {"Spirit", "LightSpirit", "DarkSpirit"};
+
+        for (String ele : elements) {
+            Element element = Element.getElement(ele);
+
+            if (element == null) return;
+
+            if (ProjectKorra.plugin.getServer().getPluginManager().getPermission("bending." + ele.toLowerCase()) == null) {
+                Permission perm = new Permission("bending.command.choose." + ele.toLowerCase());
+                perm.setDefault(PermissionDefault.TRUE);
+                ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
+            }
+        }
     }
 
     private void registerListeners() {
         getServer().getPluginManager().registerEvents(new Abilities(), this);
         getServer().getPluginManager().registerEvents(new Passives(), this);
+        getServer().getPluginManager().registerEvents(new PkEvent(), this);
     }
 }

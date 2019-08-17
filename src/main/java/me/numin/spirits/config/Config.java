@@ -28,7 +28,7 @@ public class Config {
         FileConfiguration rankConfig = ConfigManager.languageConfig.get();
         FileConfiguration langConfig = config;
 
-        //Language configuration
+        //Rank configuration
         rankConfig.addDefault("Chat.Colors.Spirit", "DARK_AQUA");
         rankConfig.addDefault("Chat.Colors.SpiritSub", "DARK_PURPLE");
         rankConfig.addDefault("Chat.Colors.LightSpirit", "AQUA");
@@ -38,6 +38,8 @@ public class Config {
         rankConfig.addDefault("Chat.Prefixes.Spirit", "[Spirit]");
         rankConfig.addDefault("Chat.Prefixes.LightSpirit", "[LightSpirit]");
         rankConfig.addDefault("Chat.Prefixes.DarkSpirit", "[DarkSpirit]");
+
+        langConfig.addDefault("Command.GiveSpiritElementAutomatically", true);
 
         //Descriptions & Instructions
         langConfig.addDefault("Language.Abilities.Spirit.Agility.Description", "This ability offers you 2 modes of mobility. The first being the ability to dash forward very quickly. The second being the ability to soar through the skies as if gravity is non-existant.");
@@ -86,7 +88,7 @@ public class Config {
 
         config.addDefault("Abilities.Spirits.Neutral.Possess.Enabled", true);
         config.addDefault("Abilities.Spirits.Neutral.Possess.Cooldown", 5000);
-        config.addDefault("Abilities.Spirits.Neutral.Possess.Radius", 5);
+        config.addDefault("Abilities.Spirits.Neutral.Possess.Range", 5);
         config.addDefault("Abilities.Spirits.Neutral.Possess.Damage", 5);
         config.addDefault("Abilities.Spirits.Neutral.Possess.Duration", 2000);
         config.addDefault("Abilities.Spirits.Neutral.Possess.DisablePunching", true);
