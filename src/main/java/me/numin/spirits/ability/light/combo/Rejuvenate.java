@@ -237,11 +237,7 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
     }
 
     @Override
-    public void load() {
-    }
-
+    public void load() {}
     @Override
-    public void stop() {
-    }
-
+    public void stop() {}
 }

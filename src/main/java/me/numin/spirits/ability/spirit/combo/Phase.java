@@ -192,11 +192,7 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
     }
 
     @Override
-    public void load() {
-    }
-
+    public void load() {}
     @Override
-    public void stop() {
-    }
-
+    public void stop() {}
 }

@@ -41,24 +41,22 @@ public final class Spirits extends JavaPlugin {
     }
 
     private void registerPermissions() {
+        // Ability Permissions
         String[] abilities = {"Infest", "Intoxicate", "Shackle", "Strike",
         "Rejuvenate", "Alleviate", "Orb", "Shelter", "LightBlast",
-        "Phase", "Agility", "Vanish", "Possess"};
+        "Phase", "Agility", "Vanish", "Possess", "DarkBlast"};
 
         for (String ability : abilities) {
             CoreAbility coreAbility = CoreAbility.getAbility(ability);
 
-            if (coreAbility == null) return;
+            if (coreAbility == null || !coreAbility.isEnabled()) return;
 
-            if (coreAbility.isEnabled()) {
-                if (ProjectKorra.plugin.getServer().getPluginManager().getPermission("bending.ability." + ability.toLowerCase()) == null) {
-                    Permission perm = new Permission("bending.ability." + ability.toLowerCase());
-                    perm.setDefault(PermissionDefault.TRUE);
-                    ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
-                }
-            }
+            Permission perm = new Permission("bending.ability." + ability.toLowerCase());
+            perm.setDefault(PermissionDefault.TRUE);
+            ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
         }
 
+        // Choose Element Permissions
         String[] elements = {"Spirit", "LightSpirit", "DarkSpirit"};
 
         for (String ele : elements) {
@@ -66,11 +64,9 @@ public final class Spirits extends JavaPlugin {
 
             if (element == null) return;
 
-            if (ProjectKorra.plugin.getServer().getPluginManager().getPermission("bending." + ele.toLowerCase()) == null) {
-                Permission perm = new Permission("bending.command.choose." + ele.toLowerCase());
-                perm.setDefault(PermissionDefault.TRUE);
-                ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
-            }
+            Permission perm = new Permission("bending.command.choose." + ele.toLowerCase());
+            perm.setDefault(PermissionDefault.TRUE);
+            ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
         }
     }
 

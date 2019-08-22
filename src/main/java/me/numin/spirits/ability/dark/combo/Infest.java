@@ -241,11 +241,7 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
     }
 
     @Override
-    public void load() {
-    }
-
+    public void load() {}
     @Override
-    public void stop() {
-    }
-
+    public void stop() {}
 }

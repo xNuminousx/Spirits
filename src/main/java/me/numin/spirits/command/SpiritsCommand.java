@@ -9,7 +9,7 @@ import java.util.List;
 public class SpiritsCommand extends PKCommand {
 
     public SpiritsCommand() {
-        super("spirits", "/bending spirits", "Opens up Spirits guide.", new String[] {"s", "sp", "spirits", "spirit"});
+        super("spirits", "/bending spirits", "Opens up Spirits guide.", new String[] {"s", "sp", "spirit", "spirits"});
     }
 
     @Override

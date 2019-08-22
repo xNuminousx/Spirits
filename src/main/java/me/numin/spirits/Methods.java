@@ -30,19 +30,19 @@ public class Methods {
     }
 
     /**
-     * Used to move a point to a certain direction.
+     * Used to move a location in a certain direction.
      *
      * @param direction The direction in which to move.
-     * @param origin The starting point from which the location moves.
+     * @param point The starting point from which the location moves.
      * @return The new location.
      */
-    public static Location advanceLocationToDirection(Vector direction, Location origin) {
-        origin.add(direction.multiply(1).normalize().clone());
-        return origin;
+    public static Location advanceLocationToDirection(Vector direction, Location point) {
+        point.add(direction.multiply(1).normalize().clone());
+        return point;
     }
 
     /**
-     * Moves a point from point 1 to point 2.
+     * Moves a location from point 1 to point 2.
      *
      * @param vector The vector used to move the points.
      * @param point1 The starting point.
@@ -70,7 +70,6 @@ public class Methods {
         assert itemMeta != null;
         itemMeta.setDisplayName(color + name);
         item.setItemMeta(itemMeta);
-
         return item;
     }
 
@@ -136,7 +135,7 @@ public class Methods {
      * Gets the type of spirit a player may be.
      *
      * @param player The player being tested.
-     * @return The type of spirit they are.
+     * @return The type of spirit they are, null if they aren't a spirit.
      */
     public static SpiritType getSpiritType(Player player) {
         BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);

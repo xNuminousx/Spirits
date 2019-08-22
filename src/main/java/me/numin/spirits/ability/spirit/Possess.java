@@ -3,6 +3,7 @@ package me.numin.spirits.ability.spirit;
 import java.util.Random;
 
 import org.bukkit.*;
+import org.bukkit.Particle.DustOptions;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -21,7 +22,7 @@ import org.bukkit.util.Vector;
 
 public class Possess extends SpiritAbility implements AddonAbility {
 
-    private Particle.DustOptions purple = new Particle.DustOptions(Color.fromRGB(130, 0, 193), 1);
+    private DustOptions purple = new DustOptions(Color.fromRGB(130, 0, 193), 1);
     private Entity target;
     private GameMode originalGameMode;
     private Location blast, playerOrigin;
@@ -46,9 +47,9 @@ public class Possess extends SpiritAbility implements AddonAbility {
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.2F, 1);
             player.getWorld().spawnParticle(Particle.PORTAL, player.getLocation().add(0, 1, 0), 40, 0, 0, 0, 1);
 
-            /*this.originalGameMode = player.getGameMode();
+            this.originalGameMode = player.getGameMode();
             player.setGameMode(GameMode.SPECTATOR);
-            player.setSpectatorTarget(target);*/
+            player.setSpectatorTarget(target);
 
             start();
         }
@@ -70,7 +71,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
             return;
         }
 
-        if (target.isDead() || target.getWorld() != player.getWorld() ||GeneralMethods.isRegionProtectedFromBuild(player, target.getLocation())) {
+        if (target.isDead() || target.getWorld() != player.getWorld() ||GeneralMethods.isRegionProtectedFromBuild(this, target.getLocation())) {
             remove();
             return;
         }
@@ -84,10 +85,12 @@ public class Possess extends SpiritAbility implements AddonAbility {
             remove();
             return;
         }
+
         if (player.isSneaking()) {
             remove();
             return;
         }
+
         this.possession();
     }
 
@@ -95,56 +98,63 @@ public class Possess extends SpiritAbility implements AddonAbility {
         Location targetLocation = target.getLocation().add(0, 1, 0);
 
         if (System.currentTimeMillis() > time + duration) {
-
-            //DamageHandler.damageEntity(target, damage, this);
-            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.5F, 0.5F);
-            player.getWorld().spawnParticle(Particle.SWEEP_ATTACK, targetLocation, 1, 0, 0, 0, 0);
-            player.getWorld().spawnParticle(Particle.CRIT, targetLocation, 5, 0.3, 1, 0.3, 0);
-            remove();
-
+            this.animateFinalBlow(targetLocation);
         } else {
-
-            if (target instanceof LivingEntity) {
-                LivingEntity livingTarget = (LivingEntity)target;
-                livingTarget.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2), true);
-                livingTarget.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 2), true);
-            }
-
-            if (new Random().nextInt(5) == 0) {
-                player.getWorld().playSound(targetLocation, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.1F, 2);
-                Methods.playSpiritParticles(player, this.blast, 0.4F, 1F, 0.4F, 0, 1);
-            }
-
+            this.animateTargetEffects(targetLocation);
             if (this.playEssence) {
-                this.blast = Methods.advanceLocationToPoint(vector, this.playerOrigin, targetLocation);
-
-                if (new Random().nextInt(5) == 0) {
-                    player.getWorld().playSound(targetLocation, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.1F, 2);
-                    Methods.playSpiritParticles(player, this.blast, 0.5F, 0.5F, 0.5F, 0, 1);
-                }
-
-                player.getWorld().spawnParticle(Particle.DRAGON_BREATH, this.blast, 1, 0.2, 0.2, 0.2, 0.02);
-                player.getWorld().spawnParticle(Particle.PORTAL, this.blast, 1, 0, 0, 0, 1);
-                player.getWorld().spawnParticle(Particle.REDSTONE, this.blast, 1, 0, 0, 0, 1, this.purple);
-
-                for (Entity entity : GeneralMethods.getEntitiesAroundPoint(this.blast, 1.5)) {
-                    if (entity.equals(target)) {
-                        this.playEssence = false;
-                        break;
-                    }
-                }
-
+                this.animateEssence(targetLocation);
             } else {
                 target.getWorld().spawnParticle(Particle.DRAGON_BREATH, targetLocation, 1, 0.3, 1, 0.3, 0.02);
             }
         }
     }
 
+    private void animateEssence(Location targetLocation) {
+        this.blast = Methods.advanceLocationToPoint(vector, this.playerOrigin, targetLocation);
+
+        if (new Random().nextInt(5) == 0) {
+            player.getWorld().playSound(targetLocation, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.1F, 2);
+            Methods.playSpiritParticles(player, this.blast, 0.5F, 0.5F, 0.5F, 0, 1);
+        }
+
+        player.getWorld().spawnParticle(Particle.DRAGON_BREATH, this.blast, 1, 0.2, 0.2, 0.2, 0.02);
+        player.getWorld().spawnParticle(Particle.PORTAL, this.blast, 1, 0, 0, 0, 1);
+        player.getWorld().spawnParticle(Particle.REDSTONE, this.blast, 1, 0, 0, 0, 1, this.purple);
+
+        for (Entity entity : GeneralMethods.getEntitiesAroundPoint(this.blast, 1.5)) {
+            if (entity.equals(target)) {
+                this.playEssence = false;
+                break;
+            }
+        }
+    }
+
+    private void animateFinalBlow(Location targetLocation) {
+        DamageHandler.damageEntity(target, damage, this);
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.5F, 0.5F);
+        player.getWorld().spawnParticle(Particle.SWEEP_ATTACK, targetLocation, 1, 0, 0, 0, 0);
+        player.getWorld().spawnParticle(Particle.CRIT, targetLocation, 5, 0.3, 1, 0.3, 0);
+        remove();
+    }
+
+    private void animateTargetEffects(Location targetLocation) {
+        if (target instanceof LivingEntity) {
+            LivingEntity livingTarget = (LivingEntity)target;
+            livingTarget.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2), true);
+            livingTarget.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 2), true);
+        }
+
+        if (new Random().nextInt(5) == 0) {
+            player.getWorld().playSound(targetLocation, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.1F, 2);
+            Methods.playSpiritParticles(player, this.blast, 0.4F, 1F, 0.4F, 0, 1);
+        }
+    }
+
     @Override
     public void remove() {
-        /*player.setSpectatorTarget(null);
+        player.setSpectatorTarget(null);
         player.setGameMode(this.originalGameMode);
-        player.teleport(player.getLocation().add(0, 2, 0));*/
+        player.teleport(player.getLocation().add(0, 2, 0));
 
         bPlayer.addCooldown(this);
         super.remove();
@@ -213,11 +223,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
     }
 
     @Override
-    public void load() {
-    }
-
+    public void load() {}
     @Override
-    public void stop() {
-
-    }
+    public void stop() {}
 }

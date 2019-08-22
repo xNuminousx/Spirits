@@ -2,7 +2,7 @@ name: Spirits
 version: ${project.version}
 main: me.numin.spirits.Spirits
 api-version: 1.13
-depend: [ProjectKorra]
+softdepend: [ProjectKorra]
 authors: [Numin]
 description: Enables your players to be Spirits.
 

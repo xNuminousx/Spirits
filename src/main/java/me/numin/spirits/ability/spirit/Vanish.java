@@ -199,11 +199,7 @@ public class Vanish extends SpiritAbility implements AddonAbility {
     }
 
     @Override
-    public void load() {
-    }
-
+    public void load() {}
     @Override
-    public void stop() {
-    }
-
+    public void stop() {}
 }

@@ -21,6 +21,7 @@ public class PkEvent implements Listener {
 
     private boolean hasSelectedSub = false;
 
+    // Used to automatically handle Spirit sub elements
     @EventHandler
     public void elementChange(PlayerChangeElementEvent event) {
         Player player = event.getTarget();
