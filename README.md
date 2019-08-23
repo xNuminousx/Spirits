@@ -12,8 +12,8 @@ Below are a list of changes that set this branch apart from its master.
 - Levitation
 #### Commands
 - Choosing Elements
-  - When choosing the 'Spirit' element you'll be prompted to choose a sub-element.
-  - When choosing the 'LightSpirit' or 'DarkSpirit' element you'll automatically be given the 'Spirit' element.
+  - When choosing the `Spirit` element you'll be prompted to choose a sub-element.
+  - When choosing the `LightSpirit` or `DarkSpirit` element you'll automatically be given the `Spirit` element.
 #### Methods
 - `advanceLocationToDirection` to the `Methods` class which will return a location that updates towards a desired direction.
 - `advanceLocationToPoint` to the `Methods` class which will return a location that updates towards a desired point.
