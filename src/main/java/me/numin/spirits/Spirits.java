@@ -44,7 +44,7 @@ public final class Spirits extends JavaPlugin {
         // Ability Permissions
         String[] abilities = {"Infest", "Intoxicate", "Shackle", "Strike",
         "Rejuvenate", "Alleviate", "Orb", "Shelter", "LightBlast",
-        "Phase", "Agility", "Vanish", "Possess", "DarkBlast"};
+        "Phase", "Agility", "Vanish", "Possess", "DarkBlast", "Levitation"};
 
         for (String ability : abilities) {
             CoreAbility coreAbility = CoreAbility.getAbility(ability);

@@ -19,6 +19,7 @@ me/numin/spirits/ability/light/LightBlast$Action.class
 me/numin/spirits/command/SpiritsCommand.class
 me/numin/spirits/inventories/ChooseSub.class
 me/numin/spirits/Methods.class
+me/numin/spirits/ability/spirit/combo/Levitation.class
 me/numin/spirits/ability/spirit/Vanish.class
 me/numin/spirits/ability/spirit/combo/Phase.class
 me/numin/spirits/ability/light/combo/Rejuvenate.class

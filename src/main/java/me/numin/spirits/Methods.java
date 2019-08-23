@@ -55,6 +55,13 @@ public class Methods {
         return point1;
     }
 
+    public static void animateVanish(Player player) {
+        Location location = player.getLocation().add(0, 1, 0);
+        player.getWorld().spawnParticle(Particle.DRAGON_BREATH, location, 20, 0, 0, 0, 0.09);
+        player.getWorld().spawnParticle(Particle.PORTAL, location, 30, 0, 0, 0, 2);
+        playSpiritParticles(player, location, 0.5, 0.5, 0.5, 0, 5);
+    }
+
     /**
      * Used to create an inventory item.
      *
@@ -165,7 +172,7 @@ public class Methods {
      * @param speed The particle speed.
      * @param amount The amount of particles to display.
      */
-    public static void playSpiritParticles(SpiritType spiritType, Location location, float X, float Y, float Z, float speed, int amount) {
+    public static void playSpiritParticles(SpiritType spiritType, Location location, double X, double Y, double Z, double speed, int amount) {
         DustOptions teal = new DustOptions(Color.fromRGB(0, 176, 180), 1),
                 white = new DustOptions(Color.fromRGB(255, 255,255), 1),
                 black = new DustOptions(Color.fromRGB(0, 0, 0), 1);
@@ -196,7 +203,7 @@ public class Methods {
      * @param speed The particle speed.
      * @param amount The amount of particles to display.
      */
-    public static void playSpiritParticles(Player player, Location location, float X, float Y, float Z, float speed, int amount) {
+    public static void playSpiritParticles(Player player, Location location, double X, double Y, double Z, double speed, int amount) {
         BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
         Element ls = Element.getElement("LightSpirit"), ds = Element.getElement("DarkSpirit"), s = Element.getElement("Spirit");
 

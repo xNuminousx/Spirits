@@ -59,7 +59,7 @@ public class Soar extends SpiritAbility implements AddonAbility {
                 if (new Random().nextInt(5) == 0) {
                     player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.3F, 5F);
                 }
-                Methods.playSpiritParticles(player, player.getLocation(), 0.5F, 0.5f, 0.5F, 0, 2);
+                Methods.playSpiritParticles(player, player.getLocation(), 0.5, 0.5, 0.5, 0, 2);
             }
         } else {
             bPlayer.addCooldown("Soar", soarCooldown);

@@ -156,13 +156,11 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 
     @Override
     public String getAuthor() {
-
         return Methods.getSpiritColor(SpiritType.NEUTRAL) + "" + Methods.getAuthor();
     }
 
     @Override
     public String getVersion() {
-
         return Methods.getSpiritColor(SpiritType.NEUTRAL) + Methods.getVersion();
     }
 

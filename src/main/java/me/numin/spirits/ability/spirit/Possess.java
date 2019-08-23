@@ -28,7 +28,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
     private Location blast, playerOrigin;
     private Vector vector = new Vector(1, 0, 0);
 
-    private boolean playEssence;
+    private boolean playEssence, wasFlying;
     private double damage, range;
     private long cooldown, duration, time;
 
@@ -45,7 +45,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
             this.time = System.currentTimeMillis();
 
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.2F, 1);
-            player.getWorld().spawnParticle(Particle.PORTAL, player.getLocation().add(0, 1, 0), 40, 0, 0, 0, 1);
+            Methods.animateVanish(player);
 
             this.originalGameMode = player.getGameMode();
             player.setGameMode(GameMode.SPECTATOR);
@@ -62,6 +62,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
         this.duration = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Possess.Duration");
         this.playerOrigin = player.getLocation().add(0, 1, 0);
         this.playEssence = true;
+        this.wasFlying = player.isFlying();
     }
 
     @Override
@@ -114,7 +115,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 
         if (new Random().nextInt(5) == 0) {
             player.getWorld().playSound(targetLocation, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.1F, 2);
-            Methods.playSpiritParticles(player, this.blast, 0.5F, 0.5F, 0.5F, 0, 1);
+            Methods.playSpiritParticles(player, this.blast, 0.5, 0.5, 0.5, 0, 1);
         }
 
         player.getWorld().spawnParticle(Particle.DRAGON_BREATH, this.blast, 1, 0.2, 0.2, 0.2, 0.02);
@@ -146,7 +147,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
 
         if (new Random().nextInt(5) == 0) {
             player.getWorld().playSound(targetLocation, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.1F, 2);
-            Methods.playSpiritParticles(player, this.blast, 0.4F, 1F, 0.4F, 0, 1);
+            Methods.playSpiritParticles(player, this.blast, 0.4, 1, 0.4, 0, 1);
         }
     }
 
@@ -155,6 +156,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
         player.setSpectatorTarget(null);
         player.setGameMode(this.originalGameMode);
         player.teleport(player.getLocation().add(0, 2, 0));
+        player.setFlying(wasFlying);
 
         bPlayer.addCooldown(this);
         super.remove();

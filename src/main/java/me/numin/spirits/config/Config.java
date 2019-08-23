@@ -42,6 +42,9 @@ public class Config {
         config.addDefault("Language.Abilities.Spirit.Agility.Description", "This ability offers you 2 modes of mobility. The first being the ability to dash forward very quickly. The second being the ability to soar through the skies as if gravity is non-existant.");
         config.addDefault("Language.Abilities.Spirit.Agility.Instructions", "Left-Click: Dash ⏐ Hold shift: Soar");
 
+        config.addDefault("Language.Abilities.Spirit.Levitation.Description", "You levitate...");
+        config.addDefault("Language.Abilities.Spirit.Levitation.Instructions", "Use it obviously");
+
         config.addDefault("Language.Abilities.Spirit.Possess.Description", "A very ancient ability of Spirits is the ability to jump inside the body of a human. As a Spirit, you'll be able to possess a human for a short amount of time and do harm. While this ability is active, both the Spirit and the target will be motionless.");
         config.addDefault("Language.Abilities.Spirit.Possess.Instructions", "Hold shift and look at a human.");
 
@@ -101,6 +104,8 @@ public class Config {
         config.addDefault("Abilities.Spirits.Neutral.Vanish.DivideRange.Enabled", true);
         config.addDefault("Abilities.Spirits.Neutral.Vanish.DivideRange.HealthRequired", 10);
         config.addDefault("Abilities.Spirits.Neutral.Vanish.DivideRange.DivideFactor", 2);
+
+        config.addDefault("Abilities.Spirits.Neutral.Combo.Levitation.Enabled", true);
 
         config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.Enabled", true);
         config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.Cooldown", 20000);

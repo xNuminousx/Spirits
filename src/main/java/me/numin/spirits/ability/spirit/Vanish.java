@@ -26,14 +26,10 @@ public class Vanish extends SpiritAbility implements AddonAbility {
     private boolean removeFire;
     private boolean isCharged;
     private Location origin;
-    private Location targetLoc;
     private long range;
     private long radius;
     private boolean applyInvis = true;
     private int particleFrequency;
-    private boolean doHalfEffect;
-    private double healthReq;
-    private int divideFactor;
 
     public Vanish(Player player) {
         super(player);
@@ -53,9 +49,10 @@ public class Vanish extends SpiritAbility implements AddonAbility {
         this.radius = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Radius");
         this.particleFrequency = Spirits.plugin.getConfig().getInt("Abilities.Spirits.Neutral.Vanish.ParticleFrequency");
         this.removeFire = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Vanish.RemoveFire");
-        this.doHalfEffect = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Vanish.DivideRange.Enabled");
-        this.healthReq = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.Neutral.Vanish.DivideRange.HealthRequired");
-        this.divideFactor = Spirits.plugin.getConfig().getInt("Abilities.Spirits.Neutral.Vanish.DivideRange.DivideFactor");
+
+        boolean doHalfEffect = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Vanish.DivideRange.Enabled");
+        double healthReq = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.Neutral.Vanish.DivideRange.HealthRequired");
+        int divideFactor = Spirits.plugin.getConfig().getInt("Abilities.Spirits.Neutral.Vanish.DivideRange.DivideFactor");
 
         if (doHalfEffect && player.getHealth() < healthReq) {
             this.range = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Range") / divideFactor;
@@ -86,7 +83,6 @@ public class Vanish extends SpiritAbility implements AddonAbility {
                 }
             } else {
                 remove();
-                return;
             }
         } else {
             if (player.isSneaking()) {
@@ -95,37 +91,33 @@ public class Vanish extends SpiritAbility implements AddonAbility {
                 if ((origin.distanceSquared(player.getLocation()) > radius * radius) || (System.currentTimeMillis() > time + duration)) {
                     player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.5F, -1);
                     remove();
-                    return;
                 }
             } else {
                 vanishPlayer();
-                targetLoc = GeneralMethods.getTargetedLocation(player, range);
+                Location targetLoc = GeneralMethods.getTargetedLocation(player, range);
                 player.teleport(targetLoc);
                 player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.5F, -1);
-                ParticleEffect.DRAGON_BREATH.display(player.getLocation().add(0, 1, 0), 0, 0, 0, 0.09F, 20);
-                ParticleEffect.PORTAL.display(player.getLocation().add(0, 1, 0), 0, 0, 0, 2F, 30);
-                Methods.playSpiritParticles(player, player.getLocation().add(0, 1, 0), 0.5F, 0.5f, 0.5F, 0, 10);
                 remove();
-                return;
             }
         }
     }
 
-    public void vanishPlayer() {
+    private void vanishPlayer() {
         if (removeFire) {
             player.setFireTicks(-1);
         }
         bPlayer.addCooldown(this);
     }
 
-    public void playEffects() {
+    private void playEffects() {
         if (new Random().nextInt(particleFrequency) == 0) {
-            Methods.playSpiritParticles(player, player.getLocation().add(0, 1, 0), 0.5F, 0.5f, 0.5F, 0, 2);
+            Methods.playSpiritParticles(player, player.getLocation().add(0, 1, 0), 0.5, 0.5, 0.5, 0, 1);
         }
         if (applyInvis) {
-            applyInvis = false;
             player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, (int) duration, 2), true);
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.5F, -1);
+            Methods.animateVanish(player);
+            applyInvis = false;
         }
     }
 
@@ -134,6 +126,7 @@ public class Vanish extends SpiritAbility implements AddonAbility {
         if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
             player.removePotionEffect(PotionEffectType.INVISIBILITY);
         }
+        if (isCharged) Methods.animateVanish(player);
         super.remove();
     }
 
