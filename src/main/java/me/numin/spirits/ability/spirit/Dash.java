@@ -24,6 +24,7 @@ public class Dash extends SpiritAbility implements AddonAbility {
         if (!bPlayer.canBend(this)) {
             return;
         }
+
         setFields();
         start();
     }

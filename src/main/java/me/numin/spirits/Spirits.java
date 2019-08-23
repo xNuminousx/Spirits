@@ -49,7 +49,9 @@ public final class Spirits extends JavaPlugin {
         for (String ability : abilities) {
             CoreAbility coreAbility = CoreAbility.getAbility(ability);
 
-            if (coreAbility == null || !coreAbility.isEnabled()) return;
+            if (coreAbility == null || !coreAbility.isEnabled() ||
+                    ProjectKorra.plugin.getServer().getPluginManager().getPermission("bending.ability." + ability.toLowerCase()) == null)
+                return;
 
             Permission perm = new Permission("bending.ability." + ability.toLowerCase());
             perm.setDefault(PermissionDefault.TRUE);
@@ -62,7 +64,9 @@ public final class Spirits extends JavaPlugin {
         for (String ele : elements) {
             Element element = Element.getElement(ele);
 
-            if (element == null) return;
+            if (element == null ||
+                    ProjectKorra.plugin.getServer().getPluginManager().getPermission("bending.ability." + ele.toLowerCase()) == null)
+            return;
 
             Permission perm = new Permission("bending.command.choose." + ele.toLowerCase());
             perm.setDefault(PermissionDefault.TRUE);
