@@ -2,7 +2,9 @@ package me.numin.spirits.ability.spirit;
 
 import java.util.Random;
 
+import me.numin.spirits.ability.api.Removal;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -10,7 +12,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.numin.spirits.Spirits;
 import me.numin.spirits.Methods;
@@ -19,17 +20,11 @@ import me.numin.spirits.ability.api.SpiritAbility;
 
 public class Vanish extends SpiritAbility implements AddonAbility {
 
-    private long cooldown;
-    private long time;
-    private long chargeTime;
-    private long duration;
-    private boolean removeFire;
-    private boolean isCharged;
-    private Location origin;
-    private long range;
-    private long radius;
-    private boolean applyInvis = true;
+    private boolean applyInvis = true, isCharged, removeFire;
     private int particleFrequency;
+    private long chargeTime, cooldown, duration, radius, range, time;
+    private Location origin;
+    private Removal removal;
 
     public Vanish(Player player) {
         super(player);
@@ -38,11 +33,13 @@ public class Vanish extends SpiritAbility implements AddonAbility {
             return;
         }
         setFields();
-        time = System.currentTimeMillis();
         start();
     }
 
     private void setFields() {
+        time = System.currentTimeMillis();
+
+        //Main configuration
         this.cooldown = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Cooldown");
         this.duration = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Duration");
         this.chargeTime = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.ChargeTime");
@@ -50,10 +47,12 @@ public class Vanish extends SpiritAbility implements AddonAbility {
         this.particleFrequency = Spirits.plugin.getConfig().getInt("Abilities.Spirits.Neutral.Vanish.ParticleFrequency");
         this.removeFire = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Vanish.RemoveFire");
 
+        //DivideRange configuration
         boolean doHalfEffect = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Vanish.DivideRange.Enabled");
         double healthReq = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.Neutral.Vanish.DivideRange.HealthRequired");
         int divideFactor = Spirits.plugin.getConfig().getInt("Abilities.Spirits.Neutral.Vanish.DivideRange.DivideFactor");
 
+        //Health logic
         if (doHalfEffect && player.getHealth() < healthReq) {
             this.range = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Range") / divideFactor;
         } else {
@@ -62,51 +61,51 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 
         this.origin = player.getLocation();
         this.isCharged = false;
-
+        this.removal = new Removal(player, true);
     }
 
     @Override
     public void progress() {
-        if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, player.getLocation())) {
+        if (removal.stop() && !isCharged) {
             remove();
             return;
         }
-
         if (!isCharged) {
-            if (player.isSneaking()) {
-                if (System.currentTimeMillis() > time + chargeTime) {
-                    isCharged = true;
-                } else {
-                    if (new Random().nextInt(particleFrequency) == 0) {
-                        ParticleEffect.DRAGON_BREATH.display(player.getLocation().add(0, 1, 0), 0, 0, 0, 0.09F, 1);
-                    }
-                }
-            } else {
-                remove();
-            }
+            this.isCharging();
         } else {
-            if (player.isSneaking()) {
-                playEffects();
-
-                if ((origin.distanceSquared(player.getLocation()) > radius * radius) || (System.currentTimeMillis() > time + duration)) {
-                    player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.5F, -1);
-                    remove();
-                }
-            } else {
-                vanishPlayer();
-                Location targetLoc = GeneralMethods.getTargetedLocation(player, range);
-                player.teleport(targetLoc);
-                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.5F, -1);
-                remove();
-            }
+            this.hasCharged();
         }
     }
 
-    private void vanishPlayer() {
+    private void hasCharged() {
+        if (player.isSneaking()) {
+            playEffects();
+
+            if ((origin.distanceSquared(player.getLocation()) > radius * radius) || (System.currentTimeMillis() > time + duration)) {
+                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.5F, -1);
+                remove();
+            }
+        } else {
+            Location targetLoc = GeneralMethods.getTargetedLocation(player, range);
+            player.teleport(targetLoc);
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.5F, -1);
+            remove();
+        }
         if (removeFire) {
             player.setFireTicks(-1);
         }
-        bPlayer.addCooldown(this);
+    }
+
+    private void isCharging() {
+        if (player.isSneaking()) {
+            if (System.currentTimeMillis() > time + chargeTime) {
+                isCharged = true;
+            } else {
+                if (new Random().nextInt(particleFrequency) == 0) {
+                    player.getWorld().spawnParticle(Particle.DRAGON_BREATH, player.getLocation().add(0, 1, 0), 1, 0, 0, 0, 0.09);
+                }
+            }
+        }
     }
 
     private void playEffects() {
@@ -123,10 +122,10 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 
     @Override
     public void remove() {
-        if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
+        if (player.hasPotionEffect(PotionEffectType.INVISIBILITY))
             player.removePotionEffect(PotionEffectType.INVISIBILITY);
-        }
         if (isCharged) Methods.animateVanish(player);
+        bPlayer.addCooldown(this);
         super.remove();
     }
 

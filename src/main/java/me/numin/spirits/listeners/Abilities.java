@@ -32,13 +32,12 @@ public class Abilities implements Listener {
         Player player = event.getPlayer();
         BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
 
-        if (event.isCancelled() || bPlayer == null) {
-            return;
-        }
+        if (event.isCancelled() || bPlayer == null) return;
+
         if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Possess")) {
             new Possess(player);
-        }
-        if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Agility")) {
+        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Agility")) {
+            if (bPlayer.isOnCooldown("Dash")) return;
             new Dash(player);
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shackle")) {
             new Shackle(player);
@@ -69,19 +68,17 @@ public class Abilities implements Listener {
 
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent event) {
-
         Player player = event.getPlayer();
         BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
 
-        if (event.isCancelled() || bPlayer == null) {
-            return;
-        }
+        if (event.isCancelled() || bPlayer == null) return;
 
         if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Alleviate")) {
             new Alleviate(player);
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Intoxicate")) {
             new Intoxicate(player);
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Agility")) {
+            if (bPlayer.isOnCooldown("Soar")) return;
             new Soar(player);
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shelter")) {
             new Shelter(player, ShelterType.SHIFT);

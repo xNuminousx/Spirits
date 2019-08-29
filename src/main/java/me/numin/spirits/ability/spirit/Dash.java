@@ -1,10 +1,10 @@
 package me.numin.spirits.ability.spirit;
 
+import me.numin.spirits.ability.api.Removal;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 
 import me.numin.spirits.Spirits;
@@ -14,9 +14,9 @@ import me.numin.spirits.ability.api.SpiritAbility;
 
 public class Dash extends SpiritAbility implements AddonAbility {
 
-    private long dashCooldown;
-    private long distance;
+    private long dCooldown, distance;
     private Location location;
+    private Removal removal;
 
     public Dash(Player player) {
         super(player);
@@ -30,39 +30,38 @@ public class Dash extends SpiritAbility implements AddonAbility {
     }
 
     private void setFields() {
-        this.dashCooldown = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Agility.Dash.Cooldown");
+        this.dCooldown = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Agility.Dash.Cooldown");
         this.distance = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Agility.Dash.Distance");
         this.location = player.getLocation();
+        this.removal = new Removal(player);
     }
 
     @Override
     public void progress() {
-        if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+        if (removal.stop()) {
             remove();
             return;
         }
-        if (bPlayer.isOnCooldown("Dash")) {
-            remove();
-            return;
-        } else {
-            progressDash();
-        }
+        progressDash();
     }
 
     private void progressDash() {
-        Location loc = player.getLocation();
         player.setVelocity(Methods.setVelocity(player, distance, 0.2));
-        loc.getWorld().playSound(loc, Sound.ENTITY_ELDER_GUARDIAN_HURT, 1.5F, 0.5F);
-        loc.getWorld().playSound(loc, Sound.ENTITY_PLAYER_ATTACK_SWEEP, 0.3F, 0.5F);
+        location.getWorld().playSound(location, Sound.ENTITY_ELDER_GUARDIAN_HURT, 1.5F, 0.5F);
+        location.getWorld().playSound(location, Sound.ENTITY_PLAYER_ATTACK_SWEEP, 0.3F, 0.5F);
         Methods.playSpiritParticles(player, player.getLocation(), 0.5, 0.5, 0.5, 0, 10);
-        bPlayer.addCooldown("Dash", dashCooldown);
         remove();
-        return;
+    }
+
+    @Override
+    public void remove() {
+        bPlayer.addCooldown("Dash", dCooldown);
+        super.remove();
     }
 
     @Override
     public long getCooldown() {
-        return dashCooldown;
+        return dCooldown;
     }
 
     @Override

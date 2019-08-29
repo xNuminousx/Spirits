@@ -8,7 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Particle.DustOptions;
-import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -17,8 +16,6 @@ import org.bukkit.util.Vector;
 
 import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.Element;
-import com.projectkorra.projectkorra.GeneralMethods;
-import com.projectkorra.projectkorra.ability.Ability;
 
 public class Methods {
 
@@ -55,6 +52,12 @@ public class Methods {
         return point1;
     }
 
+    /**
+     * A general animation to display when making a
+     * Spirit/Player invisible.
+     *
+     * @param player The player being vanished.
+     */
     public static void animateVanish(Player player) {
         Location location = player.getLocation().add(0, 1, 0);
         player.getWorld().spawnParticle(Particle.DRAGON_BREATH, location, 20, 0, 0, 0, 0.09);
@@ -146,15 +149,17 @@ public class Methods {
      */
     public static SpiritType getSpiritType(Player player) {
         BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
-        Element ls = Element.getElement("LightSpirit");
-        Element ds = Element.getElement("DarkSpirit");
-        Element s = Element.getElement("Spirit");
+        Element spirit = Element.getElement("Spirit"),
+                lightSpirit = Element.getElement("LightSpirit"),
+                darkSpirit = Element.getElement("DarkSpirit");
 
-        if ((bPlayer.hasElement(ls) && bPlayer.hasElement(ds)) || (!bPlayer.hasElement(ls) && !bPlayer.hasElement(ds)) || (bPlayer.hasElement(s))) {
+        if (bPlayer == null) return null;
+
+        if (bPlayer.hasElement(spirit) || (bPlayer.hasElement(lightSpirit) && bPlayer.hasElement(darkSpirit))) {
             return SpiritType.NEUTRAL;
-        } else if (bPlayer.hasElement(ls)) {
+        } else if (bPlayer.hasElement(lightSpirit)) {
             return SpiritType.LIGHT;
-        } else if (bPlayer.hasElement(ds)) {
+        } else if (bPlayer.hasElement(darkSpirit)) {
             return SpiritType.DARK;
         } else {
             return null;
@@ -213,25 +218,6 @@ public class Methods {
             playSpiritParticles(SpiritType.DARK, location, X, Y, Z, speed, amount);
         } else if (bPlayer.hasElement(ls)) {
             playSpiritParticles(SpiritType.LIGHT, location, X, Y, Z, speed, amount);
-        }
-    }
-
-    /**
-     * A list of checks each ability should use.
-     *
-     * @param ability The ability being tested.
-     * @param player The player being tested.
-     * @param originWorld The original world of the player.
-     */
-    public static void generalChecks(Ability ability, Player player, World originWorld) {
-        if (!player.isOnline()) {
-            ability.remove();
-        } else if (player.isDead()) {
-            ability.remove();
-        } else if (player.getWorld() != originWorld) {
-            ability.remove();
-        } else if (GeneralMethods.isRegionProtectedFromBuild(ability, player.getLocation())) {
-            ability.remove();
         }
     }
 

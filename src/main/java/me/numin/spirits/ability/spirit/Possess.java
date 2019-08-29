@@ -2,6 +2,7 @@ package me.numin.spirits.ability.spirit;
 
 import java.util.Random;
 
+import me.numin.spirits.ability.api.Removal;
 import org.bukkit.*;
 import org.bukkit.Particle.DustOptions;
 import org.bukkit.entity.Entity;
@@ -26,6 +27,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
     private Entity target;
     private GameMode originalGameMode;
     private Location blast, playerOrigin;
+    private Removal removal;
     private Vector vector = new Vector(1, 0, 0);
 
     private boolean playEssence, wasFlying;
@@ -42,6 +44,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
         setFields();
         this.target = GeneralMethods.getTargetedEntity(player, range);
         if (target != null) {
+            this.removal = new Removal(player, true, target);
             this.time = System.currentTimeMillis();
 
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.2F, 1);
@@ -67,31 +70,10 @@ public class Possess extends SpiritAbility implements AddonAbility {
 
     @Override
     public void progress() {
-        if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, player.getLocation())) {
+        if (removal.stop()) {
             remove();
             return;
         }
-
-        if (target.isDead() || target.getWorld() != player.getWorld() ||GeneralMethods.isRegionProtectedFromBuild(this, target.getLocation())) {
-            remove();
-            return;
-        }
-
-        if (target instanceof Player && !((Player)target).isOnline()) {
-            remove();
-            return;
-        }
-
-        if (bPlayer.isParalyzed() || !bPlayer.getBoundAbilityName().equals(getName())) {
-            remove();
-            return;
-        }
-
-        if (player.isSneaking()) {
-            remove();
-            return;
-        }
-
         this.possession();
     }
 
