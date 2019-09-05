@@ -1,5 +1,6 @@
 package me.numin.spirits.ability.dark;
 
+import me.numin.spirits.ability.api.removal.Removal;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
@@ -21,14 +22,14 @@ public class Strike extends DarkAbility implements AddonAbility {
 
     //TODO: Implement radius variable into configuration.
 
-    private long cooldown;
-    private Location origin;
-    private Location location;
-    private int range;
+    private Location location, origin;
+    private Removal removal;
     private Vector direction;
+
     private boolean progress;
-    private double damage;
-    private double radius;
+    private double damage, radius;
+    private int range;
+    private long cooldown;
 
     public Strike(Player player) {
         super(player);
@@ -49,11 +50,16 @@ public class Strike extends DarkAbility implements AddonAbility {
         this.location = origin.clone();
         this.direction = player.getLocation().getDirection();
         this.progress = true;
+        this.removal = new Removal(player);
     }
 
     @Override
     public void progress() {
-        if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, player.getLocation()) || origin.distanceSquared(location) > range * range) {
+        if (removal.stop()) {
+            remove();
+            return;
+        }
+        if (origin.distanceSquared(location) > range * range) {
             remove();
             return;
         }

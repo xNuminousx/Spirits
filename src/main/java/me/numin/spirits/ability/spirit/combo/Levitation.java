@@ -1,6 +1,5 @@
 package me.numin.spirits.ability.spirit.combo;
 
-import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.ComboAbility;
 import com.projectkorra.projectkorra.ability.CoreAbility;
@@ -10,9 +9,9 @@ import com.projectkorra.projectkorra.util.ClickType;
 import me.numin.spirits.Methods;
 import me.numin.spirits.Spirits;
 import me.numin.spirits.ability.api.SpiritAbility;
+import me.numin.spirits.ability.api.removal.Removal;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 public class Levitation extends SpiritAbility implements AddonAbility, ComboAbility {
 
     private Location origin;
-    private World originWorld;
+    private Removal removal;
 
     private boolean wasFlying;
     private double range;
@@ -44,12 +43,12 @@ public class Levitation extends SpiritAbility implements AddonAbility, ComboAbil
         this.range = 5;
         this.wasFlying = player.isFlying();
         this.origin = player.getLocation();
-        this.originWorld = player.getWorld();
+        this.removal = new Removal(player);
     }
 
     @Override
     public void progress() {
-        if (player.isDead() || !player.isOnline() || (player.getWorld() != originWorld) ||GeneralMethods.isRegionProtectedFromBuild(this, player.getLocation())) {
+        if (removal.stop()) {
             remove();
             return;
         }

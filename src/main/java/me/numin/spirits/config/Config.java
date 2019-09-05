@@ -108,12 +108,12 @@ public class Config {
         config.addDefault("Abilities.Spirits.Neutral.Combo.Levitation.Enabled", true);
 
         config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.Enabled", true);
-        config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.Cooldown", 20000);
+        config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.CooldownMultiplier", 4);
         config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.Duration", 10000);
         config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.Range", 10);
         config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.MinHealth", 6);
         config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.Vanish.ApplyCooldown", true);
-        config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.Vanish.Cooldown", 20000);
+        config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.Vanish.CooldownMultiplier", 4);
 
         config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Enabled", true);
         config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.Others.Cooldown", 5000);
@@ -134,6 +134,7 @@ public class Config {
         config.addDefault("Abilities.Spirits.LightSpirit.Orb.Cooldown", 10000);
         config.addDefault("Abilities.Spirits.LightSpirit.Orb.ChargeTime", 2000);
         config.addDefault("Abilities.Spirits.LightSpirit.Orb.Duration", 30000);
+        config.addDefault("Abilities.Spirits.LightSpirit.Orb.WarmUpTime", 500);
         config.addDefault("Abilities.Spirits.LightSpirit.Orb.Damage", 3);
         config.addDefault("Abilities.Spirits.LightSpirit.Orb.PlaceRange", 20);
         config.addDefault("Abilities.Spirits.LightSpirit.Orb.DetonateRange", 3);
@@ -146,16 +147,15 @@ public class Config {
         config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Enabled", true);
         config.addDefault("Abilities.Spirits.LightSpirit.Shelter.RemoveOnDamage", true);
         config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Duration", 7000);
-        config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Range", 20);
         config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Others.ClickDelay", 2000);
         config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Others.Cooldown", 10000);
         config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Self.Cooldown", 10000);
-        config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Others.ShieldSize", 5);
-        config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Self.ShieldSize", 4);
+        config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Others.Radius", 5);
+        config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Self.Radius", 4);
         config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Others.KnockbackPower", 1);
         config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Self.KnockbackPower", 1);
         config.addDefault("Abilities.Spirits.LightSpirit.Shelter.RemoveIfFarAway.Enabled", true);
-        config.addDefault("Abilities.Spirits.LightSpirit.Shelter.RemoveIfFarAway.Distance", 5);
+        config.addDefault("Abilities.Spirits.LightSpirit.Shelter.RemoveIfFarAway.Range", 5);
 
         config.addDefault("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Enabled", true);
         config.addDefault("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Cooldown", 15000);

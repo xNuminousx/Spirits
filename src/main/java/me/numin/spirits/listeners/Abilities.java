@@ -3,6 +3,7 @@ package me.numin.spirits.listeners;
 import com.projectkorra.projectkorra.ability.CoreAbility;
 import me.numin.spirits.ability.dark.DarkBlast;
 import me.numin.spirits.ability.light.LightBlast;
+import me.numin.spirits.ability.spirit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,10 +21,6 @@ import me.numin.spirits.ability.light.Alleviate;
 import me.numin.spirits.ability.light.Orb;
 import me.numin.spirits.ability.light.Shelter;
 import me.numin.spirits.ability.light.Shelter.ShelterType;
-import me.numin.spirits.ability.spirit.Dash;
-import me.numin.spirits.ability.spirit.Possess;
-import me.numin.spirits.ability.spirit.Soar;
-import me.numin.spirits.ability.spirit.Vanish;
 
 public class Abilities implements Listener {
 
@@ -77,7 +74,7 @@ public class Abilities implements Listener {
             new Alleviate(player);
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Intoxicate")) {
             new Intoxicate(player);
-        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Agility")) {
+        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Agility") && event.isSneaking()) {
             if (bPlayer.isOnCooldown("Soar")) return;
             new Soar(player);
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shelter")) {

@@ -1,4 +1,4 @@
-package me.numin.spirits.ability.api;
+package me.numin.spirits.ability.api.removal;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import org.bukkit.World;
@@ -7,10 +7,10 @@ import org.bukkit.entity.Player;
 
 public class Removal {
 
-    private boolean requireSneak;
     private Entity entity;
     private Player player;
     private World world, entityWorld;
+    private boolean requireSneak;
 
     public Removal(Player player) {
         this.player = player;
@@ -29,6 +29,7 @@ public class Removal {
         this.entityWorld = entity.getWorld();
         this.player = player;
         this.requireSneak = requireSneak;
+        this.world = player.getWorld();
     }
 
     /**
@@ -38,7 +39,7 @@ public class Removal {
      * @return true If the ability should stop.
      */
     public boolean stop() {
-        if (entity != null) return playerPass() || entityPass();
+        if (entity != null) return entityPass();
         if (requireSneak) return !player.isSneaking();
         return playerPass();
     }
@@ -54,6 +55,6 @@ public class Removal {
         return entity.isDead() ||
                 (entity instanceof Player && !((Player)entity).isOnline()) ||
                 entityWorld != entity.getWorld() ||
-                GeneralMethods.isRegionProtectedFromBuild((Player)entity, entity.getLocation());
+                GeneralMethods.isRegionProtectedFromBuild(player, entity.getLocation());
     }
 }

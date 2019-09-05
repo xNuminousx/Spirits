@@ -33,6 +33,8 @@ Below are a list of changes that set this branch apart from its master.
   - Additional swirl animation.
 - Intoxicate
   - Additional swirl animation.
+- Orb
+  - Fixed sourcing and block detection.
 - Possess
   - Updated to use spectator mode instead of teleporting on a loop.
   - New animations.

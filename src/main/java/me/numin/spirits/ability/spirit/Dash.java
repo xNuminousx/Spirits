@@ -1,6 +1,6 @@
 package me.numin.spirits.ability.spirit;
 
-import me.numin.spirits.ability.api.Removal;
+import me.numin.spirits.ability.api.removal.Removal;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -14,9 +14,10 @@ import me.numin.spirits.ability.api.SpiritAbility;
 
 public class Dash extends SpiritAbility implements AddonAbility {
 
-    private long dCooldown, distance;
     private Location location;
     private Removal removal;
+
+    private long cooldown, distance;
 
     public Dash(Player player) {
         super(player);
@@ -30,7 +31,7 @@ public class Dash extends SpiritAbility implements AddonAbility {
     }
 
     private void setFields() {
-        this.dCooldown = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Agility.Dash.Cooldown");
+        this.cooldown = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Agility.Dash.Cooldown");
         this.distance = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Agility.Dash.Distance");
         this.location = player.getLocation();
         this.removal = new Removal(player);
@@ -55,13 +56,13 @@ public class Dash extends SpiritAbility implements AddonAbility {
 
     @Override
     public void remove() {
-        bPlayer.addCooldown("Dash", dCooldown);
+        bPlayer.addCooldown("Dash", cooldown);
         super.remove();
     }
 
     @Override
     public long getCooldown() {
-        return dCooldown;
+        return cooldown;
     }
 
     @Override

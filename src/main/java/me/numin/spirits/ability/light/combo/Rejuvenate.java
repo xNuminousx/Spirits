@@ -13,6 +13,7 @@ import me.numin.spirits.Spirits;
 import me.numin.spirits.Methods;
 import me.numin.spirits.Methods.SpiritType;
 import me.numin.spirits.ability.api.LightAbility;
+import me.numin.spirits.ability.api.removal.Removal;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -30,20 +31,13 @@ import java.util.Random;
 
 public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbility {
 
-    private Location location;
-    private Location location2;
-    private Location circleCenter;
-    private long time;
-    private long cooldown;
-    private long duration;
-    private int effectInt;
-    private boolean damageMonsters;
-    private boolean damageDarkSpirits;
-    private double damage;
-    private double radius;
-    private double t;
-    private int currPoint;
-    private Location location3;
+    private Location circleCenter, location, location2, location3;
+    private Removal removal;
+
+    private boolean damageDarkSpirits, damageMonsters;
+    private double damage, radius, t;
+    private int currPoint, effectInt;
+    private long cooldown, duration, time;
 
     public Rejuvenate(Player player) {
         super(player);
@@ -70,21 +64,25 @@ public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbili
         location2 = player.getLocation();
         location3 = player.getLocation();
         circleCenter = player.getLocation();
+        this.removal = new Removal(player);
     }
 
     @Override
     public void progress() {
-        if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location) || !bPlayer.canBendIgnoreBindsCooldowns(this)) {
+        if (removal.stop()) {
+            remove();
+            return;
+        }
+        if (!bPlayer.canBendIgnoreBindsCooldowns(this)) {
+            remove();
+            return;
+        }
+        if (System.currentTimeMillis() > time + duration) {
             remove();
             return;
         }
         spawnCircle();
         grabEntities();
-        if (System.currentTimeMillis() > time + duration) {
-            remove();
-            return;
-        }
-
     }
 
     private void spawnCircle() {

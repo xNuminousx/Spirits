@@ -2,7 +2,7 @@ package me.numin.spirits.ability.spirit;
 
 import java.util.Random;
 
-import me.numin.spirits.ability.api.Removal;
+import me.numin.spirits.ability.api.removal.Removal;
 import org.bukkit.*;
 import org.bukkit.Particle.DustOptions;
 import org.bukkit.entity.Entity;
@@ -44,7 +44,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
         setFields();
         this.target = GeneralMethods.getTargetedEntity(player, range);
         if (target != null) {
-            this.removal = new Removal(player, true, target);
+            this.removal = new Removal(player, false, target);
             this.time = System.currentTimeMillis();
 
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 0.2F, 1);

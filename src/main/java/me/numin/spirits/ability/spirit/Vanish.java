@@ -2,7 +2,7 @@ package me.numin.spirits.ability.spirit;
 
 import java.util.Random;
 
-import me.numin.spirits.ability.api.Removal;
+import me.numin.spirits.ability.api.removal.Removal;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -20,11 +20,12 @@ import me.numin.spirits.ability.api.SpiritAbility;
 
 public class Vanish extends SpiritAbility implements AddonAbility {
 
+    private Location origin;
+    private Removal removal;
+
     private boolean applyInvis = true, isCharged, removeFire;
     private int particleFrequency;
     private long chargeTime, cooldown, duration, radius, range, time;
-    private Location origin;
-    private Removal removal;
 
     public Vanish(Player player) {
         super(player);

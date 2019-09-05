@@ -2,7 +2,7 @@ package me.numin.spirits.ability.spirit;
 
 import java.util.Random;
 
-import me.numin.spirits.ability.api.Removal;
+import me.numin.spirits.ability.api.removal.Removal;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -16,9 +16,10 @@ import me.numin.spirits.ability.api.SpiritAbility;
 
 public class Soar extends SpiritAbility implements AddonAbility {
 
-    private double speed;
-    private long sCooldown, duration, time;
     private Removal removal;
+
+    private double speed;
+    private long cooldown, duration, time;
 
     public Soar(Player player) {
         super(player);
@@ -32,7 +33,7 @@ public class Soar extends SpiritAbility implements AddonAbility {
     }
 
     private void setFields() {
-        this.sCooldown = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Agility.Soar.Cooldown");
+        this.cooldown = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Agility.Soar.Cooldown");
         this.duration = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Agility.Soar.Duration");
         this.speed = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.Neutral.Agility.Soar.Speed");
         this.removal = new Removal(player, true);
@@ -63,13 +64,13 @@ public class Soar extends SpiritAbility implements AddonAbility {
 
     @Override
     public void remove() {
-        bPlayer.addCooldown("Soar", sCooldown);
+        bPlayer.addCooldown("Soar", cooldown);
         super.remove();
     }
 
     @Override
     public long getCooldown() {
-        return sCooldown;
+        return cooldown;
     }
 
     @Override

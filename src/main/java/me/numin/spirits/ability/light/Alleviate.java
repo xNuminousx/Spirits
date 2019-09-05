@@ -2,6 +2,7 @@ package me.numin.spirits.ability.light;
 
 import java.util.Random;
 
+import me.numin.spirits.ability.api.removal.Removal;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -25,26 +26,16 @@ import me.numin.spirits.ability.api.LightAbility;
 
 public class Alleviate extends LightAbility implements AddonAbility {
 
-    private LivingEntity target = null;
-    private Location location;
-    private Location origin;
-    private Location entityCheck;
+    private LivingEntity target;
+    private Location entityCheck, location, origin;
+    private Removal removal;
     private Vector direction;
-    private int currPoint;
-    private int healDuration;
-    private int nightVisDuration;
+
+    private boolean playingAlleviate, progress, removeNegPots;
+    private double range, selfDamage;
     private int red,green,blue;
-    private double range;
-    private double selfDamage;
-    private long time;
-    private long potInt;
-    private long healInt;
-    private long otherCooldown;
-    private long selfCooldown;
-    private long chargeTime;
-    private boolean progress;
-    private boolean playingAlleviate;
-    private boolean removeNegPots;
+    private int currPoint, healDuration, nightVisDuration;
+    private long chargeTime, healInt, otherCooldown, potInt, selfCooldown, time;
 
     public Alleviate(Player player) {
         super(player);
@@ -82,11 +73,12 @@ public class Alleviate extends LightAbility implements AddonAbility {
         this.direction = player.getLocation().getDirection();
         this.progress = true;
         this.playingAlleviate = false;
+        this.removal = new Removal(player, true);
     }
 
     @Override
     public void progress() {
-        if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+        if (removal.stop()) {
             remove();
             return;
         }
@@ -116,9 +108,6 @@ public class Alleviate extends LightAbility implements AddonAbility {
                 entityCheck = target.getLocation();
                 progressAlleviate(target, target.getLocation().clone());
             }
-        } else {
-            remove();
-            return;
         }
     }
 

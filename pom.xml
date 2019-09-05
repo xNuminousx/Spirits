@@ -75,9 +75,9 @@
         <dependency>
             <groupId>com.projectkorra</groupId>
             <artifactId>projectkorra</artifactId>
-            <version>1.8.4.35</version>
+            <version>1.8.4.36</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/ProjectKorra-1.8.4.35.jar</systemPath>
+            <systemPath>${project.basedir}/lib/ProjectKorra-1.8.4.36.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

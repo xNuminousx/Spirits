@@ -1,6 +1,5 @@
 package me.numin.spirits.ability.spirit.combo;
 
-import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.ComboAbility;
 import com.projectkorra.projectkorra.ability.util.ComboManager.AbilityInformation;
@@ -9,34 +8,33 @@ import com.projectkorra.projectkorra.util.ParticleEffect;
 import me.numin.spirits.Methods;
 import me.numin.spirits.Methods.SpiritType;
 import me.numin.spirits.Spirits;
+import me.numin.spirits.ability.api.removal.Removal;
 import me.numin.spirits.ability.api.SpiritAbility;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
 public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 
-    private int range;
-    private long cooldown;
-    private long time;
-    private long duration;
-    private long vanishCD;
-    private int minHealth;
-    private boolean isPhased;
-    private boolean playEffects;
-    private boolean applyVanishCD;
-    private Location origin;
     private GameMode originGM;
-    private World playerWorld;
+    private Location origin;
+    private Removal removal;
+
+    private boolean applyVanishCD, isPhased, playEffects;
+    private int minHealth, range;
+    private long duration, multiplier, time, vanishMultiplier;
 
     public Phase(Player player) {
         super(player);
 
         if (!bPlayer.canBendIgnoreBinds(this)) {
+            return;
+        }
+
+        if (player.getHealth() <= minHealth) {
             return;
         }
 
@@ -46,26 +44,22 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
     }
 
     private void setFields() {
-        this.cooldown = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Phase.Cooldown");
+        this.multiplier = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Phase.CooldownMultiplier");
         this.duration = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Phase.Duration");
         this.range = Spirits.plugin.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Phase.Range");
         this.minHealth = Spirits.plugin.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Phase.MinHealth");
         this.applyVanishCD = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Phase.Vanish.ApplyCooldown");
-        this.vanishCD = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Phase.Vanish.Cooldown");
+        this.vanishMultiplier = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Phase.Vanish.CooldownMultiplier");
         this.origin = player.getLocation();
-        this.playerWorld = player.getWorld();
         this.originGM = player.getGameMode();
         this.isPhased = false;
         this.playEffects = true;
+        this.removal = new Removal(player);
     }
 
     @Override
     public void progress() {
-        if (player.isDead() || !player.isOnline() || (player.getWorld() != playerWorld) || GeneralMethods.isRegionProtectedFromBuild(this, origin)) {
-            remove();
-            return;
-        }
-        if (player.getHealth() <= minHealth) {
+        if (removal.stop()) {
             remove();
             return;
         }
@@ -82,16 +76,15 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
         if (player.isSneaking() && isPhased) {
             playEffects();
             remove();
-            return;
         }
     }
     @Override
     public void remove() {
         resetGameMode();
-        bPlayer.addCooldown(this);
-        if (applyVanishCD) {
-            bPlayer.addCooldown("Vanish", vanishCD);
-        }
+
+        bPlayer.addCooldown(this, System.currentTimeMillis() * multiplier);
+        if (applyVanishCD) bPlayer.addCooldown(this, System.currentTimeMillis() * this.vanishMultiplier);
+
         super.remove();
     }
 
@@ -129,7 +122,7 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 
     @Override
     public long getCooldown() {
-        return cooldown;
+        return System.currentTimeMillis() * this.multiplier;
     }
 
     @Override

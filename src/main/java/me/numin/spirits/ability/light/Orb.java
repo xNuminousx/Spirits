@@ -1,7 +1,10 @@
 package me.numin.spirits.ability.light;
 
+import me.numin.spirits.ability.api.removal.Removal;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -20,27 +23,18 @@ import me.numin.spirits.Methods;
 import me.numin.spirits.Methods.SpiritType;
 import me.numin.spirits.ability.api.LightAbility;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Orb extends LightAbility implements AddonAbility {
 
-    private Location location;
     private Location targetLoc;
-    private long duration;
-    private long time;
-    private long cooldown;
-    private long chargeTime;
-    private boolean isCharged;
-    private boolean checkEntities;
-    private boolean registerOrbLoc;
-    private boolean progressExplosion;
-    private boolean playDormant;
-    private boolean requireGround;
-    private int plantRange;
-    private int blindDuration;
-    private int nauseaDuration;
-    private int potionAmp;
-    private double detonateRange;
-    private double effectRange;
-    private double damage;
+    private Removal removal;
+
+    private boolean checkEntities, isCharged, playDormant, progressExplosion, registerOrbLoc, registerStageTimer, requireGround;
+    private double damage, detonateRange, effectRange;
+    private int blindDuration, nauseaDuration, plantRange, potionAmp;
+    private long chargeTime, cooldown, duration, stageTime, stageTimer, time;
 
     public Orb(Player player) {
         super(player);
@@ -58,6 +52,7 @@ public class Orb extends LightAbility implements AddonAbility {
         this.cooldown = Spirits.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Orb.Cooldown");
         this.chargeTime = Spirits.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Orb.ChargeTime");
         this.duration = Spirits.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Orb.Duration");
+        this.stageTime = Spirits.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.Orb.WarmUpTime");
         this.damage = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.LightSpirit.Orb.Damage");
         this.plantRange = Spirits.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.PlaceRange");
         this.detonateRange = Spirits.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.DetonateRange");
@@ -66,17 +61,18 @@ public class Orb extends LightAbility implements AddonAbility {
         this.nauseaDuration = Spirits.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.NauseaDuration");
         this.potionAmp = Spirits.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.PotionPower");
         this.requireGround = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Orb.RequireGround");
-        this.location = player.getLocation();
         this.isCharged = false;
         this.checkEntities = false;
         this.registerOrbLoc = true;
+        this.registerStageTimer = true;
         this.progressExplosion = false;
         this.playDormant = false;
+        this.removal = new Removal(player);
     }
 
     @Override
     public void progress() {
-        if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, location)) {
+        if (removal.stop()) {
             remove();
             return;
         }
@@ -87,7 +83,6 @@ public class Orb extends LightAbility implements AddonAbility {
                 }
             } else {
                 remove();
-                return;
             }
         } else {
             if (player.isSneaking() && !playDormant) {
@@ -101,6 +96,11 @@ public class Orb extends LightAbility implements AddonAbility {
                         if (!canSpawn(targetLoc)) {
                             remove();
                             return;
+                        } else {
+                            targetLoc.add(targetLoc.getDirection().multiply(1.3));
+                            if (GeneralMethods.isSolid(targetLoc.getBlock())) {
+                                targetLoc.add(0, 1, 0);
+                            }
                         }
                     }
                     registerOrbLoc = false;
@@ -112,6 +112,10 @@ public class Orb extends LightAbility implements AddonAbility {
     }
 
     private void displayOrb(Location location) {
+        if (registerStageTimer) {
+            stageTimer = System.currentTimeMillis();
+            registerStageTimer = false;
+        }
         if (playDormant) {
             progressExplosion = false;
             ParticleEffect.ENCHANTMENT_TABLE.display(location, 3, 1, 3, 0, 1);
@@ -127,14 +131,13 @@ public class Orb extends LightAbility implements AddonAbility {
             player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, location, 30, 0, 0, 0, 0.09);
             bPlayer.addCooldown(this);
             remove();
-            return;
         } else {
             bPlayer.addCooldown(this, duration);
             checkEntities = true;
         }
     }
     private void explodeOrb() {
-        if (checkEntities) {
+        if (checkEntities && (System.currentTimeMillis() > stageTimer + stageTime)) {
             for (Entity entity : GeneralMethods.getEntitiesAroundPoint(targetLoc, detonateRange)) {
                 if (entity instanceof LivingEntity && entity.getUniqueId() != player.getUniqueId()) {
                     progressExplosion = true;
@@ -143,8 +146,8 @@ public class Orb extends LightAbility implements AddonAbility {
             }
         }
         if (progressExplosion) {
-            player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, targetLoc, 70, 0.2, 0.2, 0.2, 0.4);
-            ParticleEffect.END_ROD.display(targetLoc, 2, 3, 2, 0, 30);
+            player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, targetLoc, 30, 0.2, 0.2, 0.2, 0.4);
+            ParticleEffect.END_ROD.display(targetLoc, 2, 3, 2, 0, 15);
             for (Entity entity : GeneralMethods.getEntitiesAroundPoint(targetLoc, effectRange)) {
                 if (entity instanceof LivingEntity && entity.getUniqueId() != player.getUniqueId()) {
                     LivingEntity le = (LivingEntity)entity;
@@ -155,20 +158,17 @@ public class Orb extends LightAbility implements AddonAbility {
             }
             bPlayer.addCooldown(this);
             remove();
-            return;
         }
     }
 
     private boolean canSpawn(Location loc) {
-
-        BlockFace[] faces = { BlockFace.EAST, BlockFace.WEST, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.UP, BlockFace.DOWN };
-
-        for (BlockFace face : faces) {
-            if (GeneralMethods.isSolid(loc.getBlock().getRelative(face))) {
-                return true;
+        List<Block> relatives = new ArrayList<>();
+        for (Block relative : GeneralMethods.getBlocksAroundPoint(loc, 2)) {
+            if (GeneralMethods.isSolid(relative)) {
+                relatives.add(relative);
             }
         }
-        return false;
+        return !relatives.isEmpty();
     }
 
     private boolean hasOrb() {

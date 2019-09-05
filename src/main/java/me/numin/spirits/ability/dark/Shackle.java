@@ -7,6 +7,7 @@ import me.numin.spirits.Spirits;
 import me.numin.spirits.Methods;
 import me.numin.spirits.Methods.SpiritType;
 import me.numin.spirits.ability.api.DarkAbility;
+import me.numin.spirits.ability.api.removal.Removal;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
@@ -16,18 +17,15 @@ import org.bukkit.util.Vector;
 
 public class Shackle extends DarkAbility implements AddonAbility {
 
-    private LivingEntity target = null;
-    private Location targetLoc;
-    private Location location;
-    private int range;
-    private long time;
-    private long duration;
-    private Location origin;
+    private LivingEntity target;
+    private Location location, origin, targetLoc;
+    private Removal removal;
     private Vector direction;
-    private double radius;
-    private int currPoint;
+
     private boolean progress;
-    private long cooldown;
+    private double radius;
+    private int currPoint, range;
+    private long cooldown, duration, time;
 
     public Shackle(Player player) {
         super(player);
@@ -51,15 +49,15 @@ public class Shackle extends DarkAbility implements AddonAbility {
         this.location = origin.clone();
         this.direction = player.getLocation().getDirection();
         this.progress = true;
+        this.removal = new Removal(player);
     }
 
     @Override
     public void progress() {
-        if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(this, origin)) {
+        if (removal.stop()) {
             remove();
             return;
         }
-
         if ((origin.distanceSquared(location) > range * range) && target == null) {
             bPlayer.addCooldown(this, 1000);
             remove();
