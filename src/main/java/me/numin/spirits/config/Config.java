@@ -186,6 +186,7 @@ public class Config {
         config.addDefault("Abilities.Spirits.DarkSpirit.Strike.Cooldown", 4000);
         config.addDefault("Abilities.Spirits.DarkSpirit.Strike.Range", 5);
         config.addDefault("Abilities.Spirits.DarkSpirit.Strike.Damage", 3);
+        config.addDefault("Abilities.Spirits.DarkSpirit.Strike.Radius", 1);
 
         config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Enabled", true);
         config.addDefault("Abilities.Spirits.DarkSpirit.Combo.Infest.Cooldown", 15000);

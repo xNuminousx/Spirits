@@ -62,7 +62,7 @@ public class Vanish extends SpiritAbility implements AddonAbility {
 
         this.origin = player.getLocation();
         this.isCharged = false;
-        this.removal = new Removal(player, true);
+        this.removal = new Removal(player);
     }
 
     @Override

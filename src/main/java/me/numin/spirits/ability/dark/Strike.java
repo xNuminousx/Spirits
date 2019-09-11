@@ -46,6 +46,7 @@ public class Strike extends DarkAbility implements AddonAbility {
         this.cooldown = Spirits.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Strike.Cooldown");
         this.damage = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Strike.Damage");
         this.range = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Strike.Range");
+        this.radius = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Strike.Radius");
         this.origin = player.getLocation().clone().add(0, 1, 0);
         this.location = origin.clone();
         this.direction = player.getLocation().getDirection();

@@ -33,7 +33,7 @@ public class Removal {
     }
 
     /**
-     * Method abilities should check to test
+     * The method abilities should use to test
      * their validity.
      *
      * @return true If the ability should stop.

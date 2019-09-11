@@ -38,7 +38,7 @@ public class Abilities implements Listener {
             new Dash(player);
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shackle")) {
             new Shackle(player);
-        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shelter")) {
+        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shelter") && !CoreAbility.hasAbility(player, Shelter.class)) {
             new Shelter(player, ShelterType.CLICK);
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Strike")) {
             new Strike(player);
@@ -77,9 +77,9 @@ public class Abilities implements Listener {
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Agility") && event.isSneaking()) {
             if (bPlayer.isOnCooldown("Soar")) return;
             new Soar(player);
-        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shelter")) {
+        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shelter") && !CoreAbility.hasAbility(player, Shelter.class)) {
             new Shelter(player, ShelterType.SHIFT);
-        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Vanish")) {
+        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Vanish") && event.isSneaking()) {
             new Vanish(player);
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Orb")) {
             new Orb(player);

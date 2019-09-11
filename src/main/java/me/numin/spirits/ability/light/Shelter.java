@@ -1,5 +1,12 @@
 package me.numin.spirits.ability.light;
 
+import com.projectkorra.projectkorra.ability.CoreAbility;
+import com.projectkorra.projectkorra.ability.util.Collision;
+import com.projectkorra.projectkorra.airbending.AirSwipe;
+import com.projectkorra.projectkorra.earthbending.EarthBlast;
+import com.projectkorra.projectkorra.firebending.FireBlast;
+import com.projectkorra.projectkorra.firebending.FireBlastCharged;
+import com.projectkorra.projectkorra.waterbending.WaterManipulation;
 import me.numin.spirits.ability.api.removal.Removal;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -29,8 +36,8 @@ public class Shelter extends LightAbility implements AddonAbility {
     private ShelterType shelterType;
     private Vector direction;
 
-    private boolean isDamaged, progress, removeIfFar, removeOnDamage;
-    private double othersRadius, selfRadius, startHealth;
+    private boolean isDamaged, progress, registerY, removeIfFar, removeOnDamage;
+    private double entityY, othersRadius, selfRadius, startHealth;
     private int currPoint, range;
     private long clickDelay, duration, othersCooldown, selfCooldown, time;
 
@@ -67,6 +74,7 @@ public class Shelter extends LightAbility implements AddonAbility {
         this.direction = player.getLocation().getDirection();
         this.progress = true;
         this.isDamaged = false;
+        this.registerY = true;
         this.removal = new Removal(player);
     }
 
@@ -97,37 +105,16 @@ public class Shelter extends LightAbility implements AddonAbility {
         }
     }
 
-    private void newVelocity(LivingEntity entity) {
-        double x, z, vx, vz, mag;
-        double angle = 50;
-        angle = Math.toRadians(angle);
-
-        x = entity.getLocation().getX() - origin.getX();
-        z = entity.getLocation().getZ() - origin.getZ();
-
-        mag = Math.sqrt(x * x + z * z);
-
-        vx = (x * Math.cos(angle) - z * Math.sin(angle)) / mag;
-        vz = (x * Math.sin(angle) + z * Math.cos(angle)) / mag;
-
-        final Vector velocity = entity.getVelocity();
-        velocity.setX(vx);
-        velocity.setZ(vz);
-
-        velocity.multiply(0.5);
-        GeneralMethods.setVelocity(entity, velocity);
-        entity.setFallDistance(0);
-    }
-
     private void shieldSelf() {
         if (System.currentTimeMillis() > time + duration) {
             bPlayer.addCooldown(this, selfCooldown);
             remove();
         } else {
             rotateShield(player.getLocation(), 96, selfRadius);
+            blockMove();
             for (Entity target : GeneralMethods.getEntitiesAroundPoint(player.getLocation(), selfRadius)) {
                 if (target instanceof LivingEntity && !target.getUniqueId().equals(player.getUniqueId())) {
-                    newVelocity((LivingEntity) target);
+                    this.blockEntity((LivingEntity)target, target.getLocation().getY());
                 } else if (target instanceof Projectile) {
                     target.remove();
                 }
@@ -157,11 +144,16 @@ public class Shelter extends LightAbility implements AddonAbility {
                     }
                     for (Entity target2 : GeneralMethods.getEntitiesAroundPoint(location, othersRadius)) {
                         if (target2 instanceof LivingEntity && !target2.getUniqueId().equals(target.getUniqueId()) && !target2.getUniqueId().equals(player.getUniqueId())) {
-                            newVelocity((LivingEntity) target2);
+                            if (registerY) {
+                                entityY = target.getLocation().getY();
+                                registerY = false;
+                            }
+                            blockEntity((LivingEntity) target2, this.entityY);
                         } else if (target2 instanceof Projectile) {
                             target2.remove();
                         }
                     }
+                    blockMove();
                     rotateShield(location, 100, othersRadius);
                     shieldLocation = location;
 
@@ -204,6 +196,27 @@ public class Shelter extends LightAbility implements AddonAbility {
             location.add(x, 0.1F, z);
             ParticleEffect.SPELL_INSTANT.display(location, 0, 0, 0, 0, 1);
             location.subtract(x, 0.1F, z);
+        }
+    }
+
+    private void blockEntity(LivingEntity entity, double Y) {
+        Vector velocity = entity.getLocation().toVector().subtract(player.getLocation().toVector()).multiply(0.1);
+        velocity.setY(-0.5);
+        entity.setVelocity(velocity);
+    }
+
+    private static void blockMove() {
+        CoreAbility fireBlast = CoreAbility.getAbility(FireBlast.class);
+        CoreAbility earthBlast = CoreAbility.getAbility(EarthBlast.class);
+        CoreAbility waterManip = CoreAbility.getAbility(WaterManipulation.class);
+        CoreAbility airSwipe = CoreAbility.getAbility(AirSwipe.class);
+        CoreAbility fireBlastCharged = CoreAbility.getAbility(FireBlastCharged.class);
+        CoreAbility shelter = CoreAbility.getAbility(Shelter.class);
+
+        CoreAbility[] smallAbilities = {airSwipe, earthBlast, waterManip, fireBlast, fireBlastCharged};
+
+        for (CoreAbility smallAbility : smallAbilities) {
+            ProjectKorra.getCollisionManager().addCollision(new Collision(shelter, smallAbility, false, true));
         }
     }
 
@@ -274,7 +287,7 @@ public class Shelter extends LightAbility implements AddonAbility {
     }
 
     @Override
-    public void load() {ProjectKorra.getCollisionInitializer().addLargeAbility(this);}
+    public void load() {}
     @Override
     public void stop() {}
 }

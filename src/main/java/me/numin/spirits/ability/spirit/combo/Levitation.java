@@ -15,6 +15,7 @@ import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Levitation extends SpiritAbility implements AddonAbility, ComboAbility {
 
@@ -23,27 +24,26 @@ public class Levitation extends SpiritAbility implements AddonAbility, ComboAbil
 
     private boolean wasFlying;
     private double range;
-    private long cooldown;
+    private long cooldown, multiplier, phaseMultiplier, time;
 
     public Levitation(Player player) {
         super(player);
 
-        if (!bPlayer.canBendIgnoreBinds(this) || CoreAbility.hasAbility(player, Levitation.class)) {
-            return;
-        }
-
+        if (!bPlayer.canBendIgnoreBinds(this) || CoreAbility.hasAbility(player, Levitation.class)) return;
         player.teleport(player.getLocation().add(0, 0.3, 0));
-
         setFields();
         start();
     }
 
     private void setFields() {
         this.cooldown = 0;
+        this.multiplier = (long) 1.33;
+        this.phaseMultiplier = (long) 1.4;
         this.range = 5;
         this.wasFlying = player.isFlying();
         this.origin = player.getLocation();
         this.removal = new Removal(player);
+        this.time = System.currentTimeMillis();
     }
 
     @Override
@@ -61,15 +61,17 @@ public class Levitation extends SpiritAbility implements AddonAbility, ComboAbil
     }
 
     private void playParticles() {
-        Location location = player.getLocation();
-        location.getWorld().spawnParticle(Particle.DRAGON_BREATH, location, 3, 0.3, 0.1, 0.3, 0.01);
-        Methods.playSpiritParticles(player, location, 0.4, 0.2, 0.4, 0, 1);
+        Location location = player.getLocation().add(0, 1, 0);
+        location.getWorld().spawnParticle(Particle.DRAGON_BREATH, location, 1, 0.2, 0.6, 0.2, 0.01);
+        if (new Random().nextInt(10) == 1) Methods.playSpiritParticles(player, location, 0.4, 0.6, 0.4, 0, 3);
     }
 
     @Override
     public void remove() {
         player.setFlying(wasFlying);
-        bPlayer.addCooldown(this);
+        this.cooldown = (System.currentTimeMillis() - time) * multiplier;
+        bPlayer.addCooldown(this, this.cooldown);
+        bPlayer.addCooldown(this, this.cooldown * this.phaseMultiplier);
         super.remove();
     }
 

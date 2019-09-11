@@ -9,7 +9,6 @@ import me.numin.spirits.inventories.ChooseSub;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,11 +20,13 @@ public class PkEvent implements Listener {
 
     private boolean hasSelectedSub = false;
 
-    // Used to automatically handle Spirit sub elements
     @EventHandler
     public void elementChange(PlayerChangeElementEvent event) {
         Player player = event.getTarget();
-        Element element = event.getElement(), lightSpirit = Element.getElement("LightSpirit"), darkSpirit = Element.getElement("DarkSpirit");
+        Element element = event.getElement(),
+                spirit = Element.getElement("Spirit"),
+                lightSpirit = Element.getElement("LightSpirit"),
+                darkSpirit = Element.getElement("DarkSpirit");
         boolean addSpiritElement = Spirits.plugin.getConfig().getBoolean("Command.GiveSpiritElementAutomatically");
 
         if (player == null || element == null || !addSpiritElement) {
@@ -33,7 +34,7 @@ public class PkEvent implements Listener {
         }
 
         BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
-        if (element.equals(Element.getElement("Spirit"))) {
+        if (element.equals(spirit)) {
             new ChooseSub(player);
         } else if (element.equals(lightSpirit) || element.equals(darkSpirit)) {
             if (element.equals(lightSpirit)) {
@@ -41,7 +42,10 @@ public class PkEvent implements Listener {
             } else {
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1, -1);
             }
-            bPlayer.addElement(Element.getElement("Spirit"));
+            if (!bPlayer.hasElement(Element.getElement("Spirit"))) {
+                bPlayer.addElement(Element.getElement("Spirit"));
+                GeneralMethods.sendBrandingMessage(player, ChatColor.DARK_AQUA + "You are now a Spirit.");
+            }
             GeneralMethods.saveElements(bPlayer);
         }
     }
@@ -50,7 +54,7 @@ public class PkEvent implements Listener {
     public void inventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        if (!event.getInventory().getTitle().contains(ChooseSub.guiName)) {
+        if (!event.getView().getTitle().equalsIgnoreCase(ChooseSub.guiName)) {
             return;
         } else if ((event.getCurrentItem() == null) ||
                 (event.getCurrentItem().equals(new ItemStack(Material.AIR))) ||
@@ -64,14 +68,14 @@ public class PkEvent implements Listener {
             event.setCancelled(true);
             bPlayer.addElement(Element.getElement("LightSpirit"));
             GeneralMethods.saveElements(bPlayer);
-            GeneralMethods.sendBrandingMessage((CommandSender)player, ChatColor.AQUA + "You are now a LightSpirit.");
+            GeneralMethods.sendBrandingMessage(player, ChatColor.AQUA + "You are now a LightSpirit.");
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1, 1);
             hasSelectedSub = true;
         } else if (event.getCurrentItem().getItemMeta().getDisplayName().contains("DarkSpirit")) {
             event.setCancelled(true);
             bPlayer.addElement(Element.getElement("DarkSpirit"));
             GeneralMethods.saveElements(bPlayer);
-            GeneralMethods.sendBrandingMessage((CommandSender)player, ChatColor.BLUE + "You are now a DarkSpirit.");
+            GeneralMethods.sendBrandingMessage(player, ChatColor.BLUE + "You are now a DarkSpirit.");
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1, -1);
             hasSelectedSub = true;
         } else {
@@ -85,16 +89,14 @@ public class PkEvent implements Listener {
     @EventHandler
     public void inventoryClose(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
-        String invName = event.getInventory().getTitle();
+        String invName = event.getView().getTitle();
 
-        if (!invName.contains(ChooseSub.guiName)) {
-            return;
-        }
+        if (!invName.equalsIgnoreCase(ChooseSub.guiName)) return;
         BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
         if (!hasSelectedSub && bPlayer.hasElement(Element.getElement("Spirit"))) {
             bPlayer.getElements().remove(Element.getElement("Spirit"));
             GeneralMethods.saveElements(bPlayer);
-            GeneralMethods.sendBrandingMessage((CommandSender)player, ChatColor.RED + "You failed to select your SubElement.");
+            GeneralMethods.sendBrandingMessage(player, ChatColor.RED + "You failed to select your SubElement.");
         }
     }
 }

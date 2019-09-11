@@ -25,8 +25,8 @@ public final class Spirits extends JavaPlugin {
         new SpiritElement();
 
         CoreAbility.registerPluginAbilities(plugin, "me.numin.spirits.ability");
-        this.registerPermissions();
         this.registerListeners();
+        this.registerPermissions();
 
         plugin.getLogger().info("Successfully enabled Spirits.");
     }
@@ -40,43 +40,37 @@ public final class Spirits extends JavaPlugin {
         return plugin;
     }
 
+    private void registerListeners() {
+        getServer().getPluginManager().registerEvents(new Abilities(), this);
+        getServer().getPluginManager().registerEvents(new Passives(), this);
+        getServer().getPluginManager().registerEvents(new PkEvent(), this);
+    }
+
     private void registerPermissions() {
         // Ability Permissions
         String[] abilities = {"Infest", "Intoxicate", "Shackle", "Strike",
         "Rejuvenate", "Alleviate", "Orb", "Shelter", "LightBlast",
         "Phase", "Agility", "Vanish", "Possess", "DarkBlast", "Levitation"};
-
         for (String ability : abilities) {
             CoreAbility coreAbility = CoreAbility.getAbility(ability);
-
+            String node = "bending.ability." + ability.toLowerCase();
             if (coreAbility == null || !coreAbility.isEnabled() ||
-                    ProjectKorra.plugin.getServer().getPluginManager().getPermission("bending.ability." + ability.toLowerCase()) == null)
+                    ProjectKorra.plugin.getServer().getPluginManager().getPermission(node) == null)
                 return;
-
-            Permission perm = new Permission("bending.ability." + ability.toLowerCase());
+            Permission perm = new Permission(node);
             perm.setDefault(PermissionDefault.TRUE);
             ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
         }
-
         // Choose Element Permissions
         String[] elements = {"Spirit", "LightSpirit", "DarkSpirit"};
-
         for (String ele : elements) {
             Element element = Element.getElement(ele);
-
+            String node = "bending.command.choose." + ele.toLowerCase();
             if (element == null ||
-                    ProjectKorra.plugin.getServer().getPluginManager().getPermission("bending.ability." + ele.toLowerCase()) == null)
-            return;
-
-            Permission perm = new Permission("bending.command.choose." + ele.toLowerCase());
+                    ProjectKorra.plugin.getServer().getPluginManager().getPermission(node) == null) return;
+            Permission perm = new Permission(node);
             perm.setDefault(PermissionDefault.TRUE);
             ProjectKorra.plugin.getServer().getPluginManager().addPermission(perm);
         }
-    }
-
-    private void registerListeners() {
-        getServer().getPluginManager().registerEvents(new Abilities(), this);
-        getServer().getPluginManager().registerEvents(new Passives(), this);
-        getServer().getPluginManager().registerEvents(new PkEvent(), this);
     }
 }
