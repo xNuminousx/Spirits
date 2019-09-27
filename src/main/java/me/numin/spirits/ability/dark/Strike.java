@@ -2,6 +2,7 @@ package me.numin.spirits.ability.dark;
 
 import me.numin.spirits.ability.api.removal.Removal;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -11,7 +12,6 @@ import org.bukkit.util.Vector;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.util.DamageHandler;
-import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.numin.spirits.Spirits;
 import me.numin.spirits.Methods;
@@ -20,13 +20,13 @@ import me.numin.spirits.ability.api.DarkAbility;
 
 public class Strike extends DarkAbility implements AddonAbility {
 
-    //TODO: Implement radius variable into configuration.
-
-    private Location location, origin;
+    private Entity target;
+    private Location location;
+    private Location origin;
     private Removal removal;
     private Vector direction;
 
-    private boolean progress;
+    private boolean checkEntities;
     private double damage, radius;
     private int range;
     private long cooldown;
@@ -50,7 +50,7 @@ public class Strike extends DarkAbility implements AddonAbility {
         this.origin = player.getLocation().clone().add(0, 1, 0);
         this.location = origin.clone();
         this.direction = player.getLocation().getDirection();
-        this.progress = true;
+        this.checkEntities = true;
         this.removal = new Removal(player);
     }
 
@@ -60,37 +60,38 @@ public class Strike extends DarkAbility implements AddonAbility {
             remove();
             return;
         }
-        if (origin.distanceSquared(location) > range * range) {
-            remove();
-            return;
-        }
         strike();
 
     }
 
     private void strike() {
-        if (progress) {
-            location.add(direction.multiply(1));
-            ParticleEffect.CRIT.display(location, 0, 0, 0, 0, 1);
-        }
+        if (checkEntities) {
+            Location blast = location.add(direction.multiply(1).normalize());
+            blast.getWorld().spawnParticle(Particle.CRIT, blast, 1, 0, 0, 0, 0);
 
-        for (Entity target : GeneralMethods.getEntitiesAroundPoint(location, radius)) {
-            if (((target instanceof LivingEntity)) && (target.getUniqueId() != player.getUniqueId())) {
-                Location location = player.getLocation();
-                progress = false;
-                LivingEntity le = (LivingEntity)target;
-                Location tLoc = le.getLocation().clone();
-                tLoc.setPitch(location.getPitch());
-                tLoc.setYaw(location.getYaw());
-                player.teleport(tLoc);
-                DamageHandler.damageEntity(target, damage, this);
-                player.getWorld().playSound(location, Sound.ENTITY_PLAYER_BURP, 0.2F, 0.2F);
-
-                bPlayer.addCooldown(this);
+            if (origin.distance(blast) > range) {
                 remove();
                 return;
             }
+            for (Entity entity : GeneralMethods.getEntitiesAroundPoint(blast, radius)) {
+                if (entity instanceof LivingEntity && !entity.getUniqueId().equals(player.getUniqueId())) {
+                    this.target = entity;
+                    checkEntities = false;
+                }
+            }
+        } else {
+            if (this.target == null) return;
+            player.teleport(this.target.getLocation());
+            DamageHandler.damageEntity(target, damage, this);
+            player.getWorld().playSound(location, Sound.ENTITY_PLAYER_BURP, 0.2F, 0.2F);
+            remove();
         }
+    }
+
+    @Override
+    public void remove() {
+        bPlayer.addCooldown(this);
+        super.remove();
     }
 
     @Override
@@ -100,7 +101,7 @@ public class Strike extends DarkAbility implements AddonAbility {
 
     @Override
     public Location getLocation() {
-        return location;
+        return player.getLocation();
     }
 
     @Override

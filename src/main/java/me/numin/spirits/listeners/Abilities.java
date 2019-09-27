@@ -31,9 +31,7 @@ public class Abilities implements Listener {
 
         if (event.isCancelled() || bPlayer == null) return;
 
-        if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Possess")) {
-            new Possess(player);
-        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Agility")) {
+        if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Agility")) {
             if (bPlayer.isOnCooldown("Dash")) return;
             new Dash(player);
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shackle")) {
@@ -77,6 +75,8 @@ public class Abilities implements Listener {
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Agility") && event.isSneaking()) {
             if (bPlayer.isOnCooldown("Soar")) return;
             new Soar(player);
+        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Possess") && !event.isSneaking() && !CoreAbility.hasAbility(player, Possess.class)) {
+            new Possess(player);
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shelter") && !CoreAbility.hasAbility(player, Shelter.class)) {
             new Shelter(player, ShelterType.SHIFT);
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Vanish") && event.isSneaking()) {

@@ -27,18 +27,6 @@ public class Methods {
     }
 
     /**
-     * Used to move a location in a certain direction.
-     *
-     * @param direction The direction in which to move.
-     * @param point The starting point from which the location moves.
-     * @return The new location.
-     */
-    public static Location advanceLocationToDirection(Vector direction, Location point) {
-        point.add(direction.multiply(1).normalize().clone());
-        return point;
-    }
-
-    /**
      * Moves a location from point 1 to point 2.
      *
      * @param vector The vector used to move the points.
@@ -46,9 +34,9 @@ public class Methods {
      * @param point2 The end point.
      * @return The new location.
      */
-    public static Location advanceLocationToPoint(Vector vector, Location point1, Location point2) {
-        vector.add(point2.toVector()).subtract(point1.toVector()).multiply(1).normalize();
-        point1.add(vector.clone().multiply(0.5));
+    public static Location advanceLocationToPoint(Vector vector, Location point1, Location point2, double speed) {
+        vector.add(point2.toVector()).subtract(point1.toVector()).multiply(speed).normalize();
+        point1.add(vector.clone().multiply(speed));
         return point1;
     }
 
@@ -192,7 +180,6 @@ public class Methods {
         } else if (spiritType == SpiritType.LIGHT) {
             location.getWorld().spawnParticle(Particle.SPELL_INSTANT, location, amount, X, Y, Z, speed);
             location.getWorld().spawnParticle(Particle.REDSTONE, location, amount, X, Y, Z, speed, white);
-
         }
     }
 

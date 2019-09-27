@@ -3,6 +3,7 @@ package me.numin.spirits;
 import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.CoreAbility;
+import me.numin.spirits.ability.light.Shelter;
 import me.numin.spirits.command.SpiritsCommand;
 import me.numin.spirits.config.Config;
 import me.numin.spirits.listeners.Abilities;
@@ -27,6 +28,7 @@ public final class Spirits extends JavaPlugin {
         CoreAbility.registerPluginAbilities(plugin, "me.numin.spirits.ability");
         this.registerListeners();
         this.registerPermissions();
+        ProjectKorra.getCollisionInitializer().addLargeAbility(CoreAbility.getAbility(Shelter.class));
 
         plugin.getLogger().info("Successfully enabled Spirits.");
     }

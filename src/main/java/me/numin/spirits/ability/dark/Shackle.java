@@ -2,28 +2,32 @@ package me.numin.spirits.ability.dark;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.util.ParticleEffect;
 import me.numin.spirits.Spirits;
 import me.numin.spirits.Methods;
 import me.numin.spirits.Methods.SpiritType;
 import me.numin.spirits.ability.api.DarkAbility;
 import me.numin.spirits.ability.api.removal.Removal;
+import me.numin.spirits.listeners.Abilities;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 public class Shackle extends DarkAbility implements AddonAbility {
 
-    private LivingEntity target;
-    private Location location, origin, targetLoc;
+    private Entity target;
+    private Location location, origin;
     private Removal removal;
     private Vector direction;
 
-    private boolean progress;
+    private boolean checkEntities;
     private double radius;
+    private float originWalkSpeed;
     private int currPoint, range;
     private long cooldown, duration, time;
 
@@ -35,7 +39,6 @@ public class Shackle extends DarkAbility implements AddonAbility {
         }
 
         setFields();
-        time = System.currentTimeMillis();
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 1, -1);
         start();
     }
@@ -48,7 +51,7 @@ public class Shackle extends DarkAbility implements AddonAbility {
         this.origin = player.getLocation().clone().add(0, 1, 0);
         this.location = origin.clone();
         this.direction = player.getLocation().getDirection();
-        this.progress = true;
+        this.checkEntities = true;
         this.removal = new Removal(player);
     }
 
@@ -58,53 +61,49 @@ public class Shackle extends DarkAbility implements AddonAbility {
             remove();
             return;
         }
-        if ((origin.distanceSquared(location) > range * range) && target == null) {
-            bPlayer.addCooldown(this, 1000);
-            remove();
-            return;
-
-        }
         bind();
     }
 
     private void bind() {
-        bPlayer.addCooldown(this);
-        if (progress) {
-            location.add(direction.multiply(1));
-            blastSpiral(location);
-        }
-        if (target == null) {
-            for (Entity entity : GeneralMethods.getEntitiesAroundPoint(location, radius)) {
-                if (entity instanceof LivingEntity && entity.getUniqueId() != player.getUniqueId()) {
-                    target = (LivingEntity) entity;
-                    targetLoc = entity.getLocation();
+        if (checkEntities) {
+            Location blast = location.add(direction.multiply(1).normalize());
+            blastSpiral(blast);
+
+            if (origin.distance(blast) > range) {
+                remove();
+                return;
+            }
+            for (Entity entity : GeneralMethods.getEntitiesAroundPoint(blast, radius)) {
+                if (entity instanceof LivingEntity && !entity.getUniqueId().equals(player.getUniqueId())) {
+                    this.time = System.currentTimeMillis();
+                    this.target = entity;
+                    if (entity instanceof Player) this.originWalkSpeed = ((Player) entity).getWalkSpeed();
+                    checkEntities = false;
                 }
             }
         } else {
-            if (target.isDead() || target.getWorld() != player.getWorld()) {
+            if (this.target == null || this.target.isDead() || this.target.getWorld() != player.getWorld()) {
                 remove();
                 return;
             }
             if (System.currentTimeMillis() > time + duration) {
-                ParticleEffect.CLOUD.display(targetLoc, 0, 0, 0, (int) 0.08F, 5);
-                player.getWorld().playSound(targetLoc, Sound.BLOCK_IRON_TRAPDOOR_CLOSE, 0.5F, 1.5F);
-                bPlayer.addCooldown(this);
+                target.getWorld().spawnParticle(Particle.CLOUD, target.getLocation(), 5, 0, 0, 0, 0.08);
+                target.getWorld().playSound(target.getLocation(), Sound.BLOCK_IRON_TRAPDOOR_CLOSE, 0.5F, 1.5F);
                 remove();
-                return;
             } else {
-                for (Entity entity : GeneralMethods.getEntitiesAroundPoint(targetLoc, 2)) {
-                    if (entity != target) {
-                        target.teleport(targetLoc);
-                    }
-                }
-                this.progress = false;
-                Vector vec = targetLoc.getDirection().normalize().multiply(0);
-                target.setVelocity(vec);
-                targetLoc.setPitch(targetLoc.getPitch());
-                targetLoc.setYaw(targetLoc.getYaw());
-
                 holdSpiral(target.getLocation());
+
+                if (this.target instanceof Player) {
+                    Player playerTarget = (Player)this.target;
+                    playerTarget.setWalkSpeed(0);
+                    playerTarget.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 120, 128));
+                } else {
+                    LivingEntity livingTarget = (LivingEntity)this.target;
+                    livingTarget.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 128));
+                    livingTarget.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 120, 128));
+                }
             }
+
         }
     }
 
@@ -115,14 +114,13 @@ public class Shackle extends DarkAbility implements AddonAbility {
                 currPoint = 0;
             }
             double angle = currPoint * Math.PI / 180 * Math.cos(Math.PI);
-            double x = (float) 0.04 * (Math.PI * 4 - angle) * Math.cos(angle + i);
-            double z = (float) 0.04 * (Math.PI * 4 - angle) * Math.sin(angle + i);
+            double x = 0.04 * (Math.PI * 4 - angle) * Math.cos(angle + i);
+            double z = 0.04 * (Math.PI * 4 - angle) * Math.sin(angle + i);
             location.add(x, 0.1F, z);
-            ParticleEffect.SPELL_WITCH.display(location, 0, 0, 0, 0, 1);
+            player.getWorld().spawnParticle(Particle.SPELL_WITCH, location, 1, 0, 0, 0, 0);
             location.subtract(x, 0.1F, z);
         }
     }
-
     private void holdSpiral(Location location) {
         for (int t = 0; t < 2; t++) {
             currPoint += 360 / 30;
@@ -133,9 +131,23 @@ public class Shackle extends DarkAbility implements AddonAbility {
             double x2 = (float) 0.04 * (Math.PI * 5 - angle2) * Math.cos(angle2 + t);
             double z2 = (float) 0.04 * (Math.PI * 5 - angle2) * Math.sin(angle2 + t);
             location.add(x2, 0.1F, z2);
-            ParticleEffect.SPELL_WITCH.display(location, 0, 0, 0, 0, 1);
+            player.getWorld().spawnParticle(Particle.SPELL_WITCH, location, 1, 0, 0, 0, 0);
             location.subtract(x2, 0.1F, z2);
         }
+    }
+
+    @Override
+    public void remove() {
+        if (this.target != null) {
+            if (this.target instanceof Player) {
+                ((Player)this.target).setWalkSpeed(this.originWalkSpeed);
+            }
+            LivingEntity livingTarget = (LivingEntity)this.target;
+            if (livingTarget.hasPotionEffect(PotionEffectType.JUMP)) livingTarget.removePotionEffect(PotionEffectType.JUMP);
+            if (livingTarget.hasPotionEffect(PotionEffectType.SLOW)) livingTarget.removePotionEffect(PotionEffectType.SLOW);
+        }
+        bPlayer.addCooldown(this);
+        super.remove();
     }
 
     @Override

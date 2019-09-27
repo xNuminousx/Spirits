@@ -154,6 +154,7 @@ public class Config {
         config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Self.Radius", 4);
         config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Others.KnockbackPower", 1);
         config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Self.KnockbackPower", 1);
+        config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Others.Range", 10);
         config.addDefault("Abilities.Spirits.LightSpirit.Shelter.RemoveIfFarAway.Enabled", true);
         config.addDefault("Abilities.Spirits.LightSpirit.Shelter.RemoveIfFarAway.Range", 5);
 
