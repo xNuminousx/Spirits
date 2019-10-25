@@ -1,6 +1,6 @@
 package me.numin.spirits.inventories;
 
-import me.numin.spirits.Methods;
+import me.numin.spirits.utilities.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -19,11 +19,11 @@ public class ChooseSub {
         int slotAmount = 9, lightSlot = 2, darkSlot = 6;
         Inventory inv = Bukkit.createInventory(player, slotAmount, guiName);
 
-        List<String> light = new ArrayList<String>();
+        List<String> light = new ArrayList<>();
         light.add("LightSpirits specialize in aiding others with healing and defense.");
         light.add("They have a small amount of offense.");
 
-        List<String> dark = new ArrayList<String>();
+        List<String> dark = new ArrayList<>();
         dark.add("DarkSpirits specialize in disabling their opponents");
         dark.add("and dealing damage.");
         dark.add("They have little to no healing potential.");

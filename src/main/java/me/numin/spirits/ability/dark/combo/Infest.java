@@ -10,10 +10,10 @@ import com.projectkorra.projectkorra.util.ClickType;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 import me.numin.spirits.Spirits;
-import me.numin.spirits.Methods;
-import me.numin.spirits.Methods.SpiritType;
+import me.numin.spirits.utilities.Methods;
+import me.numin.spirits.utilities.Methods.SpiritType;
 import me.numin.spirits.ability.api.DarkAbility;
-import me.numin.spirits.ability.api.removal.Removal;
+import me.numin.spirits.utilities.Removal;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -35,8 +35,8 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
     private Removal removal;
 
     private boolean damageEntities, healDarkSpirits;
-    private double damage, t;
-    private int currPoint, effectInt, radius;
+    private double damage, radius, t;
+    private int currPoint, effectInt;
     private long cooldown, duration, time;
 
     public Infest(Player player) {
@@ -55,7 +55,7 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
     private void setFields() {
         this.cooldown = Spirits.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Combo.Infest.Cooldown");
         this.duration = Spirits.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Combo.Infest.Duration");
-        this.radius = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Combo.Infest.Radius");
+        this.radius = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Combo.Infest.Radius");
         this.effectInt = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Combo.Infest.EffectInterval");
         this.damage = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Combo.Infest.Damage");
         this.damageEntities = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.Combo.Infest.DamageEntities");
@@ -118,7 +118,7 @@ public class Infest extends DarkAbility implements AddonAbility, ComboAbility {
             }
         }
 
-        ParticleEffect.DRAGON_BREATH.display(location, radius/2, 0.6F, radius/2, (int)0.01, 1);
+        player.getWorld().spawnParticle(Particle.TOWN_AURA, location, 10, radius / 2, 0.6, radius / 2, 0);
     }
 
     private void grabEntities() {

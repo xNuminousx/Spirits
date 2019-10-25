@@ -2,202 +2,203 @@ package me.numin.spirits.ability.dark;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import com.projectkorra.projectkorra.ability.CoreAbility;
-import me.numin.spirits.Methods;
+import com.projectkorra.projectkorra.util.DamageHandler;
 import me.numin.spirits.ability.api.DarkAbility;
+import me.numin.spirits.utilities.Methods;
+import me.numin.spirits.Spirits;
+import me.numin.spirits.utilities.Removal;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.Particle.DustOptions;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
-
-import java.util.List;
-import java.util.Random;
 
 public class DarkBlast extends DarkAbility implements AddonAbility {
 
-    public enum Type {
+    //TODO: Implement configuration.
+
+    private Particle.DustOptions black = new Particle.DustOptions(Color.fromRGB(0, 0, 0), 1);
+    private Particle.DustOptions purple = new Particle.DustOptions(Color.fromRGB(150, 0, 216), 1);
+    private Entity target;
+    private DarkBlastType type;
+    private Location blast, location, origin;
+    private Removal removal;
+    private Vector direction, vector;
+
+    private boolean burst = true, canHeal, controllable, hasReached = false;
+    private double damage, initialBlastSpeed, blastRadius, finalBlastSpeed, range;
+    private int potionDuration, potionPower;
+    private long cooldown, selectionDuration, time;
+
+    public enum DarkBlastType {
         SHIFT, CLICK
     }
 
-    //General Variables
-    private DustOptions blue = new DustOptions(Color.fromRGB(0, 255, 247), 1);
-    private DustOptions white = new DustOptions(Color.fromRGB(255, 255, 255), 1);
-    private Location blastLoc;
-    private Type action;
-    private double range;
-    private int point;
-    private long cooldown;
-
-    //Selection Variables
-    private Entity target;
-    private Location playerOrigin, playerLocation, targetLocation;
-    private Vector vector = new Vector(1, 0, 0);
-    public boolean canShoot = false, hasReached;
-    private boolean canSpiral = true, hasSight, hasSelected, setupLocation = true;
-
-    //Blast Variables
-    private Vector direction;
-    private Location location, origin;
-    private boolean hasShot = false;
-
-    public DarkBlast(Player player, Type action) {
+    public DarkBlast(Player player, DarkBlastType type) {
         super(player);
 
-        if (!bPlayer.canBend(this)) {
-            return;
-        }
+        if (!bPlayer.canBend(this)) return;
 
-        this.action = action;
-        this.cooldown = 1000;
-        this.range = 20;
+        if (type != null) this.type = type;
 
-        if (this.action == Type.SHIFT) {
-            this.target = GeneralMethods.getTargetedEntity(player, range);
-            this.playerOrigin = player.getLocation().add(0, 1, 0);
-            this.playerLocation = this.playerOrigin;
+        if (hasAbility(player, DarkBlast.class)) {
+            DarkBlast darkBlast = getAbility(player, DarkBlast.class);
+            if (darkBlast.target != null) {
+                // Makes sure the player is looking at their target.
+                Entity targetEntity = GeneralMethods.getTargetedEntity(player, darkBlast.range);
+                if (targetEntity == null || !targetEntity.equals(darkBlast.target)) return;
 
-            if (target != null) {
-                this.targetLocation = target.getLocation().add(0, 1, 0);
-                this.hasReached = false;
-                this.hasSelected = true;
+                darkBlast.location = player.getLocation().add(0, 1, 0);
+                darkBlast.canHeal = true;
             }
-
         } else {
-            this.origin = player.getLocation().add(0, 1, 0);
-            this.location = GeneralMethods.getTargetedLocation(player, 1);
-            this.direction = this.location.getDirection().normalize();
-            this.hasShot = true;
+            setFields();
+            start();
+            time = System.currentTimeMillis();
         }
-        start();
+    }
+
+    private void setFields() {
+        this.cooldown = 0;
+        this.controllable = false;
+        this.damage = 4;
+        this.range = 10;
+        this.selectionDuration = 2000;
+        // heals 4 hearts
+        this.potionDuration = 5;
+        this.potionPower = 1;
+        this.initialBlastSpeed = 1;
+        this.blastRadius = 2;
+        this.finalBlastSpeed = 0.2;
+
+        this.direction = player.getLocation().getDirection();
+        this.origin = player.getLocation().add(0, 1, 0);
+        this.location = origin.clone();
+
+        this.removal = new Removal(player);
+        this.vector = new Vector(1, 0, 0);
+
+        this.canHeal = false;
     }
 
     @Override
     public void progress() {
-        if (player.isDead() || !player.isOnline() || GeneralMethods.isRegionProtectedFromBuild(player, player.getLocation())) {
+        if (this.removal.stop()) {
             remove();
             return;
         }
 
-        switch(this.action) {
-            case CLICK: this.progressBlast();
-            case SHIFT: this.progressSelection();
+        if (type == DarkBlastType.CLICK) shootDamagingBlast();
+        else if (type == DarkBlastType.SHIFT) shootSelectionBlast();
+
+        showSelectedTarget();
+
+        if (canHeal) shootHomingBlast();
+    }
+
+    private void shootDamagingBlast() {
+        if (controllable) this.direction = player.getLocation().getDirection();
+        this.blast = Methods.advanceLocationToDirection(direction, location, this.initialBlastSpeed);
+
+        genericBlast(blast, false);
+
+        if (origin.distance(blast) > range || GeneralMethods.isSolid(blast.getBlock()) || blast.getBlock().isLiquid()) {
+            remove();
+            return;
+        }
+
+        for (Entity target : GeneralMethods.getEntitiesAroundPoint(blast, this.blastRadius)) {
+            if (target instanceof LivingEntity && !target.getUniqueId().equals(player.getUniqueId()) &&
+                    !(target instanceof ArmorStand)) {
+                DamageHandler.damageEntity(target, this.damage, this);
+                player.getWorld().spawnParticle(Particle.DRAGON_BREATH, target.getLocation().add(0, 1, 0), 10, 0, 0, 0, 0.2);
+                remove();
+            }
         }
     }
 
-    private void progressBlast() {
-        this.blastLoc = this.advanceLocationToDirection(this.direction, this.location);
+    private void shootSelectionBlast() {
+        if (target == null) {
+            if (controllable) this.direction = player.getLocation().getDirection();
+            this.blast = Methods.advanceLocationToDirection(direction, location, this.initialBlastSpeed);
 
-        player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, blastLoc,
-                1, 0, 0, 0, 0);
+            genericBlast(blast, true);
 
-        if (origin.distanceSquared(blastLoc) > range * range) {
-            remove();
-        }
-    }
-    List<Location> locations;
-    private boolean set = true;
-    private void progressSelection() {
-        /*if (target == null) {
-            return;
-        }*/
-
-        if (!player.isSneaking()) {
-            remove();
-            return;
-        }
-
-        /*for (int i = 1; i<= 6; i++) {
-            Random rand = new Random();
-            int x = rand.nextInt(3), y = rand.nextInt(3), z = rand.nextInt(3);
-            Location loc = player.getLocation().add(x, y, z);
-            locations.add(loc);
-        }
-        for (Location location : locations) {
-            Location newLoc = this.advanceLocationToPoint(vector, location, player.getLocation());
-            player.getWorld().spawnParticle(Particle.FLAME, newLoc,
-                    1, 0, 0, 0, 0);
-        }*/
-
-
-
-        /*if (canSpiral && !hasReached) {
-            this.moveSpiral();
-        }
-
-        if (canShoot) {
-            if (!hasReached) {
-                if (setupLocation) {
-                    this.playerLocation = player.getLocation().add(0, 1, 0);
-                    this.setupLocation = false;
-                }
-                this.blastLoc = this.advanceLocationToPoint(vector, playerLocation, target.getLocation());
-
-                if (playerOrigin.distance(blastLoc) > range) {
-                    remove();
-                    return;
-                }
-
-                player.getWorld().spawnParticle(Particle.FLAME, blastLoc,
-                        1, 0, 0, 0, 0);
-            } else {
+            if (origin.distance(blast) > range || GeneralMethods.isSolid(blast.getBlock()) || blast.getBlock().isLiquid()) {
                 remove();
                 return;
             }
 
-            for (Entity entity : GeneralMethods.getEntitiesAroundPoint(blastLoc, 1.5)) {
-                if (entity.equals(target)) {
-                    this.hasReached = true;
-                    this.canSpiral = false;
+            for (Entity target : GeneralMethods.getEntitiesAroundPoint(blast, this.blastRadius)) {
+                if (target instanceof LivingEntity && !target.getUniqueId().equals(player.getUniqueId())) {
+                    this.target = target;
                 }
             }
-        }*/
-    }
-
-    //TODO: remove these methods
-    private Location advanceLocationToDirection(Vector direction, Location origin) {
-        origin.add(direction.multiply(1).normalize().clone());
-        return origin;
-    }
-
-    private Location advanceLocationToPoint(Vector vector, Location point1, Location point2) {
-        vector.add(point2.toVector()).subtract(point1.toVector()).multiply(1).normalize();
-        point1.add(vector.clone().multiply(0.5));
-        return point1;
-    }
-
-    private void moveSpiral() {
-        Location spiral1 = target.getLocation();
-        Location spiral2 = target.getLocation();
-        for (int i = 0; i <= 1; i++) {
-            point += 360/180;
-            if (point == 180) {
-                canSpiral = false;
+        } else {
+            if (player.getLocation().distance(target.getLocation()) > this.range ||
+                    (System.currentTimeMillis() > time + selectionDuration && !canHeal)) {
+                remove();
             }
-            double angle = point * Math.PI / 180;
-            double x = Math.cos(angle * 5);
-            double y = Math.cos(angle * 2.2);
-            double z = Math.sin(angle * 5);
-            spiral1.add(x, y + 1, z);
-            spiral2.add(-x, y + 1, -z);
-            this.target.getWorld().spawnParticle(Particle.REDSTONE, spiral1, 1, 0, 0, 0, blue);
-            this.target.getWorld().spawnParticle(Particle.REDSTONE, spiral1, 1, 0, 0, 0, white);
-            this.target.getWorld().spawnParticle(Particle.REDSTONE, spiral2, 1, 0, 0, 0, blue);
-            this.target.getWorld().spawnParticle(Particle.REDSTONE, spiral2, 1, 0, 0, 0, white);
-            spiral1.subtract(x, y + 1, z);
-            spiral2.subtract(-x, y + 1, -z);
         }
     }
 
-    public Type getAction() {
-        return this.action;
+    private void shootHomingBlast() {
+        if (!hasReached) {
+            this.blast = Methods.advanceLocationToPoint(vector, location, target.getLocation().add(0, 1,0), this.finalBlastSpeed);
+
+            player.getWorld().spawnParticle(Particle.REDSTONE, location, 2, 0.1, 0.1, 0.1, 0, purple);
+
+            if (player.getLocation().distance(target.getLocation()) > this.range ||
+                    origin.distance(target.getLocation()) > this.range ||
+                    GeneralMethods.isSolid(blast.getBlock()) || blast.getBlock().isLiquid() ||
+                    !player.isSneaking()) {
+                remove();
+                return;
+            }
+
+            for (Entity entity : GeneralMethods.getEntitiesAroundPoint(blast, blastRadius)) {
+                if (target.getUniqueId().equals(entity.getUniqueId())) {
+                    hasReached = true;
+                }
+            }
+        } else {
+            this.infectEntity(target);
+        }
+    }
+
+    private void infectEntity(Entity entity) {
+        if (entity instanceof LivingEntity && !(entity instanceof ArmorStand)) {
+            LivingEntity livingEntity = (LivingEntity)entity;
+            livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.POISON,
+                    20 * this.potionDuration, this.potionPower, false, true, false));
+            remove();
+        }
+    }
+
+    private void genericBlast(Location location, boolean healing) {
+        player.getWorld().spawnParticle(Particle.TOWN_AURA, location, 10, 0.1, 0.1, 0.1, 1);
+        player.getWorld().spawnParticle(Particle.REDSTONE, location, 2, 0.2, 0.2, 0.2, 0, black);
+        if (healing) player.getWorld().spawnParticle(Particle.REDSTONE, location, 2, 0.2, 0.2, 0.2, 0, purple);
+        if (burst) {
+            player.getWorld().spawnParticle(Particle.DRAGON_BREATH, location, 10, 0, 0, 0, 0.1);
+            burst = false;
+        }
+    }
+
+    private void showSelectedTarget() {
+        if (target != null)
+            player.getWorld().spawnParticle(
+                    Particle.TOWN_AURA, target.getLocation().add(0, 1, 0),
+                    10, 0.5, 1, 0.5, 0);
     }
 
     @Override
     public void remove() {
-        bPlayer.addCooldown(this);
         super.remove();
     }
 
@@ -227,30 +228,45 @@ public class DarkBlast extends DarkAbility implements AddonAbility {
     }
 
     @Override
+    public double getCollisionRadius() {
+        return blastRadius;
+    }
+
+    @Override
     public String getName() {
         return "DarkBlast";
     }
 
     @Override
+    public String getDescription() {
+        return Methods.setSpiritDescription(Methods.SpiritType.DARK, "Offense / Utility") +
+                Spirits.plugin.getConfig().getString("Language.Abilities.DarkSpirit.DarkBlast.Description");
+    }
+
+    @Override
+    public String getInstructions() {
+        return Methods.getSpiritColor(Methods.SpiritType.DARK) +
+                Spirits.plugin.getConfig().getString("Language.Abilities.DarkSpirit.DarkBlast.Instructions");
+    }
+
+    @Override
     public String getAuthor() {
-        return Methods.getSpiritColor(Methods.SpiritType.LIGHT) + "" + Methods.getAuthor();
+        return Methods.getSpiritColor(Methods.SpiritType.DARK) + "" + Methods.getAuthor();
     }
 
     @Override
     public String getVersion() {
-        return Methods.getSpiritColor(Methods.SpiritType.LIGHT) + Methods.getVersion();
+        return Methods.getSpiritColor(Methods.SpiritType.DARK) + Methods.getVersion();
     }
 
     @Override
     public Location getLocation() {
-        if (this.action == null) {
-            return player.getLocation();
-        }
-        switch (this.action) {
-            case CLICK: return hasShot ? blastLoc : player.getLocation();
-            case SHIFT: return hasSelected && target != null ? targetLocation : playerLocation;
-            default: return player.getLocation();
-        }
+        return blast != null ? blast : player.getLocation();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.DarkBlast.Enabled");
     }
 
     @Override

@@ -5,10 +5,10 @@ import com.projectkorra.projectkorra.ability.ComboAbility;
 import com.projectkorra.projectkorra.ability.util.ComboManager.AbilityInformation;
 import com.projectkorra.projectkorra.util.ClickType;
 import com.projectkorra.projectkorra.util.ParticleEffect;
-import me.numin.spirits.Methods;
-import me.numin.spirits.Methods.SpiritType;
+import me.numin.spirits.utilities.Methods;
+import me.numin.spirits.utilities.Methods.SpiritType;
 import me.numin.spirits.Spirits;
-import me.numin.spirits.ability.api.removal.Removal;
+import me.numin.spirits.utilities.Removal;
 import me.numin.spirits.ability.api.SpiritAbility;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -19,13 +19,16 @@ import java.util.ArrayList;
 
 public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 
+    //TODO: Implement config for new variables.
+
     private GameMode originGM;
     private Location origin;
     private Removal removal;
 
-    private boolean applyVanishCD, isPhased, playEffects;
+    private boolean applyLevitationCD, applyVanishCD, isPhased, playEffects;
+    private double multiplier, levitationMultiplier, vanishMultiplier;
     private int minHealth, range;
-    private long duration, multiplier, time, vanishMultiplier;
+    private long cooldown, duration, time;
 
     public Phase(Player player) {
         super(player);
@@ -50,6 +53,10 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
         this.minHealth = Spirits.plugin.getConfig().getInt("Abilities.Spirits.Neutral.Combo.Phase.MinHealth");
         this.applyVanishCD = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Phase.Vanish.ApplyCooldown");
         this.vanishMultiplier = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Phase.Vanish.CooldownMultiplier");
+
+        applyLevitationCD = true;
+        levitationMultiplier = 4;
+
         this.origin = player.getLocation();
         this.originGM = player.getGameMode();
         this.isPhased = false;
@@ -59,6 +66,8 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 
     @Override
     public void progress() {
+        this.cooldown = (long) ((System.currentTimeMillis() - time) * multiplier);
+
         if (removal.stop()) {
             remove();
             return;
@@ -82,9 +91,17 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
     public void remove() {
         resetGameMode();
 
-        bPlayer.addCooldown(this, System.currentTimeMillis() * multiplier);
-        if (applyVanishCD) bPlayer.addCooldown(this, System.currentTimeMillis() * this.vanishMultiplier);
-
+        // Cooldown calculations
+        long duration = System.currentTimeMillis() - time;
+        if (applyVanishCD) {
+            long vanishCooldown = (long) (duration * vanishMultiplier);
+            bPlayer.addCooldown("Vanish", vanishCooldown);
+        }
+        if (applyLevitationCD) {
+            long levitationCooldown = (long) (duration * levitationMultiplier);
+            bPlayer.addCooldown("Levitation", levitationCooldown);
+        }
+        bPlayer.addCooldown(this);
         super.remove();
     }
 
@@ -122,7 +139,7 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 
     @Override
     public long getCooldown() {
-        return System.currentTimeMillis() * this.multiplier;
+        return cooldown;
     }
 
     @Override

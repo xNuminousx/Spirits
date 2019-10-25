@@ -6,10 +6,10 @@ import com.projectkorra.projectkorra.ability.CoreAbility;
 import com.projectkorra.projectkorra.ability.util.ComboManager.AbilityInformation;
 import com.projectkorra.projectkorra.ability.util.ComboManager;
 import com.projectkorra.projectkorra.util.ClickType;
-import me.numin.spirits.Methods;
+import me.numin.spirits.utilities.Methods;
 import me.numin.spirits.Spirits;
 import me.numin.spirits.ability.api.SpiritAbility;
-import me.numin.spirits.ability.api.removal.Removal;
+import me.numin.spirits.utilities.Removal;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -19,40 +19,52 @@ import java.util.Random;
 
 public class Levitation extends SpiritAbility implements AddonAbility, ComboAbility {
 
+    //TODO: implement config.
+
     private Location origin;
     private Removal removal;
 
-    private boolean wasFlying;
-    private double range;
-    private long cooldown, multiplier, phaseMultiplier, time;
+    private boolean applyLevitationCD, applyPhaseCD, wasFlying;
+    private double allowedHealthLoss, initialHealth, multiplier, levitationMultiplier, phaseMultiplier, range;
+    private long cooldown, duration, time;
 
     public Levitation(Player player) {
         super(player);
 
         if (!bPlayer.canBendIgnoreBinds(this) || CoreAbility.hasAbility(player, Levitation.class)) return;
+
         player.teleport(player.getLocation().add(0, 0.3, 0));
         setFields();
         start();
     }
 
     private void setFields() {
+        //Config
         this.cooldown = 0;
-        this.multiplier = (long) 1.33;
-        this.phaseMultiplier = (long) 1.4;
+        this.multiplier = 1.3;
+        this.applyPhaseCD = true;
+        this.phaseMultiplier = 4;
+        this.applyLevitationCD = true;
+        this.levitationMultiplier = 4;
+        this.duration = 5000;
         this.range = 5;
+        this.allowedHealthLoss = 4;
+
         this.wasFlying = player.isFlying();
         this.origin = player.getLocation();
         this.removal = new Removal(player);
         this.time = System.currentTimeMillis();
+        this.initialHealth = player.getHealth();
     }
 
     @Override
     public void progress() {
-        if (removal.stop()) {
-            remove();
-            return;
-        }
-        if (origin.distance(player.getLocation()) > range) {
+        this.cooldown = (long) ((System.currentTimeMillis() - time) * multiplier);
+
+        if (removal.stop() ||
+                origin.distance(player.getLocation()) > range ||
+                (player.getHealth() < (initialHealth - allowedHealthLoss)) ||
+                System.currentTimeMillis() > time + duration) {
             remove();
             return;
         }
@@ -63,15 +75,24 @@ public class Levitation extends SpiritAbility implements AddonAbility, ComboAbil
     private void playParticles() {
         Location location = player.getLocation().add(0, 1, 0);
         location.getWorld().spawnParticle(Particle.DRAGON_BREATH, location, 1, 0.2, 0.6, 0.2, 0.01);
+
         if (new Random().nextInt(10) == 1) Methods.playSpiritParticles(player, location, 0.4, 0.6, 0.4, 0, 3);
     }
 
     @Override
     public void remove() {
         player.setFlying(wasFlying);
-        this.cooldown = (System.currentTimeMillis() - time) * multiplier;
-        bPlayer.addCooldown(this, this.cooldown);
-        bPlayer.addCooldown(this, this.cooldown * this.phaseMultiplier);
+
+        long duration = System.currentTimeMillis() - time;
+        if (applyPhaseCD) {
+            long phaseCooldown = (long) (duration * phaseMultiplier);
+            bPlayer.addCooldown("Phase", phaseCooldown);
+        }
+        if (applyLevitationCD) {
+            long levitationCooldown = (long) (duration * levitationMultiplier);
+            bPlayer.addCooldown("Levitation", levitationCooldown);
+        }
+        bPlayer.addCooldown(this, cooldown);
         super.remove();
     }
 

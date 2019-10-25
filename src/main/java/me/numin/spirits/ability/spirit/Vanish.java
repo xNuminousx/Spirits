@@ -2,7 +2,7 @@ package me.numin.spirits.ability.spirit;
 
 import java.util.Random;
 
-import me.numin.spirits.ability.api.removal.Removal;
+import me.numin.spirits.utilities.Removal;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -14,8 +14,8 @@ import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 
 import me.numin.spirits.Spirits;
-import me.numin.spirits.Methods;
-import me.numin.spirits.Methods.SpiritType;
+import me.numin.spirits.utilities.Methods;
+import me.numin.spirits.utilities.Methods.SpiritType;
 import me.numin.spirits.ability.api.SpiritAbility;
 
 public class Vanish extends SpiritAbility implements AddonAbility {
@@ -40,7 +40,7 @@ public class Vanish extends SpiritAbility implements AddonAbility {
     private void setFields() {
         time = System.currentTimeMillis();
 
-        //Main configuration
+        // Main configuration
         this.cooldown = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Cooldown");
         this.duration = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Duration");
         this.chargeTime = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.ChargeTime");
@@ -48,12 +48,12 @@ public class Vanish extends SpiritAbility implements AddonAbility {
         this.particleFrequency = Spirits.plugin.getConfig().getInt("Abilities.Spirits.Neutral.Vanish.ParticleFrequency");
         this.removeFire = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Vanish.RemoveFire");
 
-        //DivideRange configuration
+        // DivideRange configuration
         boolean doHalfEffect = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Vanish.DivideRange.Enabled");
         double healthReq = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.Neutral.Vanish.DivideRange.HealthRequired");
         int divideFactor = Spirits.plugin.getConfig().getInt("Abilities.Spirits.Neutral.Vanish.DivideRange.DivideFactor");
 
-        //Health logic
+        // Health logic
         if (doHalfEffect && player.getHealth() < healthReq) {
             this.range = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Vanish.Range") / divideFactor;
         } else {
@@ -72,13 +72,21 @@ public class Vanish extends SpiritAbility implements AddonAbility {
             return;
         }
         if (!isCharged) {
-            this.isCharging();
+            this.chargingSequence();
         } else {
-            this.hasCharged();
+            this.hasChargedSequence();
         }
     }
 
-    private void hasCharged() {
+    private void chargingSequence() {
+        if (player.isSneaking()) {
+            if (System.currentTimeMillis() > time + chargeTime) isCharged = true;
+            else if (new Random().nextInt(particleFrequency) == 0)
+                player.getWorld().spawnParticle(Particle.DRAGON_BREATH, player.getLocation().add(0, 1, 0), 1, 0, 0, 0, 0.09);
+        }
+    }
+
+    private void hasChargedSequence() {
         if (player.isSneaking()) {
             playEffects();
 
@@ -94,18 +102,6 @@ public class Vanish extends SpiritAbility implements AddonAbility {
         }
         if (removeFire) {
             player.setFireTicks(-1);
-        }
-    }
-
-    private void isCharging() {
-        if (player.isSneaking()) {
-            if (System.currentTimeMillis() > time + chargeTime) {
-                isCharged = true;
-            } else {
-                if (new Random().nextInt(particleFrequency) == 0) {
-                    player.getWorld().spawnParticle(Particle.DRAGON_BREATH, player.getLocation().add(0, 1, 0), 1, 0, 0, 0, 0.09);
-                }
-            }
         }
     }
 

@@ -2,156 +2,213 @@ package me.numin.spirits.ability.light;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
-import me.numin.spirits.Methods;
+import com.projectkorra.projectkorra.util.DamageHandler;
+import me.numin.spirits.utilities.Methods;
 import me.numin.spirits.Spirits;
 import me.numin.spirits.ability.api.LightAbility;
+import me.numin.spirits.utilities.Removal;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 public class LightBlast extends LightAbility implements AddonAbility {
 
-    public enum Action {
-        CLICK, SHIFT
+    //TODO: Implement configuration.
+
+    private Particle.DustOptions white = new Particle.DustOptions(Color.fromRGB(255, 255, 255), 1);
+    private Particle.DustOptions pink = new Particle.DustOptions(Color.fromRGB(255, 160, 160), 1);
+    private Entity target;
+    private LightBlastType type;
+    private Location blast, location, origin;
+    private Removal removal;
+    private Vector direction, vector;
+
+    private boolean burst = true, canHeal, controllable, hasReached = false;
+    private double damage, initialBlastSpeed, blastRadius, finalBlastSpeed, range;
+    private int potionDuration, potionPower;
+    private long cooldown, selectionDuration, time;
+
+    public enum LightBlastType {
+        SHIFT, CLICK
     }
-    public boolean canHeal = false;
-    private Action action;
 
-    private Entity entity;
-    private Location location;
-    private Location origin;
-
-    private boolean hasSelected = false, defineLocations = true;
-    private double range;
-    private long cooldown;
-    private long time;
-
-    private Vector targetDirection = new Vector(1, 0, 0);
-    private Location currentLocation, targetLocation;
-
-    public LightBlast(Player player, Action action) {
+    public LightBlast(Player player, LightBlastType type) {
         super(player);
 
-        this.cooldown = 0;
-        this.range = 20;
-        this.action = action;
-        this.location = player.getEyeLocation();
-        this.origin = player.getLocation().add(0, 1, 0);
-        this.time = System.currentTimeMillis();
+        if (!bPlayer.canBend(this)) return;
 
-        if (this.action == Action.SHIFT && entity == null) {
-            Entity target = GeneralMethods.getTargetedEntity(player, range);
-            //TODO: add armor stand check
-            if (target instanceof LivingEntity) {
-                this.entity = target;
-                this.targetLocation = entity.getLocation();
-                this.hasSelected = true;
+        if (type != null) this.type = type;
+
+        if (hasAbility(player, LightBlast.class) && type == LightBlastType.SHIFT) {
+            LightBlast lightBlast = getAbility(player, LightBlast.class);
+            if (lightBlast.target != null) {
+                // Makes sure the player is looking at their target.
+                Entity targetEntity = GeneralMethods.getTargetedEntity(player, lightBlast.range);
+                if (targetEntity == null || !targetEntity.equals(lightBlast.target)) return;
+
+                lightBlast.location = player.getLocation().add(0, 1, 0);
+                lightBlast.canHeal = true;
             }
+        } else {
+            setFields();
+            start();
+            time = System.currentTimeMillis();
         }
-        start();
+    }
+
+    private void setFields() {
+        this.cooldown = 0;
+        this.controllable = false;
+        this.damage = 2;
+        this.range = 10;
+        this.selectionDuration = 2000;
+        // heals 4 hearts
+        this.potionDuration = 10;
+        this.potionPower = 1;
+        this.initialBlastSpeed = 1;
+        this.blastRadius = 2;
+        this.finalBlastSpeed = 0.2;
+
+        this.direction = player.getLocation().getDirection();
+        this.origin = player.getLocation().add(0, 1, 0);
+        this.location = origin.clone();
+
+        this.removal = new Removal(player);
+        this.vector = new Vector(1, 0, 0);
+
+        this.canHeal = false;
     }
 
     @Override
     public void progress() {
-        if (!player.isOnline() || player.isDead() || GeneralMethods.isRegionProtectedFromBuild(player, this.getLocation())) {
+        if (this.removal.stop()) {
             remove();
             return;
         }
-        switch (this.action) {
-            case CLICK: this.onClick();
-            case SHIFT: this.onShift();
-        }
-        if (canHeal) {
-            this.animateHeal();
-        }
 
-        if (System.currentTimeMillis() > time + 10000) {
-            remove();
-        }
+        if (type == LightBlastType.CLICK)
+            shootDamagingBlast();
+        else if (type == LightBlastType.SHIFT)
+            shootSelectionBlast();
+
+        showSelectedTarget();
+
+        if (canHeal)
+            shootHomingBlast();
     }
 
-    private void onClick() {
-        this.animateBlast();
-    }
+    private void shootDamagingBlast() {
+        if (controllable)
+            this.direction = player.getLocation().getDirection();
 
-    private void onShift() {
-        if (this.hasSelected) {
-            this.animateSelection();
-        }
-    }
+        this.blast = Methods.advanceLocationToDirection(direction, location, this.initialBlastSpeed);
 
-    private void animateBlast() {
-        Vector direction = location.getDirection();
-        location.add(direction.multiply(1));
-        player.spawnParticle(Particle.VILLAGER_HAPPY, location, 2, 0, 0, 0, 0);
+        genericBlast(blast, false);
 
-        if (origin.distanceSquared(location) > range * range) {
-            remove();
-        }
-    }
-
-    private void animateHeal() {
-        boolean hasReached = false;
-        if (entity == null || entity.isDead() || entity.getWorld() != player.getWorld() || GeneralMethods.isRegionProtectedFromBuild(player, entity.getLocation())) {
+        if (origin.distance(blast) > range || GeneralMethods.isSolid(blast.getBlock()) || blast.getBlock().isLiquid()) {
             remove();
             return;
         }
-        if (defineLocations) {
-            currentLocation = player.getLocation().add(0, 1, 0);
-            targetLocation = entity.getLocation();
-            defineLocations = false;
-        }
-        for (Entity e : GeneralMethods.getEntitiesAroundPoint(currentLocation, 2)) {
-            if (e.equals(entity)) {
-                hasReached = true;
-                player.sendMessage("Has reached!");
+
+        for (Entity target : GeneralMethods.getEntitiesAroundPoint(blast, this.blastRadius)) {
+            if (target instanceof LivingEntity && !target.getUniqueId().equals(player.getUniqueId()) &&
+                    !(target instanceof ArmorStand)) {
+                DamageHandler.damageEntity(target, this.damage, this);
+                player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, target.getLocation().add(0, 1, 0), 10, 0, 0, 0, 0.2);
+                remove();
             }
         }
-        if (!hasReached) {
-            targetLocation = entity.getLocation().add(0, 1, 0);
-            targetDirection.add(targetLocation.toVector().subtract(currentLocation.toVector()).multiply(1)).normalize();
-            currentLocation.add(targetDirection.clone().multiply(0.5));
-            player.getWorld().spawnParticle(Particle.FLAME, currentLocation, 1, 0, 0, 0, 0);
+    }
+
+    private void shootSelectionBlast() {
+        if (target == null) {
+            if (controllable)
+                this.direction = player.getLocation().getDirection();
+
+            this.blast = Methods.advanceLocationToDirection(direction, location, this.initialBlastSpeed);
+
+            genericBlast(blast, true);
+
+            if (origin.distance(blast) > range || GeneralMethods.isSolid(blast.getBlock()) || blast.getBlock().isLiquid()) {
+                remove();
+                return;
+            }
+
+            for (Entity target : GeneralMethods.getEntitiesAroundPoint(blast, this.blastRadius)) {
+                if (target instanceof LivingEntity && !target.getUniqueId().equals(player.getUniqueId())) {
+                    this.target = target;
+                }
+            }
         } else {
-            //apply effects
-            canHeal = false;
+            if (player.getLocation().distance(target.getLocation()) > this.range ||
+                    (System.currentTimeMillis() > time + selectionDuration && !canHeal)) {
+                remove();
+            }
+        }
+    }
+
+    private void shootHomingBlast() {
+        if (!hasReached) {
+            this.blast = Methods.advanceLocationToPoint(vector, location, target.getLocation().add(0, 1,0), this.finalBlastSpeed);
+
+            player.getWorld().spawnParticle(Particle.REDSTONE, location, 2, 0.1, 0.1, 0.1, 0, pink);
+
+            if (player.getLocation().distance(target.getLocation()) > this.range ||
+                    origin.distance(target.getLocation()) > this.range ||
+                    GeneralMethods.isSolid(blast.getBlock()) || blast.getBlock().isLiquid() ||
+                    !player.isSneaking()) {
+                remove();
+                return;
+            }
+
+            for (Entity entity : GeneralMethods.getEntitiesAroundPoint(blast, blastRadius)) {
+                if (target.getUniqueId().equals(entity.getUniqueId())) {
+                    hasReached = true;
+                }
+            }
+        } else {
+            this.healEntity(target);
+        }
+    }
+
+    private void healEntity(Entity entity) {
+        if (entity instanceof LivingEntity && !(entity instanceof ArmorStand)) {
+            LivingEntity livingEntity = (LivingEntity)entity;
+            livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,
+                    20 * this.potionDuration, this.potionPower, false, true, false));
             remove();
         }
     }
 
-    private int currPoint;
-    private boolean canAnimate = true;
-    private void animateSelection() {
-        Location location = this.entity.getLocation();
-        if (this.entity == null || this.entity.isDead() || this.entity.getWorld() != player.getWorld() || GeneralMethods.isRegionProtectedFromBuild(player, entity.getLocation())) {
-            return;
-        }
-        if (!canAnimate) {
-            return;
-        }
-        for (int i = 0; i < 1; i++) {
-            currPoint += 360/180;
-            if (currPoint == 180) {
-                canAnimate = false;
-            }
-            double angle = currPoint * Math.PI / 90;
-            double x = Math.cos(angle * 3);
-            double y = Math.cos(angle);
-            double z = Math.sin(angle * 3);
-            location.add(x, y + 1, z);
-            this.entity.getWorld().spawnParticle(Particle.FLAME, location, 1, 0, 0, 0, 0);
-            location.subtract(x, y + 1, z);
+    private void genericBlast(Location location, boolean healing) {
+        player.getWorld().spawnParticle(Particle.END_ROD, location, 2, 0.1, 0.1, 0.1, 0);
+        player.getWorld().spawnParticle(Particle.REDSTONE, location, 2, 0.2, 0.2, 0.2, 0, white);
+
+        if (healing)
+            player.getWorld().spawnParticle(Particle.REDSTONE, location, 2, 0.2, 0.2, 0.2, 0, pink);
+
+        if (burst) {
+            player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, location, 10, 0, 0, 0, 0.1);
+            burst = false;
         }
     }
 
-    public Action getAction() {
-        return this.action;
+    private void showSelectedTarget() {
+        if (target != null)
+            player.getWorld().spawnParticle(
+                    Particle.REDSTONE, target.getLocation().add(0, 1, 0),
+                    2, 0.5, 1, 0.5, 0, white);
     }
 
-    @Override public void remove() {
+    @Override
+    public void remove() {
         super.remove();
     }
 
@@ -178,6 +235,11 @@ public class LightBlast extends LightAbility implements AddonAbility {
     @Override
     public long getCooldown() {
         return cooldown;
+    }
+
+    @Override
+    public double getCollisionRadius() {
+        return blastRadius;
     }
 
     @Override
@@ -209,11 +271,12 @@ public class LightBlast extends LightAbility implements AddonAbility {
 
     @Override
     public Location getLocation() {
-        switch (this.action) {
-            case CLICK:
-            case SHIFT:
-        }
-        return entity != null ? entity.getLocation() : player.getLocation();
+        return blast != null ? blast : player.getLocation();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirit.LightBlast.Enabled");
     }
 
     @Override

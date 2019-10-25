@@ -1,6 +1,6 @@
 package me.numin.spirits.ability.light;
 
-import me.numin.spirits.ability.api.removal.Removal;
+import me.numin.spirits.utilities.Removal;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -17,8 +17,8 @@ import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 import me.numin.spirits.Spirits;
-import me.numin.spirits.Methods;
-import me.numin.spirits.Methods.SpiritType;
+import me.numin.spirits.utilities.Methods;
+import me.numin.spirits.utilities.Methods.SpiritType;
 import me.numin.spirits.ability.api.LightAbility;
 
 import java.util.ArrayList;
@@ -85,7 +85,7 @@ public class Orb extends LightAbility implements AddonAbility {
         } else {
             if (player.isSneaking() && !playDormant) {
                 Location eyeLoc = player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(3));
-                ParticleEffect.CRIT.display(eyeLoc, 0, 0, 0, 0, 2);
+                player.getWorld().spawnParticle(Particle.CRIT, eyeLoc, 2, 0, 0, 0, 0);
             } else {
                 playDormant = true;
                 if (registerOrbLoc) {

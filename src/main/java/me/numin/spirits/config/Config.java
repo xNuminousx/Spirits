@@ -57,6 +57,9 @@ public class Config {
         config.addDefault("Language.Abilities.LightSpirit.Alleviate.Description", "The healing ability for LightSpirits, this allows you to heal yourself and others! When healing, whoever is being healed will be removed of ANY negative potion effects aswell as recieve regeneration for a period of time.");
         config.addDefault("Language.Abilities.LightSpirit.Alleviate.Instructions", "Hold Shift while lookat at a target: Heal them ⏐ Hold Shift while looking away: Heal yourself.");
 
+        config.addDefault("Language.Abilities.LightSpirit.LightBlast.Description", "Shoot a radiating blast of light towards your opponent!");
+        config.addDefault("Language.Abilities.LightSpirit.LightBlast.Instructions", "Left-click to shoot the blast ⏐ Tap-shift to select a target then left-click to shoot a different kind of blast.");
+
         config.addDefault("Language.Abilities.LightSpirit.Rejuvenate.Description", "After executing the combo sequence, you will mark the ground with positively charged spiritual energy for a duration of time. Entities can come to this location to heal themselves, but dark creatures must beware!");
         config.addDefault("Language.Abilities.LightSpirit.Rejuvenate.Instructions", "Alleviate (Shift down) > Alleviate (Right-Click block) > Alleviate (Release shift)");
 
@@ -130,6 +133,8 @@ public class Config {
         config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.ParticleColor.Green", 255);
         config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.ParticleColor.Blue", 255);
 
+        config.addDefault("Abilities.Spirits.LightSpirit.LightBlast.Enabled", true);
+
         config.addDefault("Abilities.Spirits.LightSpirit.Orb.Enabled", true);
         config.addDefault("Abilities.Spirits.LightSpirit.Orb.Cooldown", 10000);
         config.addDefault("Abilities.Spirits.LightSpirit.Orb.ChargeTime", 2000);
@@ -169,13 +174,15 @@ public class Config {
 
         config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.Enabled", true);
         config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.Cooldown", 5000);
-        config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.Radius", 5);
+        config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.Range", 5);
         config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.PotionInterval", 2000);
         config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.HarmInterval", 5000);
         config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.SelfDamage", 4);
         config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Red", 255);
         config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Green", 0);
         config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Blue", 0);
+
+        config.addDefault("Abilities.Spirits.DarkSpirit.DarkBlast.Enabled", true);
 
         config.addDefault("Abilities.Spirits.DarkSpirit.Shackle.Enabled", true);
         config.addDefault("Abilities.Spirits.DarkSpirit.Shackle.Cooldown", 5000);

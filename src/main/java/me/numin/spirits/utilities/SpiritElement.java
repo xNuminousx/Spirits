@@ -1,4 +1,4 @@
-package me.numin.spirits;
+package me.numin.spirits.utilities;
 
 import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.ProjectKorra;

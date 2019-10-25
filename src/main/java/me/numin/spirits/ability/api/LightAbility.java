@@ -2,7 +2,7 @@ package me.numin.spirits.ability.api;
 
 import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.ability.ElementalAbility;
-import me.numin.spirits.SpiritElement;
+import me.numin.spirits.utilities.SpiritElement;
 import org.bukkit.entity.Player;
 
 public abstract class LightAbility extends ElementalAbility {

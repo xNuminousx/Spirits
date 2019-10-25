@@ -2,7 +2,7 @@ package me.numin.spirits.ability.dark;
 
 import java.util.Random;
 
-import me.numin.spirits.ability.api.removal.Removal;
+import me.numin.spirits.utilities.Removal;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -20,20 +20,23 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.util.DamageHandler;
 
 import me.numin.spirits.Spirits;
-import me.numin.spirits.Methods;
-import me.numin.spirits.Methods.SpiritType;
+import me.numin.spirits.utilities.Methods;
+import me.numin.spirits.utilities.Methods.SpiritType;
 import me.numin.spirits.ability.api.DarkAbility;
 
 public class Intoxicate extends DarkAbility implements AddonAbility {
 
-    private LivingEntity target = null;
-    private Location location, origin, entityCheck;
-    private Removal removal;
-    private Vector direction;
+    //TODO: Set up config for potion effects, 'blast' speed, more?
 
-    private boolean progress;
+    private DustOptions black = new DustOptions(Color.fromRGB(0, 0, 0), 1);
+    private DustOptions customColor;
+    private LivingEntity target;
+    private Location location;
+    private Removal removal;
+    private Vector vector = new Vector(1, 0, 0);
+
+    private boolean hasReached;
     private double range, selfDamage;
-    private int red,green,blue;
     private int currPoint;
     private long cooldown, harmInt, potInt, time;
 
@@ -45,68 +48,95 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
         }
 
         setFields();
-        time = System.currentTimeMillis();
-        start();
+        Entity targetEntity = GeneralMethods.getTargetedEntity(player, range);
+        if (targetEntity instanceof LivingEntity) {
+            this.target = (LivingEntity) targetEntity;
+            time = System.currentTimeMillis();
+            start();
+        }
     }
 
     private void setFields() {
         this.cooldown = Spirits.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Intoxicate.Cooldown");
-        this.range = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Intoxicate.Radius");
+        this.range = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Intoxicate.Range");
         this.potInt = Spirits.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Intoxicate.PotionInterval");
         this.harmInt = Spirits.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Intoxicate.HarmInterval");
         this.selfDamage = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Intoxicate.SelfDamage");
 
-        this.red = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Red");
-        this.green = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Green");
-        this.blue = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Blue");
+        int red = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Red");
+        int green = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Green");
+        int blue = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Blue");
+        this.customColor = new DustOptions(Color.fromRGB(red, green, blue), 1);
 
-        this.origin = player.getLocation().clone().add(0, 1, 0);
-        this.location = origin.clone();
-        this.direction = player.getLocation().getDirection();
-        this.progress = true;
+        this.location = player.getLocation().clone().add(0, 1, 0);
         this.removal = new Removal(player, true);
     }
 
     @Override
     public void progress() {
-        if (removal.stop()) {
+        if (removal.stop() ||
+                !bPlayer.getBoundAbilityName().equals(getName()) ||
+                player.getLocation().distance(target.getLocation()) > range) {
             remove();
             return;
         }
 
-        if (!bPlayer.getBoundAbilityName().equals(getName())) {
+        if (player.isSneaking() && target != null) {
+            if (!hasReached) showSelection();
+            else doEffects();
+        }
+    }
+
+    private void showSelection() {
+        Location blast = Methods.advanceLocationToPoint(vector, location, target.getLocation().add(0, 1, 0), 0.5);
+
+        player.getWorld().spawnParticle(Particle.REDSTONE, blast, 1, 0.1, 0.1, 0.1, 0, black);
+        player.getWorld().spawnParticle(Particle.REDSTONE, blast, 1, 0.1, 0.1, 0.1, 0, customColor);
+
+        if (blast.distance(player.getLocation()) > range ||
+                blast.getBlock().isLiquid() ||
+                GeneralMethods.isSolid(blast.getBlock())) {
             remove();
             return;
         }
 
-        if (player.isSneaking()) {
-            if (progress) {
-                entityCheck = location;
-                entityCheck.add(direction.multiply(1));
-                //ParticleEffect.FLAME.display(entityCheck, 0, 0, 0, 0, 1);
-            }
-            if (origin.distanceSquared(entityCheck) > range * range) {
-                progress = false;
-            }
-            if (target == null) {
-                for (Entity entity : GeneralMethods.getEntitiesAroundPoint(entityCheck, 1)) {
-                    if ((entity instanceof LivingEntity) && entity.getUniqueId() != player.getUniqueId()) {
-                        target = (LivingEntity) entity;
-                    }
-                }
-            } else {
-                progress = false;
-                entityCheck = target.getLocation();
-                effect(target, target.getLocation().clone());
+        for (Entity entity : GeneralMethods.getEntitiesAroundPoint(blast, 1.4)) {
+            if (entity.equals(target)) {
+                hasReached = true;
+                break;
             }
         }
     }
 
-    private void effect(Entity target, Location location) {
-        Color color = Color.fromBGR(blue, green, red);
-        DustOptions dustOptions = new DustOptions(color,1);
-        LivingEntity le = (LivingEntity)target;
+    private void doEffects() {
+        showSpirals();
 
+        if (System.currentTimeMillis() - time > potInt) {
+            for (PotionEffect targetEffect : target.getActivePotionEffects()) {
+                if (isPositiveEffect(targetEffect.getType())) {
+                    target.removePotionEffect(targetEffect.getType());
+                }
+            }
+        }
+
+        if (System.currentTimeMillis() - time > harmInt) {
+            target.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 100, 1, false, true, false));
+            target.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 1000, 1, false, true, false));
+            target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 300, 1, false, true, false));
+            DamageHandler.damageEntity(player, selfDamage, this);
+            remove();
+            return;
+        }
+
+        if (new Random().nextInt(20) == 0) {
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 1, -1);
+        }
+    }
+
+    private void showSpirals() {
+        if (target == null) return;
+
+        Location location = target.getLocation();
         for (int i = 0; i < 6; i++) {
             currPoint += 360 / 200;
             if (currPoint > 360) {
@@ -117,31 +147,16 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
             double y = 1.2 * Math.cos(angle) + 1.2;
             double z = (float) 0.04 * (Math.PI * 4 - angle) * Math.sin(angle + i);
             location.add(x, y, z);
-            player.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 0, new DustOptions(Color.fromRGB(0, 0, 0), 1));
-            player.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 0, dustOptions);
+            player.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 0, black);
+            player.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 0, customColor);
             location.subtract(x, y, z);
         }
+    }
 
-        if (System.currentTimeMillis() - time > potInt) {
-            for (PotionEffect targetEffect : le.getActivePotionEffects()) {
-                if (isPositiveEffect(targetEffect.getType())) {
-                    le.removePotionEffect(targetEffect.getType());
-                }
-            }
-            bPlayer.addCooldown(this);
-        }
-        if (System.currentTimeMillis() - time > harmInt) {
-            le.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 100, 1), true);
-            le.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 1000, 1), true);
-            le.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 300, 1), true);
-            DamageHandler.damageEntity(player, selfDamage, this);
-            bPlayer.addCooldown(this);
-            remove();
-            return;
-        }
-        if (new Random().nextInt(20) == 0) {
-            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 1, -1);
-        }
+    @Override
+    public void remove() {
+        bPlayer.addCooldown(this);
+        super.remove();
     }
 
     @Override

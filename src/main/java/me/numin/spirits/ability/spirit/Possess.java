@@ -2,7 +2,7 @@ package me.numin.spirits.ability.spirit;
 
 import java.util.Random;
 
-import me.numin.spirits.ability.api.removal.Removal;
+import me.numin.spirits.utilities.Removal;
 import org.bukkit.*;
 import org.bukkit.Particle.DustOptions;
 import org.bukkit.entity.ArmorStand;
@@ -17,12 +17,16 @@ import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.util.DamageHandler;
 
 import me.numin.spirits.Spirits;
-import me.numin.spirits.Methods;
-import me.numin.spirits.Methods.SpiritType;
+import me.numin.spirits.utilities.Methods;
+import me.numin.spirits.utilities.Methods.SpiritType;
 import me.numin.spirits.ability.api.SpiritAbility;
 import org.bukkit.util.Vector;
 
 public class Possess extends SpiritAbility implements AddonAbility {
+
+    //TODO: Test how it interacts with sudden change in pathway (like the spawning of a RaiseEarth that obstructs it's path)
+    //TODO: Test how it interacts with abilities like AirShield and Shelter.
+    //TODO: Add configurable speed for the armor stand/blast feature.
 
     private ArmorStand armorStand;
     private DustOptions purple = new DustOptions(Color.fromRGB(130, 0, 193), 1);
@@ -30,7 +34,6 @@ public class Possess extends SpiritAbility implements AddonAbility {
     private GameMode originalGameMode;
     private Location blast, playerOrigin;
     private Removal removal;
-    private Sound EVOKER_CAST_SPELL = Sound.ENTITY_EVOKER_CAST_SPELL;
     private Vector vector = new Vector(1, 0, 0);
 
     private boolean hasStarted = false, playEssence, wasFlying;
@@ -48,7 +51,6 @@ public class Possess extends SpiritAbility implements AddonAbility {
         setFields();
         this.target = GeneralMethods.getTargetedEntity(player, range);
         if (target != null) {
-            this.removal = new Removal(player, false, target);
             this.time = System.currentTimeMillis();
 
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, 0.3F, -1);
@@ -56,9 +58,12 @@ public class Possess extends SpiritAbility implements AddonAbility {
 
             this.armorStand = this.createArmorStand();
             this.originalGameMode = player.getGameMode();
+            this.wasFlying = player.isFlying();
+
             player.setGameMode(GameMode.SPECTATOR);
             player.setSpectatorTarget(this.armorStand);
 
+            this.removal = new Removal(player, false, target);
             start();
         }
     }
@@ -70,7 +75,6 @@ public class Possess extends SpiritAbility implements AddonAbility {
         this.duration = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Possess.Duration");
         this.playerOrigin = player.getLocation().add(0, 1, 0);
         this.playEssence = true;
-        this.wasFlying = player.isFlying();
     }
 
     @Override
@@ -87,8 +91,8 @@ public class Possess extends SpiritAbility implements AddonAbility {
     }
 
     private void possession() {
-        Location targetLocation = target.getLocation().add(0, 1, 0);
         this.hasStarted = true;
+        Location targetLocation = target.getLocation().add(0, 1, 0);
 
         if (System.currentTimeMillis() > time + duration) {
             this.animateFinalBlow(targetLocation);
@@ -107,7 +111,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
         this.armorStand.teleport(this.blast);
 
         if (new Random().nextInt(5) == 0) {
-            player.getWorld().playSound(targetLocation, this.EVOKER_CAST_SPELL, this.volume, this.pitch);
+            player.getWorld().playSound(targetLocation, Sound.ENTITY_EVOKER_CAST_SPELL, this.volume, this.pitch);
             Methods.playSpiritParticles(player, this.blast, 0.5, 0.5, 0.5, 0, 1);
         }
 
@@ -141,7 +145,7 @@ public class Possess extends SpiritAbility implements AddonAbility {
         }
 
         if (new Random().nextInt(5) == 0) {
-            player.getWorld().playSound(targetLocation, this.EVOKER_CAST_SPELL, this.volume, this.pitch);
+            player.getWorld().playSound(targetLocation, Sound.ENTITY_EVOKER_CAST_SPELL, this.volume, this.pitch);
             if (this.blast != null) Methods.playSpiritParticles(player, this.blast, 0.4, 1, 0.4, 0, 1);
         }
     }

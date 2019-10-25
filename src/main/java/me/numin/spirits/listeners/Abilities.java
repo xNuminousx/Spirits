@@ -34,30 +34,22 @@ public class Abilities implements Listener {
         if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Agility")) {
             if (bPlayer.isOnCooldown("Dash")) return;
             new Dash(player);
+
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shackle")) {
             new Shackle(player);
+
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shelter") && !CoreAbility.hasAbility(player, Shelter.class)) {
             new Shelter(player, ShelterType.CLICK);
+
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Strike")) {
             new Strike(player);
-        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("LightBlast")) {
-            if (CoreAbility.hasAbility(player, LightBlast.class)) {
-                LightBlast lightBlast = CoreAbility.getAbility(player, LightBlast.class);
-                if (lightBlast.getAction() == LightBlast.Action.SHIFT) {
-                    lightBlast.canHeal = true;
-                }
-            } else {
-                new LightBlast(player, LightBlast.Action.CLICK);
-            }
-        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("DarkBlast")) {
-            if (CoreAbility.hasAbility(player, DarkBlast.class)) {
-                DarkBlast darkBlast = CoreAbility.getAbility(player, DarkBlast.class);
-                if (darkBlast.getAction() == DarkBlast.Type.SHIFT && !darkBlast.hasReached) {
-                    darkBlast.canShoot = true;
-                }
-            } else {
-                new DarkBlast(player, DarkBlast.Type.CLICK);
-            }
+
+        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("LightBlast") && !CoreAbility.hasAbility(player, LightBlast.class)) {
+            new LightBlast(player, LightBlast.LightBlastType.CLICK);
+
+        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("DarkBlast") && !CoreAbility.hasAbility(player, DarkBlast.class)) {
+            new DarkBlast(player, DarkBlast.DarkBlastType.CLICK);
+
         }
     }
 
@@ -70,23 +62,33 @@ public class Abilities implements Listener {
 
         if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Alleviate")) {
             new Alleviate(player);
+
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Intoxicate")) {
             new Intoxicate(player);
+
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Agility") && event.isSneaking()) {
             if (bPlayer.isOnCooldown("Soar")) return;
             new Soar(player);
-        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Possess") && !event.isSneaking() && !CoreAbility.hasAbility(player, Possess.class)) {
+
+        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Possess") &&
+                !event.isSneaking() &&
+                !CoreAbility.hasAbility(player, Possess.class)) {
             new Possess(player);
+
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shelter") && !CoreAbility.hasAbility(player, Shelter.class)) {
             new Shelter(player, ShelterType.SHIFT);
+
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Vanish") && event.isSneaking()) {
             new Vanish(player);
+
         } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Orb")) {
             new Orb(player);
-        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("LightBlast")) {
-            new LightBlast(player, LightBlast.Action.SHIFT);
-        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("DarkBlast") && !CoreAbility.hasAbility(player, DarkBlast.class)) {
-            new DarkBlast(player, DarkBlast.Type.SHIFT);
+
+        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("LightBlast") &&  event.isSneaking()) {
+            new LightBlast(player, LightBlast.LightBlastType.SHIFT);
+
+        } else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("DarkBlast") && event.isSneaking()) {
+            new DarkBlast(player, DarkBlast.DarkBlastType.SHIFT);
         }
     }
 

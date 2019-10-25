@@ -1,4 +1,4 @@
-package me.numin.spirits.ability.api.removal;
+package me.numin.spirits.utilities;
 
 import com.projectkorra.projectkorra.GeneralMethods;
 import org.bukkit.World;
@@ -12,18 +12,21 @@ public class Removal {
     private World world, entityWorld;
     private boolean requireSneak;
 
+    // Creates a basic instance of the class that doesn't require sneaking or another entity.
     public Removal(Player player) {
         this.player = player;
         this.requireSneak = false;
         this.world = player.getWorld();
     }
 
+    // Runs basic checks as well as a sneak check.
     public Removal(Player player, boolean requireSneak) {
         this.player = player;
         this.requireSneak = requireSneak;
         this.world = player.getWorld();
     }
 
+    // Used when there's 2 entities that need to be checked. The entity gets tested for the same validity checks as the player.
     public Removal(Player player, boolean requireSneak, Entity entity) {
         this.entity = entity;
         this.entityWorld = entity.getWorld();

@@ -18,6 +18,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class PkEvent implements Listener {
 
+    private Spirits plugin = Spirits.plugin;
+
     private boolean hasSelectedSub = false;
 
     @EventHandler
@@ -63,21 +65,12 @@ public class PkEvent implements Listener {
             event.setCancelled(true);
             return;
         }
-        BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
         if (event.getCurrentItem().getItemMeta().getDisplayName().contains("LightSpirit")) {
             event.setCancelled(true);
-            bPlayer.addElement(Element.getElement("LightSpirit"));
-            GeneralMethods.saveElements(bPlayer);
-            GeneralMethods.sendBrandingMessage(player, ChatColor.AQUA + "You are now a LightSpirit.");
-            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1, 1);
-            hasSelectedSub = true;
+            this.onElementSelection(player, Element.getElement("LightSpirit"));
         } else if (event.getCurrentItem().getItemMeta().getDisplayName().contains("DarkSpirit")) {
             event.setCancelled(true);
-            bPlayer.addElement(Element.getElement("DarkSpirit"));
-            GeneralMethods.saveElements(bPlayer);
-            GeneralMethods.sendBrandingMessage(player, ChatColor.BLUE + "You are now a DarkSpirit.");
-            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1, -1);
-            hasSelectedSub = true;
+            this.onElementSelection(player, Element.getElement("DarkSpirit"));
         } else {
             event.setCancelled(true);
             return;
@@ -97,6 +90,31 @@ public class PkEvent implements Listener {
             bPlayer.getElements().remove(Element.getElement("Spirit"));
             GeneralMethods.saveElements(bPlayer);
             GeneralMethods.sendBrandingMessage(player, ChatColor.RED + "You failed to select your SubElement.");
+        }
+    }
+
+    private void onElementSelection(Player player, Element element) {
+        BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
+        ChatColor color = null;
+
+        if (element.equals(Element.getElement("LightSpirit"))) {
+            color = ChatColor.AQUA;
+            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1, 1);
+        } else {
+            color = ChatColor.BLUE;
+            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1, -1);
+        }
+
+        try {
+            bPlayer.addElement(element);
+            GeneralMethods.saveElements(bPlayer);
+
+            GeneralMethods.sendBrandingMessage(player, color + "You are now a " + element.toString());
+            hasSelectedSub = true;
+        } catch (Exception e) {
+            hasSelectedSub = false;
+            plugin.getLogger().info("Failed to set Spirit element for " + player.getName() + ".");
+            e.printStackTrace();
         }
     }
 }

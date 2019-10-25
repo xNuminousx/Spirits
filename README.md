@@ -27,11 +27,12 @@ Below are a list of changes that set this branch apart from its master.
 
 ## Edits
 #### Abilities
+*The code in multiple abilities has been reduced/simplified. Some even reworked entirely.*
 - Agility
   - Fixed Soar and Dash cooldown applications.
-- Alleviate
+- Rejuvenate
   - Additional swirl animation.
-- Intoxicate
+- Infest
   - Additional swirl animation.
 - Orb
   - Fixed sourcing and block detection.
@@ -39,7 +40,7 @@ Below are a list of changes that set this branch apart from its master.
   - Updated to use spectator mode instead of teleporting on a loop.
   - New animations.
 - Shelter
-  - Uses ProjectKorra's method for pushing entities away from the shield.
+  - Changed to use a custom method of knockback. No longer uses ProjectKorra's method.
 #### Methods
 - Using the Spigot method of spawning particles instead of the ProjectKorra library.
 - Simplified the `createItem` methods and made them work together.

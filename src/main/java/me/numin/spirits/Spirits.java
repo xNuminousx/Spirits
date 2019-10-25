@@ -9,6 +9,7 @@ import me.numin.spirits.config.Config;
 import me.numin.spirits.listeners.Abilities;
 import me.numin.spirits.listeners.Passives;
 import me.numin.spirits.listeners.PkEvent;
+import me.numin.spirits.utilities.SpiritElement;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;

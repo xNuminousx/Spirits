@@ -2,7 +2,7 @@ package me.numin.spirits.ability.spirit;
 
 import java.util.Random;
 
-import me.numin.spirits.ability.api.removal.Removal;
+import me.numin.spirits.utilities.Removal;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -10,8 +10,8 @@ import org.bukkit.entity.Player;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 
 import me.numin.spirits.Spirits;
-import me.numin.spirits.Methods;
-import me.numin.spirits.Methods.SpiritType;
+import me.numin.spirits.utilities.Methods;
+import me.numin.spirits.utilities.Methods.SpiritType;
 import me.numin.spirits.ability.api.SpiritAbility;
 
 public class Soar extends SpiritAbility implements AddonAbility {

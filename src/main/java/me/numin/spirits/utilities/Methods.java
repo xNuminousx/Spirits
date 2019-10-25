@@ -1,7 +1,8 @@
-package me.numin.spirits;
+package me.numin.spirits.utilities;
 
 import java.util.List;
 
+import me.numin.spirits.Spirits;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -27,17 +28,31 @@ public class Methods {
     }
 
     /**
-     * Moves a location from point 1 to point 2.
+     * Used to move a location in a certain direction.
      *
-     * @param vector The vector used to move the points.
-     * @param point1 The starting point.
-     * @param point2 The end point.
+     * @param direction The direction in which to move.
+     * @param point The starting point from which the location moves.
+     * @param speed The speed of the point.
      * @return The new location.
      */
-    public static Location advanceLocationToPoint(Vector vector, Location point1, Location point2, double speed) {
-        vector.add(point2.toVector()).subtract(point1.toVector()).multiply(speed).normalize();
-        point1.add(vector.clone().multiply(speed));
-        return point1;
+    public static Location advanceLocationToDirection(Vector direction, Location point, double speed) {
+        point.add(direction.multiply(speed).normalize().clone());
+        return point;
+    }
+
+    /**
+     * Moves a location from one point to another.
+     *
+     * @param vector The vector used to move the points.
+     * @param from The starting point.
+     * @param to The end point.
+     * @param speed The speed of the point.
+     * @return The new location.
+     */
+    public static Location advanceLocationToPoint(Vector vector, Location from, Location to, double speed) {
+        vector.add(to.toVector()).subtract(from.toVector()).multiply(speed).normalize();
+        from.add(vector.clone().multiply(speed));
+        return from;
     }
 
     /**
@@ -159,27 +174,27 @@ public class Methods {
      *
      * @param spiritType The type of particles to display.
      * @param location The location where the particles will spawn.
-     * @param X The off-set of the X axis.
-     * @param Y The off-set of the Y axis.
-     * @param Z The off-set of the Z axis.
+     * @param x The off-set of the X axis.
+     * @param y The off-set of the Y axis.
+     * @param z The off-set of the Z axis.
      * @param speed The particle speed.
      * @param amount The amount of particles to display.
      */
-    public static void playSpiritParticles(SpiritType spiritType, Location location, double X, double Y, double Z, double speed, int amount) {
+    public static void playSpiritParticles(SpiritType spiritType, Location location, double x, double y, double z, double speed, int amount) {
         DustOptions teal = new DustOptions(Color.fromRGB(0, 176, 180), 1),
                 white = new DustOptions(Color.fromRGB(255, 255,255), 1),
                 black = new DustOptions(Color.fromRGB(0, 0, 0), 1);
 
         if (spiritType == SpiritType.NEUTRAL) {
-            location.getWorld().spawnParticle(Particle.CRIT_MAGIC, location, amount, X, Y, Z, speed);
-            location.getWorld().spawnParticle(Particle.REDSTONE, location, amount, X, Y, Z, speed, teal);
+            location.getWorld().spawnParticle(Particle.CRIT_MAGIC, location, amount, x, y, z, speed);
+            location.getWorld().spawnParticle(Particle.REDSTONE, location, amount, x, y, z, speed, teal);
         } else if (spiritType == SpiritType.DARK) {
-            location.getWorld().spawnParticle(Particle.SPELL_WITCH, location, amount, X, Y, Z, speed);
-            location.getWorld().spawnParticle(Particle.REDSTONE, location, amount, X, Y, Z, speed, black);
+            location.getWorld().spawnParticle(Particle.SPELL_WITCH, location, amount, x, y, z, speed);
+            location.getWorld().spawnParticle(Particle.REDSTONE, location, amount, x, y, z, speed, black);
 
         } else if (spiritType == SpiritType.LIGHT) {
-            location.getWorld().spawnParticle(Particle.SPELL_INSTANT, location, amount, X, Y, Z, speed);
-            location.getWorld().spawnParticle(Particle.REDSTONE, location, amount, X, Y, Z, speed, white);
+            location.getWorld().spawnParticle(Particle.SPELL_INSTANT, location, amount, x, y, z, speed);
+            location.getWorld().spawnParticle(Particle.REDSTONE, location, amount, x, y, z, speed, white);
         }
     }
 
@@ -189,23 +204,16 @@ public class Methods {
      *
      * @param player The player being tested.
      * @param location The location of the particles.
-     * @param X The off-set of the X axis.
-     * @param Y The off-set of the Y axis.
-     * @param Z The off-set of the Z axis.
+     * @param x The off-set of the X axis.
+     * @param y The off-set of the Y axis.
+     * @param z The off-set of the Z axis.
      * @param speed The particle speed.
      * @param amount The amount of particles to display.
      */
-    public static void playSpiritParticles(Player player, Location location, double X, double Y, double Z, double speed, int amount) {
-        BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
-        Element ls = Element.getElement("LightSpirit"), ds = Element.getElement("DarkSpirit"), s = Element.getElement("Spirit");
-
-        if ((bPlayer.hasElement(ls) && bPlayer.hasElement(ds)) || (!bPlayer.hasElement(ls) && !bPlayer.hasElement(ds) && bPlayer.hasElement(s))) {
-            playSpiritParticles(SpiritType.NEUTRAL, location, X, Y, Z, speed, amount);
-        } else if (bPlayer.hasElement(ds)) {
-            playSpiritParticles(SpiritType.DARK, location, X, Y, Z, speed, amount);
-        } else if (bPlayer.hasElement(ls)) {
-            playSpiritParticles(SpiritType.LIGHT, location, X, Y, Z, speed, amount);
-        }
+    public static void playSpiritParticles(Player player, Location location, double x, double y, double z, double speed, int amount) {
+        SpiritType spiritType = getSpiritType(player);
+        if (spiritType == null) return;
+        playSpiritParticles(spiritType, location, x, y, z, speed, amount);
     }
 
     /**
@@ -262,7 +270,7 @@ public class Methods {
         ChatColor titleColor = getSpiritColor(spiritType);
         ChatColor descColor = null;
 
-        switch(spiritType) {
+        switch (spiritType) {
             case NEUTRAL: descColor = ChatColor.DARK_AQUA;
             break;
             case LIGHT: descColor = ChatColor.WHITE;
