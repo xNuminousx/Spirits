@@ -16,6 +16,8 @@ import me.numin.spirits.ability.api.SpiritAbility;
 
 public class Soar extends SpiritAbility implements AddonAbility {
 
+    //TODO: Update sounds.
+
     private Removal removal;
 
     private double speed;

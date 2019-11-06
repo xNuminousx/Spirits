@@ -19,6 +19,10 @@ import org.bukkit.util.Vector;
 
 public class Shackle extends DarkAbility implements AddonAbility {
 
+    //TODO: Maybe smooth out the blast and entity detection logic, outdated.
+    //TODO: Remove the checkEntities boolean and add a Entity variable instead.
+    //TODO: Update sounds.
+
     private Entity target;
     private Location location, origin;
     private Removal removal;
@@ -127,8 +131,8 @@ public class Shackle extends DarkAbility implements AddonAbility {
                 currPoint = 0;
             }
             double angle2 = currPoint * Math.PI / 180 * Math.cos(Math.PI);
-            double x2 = (float) 0.04 * (Math.PI * 5 - angle2) * Math.cos(angle2 + t);
-            double z2 = (float) 0.04 * (Math.PI * 5 - angle2) * Math.sin(angle2 + t);
+            double x2 = 0.04 * (Math.PI * 5 - angle2) * Math.cos(angle2 + t);
+            double z2 = 0.04 * (Math.PI * 5 - angle2) * Math.sin(angle2 + t);
             location.add(x2, 0.1F, z2);
             player.getWorld().spawnParticle(Particle.SPELL_WITCH, location, 1, 0, 0, 0, 0);
             location.subtract(x2, 0.1F, z2);

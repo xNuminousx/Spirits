@@ -20,6 +20,8 @@ import java.util.Random;
 public class Levitation extends SpiritAbility implements AddonAbility, ComboAbility {
 
     //TODO: implement config.
+    //TODO: Fix activation. Don't think it's what it should be.
+    //TODO: Implement sounds.
 
     private Location origin;
     private Removal removal;

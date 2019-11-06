@@ -20,6 +20,8 @@ import me.numin.spirits.ability.api.SpiritAbility;
 
 public class Vanish extends SpiritAbility implements AddonAbility {
 
+    //TODO: Update sounds.
+
     private Location origin;
     private Removal removal;
 

@@ -20,6 +20,9 @@ import me.numin.spirits.ability.api.DarkAbility;
 
 public class Strike extends DarkAbility implements AddonAbility {
 
+    //TODO: Remove the checkEntities boolean and add an Entity variable instead.
+    //TODO: Add sounds.
+
     private Entity target;
     private Location location;
     private Location origin;

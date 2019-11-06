@@ -26,6 +26,8 @@ import java.util.List;
 
 public class Orb extends LightAbility implements AddonAbility {
 
+    //TODO: Add sounds.
+
     private Location targetLoc;
     private Removal removal;
 
@@ -37,9 +39,8 @@ public class Orb extends LightAbility implements AddonAbility {
     public Orb(Player player) {
         super(player);
 
-        if (!bPlayer.canBend(this)) {
+        if (!bPlayer.canBend(this))
             return;
-        }
 
         setFields();
         time = System.currentTimeMillis();
@@ -59,12 +60,10 @@ public class Orb extends LightAbility implements AddonAbility {
         this.nauseaDuration = Spirits.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.NauseaDuration");
         this.potionAmp = Spirits.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Orb.PotionPower");
         this.requireGround = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Orb.RequireGround");
-        this.isCharged = false;
-        this.checkEntities = false;
+
         this.registerOrbLoc = true;
         this.registerStageTimer = true;
-        this.progressExplosion = false;
-        this.playDormant = false;
+
         this.removal = new Removal(player);
     }
 
@@ -76,12 +75,9 @@ public class Orb extends LightAbility implements AddonAbility {
         }
         if (!isCharged) {
             if (player.isSneaking()) {
-                if (System.currentTimeMillis() > time + chargeTime) {
+                if (System.currentTimeMillis() > time + chargeTime)
                     isCharged = true;
-                }
-            } else {
-                remove();
-            }
+            } else remove();
         } else {
             if (player.isSneaking() && !playDormant) {
                 Location eyeLoc = player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(3));
@@ -96,16 +92,12 @@ public class Orb extends LightAbility implements AddonAbility {
                             return;
                         } else {
                             targetLoc.add(targetLoc.getDirection().multiply(1.3));
-                            if (GeneralMethods.isSolid(targetLoc.getBlock())) {
+                            if (GeneralMethods.isSolid(targetLoc.getBlock()))
                                 targetLoc.add(0, 1, 0);
-                            }
                         }
-                    }
-                    registerOrbLoc = false;
-                }
-                displayOrb(targetLoc);
-            }
-            explodeOrb();
+                    } registerOrbLoc = false;
+                } displayOrb(targetLoc);
+            } explodeOrb();
         }
     }
 
@@ -162,9 +154,8 @@ public class Orb extends LightAbility implements AddonAbility {
     private boolean canSpawn(Location loc) {
         List<Block> relatives = new ArrayList<>();
         for (Block relative : GeneralMethods.getBlocksAroundPoint(loc, 2)) {
-            if (GeneralMethods.isSolid(relative)) {
+            if (GeneralMethods.isSolid(relative))
                 relatives.add(relative);
-            }
         }
         return !relatives.isEmpty();
     }

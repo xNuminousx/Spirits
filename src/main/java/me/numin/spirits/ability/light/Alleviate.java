@@ -26,6 +26,9 @@ import me.numin.spirits.ability.api.LightAbility;
 
 public class Alleviate extends LightAbility implements AddonAbility {
 
+    //TODO: Make new sounds.
+    //TODO: Implement configuration.
+
     private DustOptions customColor;
     private LivingEntity target;
     private Location location;

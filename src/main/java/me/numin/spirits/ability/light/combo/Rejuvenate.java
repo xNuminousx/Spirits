@@ -31,6 +31,8 @@ import java.util.Random;
 
 public class Rejuvenate extends LightAbility implements AddonAbility, ComboAbility {
 
+    //TODO: Add sounds.
+
     private Location circleCenter, location, location2, location3;
     private Removal removal;
 

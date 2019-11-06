@@ -19,7 +19,9 @@ import java.util.ArrayList;
 
 public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
 
-    //TODO: Implement config for new variables.
+    //TODO: Implement config for new variables. Variables are already made, just need the config paths.
+    //TODO: Feature where flying through entities while phased could give the target and/or spirit effects (shivers, etc)
+    //TODO: Update sounds.
 
     private GameMode originGM;
     private Location origin;
@@ -33,16 +35,14 @@ public class Phase extends SpiritAbility implements AddonAbility, ComboAbility {
     public Phase(Player player) {
         super(player);
 
-        if (!bPlayer.canBendIgnoreBinds(this)) {
+        if (!bPlayer.canBendIgnoreBinds(this))
             return;
-        }
 
-        if (player.getHealth() <= minHealth) {
+        setFields();
+        if (player.getHealth() <= minHealth)
             return;
-        }
 
         this.time = System.currentTimeMillis();
-        setFields();
         start();
     }
 

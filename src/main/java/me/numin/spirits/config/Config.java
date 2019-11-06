@@ -72,6 +72,9 @@ public class Config {
         config.addDefault("Language.Abilities.LightSpirit.Shelter.Description", "A very useful tactic when group battling, a light spirit can temporarily shield a friend or even a foe from incoming enemies. Additionally, they have the options to shield themselves!");
         config.addDefault("Language.Abilities.LightSpirit.Shelter.Instructions", "Left click: Shield others ⏐ Hold shift: Shield yourself.");
 
+        config.addDefault("Language.Abilities.DarkSpirit.DarkBlast.Description", "A basic offensive ability for DarkSpirits. You have the choice of shooting a basic blast for dealing quick damage. Or you can select a target and shoot a slower, powerful, homing blast. The blasts can be dodged and obstructed so be strategic!");
+        config.addDefault("Language.Abilities.DarkSpirit.DarkBlast.Instructions", "Left click: Quick blast ⏐ Tap-shift while looking at an entity: Select entity > Hold shift: Move the homing blast.");
+
         config.addDefault("Language.Abilities.DarkSpirit.Infest.Description", "After executing the combo sequence, you will mark the ground with negatively charged spiritual energy for a duration of time. Monsters can come to this location for strength, but any other entities must beware!");
         config.addDefault("Language.Abilities.DarkSpirit.Infest.Instructions", "Intoxicate (Shift down) > Intoxicate (Right-Click block) > Intoxicate (Release shift)");
 
@@ -134,6 +137,17 @@ public class Config {
         config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.ParticleColor.Blue", 255);
 
         config.addDefault("Abilities.Spirits.LightSpirit.LightBlast.Enabled", true);
+        //TODO: Define a cooldown
+        config.addDefault("Abilities.Spirits.LightSpirit.LightBlast.Cooldown", 0);
+        config.addDefault("Abilities.Spirits.LightSpirit.LightBlast.Controllable", false);
+        config.addDefault("Abilities.Spirits.LightSpirit.LightBlast.Damage", 2);
+        config.addDefault("Abilities.Spirits.LightSpirit.LightBlast.Range", 10);
+        config.addDefault("Abilities.Spirits.LightSpirit.LightBlast.SelectionDuration", 2000);
+        config.addDefault("Abilities.Spirits.LightSpirit.LightBlast.PotionDuration", 10);
+        config.addDefault("Abilities.Spirits.LightSpirit.LightBlast.PotionPower", 1);
+        config.addDefault("Abilities.Spirits.LightSpirit.LightBlast.FirstBlastSpeed", 1);
+        config.addDefault("Abilities.Spirits.LightSpirit.LightBlast.SecondBlastSpeed", 0.2);
+        config.addDefault("Abilities.Spirits.LightSpirit.LightBlast.BlastRadius", 2);
 
         config.addDefault("Abilities.Spirits.LightSpirit.Orb.Enabled", true);
         config.addDefault("Abilities.Spirits.LightSpirit.Orb.Cooldown", 10000);
@@ -178,11 +192,29 @@ public class Config {
         config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.PotionInterval", 2000);
         config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.HarmInterval", 5000);
         config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.SelfDamage", 4);
+        config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.BlastSpeed", 0.5);
         config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Red", 255);
         config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Green", 0);
         config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Blue", 0);
+        config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.Potions.WitherDuration", 5);
+        config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.Potions.WitherPower", 1);
+        config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.Potions.HungerDuration", 50);
+        config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.Potions.HungerPower", 1);
+        config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.Potions.ConfusionDuration", 15);
+        config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.Potions.ConfusionPower", 1);
 
         config.addDefault("Abilities.Spirits.DarkSpirit.DarkBlast.Enabled", true);
+        //TODO: Define a cooldown amount.
+        config.addDefault("Abilities.Spirits.DarkSpirit.DarkBlast.Cooldown", 0);
+        config.addDefault("Abilities.Spirits.DarkSpirit.DarkBlast.Controllable", false);
+        config.addDefault("Abilities.Spirits.DarkSpirit.DarkBlast.Damage", 4);
+        config.addDefault("Abilities.Spirits.DarkSpirit.DarkBlast.Range", 10);
+        config.addDefault("Abilities.Spirits.DarkSpirit.DarkBlast.DurationOfSelection", 2000);
+        config.addDefault("Abilities.Spirits.DarkSpirit.DarkBlast.PotionDuration", 5);
+        config.addDefault("Abilities.Spirits.DarkSpirit.DarkBlast.PotionPower", 1);
+        config.addDefault("Abilities.Spirits.DarkSpirit.DarkBlast.FirstBlastSpeed", 1);
+        config.addDefault("Abilities.Spirits.DarkSpirit.DarkBlast.SecondBlastSpeed", 0.2);
+        config.addDefault("Abilities.Spirits.DarkSpirit.DarkBlast.BlastRadius", 2);
 
         config.addDefault("Abilities.Spirits.DarkSpirit.Shackle.Enabled", true);
         config.addDefault("Abilities.Spirits.DarkSpirit.Shackle.Cooldown", 5000);

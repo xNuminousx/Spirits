@@ -10,6 +10,7 @@ import me.numin.spirits.utilities.Removal;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Particle.DustOptions;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -20,18 +21,18 @@ import org.bukkit.util.Vector;
 
 public class DarkBlast extends DarkAbility implements AddonAbility {
 
-    //TODO: Implement configuration.
+    //TODO: Add sounds.
 
-    private Particle.DustOptions black = new Particle.DustOptions(Color.fromRGB(0, 0, 0), 1);
-    private Particle.DustOptions purple = new Particle.DustOptions(Color.fromRGB(150, 0, 216), 1);
+    private DustOptions black = new DustOptions(Color.fromRGB(0, 0, 0), 1);
+    private DustOptions purple = new DustOptions(Color.fromRGB(150, 0, 216), 1);
     private Entity target;
     private DarkBlastType type;
     private Location blast, location, origin;
     private Removal removal;
     private Vector direction, vector;
 
-    private boolean burst = true, canHeal, controllable, hasReached = false;
-    private double damage, initialBlastSpeed, blastRadius, finalBlastSpeed, range;
+    private boolean burst = true, canDamage, controllable, hasReached = false;
+    private double blastRadius, damage, finalBlastSpeed, initialBlastSpeed, range;
     private int potionDuration, potionPower;
     private long cooldown, selectionDuration, time;
 
@@ -54,7 +55,7 @@ public class DarkBlast extends DarkAbility implements AddonAbility {
                 if (targetEntity == null || !targetEntity.equals(darkBlast.target)) return;
 
                 darkBlast.location = player.getLocation().add(0, 1, 0);
-                darkBlast.canHeal = true;
+                darkBlast.canDamage = true;
             }
         } else {
             setFields();
@@ -64,17 +65,16 @@ public class DarkBlast extends DarkAbility implements AddonAbility {
     }
 
     private void setFields() {
-        this.cooldown = 0;
-        this.controllable = false;
-        this.damage = 4;
-        this.range = 10;
-        this.selectionDuration = 2000;
-        // heals 4 hearts
-        this.potionDuration = 5;
-        this.potionPower = 1;
-        this.initialBlastSpeed = 1;
-        this.blastRadius = 2;
-        this.finalBlastSpeed = 0.2;
+        this.cooldown = Spirits.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.DarkBlast.Cooldown");
+        this.controllable = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.DarkSpirit.DarkBlast.Controllable");
+        this.damage = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.DarkBlast.Damage");
+        this.range = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.DarkBlast.Range");
+        this.selectionDuration = Spirits.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.DarkBlast.DurationOfSelection");
+        this.potionDuration = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.DarkBlast.PotionDuration");
+        this.potionPower = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.DarkBlast.PotionPower");
+        this.initialBlastSpeed = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.DarkBlast.FirstBlastSpeed");
+        this.blastRadius = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.DarkBlast.BlastRadius");
+        this.finalBlastSpeed = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.DarkBlast.SecondBlastSpeed");
 
         this.direction = player.getLocation().getDirection();
         this.origin = player.getLocation().add(0, 1, 0);
@@ -83,7 +83,7 @@ public class DarkBlast extends DarkAbility implements AddonAbility {
         this.removal = new Removal(player);
         this.vector = new Vector(1, 0, 0);
 
-        this.canHeal = false;
+        this.canDamage = false;
     }
 
     @Override
@@ -98,7 +98,7 @@ public class DarkBlast extends DarkAbility implements AddonAbility {
 
         showSelectedTarget();
 
-        if (canHeal) shootHomingBlast();
+        if (canDamage) shootHomingBlast();
     }
 
     private void shootDamagingBlast() {
@@ -141,7 +141,7 @@ public class DarkBlast extends DarkAbility implements AddonAbility {
             }
         } else {
             if (player.getLocation().distance(target.getLocation()) > this.range ||
-                    (System.currentTimeMillis() > time + selectionDuration && !canHeal)) {
+                    (System.currentTimeMillis() > time + selectionDuration && !canDamage)) {
                 remove();
             }
         }
@@ -239,7 +239,7 @@ public class DarkBlast extends DarkAbility implements AddonAbility {
 
     @Override
     public String getDescription() {
-        return Methods.setSpiritDescription(Methods.SpiritType.DARK, "Offense / Utility") +
+        return Methods.setSpiritDescription(Methods.SpiritType.DARK, "Offense") +
                 Spirits.plugin.getConfig().getString("Language.Abilities.DarkSpirit.DarkBlast.Description");
     }
 

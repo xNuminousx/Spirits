@@ -1,12 +1,15 @@
 name: Spirits
 version: ${project.version}
 main: me.numin.spirits.Spirits
-api-version: 1.13
+api-version: 1.14
 softdepend: [ProjectKorra]
 authors: [Numin]
 description: Enables your players to be Spirits.
 
 permissions:
+  bending.command.getconfig:
+    default: op
+    description: Allows someone to look at the config with a command.
   bending.spirit:
     default: true
     description: Grants access to all Spirit abilities.

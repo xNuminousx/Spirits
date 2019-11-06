@@ -26,7 +26,7 @@ import me.numin.spirits.ability.api.DarkAbility;
 
 public class Intoxicate extends DarkAbility implements AddonAbility {
 
-    //TODO: Set up config for potion effects, 'blast' speed, more?
+    //TODO: Make new sounds
 
     private DustOptions black = new DustOptions(Color.fromRGB(0, 0, 0), 1);
     private DustOptions customColor;
@@ -36,8 +36,10 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
     private Vector vector = new Vector(1, 0, 0);
 
     private boolean hasReached;
-    private double range, selfDamage;
+    private double blastSpeed, range, selfDamage;
     private int currPoint;
+    private int witherDuration, hungerDuration, confusionDuration;
+    private int witherPower, hungerPower, confusionPower;
     private long cooldown, harmInt, potInt, time;
 
     public Intoxicate(Player player) {
@@ -62,6 +64,13 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
         this.potInt = Spirits.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Intoxicate.PotionInterval");
         this.harmInt = Spirits.plugin.getConfig().getLong("Abilities.Spirits.DarkSpirit.Intoxicate.HarmInterval");
         this.selfDamage = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Intoxicate.SelfDamage");
+        this.blastSpeed = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.DarkSpirit.Intoxicate.BlastSpeed");
+        this.witherDuration = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Intoxicate.Potions.WitherDuration");
+        this.witherPower = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Intoxicate.Potions.WitherPower");
+        this.hungerDuration = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Intoxicate.Potions.HungerDuration");
+        this.hungerPower = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Intoxicate.Potions.HungerPower");
+        this.confusionDuration = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Intoxicate.Potions.ConfusionDuration");
+        this.confusionPower = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Intoxicate.Potions.ConfusionPower");
 
         int red = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Red");
         int green = Spirits.plugin.getConfig().getInt("Abilities.Spirits.DarkSpirit.Intoxicate.ParticleColor.Green");
@@ -88,7 +97,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
     }
 
     private void showSelection() {
-        Location blast = Methods.advanceLocationToPoint(vector, location, target.getLocation().add(0, 1, 0), 0.5);
+        Location blast = Methods.advanceLocationToPoint(vector, location, target.getLocation().add(0, 1, 0), blastSpeed);
 
         player.getWorld().spawnParticle(Particle.REDSTONE, blast, 1, 0.1, 0.1, 0.1, 0, black);
         player.getWorld().spawnParticle(Particle.REDSTONE, blast, 1, 0.1, 0.1, 0.1, 0, customColor);
@@ -120,9 +129,9 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
         }
 
         if (System.currentTimeMillis() - time > harmInt) {
-            target.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 100, 1, false, true, false));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 1000, 1, false, true, false));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 300, 1, false, true, false));
+            target.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 20 * witherDuration, witherPower, false, true, false));
+            target.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 20 * hungerDuration, hungerPower, false, true, false));
+            target.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 20 * confusionDuration, confusionPower, false, true, false));
             DamageHandler.damageEntity(player, selfDamage, this);
             remove();
             return;

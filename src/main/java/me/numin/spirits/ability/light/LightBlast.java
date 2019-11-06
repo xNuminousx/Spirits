@@ -20,7 +20,7 @@ import org.bukkit.util.Vector;
 
 public class LightBlast extends LightAbility implements AddonAbility {
 
-    //TODO: Implement configuration.
+    //TODO: Add sounds.
 
     private Particle.DustOptions white = new Particle.DustOptions(Color.fromRGB(255, 255, 255), 1);
     private Particle.DustOptions pink = new Particle.DustOptions(Color.fromRGB(255, 160, 160), 1);
@@ -64,17 +64,16 @@ public class LightBlast extends LightAbility implements AddonAbility {
     }
 
     private void setFields() {
-        this.cooldown = 0;
-        this.controllable = false;
-        this.damage = 2;
-        this.range = 10;
-        this.selectionDuration = 2000;
-        // heals 4 hearts
-        this.potionDuration = 10;
-        this.potionPower = 1;
-        this.initialBlastSpeed = 1;
-        this.blastRadius = 2;
-        this.finalBlastSpeed = 0.2;
+        this.cooldown = Spirits.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.LightBlast.Cooldown");
+        this.controllable = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirit.LightBlast.Controllable");
+        this.damage = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.LightSpirit.LightBlast.Damage");
+        this.range = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.LightSpirit.LightBlast.Range");
+        this.selectionDuration = Spirits.plugin.getConfig().getLong("Abilities.Spirits.LightSpirit.LightBlast.SelectionDuration");
+        this.potionDuration = Spirits.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.LightBlast.PotionDuration");
+        this.potionPower = Spirits.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.LightBlast.PotionPower");
+        this.initialBlastSpeed = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.LightSpirit.LightBlast.FirstBlastSpeed");
+        this.blastRadius = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.LightSpirit.LightBlast.BlastRadius");
+        this.finalBlastSpeed = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.LightSpirit.LightBlast.SecondBlastSpeed");
 
         this.direction = player.getLocation().getDirection();
         this.origin = player.getLocation().add(0, 1, 0);
