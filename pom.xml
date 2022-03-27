@@ -6,7 +6,7 @@
 
     <groupId>me.numin</groupId>
     <artifactId>spirits</artifactId>
-    <version>MYSTIC-1.0.13.1</version>
+    <version>MYSTIC-1.0.13.2</version>
     <packaging>jar</packaging>
 
     <name>Spirits</name>
@@ -56,12 +56,8 @@
 
     <repositories>
         <repository>
-            <id>spigotmc-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
-        </repository>
-        <repository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/content/groups/public/</url>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 
@@ -69,15 +65,14 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.14.4-R0.1-SNAPSHOT</version>
+            <version>1.18.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.projectkorra</groupId>
             <artifactId>projectkorra</artifactId>
-            <version>1.8.4.36</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/ProjectKorra-1.8.4.36.jar</systemPath>
+            <version>1.18.0.3</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

@@ -2,6 +2,8 @@ package me.numin.spirits.ability.spirit;
 
 import java.util.Random;
 
+import com.projectkorra.projectkorra.ability.CoreAbility;
+import me.numin.spirits.ability.spirit.combo.Levitation;
 import me.numin.spirits.utilities.Removal;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -26,7 +28,7 @@ public class Soar extends SpiritAbility implements AddonAbility {
     public Soar(Player player) {
         super(player);
 
-        if (!bPlayer.canBend(this)) {
+        if (!bPlayer.canBend(this) || CoreAbility.hasAbility(player, Levitation.class)) {
             return;
         }
         time = System.currentTimeMillis();

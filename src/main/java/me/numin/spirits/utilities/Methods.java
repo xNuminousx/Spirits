@@ -158,12 +158,14 @@ public class Methods {
 
         if (bPlayer == null) return null;
 
-        if (bPlayer.hasElement(spirit) || (bPlayer.hasElement(lightSpirit) && bPlayer.hasElement(darkSpirit))) {
+        if (bPlayer.hasElement(lightSpirit) && bPlayer.hasElement(darkSpirit)) {
             return SpiritType.NEUTRAL;
         } else if (bPlayer.hasElement(lightSpirit)) {
             return SpiritType.LIGHT;
         } else if (bPlayer.hasElement(darkSpirit)) {
             return SpiritType.DARK;
+        } else if (bPlayer.hasElement(spirit)) {
+            return SpiritType.NEUTRAL;
         } else {
             return null;
         }

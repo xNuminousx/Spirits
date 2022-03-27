@@ -2,6 +2,8 @@ package me.numin.spirits.ability.spirit;
 
 import java.util.Random;
 
+import com.projectkorra.projectkorra.ability.CoreAbility;
+import me.numin.spirits.ability.spirit.combo.Levitation;
 import me.numin.spirits.utilities.Removal;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -32,7 +34,7 @@ public class Vanish extends SpiritAbility implements AddonAbility {
     public Vanish(Player player) {
         super(player);
 
-        if (!bPlayer.canBend(this)) {
+        if (!bPlayer.canBend(this) || CoreAbility.hasAbility(player, Levitation.class)) {
             return;
         }
         setFields();
@@ -85,6 +87,8 @@ public class Vanish extends SpiritAbility implements AddonAbility {
             if (System.currentTimeMillis() > time + chargeTime) isCharged = true;
             else if (new Random().nextInt(particleFrequency) == 0)
                 player.getWorld().spawnParticle(Particle.DRAGON_BREATH, player.getLocation().add(0, 1, 0), 1, 0, 0, 0, 0.09);
+        } else if (!isCharged) {
+            remove();
         }
     }
 

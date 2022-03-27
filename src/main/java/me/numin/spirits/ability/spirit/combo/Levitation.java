@@ -19,15 +19,13 @@ import java.util.Random;
 
 public class Levitation extends SpiritAbility implements AddonAbility, ComboAbility {
 
-    //TODO: implement config.
-    //TODO: Fix activation. Don't think it's what it should be.
     //TODO: Implement sounds.
 
     private Location origin;
     private Removal removal;
 
-    private boolean applyLevitationCD, applyPhaseCD, wasFlying;
-    private double allowedHealthLoss, initialHealth, multiplier, levitationMultiplier, phaseMultiplier, range;
+    private boolean doAgilityMultiplier, doLevitationMultiplier, doPhaseMultiplier, wasFlying;
+    private double allowedHealthLoss, initialHealth, agilityMultiplier, levitationMultiplier, phaseMultiplier, range;
     private long cooldown, duration, time;
 
     public Levitation(Player player) {
@@ -42,15 +40,16 @@ public class Levitation extends SpiritAbility implements AddonAbility, ComboAbil
 
     private void setFields() {
         //Config
-        this.cooldown = 0;
-        this.multiplier = 1.3;
-        this.applyPhaseCD = true;
-        this.phaseMultiplier = 4;
-        this.applyLevitationCD = true;
-        this.levitationMultiplier = 4;
-        this.duration = 5000;
-        this.range = 5;
-        this.allowedHealthLoss = 4;
+        this.cooldown = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Levitation.Cooldown");
+        this.duration = Spirits.plugin.getConfig().getLong("Abilities.Spirits.Neutral.Combo.Levitation.Duration");
+        this.range = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.Neutral.Combo.Levitation.Range");
+        this.allowedHealthLoss = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.Neutral.Combo.Levitation.AllowedHealthLoss");
+        this.doAgilityMultiplier = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Levitation.AbilityCooldownMultipliers.Agility.Enabled");
+        this.agilityMultiplier = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.Neutral.Combo.Levitation.AbilityCooldownMultipliers.Agility.Multiplier");
+        this.doPhaseMultiplier = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Levitation.AbilityCooldownMultipliers.Phase.Enabled");
+        this.phaseMultiplier = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.Neutral.Combo.Levitation.AbilityCooldownMultipliers.Phase.Multiplier");
+        this.doLevitationMultiplier = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.Neutral.Combo.Levitation.AbilityCooldownMultipliers.Levitation.Enabled");
+        this.levitationMultiplier = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.Neutral.Combo.Levitation.AbilityCooldownMultipliers.Levitation.Multiplier");
 
         this.wasFlying = player.isFlying();
         this.origin = player.getLocation();
@@ -61,8 +60,6 @@ public class Levitation extends SpiritAbility implements AddonAbility, ComboAbil
 
     @Override
     public void progress() {
-        this.cooldown = (long) ((System.currentTimeMillis() - time) * multiplier);
-
         if (removal.stop() ||
                 origin.distance(player.getLocation()) > range ||
                 (player.getHealth() < (initialHealth - allowedHealthLoss)) ||
@@ -76,9 +73,8 @@ public class Levitation extends SpiritAbility implements AddonAbility, ComboAbil
 
     private void playParticles() {
         Location location = player.getLocation().add(0, 1, 0);
-        location.getWorld().spawnParticle(Particle.DRAGON_BREATH, location, 1, 0.2, 0.6, 0.2, 0.01);
-
-        if (new Random().nextInt(10) == 1) Methods.playSpiritParticles(player, location, 0.4, 0.6, 0.4, 0, 3);
+        location.getWorld().spawnParticle(Particle.DRAGON_BREATH, location, 1, 0.3, 0.3, 0.3, 0.01);
+        Methods.playSpiritParticles(player, location, 0.4, 0.6, 0.4, 0, 1);
     }
 
     @Override
@@ -86,15 +82,21 @@ public class Levitation extends SpiritAbility implements AddonAbility, ComboAbil
         player.setFlying(wasFlying);
 
         long duration = System.currentTimeMillis() - time;
-        if (applyPhaseCD) {
+        if (doAgilityMultiplier) {
+            long agilityCooldown = (long) (duration * agilityMultiplier);
+            bPlayer.addCooldown("Dash", agilityCooldown);
+            bPlayer.addCooldown("Soar", agilityCooldown);
+        }
+        if (doPhaseMultiplier) {
             long phaseCooldown = (long) (duration * phaseMultiplier);
             bPlayer.addCooldown("Phase", phaseCooldown);
         }
-        if (applyLevitationCD) {
-            long levitationCooldown = (long) (duration * levitationMultiplier);
+        if (doLevitationMultiplier) {
+            long levitationCooldown = (long) (duration * levitationMultiplier) + cooldown;
             bPlayer.addCooldown("Levitation", levitationCooldown);
+        } else {
+            bPlayer.addCooldown(this, cooldown);
         }
-        bPlayer.addCooldown(this, cooldown);
         super.remove();
     }
 
@@ -106,8 +108,9 @@ public class Levitation extends SpiritAbility implements AddonAbility, ComboAbil
     @Override
     public ArrayList<ComboManager.AbilityInformation> getCombination() {
         ArrayList<AbilityInformation> combo = new ArrayList<AbilityInformation>();
+        combo.add(new ComboManager.AbilityInformation("Agility", ClickType.LEFT_CLICK));
+        combo.add(new ComboManager.AbilityInformation("Agility", ClickType.SHIFT_DOWN));
         combo.add(new ComboManager.AbilityInformation("Vanish", ClickType.LEFT_CLICK));
-        combo.add(new ComboManager.AbilityInformation("Possess", ClickType.LEFT_CLICK));
         return combo;
     }
 

@@ -1,7 +1,7 @@
 name: Spirits
 version: ${project.version}
 main: me.numin.spirits.Spirits
-api-version: 1.14
+api-version: 1.18
 softdepend: [ProjectKorra]
 authors: [Numin]
 description: Enables your players to be Spirits.
@@ -16,6 +16,7 @@ permissions:
     children:
       bending.command.choose.spirit: true
       bending.ability.agility: true
+      bending.ability.levitation: true
       bending.ability.phase: true
       bending.ability.possess: true
       bending.ability.vanish: true

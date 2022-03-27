@@ -115,9 +115,9 @@ public class Possess extends SpiritAbility implements AddonAbility {
             Methods.playSpiritParticles(player, this.blast, 0.5, 0.5, 0.5, 0, 1);
         }
 
-        player.getWorld().spawnParticle(Particle.DRAGON_BREATH, this.blast, 1, 0.2, 0.2, 0.2, 0.02);
-        player.getWorld().spawnParticle(Particle.PORTAL, this.blast, 1, 0, 0, 0, 1);
-        player.getWorld().spawnParticle(Particle.REDSTONE, this.blast, 1, 0, 0, 0, 1, this.purple);
+        player.getWorld().spawnParticle(Particle.DRAGON_BREATH, this.blast, 10, 0.2, 0.2, 0.2, 0.02);
+        player.getWorld().spawnParticle(Particle.PORTAL, this.blast, 5, 0, 0, 0, 1);
+        player.getWorld().spawnParticle(Particle.REDSTONE, this.blast, 5, 0, 0, 0, 1, this.purple);
 
         for (Entity entity : GeneralMethods.getEntitiesAroundPoint(this.blast, 1.5)) {
             if (entity.equals(target)) {

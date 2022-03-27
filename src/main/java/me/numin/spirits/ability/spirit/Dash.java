@@ -1,5 +1,7 @@
 package me.numin.spirits.ability.spirit;
 
+import com.projectkorra.projectkorra.ability.CoreAbility;
+import me.numin.spirits.ability.spirit.combo.Levitation;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -24,7 +26,7 @@ public class Dash extends SpiritAbility implements AddonAbility {
     public Dash(Player player) {
         super(player);
 
-        if (!bPlayer.canBend(this)) {
+        if (!bPlayer.canBend(this) || CoreAbility.hasAbility(player, Levitation.class)) {
             return;
         }
 

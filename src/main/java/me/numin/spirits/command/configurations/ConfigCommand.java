@@ -29,7 +29,7 @@ public class ConfigCommand extends PKCommand {
 
         if (list.size() <= 1) {
             commandSender.sendMessage("Invalid plugin format.");
-            commandSender.sendMessage("Format: /b getconfig <plugin> <ability>");
+            commandSender.sendMessage("Format: /b config <plugin> <ability>");
             commandSender.sendMessage("");
             commandSender.sendMessage("Plugins & Aliases:");
             commandSender.sendMessage("ProjectKorra: projectkorra, pk, korra");

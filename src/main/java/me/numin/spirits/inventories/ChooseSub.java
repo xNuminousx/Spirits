@@ -13,20 +13,21 @@ import java.util.List;
 
 public class ChooseSub {
 
-    public static String guiName = "Choose your SubElement";
+    public static String guiName = "Choose your Sub-Element";
 
     public ChooseSub(Player player) {
         int slotAmount = 9, lightSlot = 2, darkSlot = 6;
         Inventory inv = Bukkit.createInventory(player, slotAmount, guiName);
 
         List<String> light = new ArrayList<>();
-        light.add("LightSpirits specialize in aiding others with healing and defense.");
-        light.add("They have a small amount of offense.");
+        light.add("LightSpirits specialize in aiding others");
+        light.add("with healing and defense.");
+        light.add("They have limited offense.");
 
         List<String> dark = new ArrayList<>();
-        dark.add("DarkSpirits specialize in disabling their opponents");
-        dark.add("and dealing damage.");
-        dark.add("They have little to no healing potential.");
+        dark.add("DarkSpirits specialize in disabling their");
+        dark.add("opponents and causing chaos.");
+        dark.add("They have limited healing potential.");
 
         for (int i = 0; i <= slotAmount - 1; i++) {
             if (i != lightSlot && i != darkSlot) {
@@ -35,7 +36,7 @@ public class ChooseSub {
                 } else if (i > 4) {
                     inv.setItem(i, Methods.createItem(Material.RED_STAINED_GLASS_PANE, "", ChatColor.BLUE));
                 } else {
-                    inv.setItem(i, Methods.createItem(Material.NETHER_STAR, "Select your SubElement", ChatColor.GOLD));
+                    inv.setItem(i, Methods.createItem(Material.NETHER_STAR, "Select your Sub-Element", ChatColor.GOLD));
                 }
             }
         }

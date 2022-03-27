@@ -99,8 +99,8 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
     private void showSelection() {
         Location blast = Methods.advanceLocationToPoint(vector, location, target.getLocation().add(0, 1, 0), blastSpeed);
 
-        player.getWorld().spawnParticle(Particle.REDSTONE, blast, 1, 0.1, 0.1, 0.1, 0, black);
-        player.getWorld().spawnParticle(Particle.REDSTONE, blast, 1, 0.1, 0.1, 0.1, 0, customColor);
+        player.getWorld().spawnParticle(Particle.REDSTONE, blast, 10, 0.1, 0.1, 0.1, 0, black);
+        player.getWorld().spawnParticle(Particle.REDSTONE, blast, 10, 0.1, 0.1, 0.1, 0, customColor);
 
         if (blast.distance(player.getLocation()) > range ||
                 blast.getBlock().isLiquid() ||
@@ -109,7 +109,7 @@ public class Intoxicate extends DarkAbility implements AddonAbility {
             return;
         }
 
-        for (Entity entity : GeneralMethods.getEntitiesAroundPoint(blast, 1.4)) {
+        for (Entity entity : GeneralMethods.getEntitiesAroundPoint(blast, 1.3)) {
             if (entity.equals(target)) {
                 hasReached = true;
                 break;

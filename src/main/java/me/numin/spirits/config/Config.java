@@ -36,16 +36,17 @@ public class Config {
         language.addDefault("Chat.Prefixes.LightSpirit", "[LightSpirit]");
         language.addDefault("Chat.Prefixes.DarkSpirit", "[DarkSpirit]");
 
+        config.addDefault("Command.ChooseElementGuide", true);
         config.addDefault("Command.GiveSpiritElementAutomatically", true);
 
         //Descriptions & Instructions
         config.addDefault("Language.Abilities.Spirit.Agility.Description", "This ability offers you 2 modes of mobility. The first being the ability to dash forward very quickly. The second being the ability to soar through the skies as if gravity is non-existant.");
         config.addDefault("Language.Abilities.Spirit.Agility.Instructions", "Left-Click: Dash ⏐ Hold shift: Soar");
 
-        config.addDefault("Language.Abilities.Spirit.Levitation.Description", "You levitate...");
-        config.addDefault("Language.Abilities.Spirit.Levitation.Instructions", "Use it obviously");
+        config.addDefault("Language.Abilities.Spirit.Levitation.Description", "Spirits lack any earthly tethers which allow themselves to detach and enter the void, empty and become wind. Using this combo takes a toll on your essence and may weaken your mobility for a time.");
+        config.addDefault("Language.Abilities.Spirit.Levitation.Instructions", "Agility (Left-click) > Agility (Hold shift) > Vanish (Left-click)");
 
-        config.addDefault("Language.Abilities.Spirit.Possess.Description", "A very ancient ability of Spirits is the ability to jump inside the body of a human. As a Spirit, you'll be able to possess a human for a short amount of time and do harm. While this ability is active, both the Spirit and the target will be motionless.");
+        config.addDefault("Language.Abilities.Spirit.Possess.Description", "A very ancient ability of Spirits is the ability to jump inside the body of a human. As a Spirit, you'll be able to possess a human for a short amount of time and do harm. While this ability is active, both the Spirits and the targets movement will be hindered.");
         config.addDefault("Language.Abilities.Spirit.Possess.Instructions", "Hold shift and look at a human.");
 
         config.addDefault("Language.Abilities.Spirit.Phase.Description", "This advanced combo allows a Spirit to dematerialize into a state where they can walk through walls and fly around a certain radius. They are able to do this because of their unqiue molecular makeup not seen in any other being!");
@@ -97,7 +98,6 @@ public class Config {
         config.addDefault("Abilities.Spirits.Neutral.Possess.Range", 5);
         config.addDefault("Abilities.Spirits.Neutral.Possess.Damage", 5);
         config.addDefault("Abilities.Spirits.Neutral.Possess.Duration", 2000);
-        config.addDefault("Abilities.Spirits.Neutral.Possess.DisablePunching", true);
 
         config.addDefault("Abilities.Spirits.Neutral.Vanish.Enabled", true);
         config.addDefault("Abilities.Spirits.Neutral.Vanish.Cooldown", 7000);
@@ -112,6 +112,16 @@ public class Config {
         config.addDefault("Abilities.Spirits.Neutral.Vanish.DivideRange.DivideFactor", 2);
 
         config.addDefault("Abilities.Spirits.Neutral.Combo.Levitation.Enabled", true);
+        config.addDefault("Abilities.Spirits.Neutral.Combo.Levitation.Cooldown", 10000);
+        config.addDefault("Abilities.Spirits.Neutral.Combo.Levitation.Duration", 6000);
+        config.addDefault("Abilities.Spirits.Neutral.Combo.Levitation.Range", 10);
+        config.addDefault("Abilities.Spirits.Neutral.Combo.Levitation.AllowedHealthLoss", 4);
+        config.addDefault("Abilities.Spirits.Neutral.Combo.Levitation.AbilityCooldownMultipliers.Agility.Enabled", true);
+        config.addDefault("Abilities.Spirits.Neutral.Combo.Levitation.AbilityCooldownMultipliers.Agility.Multiplier", 2);
+        config.addDefault("Abilities.Spirits.Neutral.Combo.Levitation.AbilityCooldownMultipliers.Phase.Enabled", true);
+        config.addDefault("Abilities.Spirits.Neutral.Combo.Levitation.AbilityCooldownMultipliers.Phase.Multiplier", 4);
+        config.addDefault("Abilities.Spirits.Neutral.Combo.Levitation.AbilityCooldownMultipliers.Levitation.Enabled", true);
+        config.addDefault("Abilities.Spirits.Neutral.Combo.Levitation.AbilityCooldownMultipliers.Levitation.Multiplier", 3);
 
         config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.Enabled", true);
         config.addDefault("Abilities.Spirits.Neutral.Combo.Phase.CooldownMultiplier", 4);
@@ -136,7 +146,8 @@ public class Config {
         config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.ParticleColor.Green", 255);
         config.addDefault("Abilities.Spirits.LightSpirit.Alleviate.ParticleColor.Blue", 255);
 
-        config.addDefault("Abilities.Spirits.LightSpirit.LightBlast.Enabled", true);
+        //TODO: Re-enable when finalized
+        config.addDefault("Abilities.Spirits.LightSpirit.LightBlast.Enabled", false);
         //TODO: Define a cooldown
         config.addDefault("Abilities.Spirits.LightSpirit.LightBlast.Cooldown", 0);
         config.addDefault("Abilities.Spirits.LightSpirit.LightBlast.Controllable", false);
@@ -176,6 +187,8 @@ public class Config {
         config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Others.Range", 10);
         config.addDefault("Abilities.Spirits.LightSpirit.Shelter.RemoveIfFarAway.Enabled", true);
         config.addDefault("Abilities.Spirits.LightSpirit.Shelter.RemoveIfFarAway.Range", 5);
+        config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Self.BlockArrows", true);
+        config.addDefault("Abilities.Spirits.LightSpirit.Shelter.Others.BlockArrows", true);
 
         config.addDefault("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Enabled", true);
         config.addDefault("Abilities.Spirits.LightSpirit.Combo.Rejuvenate.Cooldown", 15000);
@@ -203,7 +216,8 @@ public class Config {
         config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.Potions.ConfusionDuration", 15);
         config.addDefault("Abilities.Spirits.DarkSpirit.Intoxicate.Potions.ConfusionPower", 1);
 
-        config.addDefault("Abilities.Spirits.DarkSpirit.DarkBlast.Enabled", true);
+        //TODO: Re-enable when finalized
+        config.addDefault("Abilities.Spirits.DarkSpirit.DarkBlast.Enabled", false);
         //TODO: Define a cooldown amount.
         config.addDefault("Abilities.Spirits.DarkSpirit.DarkBlast.Cooldown", 0);
         config.addDefault("Abilities.Spirits.DarkSpirit.DarkBlast.Controllable", false);

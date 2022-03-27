@@ -21,9 +21,7 @@ import me.numin.spirits.ability.api.LightAbility;
 
 public class Shelter extends LightAbility implements AddonAbility {
 
-    //TODO: Fix the ability not having ability collisions.
-    //TODO: Test how shooting an arrow into the shield works.
-    //TODO: Implement blockArrows config. Maybe separate values for both types of Shelter?
+    //TODO: Add ability collisions
     //TODO: Update sounds.
 
     public enum ShelterType {
@@ -35,7 +33,7 @@ public class Shelter extends LightAbility implements AddonAbility {
     private ShelterType shelterType;
     private Vector direction;
 
-    private boolean blockArrows, moveBlast, removeIfFar, removeOnDamage;
+    private boolean blockArrowsSelf, blockArrowsOthers, moveBlast, removeIfFar, removeOnDamage;
     private double othersRadius, selfRadius, startHealth;
     private int currPoint, range, farAwayRange;
     private long duration, othersCooldown, selfCooldown, time;
@@ -67,8 +65,8 @@ public class Shelter extends LightAbility implements AddonAbility {
         this.farAwayRange = Spirits.plugin.getConfig().getInt("Abilities.Spirits.LightSpirit.Shelter.RemoveIfFarAway.Range");
         this.othersRadius = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.LightSpirit.Shelter.Others.Radius");
         this.selfRadius = Spirits.plugin.getConfig().getDouble("Abilities.Spirits.LightSpirit.Shelter.Self.Radius");
-
-        this.blockArrows = true;
+        this.blockArrowsSelf = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Shelter.Self.BlockArrows");
+        this.blockArrowsOthers = Spirits.plugin.getConfig().getBoolean("Abilities.Spirits.LightSpirit.Shelter.Others.BlockArrows");
 
         this.origin = player.getLocation().clone().add(0, 1, 0);
         this.location = origin.clone();
@@ -95,7 +93,7 @@ public class Shelter extends LightAbility implements AddonAbility {
             for (Entity approachingEntity : GeneralMethods.getEntitiesAroundPoint(player.getLocation(), selfRadius)) {
                 if (approachingEntity instanceof LivingEntity && !approachingEntity.getUniqueId().equals(player.getUniqueId())) {
                     this.blockEntity((LivingEntity)approachingEntity);
-                } else if (approachingEntity instanceof Projectile && blockArrows) {
+                } else if (approachingEntity instanceof Projectile && blockArrowsSelf) {
                     Projectile projectile = (Projectile)approachingEntity;
                     projectile.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, projectile.getLocation(), 20, 0, 0, 0, 0.09);
                     projectile.remove();
@@ -135,7 +133,7 @@ public class Shelter extends LightAbility implements AddonAbility {
                 for (Entity approachingEntity : GeneralMethods.getEntitiesAroundPoint(this.target.getLocation(), othersRadius)) {
                     if (approachingEntity instanceof LivingEntity && !approachingEntity.getUniqueId().equals(this.target.getUniqueId()) && !approachingEntity.getUniqueId().equals(player.getUniqueId())) {
                         this.blockEntity((LivingEntity)approachingEntity);
-                    } else if (approachingEntity instanceof Projectile && blockArrows) {
+                    } else if (approachingEntity instanceof Projectile && blockArrowsOthers) {
                         Projectile projectile = (Projectile)approachingEntity;
                         projectile.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, projectile.getLocation(), 20, 0, 0, 0, 0.09);
                         projectile.remove();

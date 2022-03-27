@@ -18,18 +18,23 @@ import org.bukkit.inventory.ItemStack;
 
 public class PkEvent implements Listener {
 
-    private Spirits plugin = Spirits.plugin;
+    private final Spirits plugin = Spirits.plugin;
 
     private boolean hasSelectedSub = false;
 
     @EventHandler
     public void elementChange(PlayerChangeElementEvent event) {
+        boolean guideEnabled = Spirits.plugin.getConfig().getBoolean("Command.ChooseElementGuide");
+        boolean addSpiritElement = Spirits.plugin.getConfig().getBoolean("Command.GiveSpiritElementAutomatically");
+
+        if (!guideEnabled)
+            return;
+
         Player player = event.getTarget();
         Element element = event.getElement(),
                 spirit = Element.getElement("Spirit"),
                 lightSpirit = Element.getElement("LightSpirit"),
                 darkSpirit = Element.getElement("DarkSpirit");
-        boolean addSpiritElement = Spirits.plugin.getConfig().getBoolean("Command.GiveSpiritElementAutomatically");
 
         if (player == null || element == null || !addSpiritElement) {
             return;
